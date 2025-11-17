@@ -3,367 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DAGS Bar | Bourbon & Whiskey Lounge</title>
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050608;
-      color: #f5f5f7;
-    }
-    a {
-      color: #f5b45d;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      width: min(1100px, 100% - 2.5rem);
-      margin: 0 auto;
-    }
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(5, 6, 8, 0.96);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 0;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #fbe1a7, #f5b45d 40%, #8c5120 100%);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #201208;
-    }
-    .logo-text {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.8rem;
-    }
-    .main-nav {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.9rem;
-    }
-    .main-nav a {
-      color: #b3b6c6;
-    }
-    .main-nav a:hover {
-      color: #f5f5f7;
-    }
-    .hero {
-      padding: 4.5rem 0 3.5rem;
-      background: radial-gradient(circle at top, rgba(245, 180, 93, 0.22), transparent 55%);
-    }
-    .hero-inner {
-      text-align: center;
-    }
-    .hero h1 {
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-size: clamp(2.6rem, 4vw, 3.2rem);
-      margin-bottom: 0.5rem;
-    }
-    .hero-subtitle {
-      color: #b3b6c6;
-      max-width: 640px;
-      margin: 0 auto 2rem;
-    }
-    .hero-cta {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-    .hero-hours {
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.8rem;
-      color: #9a9fb1;
-    }
-    .btn {
-      border-radius: 999px;
-      padding: 0.6rem 1.4rem;
-      border: 1px solid transparent;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .btn-primary {
-      background: radial-gradient(circle at 10% 0, #fbe1a7, #f5b45d 35%, #b96e23 100%);
-      color: #201208;
-    }
-    .btn-outline {
-      border-color: rgba(245, 180, 93, 0.7);
-      background: transparent;
-      color: #f5f5f7;
-    }
-    .section {
-      padding: 3.5rem 0;
-    }
-    .section-alt {
-      background: #080a0f;
-    }
-    .about-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 2.5rem;
-    }
-    .about-list {
-      list-style: none;
-      padding: 0;
-      margin-top: 1.5rem;
-    }
-    .about-list li {
-      margin-bottom: 0.4rem;
-      color: #b3b6c6;
-    }
-    .about-card {
-      background: radial-gradient(circle at 0 0, rgba(245, 180, 93, 0.16), #10131c 60%);
-      border-radius: 14px;
-      padding: 1.5rem 1.4rem;
-      border: 1px solid rgba(245, 180, 93, 0.3);
-    }
-    .pill {
-      display: inline-flex;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(245, 180, 93, 0.4);
-      color: #f5b45d;
-    }
-    .about-card h3 {
-      margin-top: 0.8rem;
-    }
-    .about-note {
-      margin-top: 0.9rem;
-      font-size: 0.85rem;
-      color: #f5b45d;
-    }
-    .menu-layout {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2.5rem;
-    }
-    .menu-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5rem;
-    }
-    .menu-list li {
-      padding: 0.2rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 0.93rem;
-    }
-    .menu-note {
-      font-size: 0.85rem;
-      color: #b3b6c6;
-    }
-    .visit p {
-      max-width: 640px;
-    }
-    .site-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1.25rem 0 1.5rem;
-      background: #030307;
-    }
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-      color: #9a9fb1;
-    }
-    .footer-links {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    .footer-links .dot {
-      opacity: 0.5;
-    }
-    @media (max-width: 900px) {
-      .about-layout,
-      .menu-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-    @media (max-width: 640px) {
-      .container {
-        width: min(100% - 1.5rem, 640px);
-      }
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.4rem;
-      }
-      .main-nav {
-        flex-wrap: wrap;
-        row-gap: 0.4rem;
-      }
-    }
-  </style>
+  <title>DAGS Bar – Portsmouth, NH</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <header class="site-header">
+
+<body id="home">
+  <!-- HEADER -->
+  <header>
     <div class="container header-inner">
       <div class="logo">
-        <span class="logo-mark">D</span>
-        <span class="logo-text">DAGS Bar</span>
+        <img src="dags-new-logo.png" alt="DAGS Bar logo" />
+        <div class="logo-text-block">
+          <span>Portsmouth • New Hampshire</span>
+          <span>DAGS Bar</span>
+        </div>
       </div>
+
       <nav class="main-nav">
         <a href="#home">Home</a>
         <a href="#about">About</a>
-        <a href="#menu">Whiskey Menu</a>
+        <a href="#menu">Whiskey Menu</a> <!-- SECTION 3 LINK -->
+        <a href="#gallery">Gallery</a>
         <a href="#visit">Visit</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-inner container">
-        <h1>DAGS Bar</h1>
-        <p class="hero-subtitle">
-          A whiskey-only bourbon lounge concept in Portsmouth, New Hampshire.
-        </p>
-        <div class="hero-cta">
-          <a href="#menu" class="btn btn-primary">View Whiskey Menu</a>
-          <a href="#about" class="btn btn-outline">About the Lounge</a>
-        </div>
-        <p class="hero-hours">Whiskey only • Bourbon focused • Lounge concept</p>
-      </div>
-    </section>
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="container hero-inner">
+      <h1>DAGS Bar</h1>
+      <p>Whiskey-only concept lounge • Portsmouth, New Hampshire</p>
+    </div>
+  </section>
 
-    <section class="section" id="about">
-      <div class="container about-layout">
-        <div>
-          <h2>About DAGS Bar</h2>
-          <p>
-            DAGS Bar is a passion-project bourbon lounge. It’s built around the idea of a
-            cozy, whiskey-only space with a deep bourbon list, thoughtful cocktails, and
-            the feel of a private whiskey library.
-          </p>
-          <p>
-            This site is a concept only — not an operating business — but everything here
-            is ready for the day the doors actually open.
-          </p>
-          <ul class="about-list">
-            <li>Whiskey-only program with heavy bourbon focus</li>
-            <li>Classic, whiskey-forward cocktails</li>
-            <li>Curated flights for every level of enthusiast</li>
-            <li>Imagined in Portsmouth, New Hampshire</li>
-          </ul>
-        </div>
-        <aside class="about-card">
-          <span class="pill">House Idea</span>
-          <h3>The DAGS Single Barrel Shelf</h3>
-          <p>
-            A rotating set of single-barrel and allocated bourbons reserved
-            for special pours and tasting flights.
-          </p>
-          <p class="about-note">
-            Scroll down to see the sample whiskey list and cocktail program.
-          </p>
-        </aside>
-      </div>
-    </section>
+  <!-- SECTION 1: ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About</h2>
+      <p>
+        DAGS Bar is a private, whiskey-only concept bourbon lounge located in Portsmouth,
+        New Hampshire. Focused on rare expressions, allocated barrels, small-batch distillers,
+        and ultra-premium American whiskey. Not a public bar — an atmosphere built around
+        craftsmanship, conversation, and the shared love of whiskey.
+      </p>
+    </div>
+  </section>
 
-    <section class="section section-alt" id="menu">
-      <div class="container menu-layout">
-        <div>
-          <h2>Whiskey Menu (Sample)</h2>
-          <h3>Bourbon</h3>
-          <ul class="menu-list">
-            <li>House Single Barrel Bourbon</li>
-            <li>Small Batch Kentucky Straight</li>
-            <li>Limited Release Bottled-in-Bond</li>
-            <li>Allocated Shelf — ask for tonight’s list</li>
-          </ul>
-          <h3>Rye & World Whiskey</h3>
-          <ul class="menu-list">
-            <li>High-Rye Straight Rye</li>
-            <li>American Single Malt</li>
-            <li>Irish Single Pot Still</li>
-            <li>Japanese Blended Whisky</li>
-          </ul>
-        </div>
-        <div>
-          <h2>Cocktails</h2>
-          <ul class="menu-list">
-            <li><strong>DAGS Old Fashioned</strong> — single barrel, demerara, bitters, orange oil</li>
-            <li><strong>Portsmouth Manhattan</strong> — bourbon or rye, sweet vermouth, bitters</li>
-            <li><strong>Smoked Boulevard</strong> — high-rye bourbon, bitter aperitif, vermouth</li>
-            <li><strong>Barrel Pick Sour</strong> — whiskey, citrus, simple, egg white optional</li>
-          </ul>
-          <p class="menu-note">
-            Later, you can replace this with your full bottle list by editing this same file.
-          </p>
-        </div>
-      </div>
-    </section>
+  <!-- SECTION 2 / 3: WHISKEY MENU -->
+  <section id="menu" class="section">
+    <div class="container">
+      <h2>Whiskey Menu</h2>
+      <p>
+        Explore a curated selection of rare bourbons, ryes, American whiskey, scotch, and tequila.
+        Bottles range from private single barrels to unicorn releases and ultra-aged expressions.
+      </p>
 
-    <section class="section" id="visit">
-      <div class="container visit">
-        <h2>Visit (Concept)</h2>
-        <p>
-          DAGS Bar isn’t an open business yet — this site is here to capture the vibe,
-          menu, and identity so that when the time is right, the doors are ready to open.
-        </p>
-        <p>
-          Until then, use this as a personal project, portfolio piece, or sandbox
-          for more whiskey ideas.
-        </p>
-      </div>
-    </section>
-  </main>
+      <!-- FULL LIST LINK -->
+      <p style="margin-top: 16px;">
+        <a href="menu.html" style="color:#0f8b6b; font-weight:600;">
+          View Full Whiskey Library →
+        </a>
+      </p>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> DAGS Bar Concept. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="#home">Back to top</a>
-        <span class="dot">•</span>
-        <a href="#menu">Whiskey Menu</a>
+      <!-- PRINT / PDF LINK -->
+      <p style="margin-top: 8px;">
+        <a href="menu-print.html" style="color:#0f8b6b;" target="_blank">
+          Printable Menu (PDF Style) →
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 4: GALLERY -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <h2>Gallery</h2>
+      <p>A look inside the DAGS Bar lounge, bottle room, and bourbon wall.</p>
+
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="IMG_2149.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2150.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2151.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2152.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2153.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2154.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2155.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2147.jpg" alt=""></div>
+        <div class="gallery-item"><img src="IMG_2148.jpg" alt=""></div>
       </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: VISIT -->
+  <section id="visit" class="section">
+    <div class="container">
+      <h2>Visit</h2>
+      <p>
+        DAGS Bar is not a commercial establishment — access is private and invitation-only.
+        Events, tastings, bottle shares, and curated whiskey flights occur periodically.
+      </p>
+      <p>
+        Location: Portsmouth, New Hampshire<br />
+        (Exact address not publicly listed)
+      </p>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX (for gallery zoom, if you already added JS/CSS for it) -->
+  <div id="lightbox" class="lightbox">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>DAGS Bar • Portsmouth, NH • Private Whiskey Lounge</p>
     </div>
   </footer>
 
+  <!-- OPTIONAL: lightbox script (only if you added the CSS for it) -->
   <script>
-    const yearSpan = document.getElementById("year");
-    if (yearSpan) {{
-      yearSpan.textContent = new Date().getFullYear();
-    }}
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    if (lightbox && lightboxImg) {
+      document.querySelectorAll(".gallery-item img").forEach(img => {
+        img.addEventListener("click", () => {
+          lightbox.style.display = "flex";
+          lightboxImg.src = img.src;
+        });
+      });
+
+      lightbox.addEventListener("click", () => {
+        lightbox.style.display = "none";
+      });
+    }
   </script>
 </body>
 </html>
