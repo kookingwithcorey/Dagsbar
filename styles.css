@@ -338,3 +338,33 @@ a:hover {
   transform: scale(1.02);
   transition: transform 0.35s ease, opacity 0.35s ease;
 }
+/* Restore original logo size + spacing */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  height: 55px;    /* ← this makes it the original small size */
+  width: auto;
+}
+
+.logo-text-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-text-block span:first-child {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.logo-text-block span:last-child {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
