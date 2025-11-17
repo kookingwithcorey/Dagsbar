@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAGS Bar | Whiskey Library & Cocktail List</title>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #050608;
+      color: #f5f5f7;
+    }
+    a {
+      color: #f5b45d;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      width: min(1100px, 100% - 2.5rem);
+      margin: 0 auto;
+    }
+
+    /* HEADER (match index.html vibe) */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(5, 6, 8, 0.96);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fbe1a7, #f5b45d 40%, #8c5120 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #201208;
+    }
+    .logo-text {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.8rem;
+    }
+    .main-nav {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+    }
+    .main-nav a {
+      color: #b3b6c6;
+    }
+    .main-nav a:hover {
+      color: #f5f5f7;
+    }
+
+    /* HERO SECTION */
+    .menu-hero {
+      padding: 4rem 0 2.5rem;
+      background: radial-gradient(circle at top, rgba(245, 180, 93, 0.22), transparent 55%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .menu-hero h1 {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: clamp(2.1rem, 3.4vw, 2.6rem);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .menu-hero p {
+      text-align: center;
+      max-width: 720px;
+      margin: 0.25rem auto 0;
+      color: #b3b6c6;
+    }
+    .tagline {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      color: #9a9fb1;
+    }
+
+    /* SECTION LAYOUT */
+    .section {
+      padding: 2.5rem 0;
+    }
+    .section-alt {
+      background: #080a0f;
+    }
+
+    .section-header {
+      margin-bottom: 1.25rem;
+    }
+    .section-header h2 {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 1rem;
+      margin: 0 0 0.25rem;
+    }
+    .section-header p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #b3b6c6;
+    }
+
+    .menu-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .subsection-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #f5b45d;
+      margin: 1.5rem 0 0.4rem;
+    }
+    .subsection-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .bottle-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .bottle-list li {
+      padding: 0.22rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .bottle-name {
+      flex: 1;
+    }
+    .bottle-note {
+      flex: 0 0 auto;
+      font-size: 0.75rem;
+      color: #f5b45d;
+      opacity: 0.9;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.13rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 180, 93, 0.5);
+      color: #fbe1a7;
+      margin-left: 0.4rem;
+    }
+
+    .note-text {
+      font-size: 0.8rem;
+      color: #9a9fb1;
+      margin-top: 0.4rem;
+    }
+
+    /* WIDE LISTS (Rye, Other Whiskey, etc.) */
+    .menu-block {
+      margin-bottom: 2rem;
+    }
+
+    /* COCKTAILS & OTHER SECTIONS */
+    .cocktail-name {
+      font-weight: 600;
+    }
+    .cocktail-desc {
+      font-size: 0.88rem;
+      color: #b3b6c6;
+    }
+
+    /* PRINT LINK */
+    .print-link-wrap {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 180, 93, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      background: transparent;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.25rem 0 1.5rem;
+      background: #030307;
+      margin-top: 1.5rem;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: #9a9fb1;
+    }
+    .footer-links {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .footer-links .dot {
+      opacity: 0.5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .menu-columns {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 1.5rem, 640px);
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+      .main-nav {
