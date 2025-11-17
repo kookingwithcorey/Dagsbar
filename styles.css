@@ -93,9 +93,23 @@ a:hover {
   background: radial-gradient(circle at top, rgba(245, 180, 93, 0.22), transparent 55%);
 }
 
-.hero-inner {
-  text-align: center;
+..hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+  gap: 28px;
+  align-items: center;
 }
+
+.hero-card {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: radial-gradient(circle at top, rgba(10, 153, 115, 0.18), rgba(4, 5, 8, 0.96));
+  padding: 18px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 
 .hero h1 {
   letter-spacing: 0.18em;
