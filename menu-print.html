@@ -3,337 +3,392 @@
 <head>
   <meta charset="UTF-8" />
   <title>DAGS Bar – Printable Whiskey Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    :root {
+      --ink: #111111;
+      --muted: #555555;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 1rem 1.25rem;
-      color: #111;
+      color: var(--ink);
+      background: #ffffff;
+      padding: 0.75in 0.6in 0.9in;
+      line-height: 1.4;
+      font-size: 0.84rem;
     }
+
     h1 {
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 1.5rem;
+      letter-spacing: 0.16em;
+      font-size: 1.3rem;
       text-align: center;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.1rem;
     }
-    h2 {
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.95rem;
-      margin: 1rem 0 0.25rem;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.1rem;
-    }
-    h3 {
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 0.85rem;
-      margin: 0.6rem 0 0.1rem;
-    }
+
     .meta {
       text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    h2 {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.9rem;
+      margin: 0.9rem 0 0.25rem;
+      border-bottom: 1px solid #cccccc;
+      padding-bottom: 0.1rem;
+    }
+
+    h3 {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       font-size: 0.8rem;
-      margin-bottom: 0.8rem;
+      margin: 0.55rem 0 0.15rem;
     }
-    .columns-2 {
-      column-count: 2;
-      column-gap: 1.5rem;
-    }
+
     ul {
       list-style: none;
-      padding: 0;
+      padding-left: 0;
       margin: 0;
-      font-size: 0.8rem;
     }
+
     li {
-      padding: 0.08rem 0;
+      padding: 0.04rem 0;
     }
+
+    .columns {
+      column-count: 2;
+      column-gap: 1.4rem;
+    }
+
+    .section-spacer {
+      margin-top: 0.3rem;
+    }
+
+    .back-link {
+      font-size: 0.76rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
     @page {
       margin: 0.5in;
     }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 0.6in 0.4in;
+        font-size: 0.85rem;
+      }
+      .columns {
+        column-count: 1;
+      }
+    }
+
     @media print {
-      a {
-        color: inherit;
-        text-decoration: none;
+      .back-link {
+        display: none;
+      }
+      body {
+        background: #ffffff;
       }
     }
   </style>
 </head>
 <body>
-  <h1>DAGS Bar Whiskey Library</h1>
+  <a href="index.html" class="back-link">← Back to DAGS Bar home</a>
+
+  <h1>DAGS Bar Whiskey & Cocktail List</h1>
   <div class="meta">
-    Full bottle list • Portsmouth, New Hampshire • Established 2021 (concept)
+    Established 2021 • Concept bourbon & whiskey lounge • Portsmouth, New Hampshire
   </div>
 
-  <div class="columns-2">
+  <div class="columns">
+
+    <!-- BOURBON -->
     <h2>Bourbon</h2>
-    <h3>Elite & Unicorn</h3>
+
+    <h3 class="section-spacer">1792 Series</h3>
     <ul>
-      <li>GEORGE T. STAGG BOURBON (FALL 2019)</li>
-      <li>OLD RIP VAN WINKLE 10 YEAR</li>
-      <li>PAPPY VAN WINKLE 15 YEAR</li>
-      <li>PAPPY VAN WINKLE 20 YEAR</li>
-      <li>PAPPY VAN WINKLE 23 YEAR</li>
-      <li>PAPPY VAN WINKLE LOT B 12</li>
-      <li>OLD FITZGERALD 11 YEAR</li>
-      <li>OLD FITZGERALD 9 YEAR</li>
-      <li>OLD FORESTER BIRTHDAY BOURBON 2018</li>
-      <li>RUSSELL'S RESERVE 2003</li>
-      <li>RUSSLE’S RESERVE 13 YEAR</li>
-      <li>ELIJAH CRAIG 18 YEAR</li>
-      <li>SAM HOUSTON 15</li>
-      <li>RHETORIC 24 YEAR</li>
-      <li>RHETORIC 25 YEAR</li>
-      <li>BLOOD OATH BOURBON PACT NO. 7</li>
-      <li>PARKERS HERITAGE COLLECTION BARREL FINSIH</li>
-      <li>PARKER'S HERITAGE HEAVY CHAR BOURBON 10 YEAR</li>
-      <li>LITTLE BOOK CHAPTER 1</li>
-      <li>LITTLE BOOK CHAPTER 5: THE INVITATION</li>
-      <li>ELMER T LEE SOUR MASH</li>
-      <li>STAGG JR. 2016, 2019, 2020, 2021</li>
+      <li>1792 Aged Twelve Years</li>
+      <li>1792 Bottled in Bond Bourbon</li>
+      <li>1792 High Rye Bourbon</li>
+      <li>1792 Single Barrel Bourbon – Single Barrel Select</li>
+      <li>1792 Small Batch Bourbon</li>
+      <li>1792 Sweet Wheat</li>
     </ul>
 
-    <h3>Weller & Wheated</h3>
+    <h3>House & Classic</h3>
     <ul>
-      <li>WELLER 12 YEAR</li>
-      <li>WELLER ANTIQUE 107</li>
-      <li>WELLER CYPB</li>
-      <li>WELLER FULL PROOF BOURBON</li>
-      <li>WELLER SINGLE BARREL BOURBON</li>
-      <li>WELLER SPECIAL RESERVE</li>
-      <li>1792 SWEET WHEAT</li>
-      <li>MCKENNA 10 YEAR SINGLE BARREL BOTTLED IN BOND</li>
+      <li>A Midwinter Night’s Dram</li>
+      <li>Angels Envy</li>
+      <li>Angel’s Envy Bourbon Finished in Port Barrels Cask Strength (2019, 2020)</li>
+      <li>Bardstown Bourbon Co. Fusion Series #4</li>
+      <li>Basil Hayden Straight</li>
+      <li>Basil Hayden Toast</li>
+      <li>Belle Meade Bourbon</li>
+      <li>Blade and Bow Bourbon</li>
+      <li>Bomberger’s</li>
+      <li>Bond & Lillard Kentucky Straight Bourbon (Batch #2)</li>
+      <li>Booker’s Bourbon Batch 2021-01 “Donohoe’s Batch”</li>
+      <li>Bowman Brothers Small Batch</li>
+      <li>Bulleit Bourbon</li>
+      <li>Davies County Kentucky Straight Bourbon – Cabernet Finish</li>
+      <li>Davies County Kentucky Straight Bourbon – French Oak Finish</li>
+      <li>Dickel Single Barrel 9 Year (Store Pick)</li>
+      <li>Eagle Rare 10 Year Bourbon</li>
+      <li>Elijah Craig Small Batch</li>
+      <li>Elijah Craig Small Batch Barrel Select</li>
+      <li>Elijah Craig Toasted Barrel Bourbon</li>
+      <li>Ezra Brooks “Old Ezra” Barrel Strength Bourbon 7 Year</li>
+      <li>Ezra Brooks Sour Mash</li>
+      <li>Four Roses Bourbon</li>
+      <li>Four Roses Small Batch</li>
+      <li>H. Derringer Small Batch Bourbon</li>
+      <li>Navigators Straight Bourbon</li>
+      <li>Noah’s Mill</li>
+      <li>Old Elk</li>
+      <li>Old Grand-Dad Bonded</li>
+      <li>Old Man of the Mountain</li>
+      <li>Old Tub Kentucky Bourbon</li>
+      <li>Penelope Batch 7</li>
+      <li>Penelope Toasted Barrel</li>
+      <li>Redemption Straight Bourbon</li>
+      <li>Remus Repeal Reserve Series II Straight Bourbon</li>
+      <li>Rockhill Farms</li>
+      <li>Rough Rider Straight</li>
+      <li>Rowan’s Creek</li>
+      <li>Russell’s Reserve 10 Year</li>
+      <li>Sam Houston 15</li>
+      <li>Smooth Ambler Old Scout</li>
+      <li>Sonoma County Distilling Co. West of Kentucky No. 1 / No. 2 / No. 3</li>
+      <li>Stollen Whiskey 11 Year</li>
+      <li>Thomas S. Moore Port Cask Finished Bourbon</li>
+      <li>W.B. Saffell Kentucky Straight Bourbon</li>
+      <li>Wild Turkey 101</li>
+      <li>Wild Turkey Forgiven</li>
+      <li>Wild Turkey Master’s Keep One</li>
+      <li>Wild Turkey Rare Breed</li>
+      <li>Willet Bourbon Pot Stilled</li>
+      <li>Willet Bourbon 7 Year</li>
+      <li>Woodford Reserve Cherry Wood Smoked Barley</li>
+      <li>Woodford Reserve Master’s Collection Very Fine Rare Bourbon</li>
+      <li>Yellowstone Kentucky Straight Bourbon 7 Year (2020 Limited Edition)</li>
     </ul>
 
-    <h3>Allocated & Single Barrel</h3>
+    <h3>Allocated, Single Barrel & Unicorn</h3>
     <ul>
-      <li>BLANTONS</li>
-      <li>BLANTONS- CASK STRENGTH</li>
-      <li>BLANTONS-GOLD</li>
-      <li>BUFFALO TRACE STORE PICK</li>
-      <li>COLONEL E.H. TAYLOR, JR. BARREL PROOF BOURBON</li>
-      <li>COLONEL E.H. TAYLOR, JR. SINGLE BARREL BOURBON</li>
-      <li>COLONEL E.H. TAYLOR, JR. SMALL BATCH BOTTLED IN BOND BOURBON</li>
-      <li>JACK DANIEL’S ERIC CHURCH SINGLE BARREL SELECT</li>
-      <li>JACK DANIEL'S SINGLE BARREL PROOF</li>
-      <li>JOHN J BOWMAN-SINGLE BARREL</li>
-      <li>NEW RIFF SINGLE BARREL PROOF</li>
-      <li>EVAN WILLIAMS-SINGLE BARREL VINTAGE</li>
-      <li>FOUR ROSES-SINGLE BARREL</li>
-      <li>ELIJAH CRAIG BARREL PROOF</li>
-      <li>ELIJAH CRAIG SMALL BATCH BARREL SELECT</li>
-      <li>MICHTER'S 10 YEAR SINGLE BARREL KENTUCKY STRAIGHT BOURBON (2021 RELEASE)</li>
-      <li>MICHTER'S US*1 TOASTED BARREL FINISH BOURBON (2021 RELEASE)</li>
-      <li>MICHTER'S US*1 TOASTED BARREL SOUR MASH WHISKEY</li>
-      <li>MICHTER'S US*1 SOUR MASH WHISKEY</li>
-      <li>KNOB CREEK 15 YEAR BOURBON (2020)</li>
-      <li>KNOB CREEK 2001- SMALL BATCH</li>
-      <li>KNOB CREEK- SINGLE BARREL</li>
+      <li>Blanton’s</li>
+      <li>Blanton’s Gold</li>
+      <li>Blanton’s Cask Strength</li>
+      <li>Buffalo Trace Store Pick</li>
+      <li>Colonel E.H. Taylor, Jr. Barrel Proof Bourbon</li>
+      <li>Colonel E.H. Taylor, Jr. Single Barrel Bourbon</li>
+      <li>Colonel E.H. Taylor, Jr. Small Batch BiB Bourbon</li>
+      <li>Elijah Craig 18 Year</li>
+      <li>Elmer T. Lee Sour Mash</li>
+      <li>Evan Williams Single Barrel Vintage</li>
+      <li>George T. Stagg Bourbon (Fall 2019)</li>
+      <li>Hancock’s President’s Reserve Single Barrel</li>
+      <li>High West American Prairie Bourbon Barrel Select</li>
+      <li>High West American Prairie</li>
+      <li>High West Campfire</li>
+      <li>I.W. Harper 15 Year</li>
+      <li>Jack Daniel’s Eric Church Single Barrel Select</li>
+      <li>Jack Daniel’s Single Barrel Proof</li>
+      <li>Jefferson’s Reserve Grand Selection</li>
+      <li>Jefferson’s Very Small Batch</li>
+      <li>John J. Bowman Single Barrel</li>
+      <li>John J. Bowman Small Batch</li>
+      <li>Knob Creek 15 Year Bourbon (2020)</li>
+      <li>Knob Creek 2001 Small Batch</li>
+      <li>Knob Creek Single Barrel</li>
+      <li>Little Book Chapter 1</li>
+      <li>Little Book Chapter 5 “The Invitation”</li>
+      <li>McKenna 10 Year Single Barrel Bottled in Bond</li>
+      <li>Michter’s 10 Year Single Barrel Kentucky Straight Bourbon (2021)</li>
+      <li>Michter’s US*1 Sour Mash Whiskey</li>
+      <li>Michter’s US*1 Toasted Barrel Finish Bourbon (2021)</li>
+      <li>Michter’s US*1 Toasted Barrel Sour Mash</li>
+      <li>Old Fitzgerald 9 Year</li>
+      <li>Old Fitzgerald 11 Year</li>
+      <li>Old Forester Birthday Bourbon 2018</li>
+      <li>Old Rip Van Winkle 10 Year</li>
+      <li>Pappy Van Winkle Lot B 12</li>
+      <li>Pappy Van Winkle 15 Year</li>
+      <li>Pappy Van Winkle 20 Year</li>
+      <li>Pappy Van Winkle 23 Year</li>
+      <li>Parker’s Heritage Collection Barrel Finish</li>
+      <li>Parker’s Heritage Heavy Char Bourbon 10 Year</li>
+      <li>Rhetoric 24 Year</li>
+      <li>Rhetoric 25 Year</li>
+      <li>Russell’s Reserve 2003</li>
+      <li>Russell’s Reserve 13 Year</li>
+      <li>Shenk’s Homestead 2020 Release</li>
+      <li>Shenk’s Homestead 2021 Release</li>
+      <li>Stagg Jr. (2016, 2019, 2020, 2021)</li>
+      <li>Weller Special Reserve</li>
+      <li>Weller 12 Year</li>
+      <li>Weller Antique 107</li>
+      <li>Weller CYPB</li>
+      <li>Weller Full Proof Bourbon</li>
+      <li>Weller Single Barrel Bourbon</li>
     </ul>
 
-    <h3>House & Classic Bourbons</h3>
-    <ul>
-      <li>1792 AGED TWELVE YEARS</li>
-      <li>1792 BOTTLED IN BOND BOURBON</li>
-      <li>1792 HIGH RYE BOURBON</li>
-      <li>1792 SINGLE BARREL BOURBON SINGLE BARREL SELECT</li>
-      <li>1792 SMALL BATCH BOURBON</li>
-      <li>A MIDWINTER NIGHT’S DRAM</li>
-      <li>ANGELS ENVY</li>
-      <li>ANGEL'S ENVY BOURBON FINISHED IN PORT WINE BARRELS CASK STRENGTH (2020 EDITION)</li>
-      <li>ANGELS ENVY-CASK STRENGTH 2019</li>
-      <li>BARDSTOWN BOURBON CO. FUSION SERIES #4</li>
-      <li>BASIL HAYDEN STRAIGHT</li>
-      <li>BASIL HAYDEN TOAST</li>
-      <li>BELLE MEADE BOURBON</li>
-      <li>BLADE AND BOW BOURBON</li>
-      <li>BOMBERGER’S</li>
-      <li>BOND & LILLARD KENTUCKY STRAIGHT BOURBON (BATCH #2)</li>
-      <li>BOOKER’S BOURBON BATCH 2021-01 "DONOHOE'S BATCH"</li>
-      <li>BOWMAN BROTHERS-SMALL BATCH</li>
-      <li>BULLEIT</li>
-      <li>DAVIES COUNTY KENTUCKY STRAIGHT BOURBON CABERNET FINISH</li>
-      <li>DAVIES COUNTY KENTUCKY STRAIGHT BOURBON FRENCH OAK FINISH</li>
-      <li>DICKEL SINGLE BARREL 9 YEAR STORE PICK</li>
-      <li>EAGLE RARE 10 YEAR BOURBON</li>
-      <li>ELIJAH CRAIG SMALL BATCH</li>
-      <li>ELIJAH CRAIG TOASTED BARREL BOURBON</li>
-      <li>EZRA BROOKS "OLD EZRA" BARREL STRENGTH BOURBON 7 YEAR</li>
-      <li>EZRA BROOKS-SOUR MASH</li>
-      <li>FOUR ROSES BOURBON</li>
-      <li>FOUR ROSES-SMALL BATCH</li>
-      <li>H. DERRINGER SMALL BATCH BOURBON</li>
-      <li>HANCOCK'S PRESIDENT'S RESERVE SINGLE BARREL</li>
-      <li>HIGH WEST AMERICAN PRAIRIE BOURBON BARREL SELECT</li>
-      <li>HIGH WEST-AMERICAN PRAIRIE</li>
-      <li>HIGH WEST-CAMPFIRE</li>
-      <li>I.W. HARPER 15 YEAR</li>
-      <li>JEFFERSON’S RESERVE- GRAND SELECTION</li>
-      <li>JEFFERSON'S VERY SMALL BATCH</li>
-      <li>JOHN J BOWMAN-SMALL BATCH</li>
-      <li>LARCENY- VERY SPECIAL SMALL BATCH</li>
-      <li>MAKER'S MARK 101</li>
-      <li>MAKERS MARK- PRIVATE SELECT</li>
-      <li>MAKER'S MARK WOOD FINISHING SERIES 2021 FAE-01</li>
-      <li>NAVIGATORS STRAIGHT BOURBON</li>
-      <li>NOAH'S MILL</li>
-      <li>OLD ELK</li>
-      <li>OLD GRANDAD- BONDED</li>
-      <li>OLD MAN OF THE MOUNTAIN</li>
-      <li>OLD TUB KENTUCKY BOURBON</li>
-      <li>PENELOPE BATCH 7</li>
-      <li>PENELOPE TOASTED BARREL</li>
-      <li>REDEMPTION STRAIGHT BOURBON</li>
-      <li>REMUS REPEAL RESERVE SERIES II STRAIGHT BOURBON</li>
-      <li>ROCKHILL FARMS</li>
-      <li>ROUGH RIDER-STRAIGHT</li>
-      <li>ROWAN'S CREEK</li>
-      <li>RUSSELL'S RESERVE 10 YEAR</li>
-      <li>RUSSELL'S RESERVE SINGLE BARREL BOURBON</li>
-      <li>SHENK'S HOMESTEAD 2020 RELEASE</li>
-      <li>SHENK'S HOMESTEAD 2021 RELEASE</li>
-      <li>SMOOTH AMBLER OLD SCOUT</li>
-      <li>SONOMA COUNTY DISTILLING CO WEST OF KENTUCKY NO1</li>
-      <li>SONOMA COUNTY DISTILLING CO WEST OF KENTUCKY NO2</li>
-      <li>SONOMA COUNTY DISTILLING CO WEST OF KENTUCKY NO3</li>
-      <li>STOLLEN WHISKEY-11 YEAR</li>
-      <li>THOMAS S. MOORE PORT CASK FINISHED BOURBON</li>
-      <li>W.B. SAFFELL KENTUCKY STRAIGHT BOURBON</li>
-      <li>WILD TURKEY 101</li>
-      <li>WILD TURKEY- FORGIVEN</li>
-      <li>WILD TURKEY MASTER'S KEEP ONE</li>
-      <li>WILD TURKEY- RARE BREED</li>
-      <li>WILLET BOURBON POT STILLED</li>
-      <li>WILLET BOURBON 7 YEAR</li>
-      <li>WOODFORD RESERVE- CHERRY WOOD SMOKED BARLEY</li>
-      <li>WOODFORD RESERVE MASTER'S COLLECTION VERY FINE RARE BOURBON</li>
-      <li>YELLOWSTONE KENTUCKY STRAIGHT BOURBON 7 YEAR (2020 LIMITED EDITION)</li>
-    </ul>
-
+    <!-- RYE -->
     <h2>Rye</h2>
     <ul>
-      <li>A MIDWINTERS NIGHT DRAM ACT 7 SCENE 1</li>
-      <li>ALBERTA PREMIUM CASK STRENGTH RYE (2020)</li>
-      <li>ALBERTA PREMIUM CASK STRENGTH RYE WHISKEY (2021)</li>
-      <li>BARRELL SEAGRASS</li>
-      <li>BASIL HAYDEN'S DARK RYE</li>
-      <li>COLONEL E.H. TAYLOR, JR. STRAIGHT RYE BOTTLED IN BOND</li>
-      <li>COLONEL EH TAYLOR 4 GRAIN</li>
-      <li>HIGH WEST A MIDWINTER NIGHT’S DRAM ACT 8 SCENE 3</li>
-      <li>HIGH WEST A MIDWINTER NIGHT'S DRAM ACT 9</li>
-      <li>JACK DANIEL'S SINGLE BARREL PROOF RYE (2020 RELEASE)</li>
-      <li>JEFFERSON'S RYE COGNAC CASK FINISH</li>
-      <li>KENTUCKY OWL 11 YEAR RYE</li>
-      <li>LOCK STOCK & BARREL STRAIGHT RYE WHISKEY 13</li>
-      <li>MICHTER'S 10 YEAR SINGLE BARREL KENTUCKY STRAIGHT RYE (2019 RELEASE)</li>
-      <li>MICHTER'S 10 YEAR SINGLE BARREL KENTUCKY STRAIGHT RYE (2021 RELEASE)</li>
-      <li>MICHTER'S US*1 BARREL STRENGTH KENTUCKY STRAIGHT RYE (2021 RELEASE)</li>
-      <li>MICHTER'S US*1 TOASTED BARREL FINISH RYE (2017 RELEASE)</li>
-      <li>PAPPY VAN WINKLE RYE 13 YEAR</li>
-      <li>PARKER'S HERITAGE HEAVY CHAR RYE WHISKEY 8 YEAR</li>
-      <li>PIKESVILLE STRAIGHT RYE</li>
-      <li>RAGTIME RYE NEW YORK STRAIGHT RYE WHISKEY SINGLE BARREL</li>
-      <li>REDEMPTION RYE RUM CASK FINISH (BATCH 2)</li>
-      <li>RUSSELL'S RESERVE 6 YEAR RYE</li>
-      <li>RUSSELL'S RESERVE SINGLE BARREL RYE</li>
-      <li>THOMAS H. HANDY SAZERAC RYE (FALL 2020)</li>
-      <li>WILD TURKEY RARE BREED BARREL PROOF RYE</li>
-      <li>WILLET-RYE SMALL BACTH</li>
-      <li>WILLET FAMILY ESTATE 7 YEAR RYE</li>
+      <li>A Midwinter’s Night Dram Act 7 Scene 1</li>
+      <li>High West A Midwinter Night’s Dram Act 8 Scene 3</li>
+      <li>High West A Midwinter Night’s Dram Act 9</li>
+      <li>Alberta Premium Cask Strength Rye (2020)</li>
+      <li>Alberta Premium Cask Strength Rye (2021)</li>
+      <li>Barrell Seagrass</li>
+      <li>Basil Hayden’s Dark Rye</li>
+      <li>Colonel E.H. Taylor, Jr. Straight Rye BiB</li>
+      <li>Colonel E.H. Taylor 4 Grain</li>
+      <li>Jack Daniel’s Single Barrel Proof Rye (2020 Release)</li>
+      <li>Jefferson’s Rye Cognac Cask Finish</li>
+      <li>Kentucky Owl 11 Year Rye</li>
+      <li>Lock Stock & Barrel Straight Rye Whiskey 13 Year</li>
+      <li>Michter’s 10 Year Single Barrel Kentucky Straight Rye (2019 Release)</li>
+      <li>Michter’s 10 Year Single Barrel Kentucky Straight Rye (2021 Release)</li>
+      <li>Michter’s US*1 Barrel Strength Kentucky Straight Rye (2021 Release)</li>
+      <li>Michter’s US*1 Toasted Barrel Finish Rye (2017 Release)</li>
+      <li>Pappy Van Winkle Rye 13 Year</li>
+      <li>Parker’s Heritage Heavy Char Rye Whiskey 8 Year</li>
+      <li>Pikesville Straight Rye</li>
+      <li>Ragtime Rye New York Straight Rye Whiskey Single Barrel</li>
+      <li>Redemption Rye Rum Cask Finish (Batch 2)</li>
+      <li>Russell’s Reserve 6 Year Rye</li>
+      <li>Russell’s Reserve Single Barrel Rye</li>
+      <li>Thomas H. Handy Sazerac Rye (Fall 2020)</li>
+      <li>Wild Turkey Rare Breed Barrel Proof Rye</li>
+      <li>Willett Rye Small Batch</li>
+      <li>Willett Family Estate 7 Year Rye</li>
     </ul>
 
-    <h2>Other Whiskey</h2>
+    <!-- OTHER WHISKEY -->
+    <h2>Whiskey</h2>
     <h3>American</h3>
     <ul>
-      <li>WYOMING WHISKEY OUTRYDER</li>
-      <li>HIGH N WICKED RELEASE 2</li>
-    </ul>
-    <h3>Irish</h3>
-    <ul>
-      <li>GREEN SPOT SINGLE POT STILL</li>
-      <li>RED SPOT 15 YEAR SINGLE POT STILL</li>
-      <li>TEELING-IRISH WHISKEY</li>
-      <li>GLENDALOUGH POT STILL</li>
-    </ul>
-    <h3>Japanese</h3>
-    <ul>
-      <li>YAMATO TAKEDA SHINGEN EDITION</li>
-      <li>YAMAZAKI 12 YEAR</li>
+      <li>Wyoming Whiskey Outryder</li>
+      <li>High n Wicked Release 2</li>
     </ul>
 
+    <h3>Irish Whiskey</h3>
+    <ul>
+      <li>Green Spot Single Pot Still</li>
+      <li>Red Spot 15 Year Single Pot Still</li>
+      <li>Teeling Irish Whiskey</li>
+      <li>Glendalough Pot Still</li>
+    </ul>
+
+    <h3>Japanese Whiskey</h3>
+    <ul>
+      <li>Yamato Takeda Shingen Edition</li>
+      <li>Yamazaki 12 Year</li>
+    </ul>
+
+    <!-- SCOTCH -->
     <h2>Scotch</h2>
     <ul>
-      <li>CARDHU GOLD RESERVE GAME OF THRONES HOUSE TARGARYEN</li>
-      <li>CLYNELISH RESERVE HOUSE TYRELL</li>
-      <li>DALWHINNIE WINTERS FROST HOUSE STARK</li>
-      <li>LAGAVULIN 9 YEAR HOUSE LANNISTER</li>
-      <li>OBAN RESERVE THE NIGHTS WATCH</li>
-      <li>ROYAL LOCHNAGAR 12 YEAR HOUSE BARATHEON</li>
-      <li>TALISKER SELECT RESERVE HOUSE GREYJOY</li>
-      <li>THE SINGLETON OF GLENDULLAN SELECT HOUSE TULLY</li>
+      <li>Cardhu Gold Reserve – Game of Thrones House Targaryen</li>
+      <li>Clynelish Reserve – House Tyrell</li>
+      <li>Dalwhinnie Winter’s Frost – House Stark</li>
+      <li>Lagavulin 9 Year – House Lannister</li>
+      <li>Oban Bay Reserve – The Night’s Watch</li>
+      <li>Royal Lochnagar 12 Year – House Baratheon</li>
+      <li>Talisker Select Reserve – House Greyjoy</li>
+      <li>The Singleton of Glendullan Select – House Tully</li>
     </ul>
 
+    <!-- TEQUILA -->
     <h2>Tequila</h2>
     <ul>
-      <li>CLASSE AZUL PLATA</li>
-      <li>CLASSE AZUL REPOSADO</li>
-      <li>CLASSE AZUL GOLD LIMITED RELEASE</li>
-      <li>DON JULIO 1942</li>
-      <li>TEQUILA REVOLUTION EXTRA AÑEJO</li>
+      <li>Classe Azul Plata</li>
+      <li>Classe Azul Reposado</li>
+      <li>Classe Azul Gold Limited Release</li>
+      <li>Don Julio 1942</li>
+      <li>Tequila Revolution Extra Añejo</li>
     </ul>
 
+    <!-- BEER -->
     <h2>Beer</h2>
     <ul>
-      <li>ROTATING DRAFT</li>
-      <li>COORS LIGHT</li>
-      <li>MODELO ESPECIAL</li>
-      <li>INDUSTIRAL ARTS WRENCH</li>
-      <li>MAINE BEER CO- LUNCH</li>
+      <li>Rotating Draft</li>
+      <li>Coors Light</li>
+      <li>Modelo Especial</li>
+      <li>Industrial Arts Wrench</li>
+      <li>Maine Beer Co – Lunch</li>
     </ul>
 
+    <!-- DESSERT / COFFEE -->
     <h2>Dessert & Coffee</h2>
     <ul>
-      <li>EXPRESSO</li>
-      <li>AMERICANO</li>
-      <li>THE EURO – SAMBUCA AND EXPRESSO</li>
-      <li>EXPRESSO MARTINI – STOLI VANILLA, SHOT OF EXPRESSO, KAHLUA</li>
-      <li>IT DOESN’T MATTER IF YOU ARE BLACK OR WHITE – VODKA KAHLUA, MILK OPTIONAL</li>
+      <li>Espresso</li>
+      <li>Americano</li>
+      <li>The Euro – Sambuca and Espresso</li>
+      <li>Espresso Martini – Stoli Vanilla, shot of espresso, Kahlua</li>
+      <li>It Doesn’t Matter If You Are Black or White – Vodka, Kahlua, milk optional</li>
     </ul>
 
+    <!-- COCKTAILS -->
     <h2>Cocktails</h2>
     <ul>
-      <li>RYE ON THE ROCKS – Rye, Campari, ginger syrup, grapefruit bitters, sea salt, rosemary</li>
-      <li>THE PRINCE – Titos vodka, elderflower liqueur, herbs de Provence, lemon</li>
-      <li>CALL ME OLD FASHION – Old Granddad, bitters, cherry bitters, simple syrup</li>
-      <li>DIRTY BOY – Titos up, splash dirty, blue cheese stuffed olives</li>
-      <li>245 ELDRIDGE STREET – Bourbon, sweet vermouth, bitters, maraschino cherry (Apt 3F for rocks)</li>
-      <li>SADDLE UP – Tequila or mezcal, lime juice, Cointreau, jalapeño bitters (frozen or rocks)</li>
-      <li>THE CLASSIC – Rum, simple syrup, lime juice (frozen or up)</li>
-      <li>BITTERSWEET – Whiskey, lemon juice, simple syrup, egg white, bitters, citrus caviar</li>
+      <li>Rye on the Rocks – Rye, Campari, ginger syrup, grapefruit bitters, sea salt, sprig of rosemary</li>
+      <li>The Prince – Titos vodka, elderflower liqueur, herbs de Provence, lemon</li>
+      <li>Call Me Old Fashion – Old Grand-Dad, old fashioned bitters, cherry bitters, simple syrup</li>
+      <li>Dirty Boy – Titos up, splash dirty, blue-cheese stuffed olives</li>
+      <li>245 Eldridge Street – Bourbon, sweet vermouth, bitters, maraschino cherry (Apt 3F for on the rocks)</li>
+      <li>Saddle Up – Tequila or mezcal, lime juice, Cointreau, jalapeño bitters (frozen or on the rocks)</li>
+      <li>The Classic – Rum, simple syrup, lime juice (frozen or up)</li>
+      <li>Bittersweet – Whiskey, lemon juice, simple syrup, egg white, bitters, citrus caviar</li>
     </ul>
 
+    <!-- WINE -->
     <h2>Wine</h2>
+
     <h3>Red</h3>
     <ul>
       <li>Callister Merlot 2017</li>
-      <li>D’agostino Reserve 2015</li>
+      <li>D’Agostino Reserve 2015</li>
       <li>Ridge Geyserville 2017</li>
       <li>McManis Petit Verdot 2015</li>
-      <li>Flour a deux Pinot Noir 2014</li>
+      <li>Flour à Deux Pinot Noir 2014</li>
       <li>Houdini Pinot Noir 2019</li>
       <li>Achaval Ferrer Malbec 2017</li>
       <li>Taken Red Wine 2016</li>
     </ul>
+
     <h3>Sparkling</h3>
     <ul>
       <li>Lamarca Prosecco</li>
     </ul>
+
     <h3>White</h3>
     <ul>
       <li>St Francis Chardonnay 2019</li>
-      <li>Hook Ladder Chardonnay 2019</li>
+      <li>Hook & Ladder Chardonnay 2019</li>
       <li>Pinot Grigio 2019</li>
     </ul>
+
   </div>
 </body>
 </html>
