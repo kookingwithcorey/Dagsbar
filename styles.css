@@ -42,6 +42,14 @@ a:hover {
   justify-content: space-between;
   padding: 0.75rem 0;
 }
+<div class="logo">
+  <img src="dags-new-logo.png" alt="DAGS Bar logo" />
+  <div class="logo-text-block">
+    <span>Portsmouth • New Hampshire</span>
+    <span>DAGS Bar</span>
+  </div>
+</div>
+
 .logo-mark {
   width: 32px;
   height: 32px;
