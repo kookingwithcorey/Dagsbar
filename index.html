@@ -201,10 +201,11 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #13a87e);
-      color: #02120e;
-      font-weight: 600;
-    }
+  background: var(--accent);   /* Solid green button */
+  color: #02120e;
+  font-weight: 600;
+  border: none;
+}
 
     .btn-outline {
       border-color: var(--border);
@@ -450,27 +451,13 @@
           </div>
  <div class="btn-row">
 
-  <!-- Scroll to main menu section -->
-  <a href="#menu" class="btn btn-primary">
-    Whiskey Menu
-  </a>
-
-  <!-- Full whiskey library page -->
-  <a href="menu.html" class="btn btn-outline">
-    View Full Whiskey Library
-  </a>
-
-  <!-- Printable/PDF version -->
-  <a href="menu-print.html" class="btn btn-outline" target="_blank">
-    Printable / PDF Menu
-  </a>
-
-  <!-- Scroll to gallery -->
-  <a href="#gallery" class="btn btn-outline">
-    See the Room
-  </a>
-
+  <div class="btn-row">
+  <a href="#menu" class="btn btn-primary">Whiskey Menu</a>
+  <a href="menu.html" class="btn btn-primary">View Full Whiskey Library</a>
+  <a href="menu-print.html" class="btn btn-primary" target="_blank">Printable / PDF Menu</a>
+  <a href="#gallery" class="btn btn-primary">See the Room</a>
 </div>
+
         </div>
 
         <aside class="hero-card">
