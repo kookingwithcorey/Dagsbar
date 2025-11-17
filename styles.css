@@ -49,6 +49,36 @@ a:hover {
     <span>DAGS Bar</span>
   </div>
 </div>
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 55px;     /* ← original size */
+  width: auto;      /* keeps proportions */
+}
+
+.logo-text-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-text-block span:first-child {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.logo-text-block span:last-child {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
 
 .logo-mark {
   width: 32px;
