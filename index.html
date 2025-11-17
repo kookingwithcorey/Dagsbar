@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DAGS Bar – Portsmouth, NH</title>
+  <!-- Uses your existing stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -12,6 +13,7 @@
   <header>
     <div class="container header-inner">
       <div class="logo">
+        <!-- Make sure this filename matches your actual logo in the repo -->
         <img src="dags-new-logo.png" alt="DAGS Bar logo" />
         <div class="logo-text-block">
           <span>Portsmouth • New Hampshire</span>
@@ -22,7 +24,7 @@
       <nav class="main-nav">
         <a href="#home">Home</a>
         <a href="#about">About</a>
-        <a href="#menu">Whiskey Menu</a> <!-- SECTION 3 LINK -->
+        <a href="#menu">Whiskey Menu</a>
         <a href="#gallery">Gallery</a>
         <a href="#visit">Visit</a>
       </nav>
@@ -37,7 +39,7 @@
     </div>
   </section>
 
-  <!-- SECTION 1: ABOUT -->
+  <!-- ABOUT -->
   <section id="about" class="section">
     <div class="container">
       <h2>About</h2>
@@ -50,7 +52,7 @@
     </div>
   </section>
 
-  <!-- SECTION 2 / 3: WHISKEY MENU -->
+  <!-- WHISKEY MENU -->
   <section id="menu" class="section">
     <div class="container">
       <h2>Whiskey Menu</h2>
@@ -59,14 +61,14 @@
         Bottles range from private single barrels to unicorn releases and ultra-aged expressions.
       </p>
 
-      <!-- FULL LIST LINK -->
+      <!-- Link to full bottle list page -->
       <p style="margin-top: 16px;">
         <a href="menu.html" style="color:#0f8b6b; font-weight:600;">
           View Full Whiskey Library →
         </a>
       </p>
 
-      <!-- PRINT / PDF LINK -->
+      <!-- Link to printable menu page -->
       <p style="margin-top: 8px;">
         <a href="menu-print.html" style="color:#0f8b6b;" target="_blank">
           Printable Menu (PDF Style) →
@@ -75,13 +77,14 @@
     </div>
   </section>
 
-  <!-- SECTION 4: GALLERY -->
+  <!-- GALLERY -->
   <section id="gallery" class="section">
     <div class="container">
       <h2>Gallery</h2>
       <p>A look inside the DAGS Bar lounge, bottle room, and bourbon wall.</p>
 
       <div class="gallery-grid">
+        <!-- Make sure these image files exist in your repo root -->
         <div class="gallery-item"><img src="IMG_2149.jpg" alt=""></div>
         <div class="gallery-item"><img src="IMG_2150.jpg" alt=""></div>
         <div class="gallery-item"><img src="IMG_2151.jpg" alt=""></div>
@@ -95,7 +98,7 @@
     </div>
   </section>
 
-  <!-- SECTION 5: VISIT -->
+  <!-- VISIT -->
   <section id="visit" class="section">
     <div class="container">
       <h2>Visit</h2>
@@ -110,35 +113,11 @@
     </div>
   </section>
 
-  <!-- LIGHTBOX (for gallery zoom, if you already added JS/CSS for it) -->
-  <div id="lightbox" class="lightbox">
-    <img id="lightbox-img" src="" alt="">
-  </div>
-
   <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>DAGS Bar • Portsmouth, NH • Private Whiskey Lounge</p>
     </div>
   </footer>
-
-  <!-- OPTIONAL: lightbox script (only if you added the CSS for it) -->
-  <script>
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-
-    if (lightbox && lightboxImg) {
-      document.querySelectorAll(".gallery-item img").forEach(img => {
-        img.addEventListener("click", () => {
-          lightbox.style.display = "flex";
-          lightboxImg.src = img.src;
-        });
-      });
-
-      lightbox.addEventListener("click", () => {
-        lightbox.style.display = "none";
-      });
-    }
-  </script>
 </body>
 </html>
