@@ -27,7 +27,7 @@
       background: radial-gradient(circle at top, #202735 0, #050608 55%);
       color: var(--text);
       line-height: 1.5;
-    dags
+    }
 
     a {
       color: inherit;
@@ -120,6 +120,12 @@
 
     nav a:hover::after {
       width: 100%;
+    }
+
+    /* Optional: make Instagram stand out slightly */
+    .nav-instagram {
+      font-weight: 500;
+      letter-spacing: 0.14em;
     }
 
     main {
@@ -391,7 +397,7 @@
 
     footer a {
       color: var(--muted);
-      text-decoration:
+      text-decoration: underline;
       text-underline-offset: 3px;
     }
 
@@ -435,6 +441,15 @@
         <a href="#menu">Whiskey Menu</a>
         <a href="#gallery">Gallery</a>
         <a href="#visit">Visit</a>
+        <!-- INSTAGRAM TAG IN HEADER -->
+        <a
+          href="https://www.instagram.com/kookingwithcorey"
+          target="_blank"
+          rel="noopener"
+          class="nav-instagram"
+        >
+          @kookingwithcorey
+        </a>
       </nav>
     </div>
   </header>
@@ -527,6 +542,15 @@
             The full bottle list runs deep: Pappy, BTAC, Weller, Russell’s, Parker’s Heritage, Michter’s,
             and a wall of single barrel and store picks. Below is just a hint of what lives on the shelves.
           </p>
+          <!-- Printable PDF + Full List links -->
+          <div class="btn-row" style="margin-top:16px;">
+            <a href="dags-whiskey-menu.pdf" target="_blank" rel="noopener" class="btn btn-outline">
+              Printable PDF Menu
+            </a>
+            <a href="menu.html" class="btn btn-outline">
+              View Full Bottle List
+            </a>
+          </div>
         </div>
 
         <div class="menu-grid">
