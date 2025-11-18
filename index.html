@@ -1,89 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8" />
-   <title>DAGS | Bourbon & Whiskey Lounge</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
-   <style>
-     ...
-   </style>
+  <meta charset="UTF-8" />
+  <title>DAGS | Bourbon & Whiskey Lounge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-alt: #11141a;
+      --accent: #0f8b6b;
+      --accent-soft: rgba(15, 139, 107, 0.3);
+      --text: #f7f7f7;
+      --muted: #a3acb9;
+      --border: rgba(255, 255, 255, 0.08);
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #202735 0, #050608 55%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(5, 6, 8, 0.95), rgba(5, 6, 8, 0.7), transparent);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text-block span:first-child {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .logo-text-block span:last-child {
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      padding: 4px 0;
+      position: relative;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      padding-bottom: 64px;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    .hero {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    /* HERO LAYOUT: text left, card right */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 3.1vw + 1.2rem, 3rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-sub {
+      font-size: 0.96rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 460px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), rgba(5, 6, 8, 0.9));
+    }
+
+    /* BUTTONS */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #02120e;
+      font-weight: 600;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-outline {
+      border-color: var(--border);
+      color: var(--muted);
+      background: rgba(5, 6, 8, 0.6);
+    }
+
+    /* HERO CARD (HOUSE IDEA) */
+    .hero-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, rgba(10, 153, 115, 0.18), rgba(4, 5, 8, 0.96));
+      padding: 18px 18px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+
+    .hero-card-title {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hero-card-main {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .hero-card-note {
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+    }
+
+    .section-header {
+      max-width: 640px;
+      margin-bottom: 26px;
+    }
+
+    .section-header h2 {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+      gap: 26px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(13, 16, 24, 0.96), rgba(7, 10, 18, 0.96));
+      padding: 18px 16px;
+      font-size: 0.88rem;
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+    }
+
+    .card ul {
+      list-style: none;
+    }
+
+    .card li {
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.6fr);
+      gap: 24px;
+    }
+
+    .menu-list-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin: 10px 0 6px;
+      color: var(--muted);
+    }
+
+    .menu-list {
+      list-style: none;
+      padding-left: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .menu-list li {
+      margin-bottom: 3px;
+    }
+
+    /* GALLERY */
+    #gallery {
+      background: radial-gradient(circle at top, rgba(19, 168, 126, 0.12), rgba(5, 6, 8, 1));
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .gallery-item {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 0.35s ease, opacity 0.35s ease;
+      opacity: 0.96;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.07);
+      opacity: 1;
+    }
+
+    /* Visit */
+    .visit-card {
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border);
+      padding: 18px 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: linear-gradient(135deg, rgba(14, 18, 28, 0.96), rgba(6, 8, 14, 0.96));
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 18px 0 26px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 830px) {
+      .hero-inner,
+      .two-col,
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        position: static;
+      }
+
+      nav {
+        font-size: 0.72rem;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-   <header>
-     <div class="container header-inner">
-       <div class="logo">
-         <img src="dags-new-logo.png" alt="DAGS logo">
-         <div class="logo-text-block">
-           <span>Portsmouth • New Hampshire</span>
-           <span>DAGS</span>
-         </div>
-       </div>
-       <nav>
-         <a href="#home">Home</a>
-         <a href="#about">About</a>
-         <a href="#menu">Whiskey Menu</a>
-         <a href="#gallery">Gallery</a>
-         <a href="#visit">Visit</a>
-       </nav>
-     </div>
-   </header>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="dags-new-logo.png" alt="DAGS logo">
+        <div class="logo-text-block">
+          <span>Portsmouth • New Hampshire</span>
+          <span>DAGS Bar</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Whiskey Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+      </nav>
+    </div>
+  </header>
 
-   <main>
-     <!-- HERO / HOME -->
-     <section class="hero" id="home">
-       <div class="container hero-inner">
-         <!-- LEFT SIDE -->
-         <div>
-           <div class="eyebrow">Whiskey-only concept lounge</div>
-           <h1>DAGS</h1>
-           <p class="hero-sub">
-             A bourbon-forward, whiskey-only lounge concept imagined in Portsmouth, NH —
-             part vintage bottle library, part late-night living room.
-           </p>
-           <div class="chip-row">
-             <span class="chip">Deep bourbon library</span>
-             <span class="chip">Single barrel & vintage pours</span>
-             <span class="chip">Flights for every level</span>
-           </div>
-           <div class="btn-row">
-             <a href="#menu" class="btn btn-primary">Whiskey Menu</a>
-             <a href="menu.html" class="btn btn-primary">Full Whiskey Library</a>
-             <a href="menu-print.html" class="btn btn-primary">Printable / PDF Menu</a>
-             <a href="#gallery" class="btn btn-primary">See the Room</a>
-           </div>
-         </div>
-         <aside class="hero-card">
-           <div class="hero-card-title">House Idea</div>
-           <div class="hero-card-main">
-             The DAGS bottle room — a wall-to-wall collection of bourbons, ryes, and rare bottles built over years of
-             hunting, trading, and sharing pours with friends.
-           </div>
-           <div class="hero-card-note">
-             This site is not an operating business yet — it’s a home for the idea, the bottles, and the vibe.
-           </div>
-           <div class="pill-row">
-             <span class="pill">Bourbon Library</span>
-             <span class="pill">Vintage Decor</span>
-             <span class="pill">Friends & Family Only</span>
-           </div>
-         </aside>
-       </div>
-     </section>
+  <main>
+    <!-- HERO / HOME -->
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+        <!-- LEFT: text + chips + buttons -->
+        <div>
+          <div class="eyebrow">Whiskey-only concept lounge</div>
+          <h1>DAGS Bar</h1>
+          <p class="hero-sub">
+            A bourbon-forward, whiskey-only lounge concept imagined in Portsmouth, NH —
+            part vintage bottle library, part late-night living room.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Deep bourbon library</span>
+            <span class="chip">Single barrel & vintage pours</span>
+            <span class="chip">Flights for every level</span>
+          </div>
+          <div class="btn-row">
+            <a href="#menu" class="btn btn-primary">Whiskey Menu</a>
+            <a href="menu.html" class="btn btn-primary">View Full Whiskey Library</a>
+            <a href="menu-print.html" class="btn btn-primary" target="_blank">Printable / PDF Menu</a>
+            <a href="#gallery" class="btn btn-primary">See the Room</a>
+          </div>
+        </div>
 
-     <!-- ABOUT -->
-     <section id="about">
-       <div class="container">
-         <h2>About DAGS</h2>
-         <p>
-           DAGS lives somewhere between a speakeasy, a whiskey museum, and a living room. It’s a concept-first lounge built
-           around the collection itself: shelves of bourbon and rye, comfortable leather seating, and walls that tell
-           stories.
-         </p>
-       </div>
-     </section>
-   </main>
-   <footer>
-     © DAGS Concept • Bourbon & Whiskey Lounge • Portsmouth, NH
-   </footer>
+        <!-- RIGHT: House Idea card -->
+        <aside class="hero-card">
+          <div class="hero-card-title">House Idea</div>
+          <div class="hero-card-main">
+            The DAGS bottle room — a wall-to-wall collection of bourbons, ryes, and rare bottles built over years of
+            hunting, trading, and sharing pours with friends.
+          </div>
+          <div class="hero-card-note">
+            This site is not an operating business yet — it’s a home for the idea, the bottles, and the vibe.
+          </div>
+          <div class="pill-row">
+            <span class="pill">Bourbon Library</span>
+            <span class="pill">Vintage Decor</span>
+            <span class="pill">Friends & Family Only</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <h2>About DAGS Bar</h2>
+          <p>
+            DAGS Bar lives somewhere between a speakeasy, a whiskey museum, and a living room.
+            It’s a concept-first lounge built around the collection itself: shelves of bourbon and rye,
+            comfortable leather seating, and walls that tell stories.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>The Concept</h3>
+            <ul>
+              <li>• Whiskey-only program with a heavy bourbon focus</li>
+              <li>• Single barrel, vintage, and allocated bottles on rotation</li>
+              <li>• Flights that walk guests from approachable to wild</li>
+              <li>• Classic cocktails built around the bottle list</li>
+              <li>• Intentionally small, cozy, and conversation-first</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>The Room</h3>
+            <ul>
+              <li>• Leather couches, vintage rugs, and warm wood paneling</li>
+              <li>• Bottle room & cellar lined with shelves of whiskey</li>
+              <li>• Art, records, and memorabilia layered into the walls</li>
+              <li>• A space built to feel like your friend’s over-the-top home bar</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU (TEASER) -->
+    <section id="menu">
+      <div class="container">
+        <div class="section-header">
+          <h2>Whiskey Menu</h2>
+          <p>
+            The full bottle list runs deep: Pappy, BTAC, Weller, Russell’s, Parker’s Heritage, Michter’s,
+            and a wall of single barrel and store picks. Below is just a hint of what lives on the shelves.
+          </p>
+        </div>
+
+        <div class="menu-grid">
+          <div class="card">
+            <h3>Bourbon Highlights</h3>
+            <div class="menu-list-title">Elite & Unicorn</div>
+            <ul class="menu-list">
+              <li>George T. Stagg • Old Rip 10 • Pappy 12 / 15 / 20 / 23</li>
+              <li>Old Fitzgerald 9 & 11 (Decanters)</li>
+              <li>Old Forester Birthday Bourbon</li>
+              <li>Russell's Reserve 2003 & 13 Year</li>
+              <li>Elijah Craig 18 • Sam Houston 15 • Rhetoric 24 & 25</li>
+            </ul>
+            <div class="menu-list-title">Weller & Friends</div>
+            <ul class="menu-list">
+              <li>Weller Special Reserve, 12, Antique 107, Full Proof, CYPB, Single Barrel</li>
+              <li>1792 Sweet Wheat • McKenna 10 Year BiB</li>
+            </ul>
+            <div class="menu-list-title">Single Barrels & Allocated</div>
+            <ul class="menu-list">
+              <li>Blanton’s (regular, Gold, Cask Strength)</li>
+              <li>EH Taylor Barrel Proof / Single Barrel / Small Batch BiB</li>
+              <li>Buffalo Trace store picks • Four Roses Single Barrel</li>
+              <li>Michter’s 10 Year • Elijah Craig Barrel Proof</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Rye, Cocktails & More</h3>
+            <div class="menu-list-title">Rye & World Whiskey</div>
+            <ul class="menu-list">
+              <li>A Midwinter Night’s Dram, Alberta Premium Cask Rye</li>
+              <li>Michter’s 10 Year Rye • Thomas H. Handy</li>
+              <li>Pappy 13 Year Rye • Russell’s Single Barrel Rye</li>
+            </ul>
+            <div class="menu-list-title">Cocktails</div>
+            <ul class="menu-list">
+              <li>DAGS Old Fashion • Portsmouth Manhattan • Rye on the Rocks</li>
+              <li>245 Eldridge Street • Saddle Up • The Classic</li>
+              <li>Espresso Martini & other nightcap builds</li>
+            </ul>
+            <div class="menu-list-title">Beyond Whiskey</div>
+            <ul class="menu-list">
+              <li>Clase Azul lineup • Don Julio 1942</li>
+              <li>Rotating craft beers & classic lagers</li>
+              <li>Wine, dessert pours, and coffee cocktails</li>
+            </ul>
+          </div>
+        </div>
+
+        <p style="margin-top:16px;font-size:0.82rem;color:var(--muted);">
+          The full library lives offline for now — this menu is a concept snapshot of what a night at DAGS could pour.
+        </p>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <h2>Gallery</h2>
+          <p>
+            Photos from the real DAGS Bar spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
+          </p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf"></div>
+          <div class="gallery-item"><img src="IMG_2150.jpg" alt="Bar cart and portraits"></div>
+          <div class="gallery-item"><img src="IMG_2151.jpg" alt="Frozie chalkboard and barrel bar"></div>
+          <div class="gallery-item"><img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall"></div>
+          <div class="gallery-item"><img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves"></div>
+          <div class="gallery-item"><img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug"></div>
+          <div class="gallery-item"><img src="IMG_2155.jpg" alt="Bottle room seating corner"></div>
+          <div class="gallery-item"><img src="IMG_2147.jpg" alt="White built-in shelf with decor"></div>
+          <div class="gallery-item"><img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT -->
+    <section id="visit">
+      <div class="container">
+        <div class="section-header">
+          <h2>Visit (Concept)</h2>
+          <p>
+            DAGS is not an open business (yet). Think of this as a living concept deck for a future whiskey lounge,
+            a home bar turned full experience, and a place to collect ideas until the right space appears.
+          </p>
+        </div>
+        <div class="visit-card">
+          <p>
+            For now, DAGS exists in photos, bottles, and late-night pours with friends. If this ever turns into a real
+            public lounge in Portsmouth, NH, this site will be the first place to announce it.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © DAGS Bar Concept • Bourbon & Whiskey Lounge • Portsmouth, NH
+  </footer>
 </body>
 </html>
