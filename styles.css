@@ -248,3 +248,7 @@ a:hover {
     row-gap: 0.4rem;
   }
 }
+/* Disable nav-style underline on button links */
+.btn::after {
+  display: none !important;
+}
