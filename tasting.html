@@ -47,6 +47,12 @@
       gap: 16px;
     }
 
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .brand-title {
       font-size: 1.4rem;
       font-weight: 700;
@@ -77,6 +83,12 @@
       transition: all 0.18s ease;
     }
 
+    nav a:hover {
+      border-color: var(--border);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
     nav a.active {
       border-color: var(--accent-soft);
       background: rgba(15, 139, 107, 0.12);
@@ -93,6 +105,19 @@
       overflow: hidden;
     }
 
+    .card::before {
+      content: "DAGS";
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      color: rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+      user-select: none;
+    }
+
     .card-header {
       display: flex;
       justify-content: space-between;
@@ -101,79 +126,264 @@
       margin-bottom: 16px;
     }
 
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     button,
     .btn-secondary {
       border-radius: 999px;
       padding: 8px 16px;
+      border: 1px solid transparent;
       background: var(--accent);
-      border: 0;
       color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s ease;
+    }
+
+    button:hover,
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .btn-secondary {
       background: transparent;
-      border: 1px solid var(--border);
+      border-color: var(--border);
       color: var(--muted);
     }
 
-    input, textarea, select {
-      background: rgba(255,255,255,0.02);
+    .tasting-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 18px 20px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 840px) {
+      .tasting-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .field-group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      background: rgba(255, 255, 255, 0.02);
       border-radius: 999px;
       border: 1px solid var(--border);
-      padding: 8px 12px;
+      padding: 7px 12px;
+      font-size: 0.9rem;
       color: var(--text);
+      outline: none;
+      transition: border 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
       width: 100%;
     }
 
     textarea {
-      border-radius: 12px;
+      border-radius: 16px;
       min-height: 70px;
+      resize: vertical;
     }
 
-    /* --- DARK GREY DROPDOWN --- */
-    select {
-      background: rgba(40, 44, 55, 0.55);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
+    input:focus,
+    textarea:focus,
     select:focus {
-      background: rgba(40, 44, 55, 0.85);
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.28);
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    /* Darker dropdown / options so text is readable */
+    select {
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--text);
     }
 
     select option {
-      background: #1a1d24;
+      background: #050608;
       color: var(--text);
     }
 
-    .metrics-section, .notes-section {
+    .metrics-section,
+    .notes-section {
       border-radius: 18px;
       border: 1px solid var(--border);
-      padding: 12px 14px;
-      background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 50%);
+      padding: 12px 14px 14px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 55%);
     }
 
-    .metrics-section label {
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .metric-value {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      background: linear-gradient(90deg, rgba(15, 139, 107, 0.8), rgba(255, 255, 255, 0.16));
+      border-radius: 999px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      margin-top: -6px;
+      box-shadow: 0 0 0 3px rgba(15, 139, 107, 0.32);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: linear-gradient(90deg, rgba(15, 139, 107, 0.8), rgba(255, 255, 255, 0.16));
+      border-radius: 999px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 139, 107, 0.32);
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .notes-row {
+      display: grid;
+      grid-template-columns: 95px minmax(0, 1fr);
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .notes-label-pill {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+      border-radius: 999px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      padding: 4px 8px;
+      text-align: center;
+      align-self: center;
+    }
+
+    .summary-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 0.75rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 2px 8px;
       color: var(--muted);
     }
 
-    /* --- FLAVOR PROFILE --- */
+    footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* --- Flavor profile / chart --- */
 
     .flavor-profile-header {
       text-align: center;
-      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
     }
-    .flavor-profile-label { 
+
+    .flavor-profile-label {
+      font-size: 0.7rem;
       color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
     }
+
     .flavor-profile-title {
-      color: #ff5f3b;
-      font-weight: 700;
+      margin-top: 4px;
       font-size: 1.1rem;
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: #ff5f3b;
     }
 
     .flavor-chart {
@@ -181,40 +391,42 @@
       margin: 4px -4px 18px;
       padding: 0 4px 26px;
       overflow: hidden;
-      height: 170px;
     }
 
-    /* --- BIGGER, CENTERED LOGO --- */
+    /* watermark logo behind the line graph */
     .flavor-chart::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: url("dags-new-logo.png") center/45% no-repeat;
-      opacity: 0.10;
+      inset: 8px 40px 40px;
+      background: url("dags-new-logo.png") center/contain no-repeat;
+      opacity: 0.06;
       pointer-events: none;
     }
 
     .flavor-chart svg {
       width: 100%;
       height: 150px;
+      display: block;
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
 
     .flavor-chart path.profile-line {
       fill: none;
       stroke: #ff5f3b;
-      stroke-width: 3.5;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .flavor-chart line.profile-guide {
-      stroke: rgba(255,255,255,0.18);
+      stroke: rgba(255, 255, 255, 0.18);
       stroke-width: 1;
       stroke-dasharray: 3 3;
     }
 
     .flavor-chart line.profile-tick {
-      stroke: rgba(255,255,255,0.6);
+      stroke: rgba(255, 255, 255, 0.6);
       stroke-width: 1.4;
     }
 
@@ -227,46 +439,95 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -5px;
+      bottom: 0;
       display: flex;
       justify-content: space-between;
       font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
       color: var(--muted);
       pointer-events: none;
-      z-index: 3;
+      z-index: 2;
     }
 
-    /* PRINT OPTIMIZATION */
+    .flavor-chart-labels span {
+      white-space: nowrap;
+    }
 
+    /* Print styles */
     @media print {
-      @page { margin: 0.3in; size: letter; }
-
-      body { zoom: 0.9; background: white; }
-
-      nav, .button-row { display: none !important; }
-
-      .card {
-        border: 1px solid #ccc;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 10px;
-        page-break-inside: avoid;
+      body {
+        background: #ffffff;
       }
 
-      .flavor-chart::before { opacity: 0.04; }
+      .page {
+        max-width: 100%;
+        padding: 0.4in;
+      }
 
-      .flavor-chart path,
-      .flavor-chart line,
-      .flavor-chart circle { stroke: #000; fill: #000; }
+      header nav,
+      .button-row,
+      .brand-subtitle {
+        display: none !important;
+      }
+
+      .card {
+        box-shadow: none;
+        border-radius: 0;
+        background: #ffffff;
+        border-color: #dddddd;
+      }
+
+      .card::before {
+        color: rgba(0, 0, 0, 0.04);
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea,
+      select {
+        background: #ffffff;
+        color: #000000;
+        border-color: #bbbbbb;
+        box-shadow: none;
+      }
+
+      label,
+      .section-title,
+      .metric-label,
+      .notes-label-pill,
+      footer {
+        color: #333333 !important;
+      }
+
+      .summary-chip-row {
+        border-top: 1px dashed #ccc;
+        padding-top: 4px;
+        margin-top: 6px;
+      }
+
+      .flavor-profile-title {
+        color: #000000;
+      }
+
+      .flavor-chart path.profile-line,
+      .flavor-chart circle.profile-point,
+      .flavor-chart line.profile-guide,
+      .flavor-chart line.profile-tick {
+        stroke: #000000;
+        fill: #000000;
+      }
+
+      .flavor-chart::before {
+        opacity: 0.04;
+      }
     }
-
   </style>
 </head>
-
 <body>
   <div class="page">
     <header>
-      <div>
+      <div class="brand">
         <div class="brand-title">DAGS</div>
         <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
       </div>
@@ -280,96 +541,84 @@
     </header>
 
     <main class="card">
-
       <div class="card-header">
         <div>
-          <div class="card-title" style="font-size:1.3rem;font-weight:600;">Bourbon Tasting Sheet</div>
-          <div class="card-subtitle" style="color:var(--muted);font-size:0.85rem;">
-            Fill this out live at the bar, then print a clean one-page sheet.
+          <div class="card-title">Bourbon Tasting Sheet</div>
+          <div class="card-subtitle">
+            Fill this out live at the bar, then use your browser’s print button (or the one below) for a clean one-page print.
           </div>
         </div>
-
         <div class="button-row">
-          <button id="printBtn">Print Sheet</button>
-          <button class="btn-secondary" id="clearBtn">Clear All</button>
+          <button type="button" id="printBtn">Print Sheet</button>
+          <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
         </div>
       </div>
 
-      <form id="tastingForm">
-
-        <div class="tasting-grid" style="display:grid;grid-template-columns:1.2fr 1.1fr;gap:20px;">
-
-          <!-- LEFT SIDE -->
+      <form id="tastingForm" autocomplete="off">
+        <div class="tasting-grid">
+          <!-- LEFT COLUMN – BASIC INFO, NOTES, OVERALL RATING -->
           <section>
-
-            <div class="field-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="field-group">
               <div class="field">
-                <label>Whiskey</label>
-                <input id="whiskeyName" placeholder="e.g., 4R SiB Barrel" />
+                <label for="whiskeyName">Whiskey</label>
+                <input id="whiskeyName" type="text" placeholder="e.g., Fountain Run 7-Year BIB" />
               </div>
               <div class="field">
-                <label>Distillery</label>
-                <input id="distillery" placeholder="e.g., MGP, BT, Four Roses" />
-              </div>
-            </div>
-
-            <div class="field-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="field">
-                <label>Age</label>
-                <input id="age" type="number" min="0" />
-              </div>
-              <div class="field">
-                <label>Proof</label>
-                <input id="proof" type="number" min="0" />
+                <label for="distillery">Distillery / Brand</label>
+                <input id="distillery" type="text" placeholder="e.g., MGP, Buffalo Trace" />
               </div>
             </div>
 
-            <div class="field-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="field-group">
               <div class="field">
-                <label>Barrel / Batch</label>
-                <input id="batch" />
+                <label for="age">Age (Years)</label>
+                <input id="age" type="number" min="0" step="1" placeholder="e.g., 7" />
               </div>
               <div class="field">
-                <label>Price</label>
-                <input id="price" placeholder="$-" />
+                <label for="proof">Proof</label>
+                <input id="proof" type="number" min="0" step="0.1" placeholder="e.g., 100" />
               </div>
             </div>
 
-            <!-- NOTES -->
-            <section class="notes-section">
+            <div class="field-group">
+              <div class="field">
+                <label for="batch">Barrel / Batch</label>
+                <input id="batch" type="text" placeholder="e.g., Barrel #12, Batch 3" />
+              </div>
+              <div class="field">
+                <label for="price">Price (Pour / Bottle)</label>
+                <input id="price" type="text" placeholder="$18 / $89" />
+              </div>
+            </div>
+
+            <section class="notes-section" style="margin-bottom: 10px;">
               <div class="section-title">Tasting Notes</div>
-
               <div class="notes-grid">
-
-                <div class="notes-row" style="display:grid;grid-template-columns:80px 1fr;gap:10px;">
+                <div class="notes-row">
                   <div class="notes-label-pill">Nose</div>
-                  <textarea id="nose"></textarea>
+                  <textarea id="nose" placeholder="Aromas, first impression, sweetness, spice, fruit, oak..."></textarea>
                 </div>
-
-                <div class="notes-row" style="display:grid;grid-template-columns:80px 1fr;gap:10px;">
+                <div class="notes-row">
                   <div class="notes-label-pill">Palate</div>
-                  <textarea id="palate"></textarea>
+                  <textarea id="palate" placeholder="Flavor profile on the palate, mouthfeel, layers..."></textarea>
                 </div>
-
-                <div class="notes-row" style="display:grid;grid-template-columns:80px 1fr;gap:10px;">
+                <div class="notes-row">
                   <div class="notes-label-pill">Finish</div>
-                  <textarea id="finish"></textarea>
+                  <textarea id="finish" placeholder="Length of finish, aftertaste, heat, lingering notes..."></textarea>
                 </div>
-
-                <div class="notes-row" style="display:grid;grid-template-columns:80px 1fr;gap:10px;">
+                <div class="notes-row">
                   <div class="notes-label-pill">Other</div>
-                  <textarea id="other"></textarea>
+                  <textarea id="other" placeholder="Pairing ideas, setting, who you’d share it with, etc."></textarea>
                 </div>
-
               </div>
             </section>
 
-            <!-- OVERALL RATING -->
+            <!-- Overall rating in left column -->
             <section class="metrics-section">
               <div class="section-title">Overall Rating</div>
 
-              <div class="field">
-                <label>Score (0–10)</label>
+              <div class="field" style="margin-bottom: 6px;">
+                <label for="rating">Score (0–10)</label>
                 <select id="rating">
                   <option value="">Select...</option>
                   <option>10 - Unreal / Must Hunt</option>
@@ -385,24 +634,23 @@
                 </select>
               </div>
 
-              <div class="summary-chip-row" id="summaryChips"></div>
+              <div class="summary-chip-row" id="summaryChips">
+                <!-- Summary chips auto-populated -->
+              </div>
             </section>
-
           </section>
 
-          <!-- RIGHT SIDE -->
+          <!-- RIGHT COLUMN – FLAVOR PROFILE & METRICS -->
           <section>
-
             <section class="metrics-section">
-
+              <!-- Flavor profile header + chart -->
               <div class="flavor-profile-header">
-                <div class="flavor-profile-label">FLAVOR PROFILE</div>
-                <div class="flavor-profile-title" id="flavorProfileTitle">BALANCED</div>
+                <div class="flavor-profile-label">Flavor Profile</div>
+                <div class="flavor-profile-title" id="flavorProfileTitle">Balanced</div>
               </div>
 
               <div class="flavor-chart">
                 <svg id="flavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
-
                 <div class="flavor-chart-labels">
                   <span>Smoky</span>
                   <span>Spicy</span>
@@ -421,120 +669,328 @@
 
               <div class="section-title">Flavor Metrics (0–5)</div>
 
-              <!-- 12 METRICS -->
-              <div class="metric-row"><label>Smoky</label><input id="smoky" type="range" min="0" max="5" value="0"><span id="smokyValue">0</span>/5</div>
-              <div class="metric-row"><label>Spicy</label><input id="spicy" type="range" min="0" max="5" value="0"><span id="spicyValue">0</span>/5</div>
-              <div class="metric-row"><label>Herbal</label><input id="herbal" type="range" min="0" max="5" value="0"><span id="herbalValue">0</span>/5</div>
-              <div class="metric-row"><label>Full</label><input id="fullBody" type="range" min="0" max="5" value="0"><span id="fullBodyValue">0</span>/5</div>
-              <div class="metric-row"><label>Rich</label><input id="rich" type="range" min="0" max="5" value="0"><span id="richValue">0</span>/5</div>
-              <div class="metric-row"><label>Sweet</label><input id="sweet" type="range" min="0" max="5" value="0"><span id="sweetValue">0</span>/5</div>
-              <div class="metric-row"><label>Vanilla</label><input id="vanilla" type="range" min="0" max="5" value="0"><span id="vanillaValue">0</span>/5</div>
-              <div class="metric-row"><label>Creamy</label><input id="creamy" type="range" min="0" max="5" value="0"><span id="creamyValue">0</span>/5</div>
-              <div class="metric-row"><label>Oaky</label><input id="oaky" type="range" min="0" max="5" value="0"><span id="oakyValue">0</span>/5</div>
-              <div class="metric-row"><label>Tart</label><input id="tart" type="range" min="0" max="5" value="0"><span id="tartValue">0</span>/5</div>
-              <div class="metric-row"><label>Fruity</label><input id="fruity" type="range" min="0" max="5" value="0"><span id="fruityValue">0</span>/5</div>
-              <div class="metric-row"><label>Floral</label><input id="floral" type="range" min="0" max="5" value="0"><span id="floralValue">0</span>/5</div>
+              <div class="metric-row">
+                <div class="metric-label">Smoky</div>
+                <div>
+                  <input id="smoky" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="smokyValue">0</span>/5</div>
+                </div>
+              </div>
 
+              <div class="metric-row">
+                <div class="metric-label">Spicy</div>
+                <div>
+                  <input id="spicy" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="spicyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Herbal</div>
+                <div>
+                  <input id="herbal" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="herbalValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Full</div>
+                <div>
+                  <input id="fullBody" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="fullBodyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Rich</div>
+                <div>
+                  <input id="rich" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="richValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Sweet</div>
+                <div>
+                  <input id="sweet" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="sweetValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Vanilla</div>
+                <div>
+                  <input id="vanilla" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="vanillaValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Creamy</div>
+                <div>
+                  <input id="creamy" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="creamyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Oaky</div>
+                <div>
+                  <input id="oaky" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="oakyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Tart</div>
+                <div>
+                  <input id="tart" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="tartValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Fruity</div>
+                <div>
+                  <input id="fruity" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="fruityValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Floral</div>
+                <div>
+                  <input id="floral" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="floralValue">0</span>/5</div>
+                </div>
+              </div>
             </section>
-
           </section>
-
         </div>
       </form>
 
-      <footer style="margin-top:10px;text-align:center;color:var(--muted);">
-        DAGS Bourbon & Whiskey Lounge — For personal use only.
+      <footer>
+        DAGS Bourbon &amp; Whiskey Lounge &mdash; Tasting sheet is for personal use only.
       </footer>
-
     </main>
   </div>
 
   <script>
+    // Slider IDs (one per flavor)
     const sliderConfig = [
-      "smoky", "spicy", "herbal", "fullBody", "rich", "sweet",
-      "vanilla", "creamy", "oaky", "tart", "fruity", "floral"
+      "smoky",
+      "spicy",
+      "herbal",
+      "fullBody",
+      "rich",
+      "sweet",
+      "vanilla",
+      "creamy",
+      "oaky",
+      "tart",
+      "fruity",
+      "floral"
     ];
 
-    sliderConfig.forEach(id => {
+    // Hook slider events
+    sliderConfig.forEach(function (id) {
       const slider = document.getElementById(id);
-      const output = document.getElementById(id + "Value");
+      const valueSpan = document.getElementById(id + "Value");
+      if (!slider || !valueSpan) return;
 
-      slider.addEventListener("input", () => {
-        output.textContent = slider.value;
+      const sync = function () {
+        valueSpan.textContent = slider.value;
         buildSummary();
-      });
+      };
+      slider.addEventListener("input", sync);
+      sync();
     });
 
+    // Draw SVG line based on metrics (12 sliders -> 12 axis points)
     function updateFlavorChart(vals) {
       const svg = document.getElementById("flavorChart");
+      if (!svg) return;
+
       const width = 600;
       const height = 200;
       const topPad = 25;
       const bottomPad = 40;
       const usableHeight = height - topPad - bottomPad;
+      const axisCount = sliderConfig.length;
       const yBase = height - bottomPad;
 
-      const points = sliderConfig.map((id, i) => {
-        const x = (i / (sliderConfig.length - 1)) * width;
-        const ratio = vals[id] / 5;
+      const points = [];
+
+      for (let i = 0; i < axisCount; i++) {
+        const x = (i / (axisCount - 1)) * width;
+        const id = sliderConfig[i];
+        const value = vals[id] != null ? vals[id] : 0; // 0–5
+        const ratio = Math.max(0, Math.min(5, value)) / 5;
         const y = yBase - ratio * usableHeight;
-        return { x, y };
+        points.push({ x: x, y: y });
+      }
+
+      const pathD = points
+        .map(function (p, i) {
+          return (i === 0 ? "M " : "L ") + p.x + " " + p.y;
+        })
+        .join(" ");
+
+      // Vertical guides & ticks
+      const guides = points
+        .map(function (p) {
+          return (
+            '<line class="profile-guide" x1="' +
+            p.x +
+            '" y1="' +
+            yBase +
+            '" x2="' +
+            p.x +
+            '" y2="' +
+            p.y +
+            '"></line>'
+          );
+        })
+        .join("");
+
+      const ticks = points
+        .map(function (p) {
+          return (
+            '<line class="profile-tick" x1="' +
+            p.x +
+            '" y1="' +
+            yBase +
+            '" x2="' +
+            p.x +
+            '" y2="' +
+            (yBase + 6) +
+            '"></line>'
+          );
+        })
+        .join("");
+
+      const circles = points
+        .map(function (p) {
+          return (
+            '<circle class="profile-point" cx="' +
+            p.x +
+            '" cy="' +
+            p.y +
+            '"></circle>'
+          );
+        })
+        .join("");
+
+      svg.innerHTML =
+        '<path class="profile-line" d="' +
+        pathD +
+        '"></path>' +
+        guides +
+        ticks +
+        circles;
+    }
+
+    // Compute profile title like "FRUITY & SPICY"
+    function updateFlavorProfile(vals) {
+      const titleEl = document.getElementById("flavorProfileTitle");
+      if (!titleEl) return;
+
+      const profiles = [
+        { id: "smoky", label: "Smoky" },
+        { id: "spicy", label: "Spicy" },
+        { id: "herbal", label: "Herbal" },
+        { id: "fullBody", label: "Full" },
+        { id: "rich", label: "Rich" },
+        { id: "sweet", label: "Sweet" },
+        { id: "vanilla", label: "Vanilla" },
+        { id: "creamy", label: "Creamy" },
+        { id: "oaky", label: "Oaky" },
+        { id: "tart", label: "Tart" },
+        { id: "fruity", label: "Fruity" },
+        { id: "floral", label: "Floral" }
+      ];
+
+      const sorted = profiles.slice().sort(function (a, b) {
+        return (vals[b.id] || 0) - (vals[a.id] || 0);
       });
 
-      const path = points.map((p, i) => 
-        `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`
-      ).join(" ");
+      const topVal = vals[sorted[0].id] || 0;
+      const secondVal = vals[sorted[1].id] || 0;
 
-      const guides = points.map(p => 
-        `<line class="profile-guide" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${p.y}"></line>`
-      ).join("");
+      let words;
+      if (topVal <= 0 && secondVal <= 0) {
+        words = "BALANCED";
+      } else if (Math.abs(topVal - secondVal) <= 1 && secondVal > 0) {
+        words = (sorted[0].label + " & " + sorted[1].label).toUpperCase();
+      } else {
+        words = sorted[0].label.toUpperCase();
+      }
 
-      const ticks = points.map(p => 
-        `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${yBase+6}"></line>`
-      ).join("");
-
-      const circles = points.map(p =>
-        `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
-      ).join("");
-
-      svg.innerHTML = `<path class="profile-line" d="${path}"></path>` + guides + ticks + circles;
+      titleEl.textContent = words;
     }
 
-    function updateFlavorProfile(vals) {
-      const title = document.getElementById("flavorProfileTitle");
-      const arr = sliderConfig.map(id => ({ id, v: vals[id] }));
-      arr.sort((a,b) => b.v - a.v);
-
-      if (arr[0].v === 0) { title.textContent = "BALANCED"; return; }
-
-      if (Math.abs(arr[0].v - arr[1].v) <= 1 && arr[1].v > 0)
-        title.textContent = `${arr[0].id.toUpperCase()} & ${arr[1].id.toUpperCase()}`;
-      else
-        title.textContent = arr[0].id.toUpperCase();
-    }
-
+    // Build chips + update chart + profile
     function buildSummary() {
-      const vals = {};
-      sliderConfig.forEach(id => vals[id] = Number(document.getElementById(id).value));
+      const summaryEl = document.getElementById("summaryChips");
+      if (!summaryEl) return;
+
+      const vals = sliderConfig.reduce(function (acc, id) {
+        const el = document.getElementById(id);
+        acc[id] = el ? Number(el.value) : 0;
+        return acc;
+      }, {});
+
+      const chips = [];
+
+      if (vals.smoky >= 4) chips.push("Smoky");
+      if (vals.spicy >= 4) chips.push("Spicy");
+      if (vals.herbal >= 4) chips.push("Herbal");
+      if (vals.fullBody >= 4) chips.push("Full-bodied");
+      if (vals.rich >= 4) chips.push("Rich");
+      if (vals.sweet >= 4) chips.push("Sweet");
+      if (vals.vanilla >= 4) chips.push("Vanilla notes");
+      if (vals.creamy >= 4) chips.push("Creamy");
+      if (vals.oaky >= 4) chips.push("Oaky");
+      if (vals.tart >= 4) chips.push("Tart / Bright");
+      if (vals.fruity >= 4) chips.push("Fruity");
+      if (vals.floral >= 4) chips.push("Floral");
+
+      summaryEl.innerHTML = chips
+        .map(function (c) {
+          return '<span class="chip">' + c + "</span>";
+        })
+        .join("");
 
       updateFlavorChart(vals);
       updateFlavorProfile(vals);
     }
 
-    document.getElementById("clearBtn").addEventListener("click", () => {
-      sliderConfig.forEach(id => {
-        document.getElementById(id).value = 0;
-        document.getElementById(id+"Value").textContent = "0";
-      });
-      buildSummary();
-    });
-
-    document.getElementById("printBtn").addEventListener("click", () => {
+    // Print button
+    document.getElementById("printBtn")?.addEventListener("click", function () {
       window.print();
     });
 
+    // Clear button
+    document.getElementById("clearBtn")?.addEventListener("click", function () {
+      const form = document.getElementById("tastingForm");
+      if (!form) return;
+      form.reset();
+
+      // Reset sliders to 0 and labels to 0
+      sliderConfig.forEach(function (id) {
+        const slider = document.getElementById(id);
+        const valueSpan = document.getElementById(id + "Value");
+        if (slider && valueSpan) {
+          slider.value = 0;
+          valueSpan.textContent = "0";
+        }
+      });
+
+      buildSummary();
+    });
+
+    // Initial draw
     buildSummary();
   </script>
-
 </body>
 </html>
