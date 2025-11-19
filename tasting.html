@@ -230,7 +230,18 @@
     select:focus {
       border-color: var(--accent-soft);
       box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.28);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    /* Darker dropdown / options so text is readable */
+    select {
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--text);
+    }
+
+    select option {
+      background: #050608;
+      color: var(--text);
     }
 
     .metrics-section,
@@ -379,12 +390,25 @@
       position: relative;
       margin: 4px -4px 18px;
       padding: 0 4px 26px;
+      overflow: hidden;
+    }
+
+    /* watermark logo behind the line graph */
+    .flavor-chart::before {
+      content: "";
+      position: absolute;
+      inset: 8px 40px 40px;
+      background: url("dags-new-logo.png") center/contain no-repeat;
+      opacity: 0.06;
+      pointer-events: none;
     }
 
     .flavor-chart svg {
       width: 100%;
       height: 150px;
       display: block;
+      position: relative;
+      z-index: 1;
     }
 
     .flavor-chart path.profile-line {
@@ -423,6 +447,7 @@
       letter-spacing: 0.11em;
       color: var(--muted);
       pointer-events: none;
+      z-index: 2;
     }
 
     .flavor-chart-labels span {
@@ -491,6 +516,10 @@
       .flavor-chart line.profile-tick {
         stroke: #000000;
         fill: #000000;
+      }
+
+      .flavor-chart::before {
+        opacity: 0.04;
       }
     }
   </style>
@@ -584,7 +613,7 @@
               </div>
             </section>
 
-            <!-- Overall rating moved to left column -->
+            <!-- Overall rating in left column -->
             <section class="metrics-section">
               <div class="section-title">Overall Rating</div>
 
@@ -592,7 +621,7 @@
                 <label for="rating">Score (0–10)</label>
                 <select id="rating">
                   <option value="">Select...</option>
-                  <option>10 - Unicorn / Must Hunt</option>
+                  <option>10 - Unreal / Must Hunt</option>
                   <option>9 - Exceptional</option>
                   <option>8 - Great</option>
                   <option>7 - Very Good</option>
@@ -624,16 +653,14 @@
                 <svg id="flavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
                 <div class="flavor-chart-labels">
                   <span>Smoky</span>
-                  <span>Peaty</span>
                   <span>Spicy</span>
                   <span>Herbal</span>
-                  <span>Oily</span>
                   <span>Full</span>
                   <span>Rich</span>
                   <span>Sweet</span>
-                  <span>Briny</span>
-                  <span>Salty</span>
                   <span>Vanilla</span>
+                  <span>Creamy</span>
+                  <span>Oaky</span>
                   <span>Tart</span>
                   <span>Fruity</span>
                   <span>Floral</span>
@@ -651,14 +678,6 @@
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Peaty</div>
-                <div>
-                  <input id="peaty" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="peatyValue">0</span>/5</div>
-                </div>
-              </div>
-
-              <div class="metric-row">
                 <div class="metric-label">Spicy</div>
                 <div>
                   <input id="spicy" type="range" min="0" max="5" step="1" value="0" />
@@ -671,14 +690,6 @@
                 <div>
                   <input id="herbal" type="range" min="0" max="5" step="1" value="0" />
                   <div class="metric-value"><span id="herbalValue">0</span>/5</div>
-                </div>
-              </div>
-
-              <div class="metric-row">
-                <div class="metric-label">Oily</div>
-                <div>
-                  <input id="oily" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="oilyValue">0</span>/5</div>
                 </div>
               </div>
 
@@ -707,26 +718,26 @@
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Briny</div>
-                <div>
-                  <input id="briny" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="brinyValue">0</span>/5</div>
-                </div>
-              </div>
-
-              <div class="metric-row">
-                <div class="metric-label">Salty</div>
-                <div>
-                  <input id="salty" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="saltyValue">0</span>/5</div>
-                </div>
-              </div>
-
-              <div class="metric-row">
                 <div class="metric-label">Vanilla</div>
                 <div>
                   <input id="vanilla" type="range" min="0" max="5" step="1" value="0" />
                   <div class="metric-value"><span id="vanillaValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Creamy</div>
+                <div>
+                  <input id="creamy" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="creamyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Oaky</div>
+                <div>
+                  <input id="oaky" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="oakyValue">0</span>/5</div>
                 </div>
               </div>
 
@@ -768,16 +779,14 @@
     // Slider IDs (one per flavor)
     const sliderConfig = [
       "smoky",
-      "peaty",
       "spicy",
       "herbal",
-      "oily",
       "fullBody",
       "rich",
       "sweet",
-      "briny",
-      "salty",
       "vanilla",
+      "creamy",
+      "oaky",
       "tart",
       "fruity",
       "floral"
@@ -797,7 +806,7 @@
       sync();
     });
 
-    // Draw SVG line based on metrics (direct mapping 14 sliders -> 14 axis points)
+    // Draw SVG line based on metrics (12 sliders -> 12 axis points)
     function updateFlavorChart(vals) {
       const svg = document.getElementById("flavorChart");
       if (!svg) return;
@@ -888,16 +897,14 @@
 
       const profiles = [
         { id: "smoky", label: "Smoky" },
-        { id: "peaty", label: "Peaty" },
         { id: "spicy", label: "Spicy" },
         { id: "herbal", label: "Herbal" },
-        { id: "oily", label: "Oily" },
         { id: "fullBody", label: "Full" },
         { id: "rich", label: "Rich" },
         { id: "sweet", label: "Sweet" },
-        { id: "briny", label: "Briny" },
-        { id: "salty", label: "Salty" },
         { id: "vanilla", label: "Vanilla" },
+        { id: "creamy", label: "Creamy" },
+        { id: "oaky", label: "Oaky" },
         { id: "tart", label: "Tart" },
         { id: "fruity", label: "Fruity" },
         { id: "floral", label: "Floral" }
@@ -936,16 +943,14 @@
       const chips = [];
 
       if (vals.smoky >= 4) chips.push("Smoky");
-      if (vals.peaty >= 4) chips.push("Peaty");
       if (vals.spicy >= 4) chips.push("Spicy");
       if (vals.herbal >= 4) chips.push("Herbal");
-      if (vals.oily >= 4) chips.push("Oily / Viscous");
       if (vals.fullBody >= 4) chips.push("Full-bodied");
       if (vals.rich >= 4) chips.push("Rich");
       if (vals.sweet >= 4) chips.push("Sweet");
-      if (vals.briny >= 4) chips.push("Briny");
-      if (vals.salty >= 4) chips.push("Salty");
       if (vals.vanilla >= 4) chips.push("Vanilla notes");
+      if (vals.creamy >= 4) chips.push("Creamy");
+      if (vals.oaky >= 4) chips.push("Oaky");
       if (vals.tart >= 4) chips.push("Tart / Bright");
       if (vals.fruity >= 4) chips.push("Fruity");
       if (vals.floral >= 4) chips.push("Floral");
