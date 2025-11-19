@@ -331,21 +331,6 @@
       align-self: center;
     }
 
-    .rating-badge {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 4px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0, 0, 0, 0.35);
-      font-size: 0.85rem;
-    }
-
-    .rating-badge strong {
-      font-size: 1rem;
-    }
-
     .summary-chip-row {
       display: flex;
       flex-wrap: wrap;
@@ -408,6 +393,17 @@
       stroke-width: 4;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .flavor-chart line.profile-guide {
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 1;
+      stroke-dasharray: 3 3;
+    }
+
+    .flavor-chart line.profile-tick {
+      stroke: rgba(255, 255, 255, 0.6);
+      stroke-width: 1.4;
     }
 
     .flavor-chart circle.profile-point {
@@ -490,7 +486,9 @@
       }
 
       .flavor-chart path.profile-line,
-      .flavor-chart circle.profile-point {
+      .flavor-chart circle.profile-point,
+      .flavor-chart line.profile-guide,
+      .flavor-chart line.profile-tick {
         stroke: #000000;
         fill: #000000;
       }
@@ -529,7 +527,7 @@
 
       <form id="tastingForm" autocomplete="off">
         <div class="tasting-grid">
-          <!-- LEFT COLUMN – BASIC INFO & NOTES -->
+          <!-- LEFT COLUMN – BASIC INFO, NOTES, OVERALL RATING -->
           <section>
             <div class="field-group">
               <div class="field">
@@ -564,7 +562,7 @@
               </div>
             </div>
 
-            <section class="notes-section">
+            <section class="notes-section" style="margin-bottom: 10px;">
               <div class="section-title">Tasting Notes</div>
               <div class="notes-grid">
                 <div class="notes-row">
@@ -585,9 +583,35 @@
                 </div>
               </div>
             </section>
+
+            <!-- Overall rating moved to left column -->
+            <section class="metrics-section">
+              <div class="section-title">Overall Rating</div>
+
+              <div class="field" style="margin-bottom: 6px;">
+                <label for="rating">Score (0–10)</label>
+                <select id="rating">
+                  <option value="">Select...</option>
+                  <option>10 - Unicorn / Must Hunt</option>
+                  <option>9 - Exceptional</option>
+                  <option>8 - Great</option>
+                  <option>7 - Very Good</option>
+                  <option>6 - Solid</option>
+                  <option>5 - Average</option>
+                  <option>4 - Below Average</option>
+                  <option>3 - Pass</option>
+                  <option>2 - Hard Pass</option>
+                  <option>1 - Drain Pour</option>
+                </select>
+              </div>
+
+              <div class="summary-chip-row" id="summaryChips">
+                <!-- Summary chips auto-populated -->
+              </div>
+            </section>
           </section>
 
-          <!-- RIGHT COLUMN – METRICS & RATING -->
+          <!-- RIGHT COLUMN – FLAVOR PROFILE & METRICS -->
           <section>
             <section class="metrics-section">
               <!-- Flavor profile header + chart -->
@@ -619,86 +643,115 @@
               <div class="section-title">Flavor Metrics (0–5)</div>
 
               <div class="metric-row">
-                <div class="metric-label">Sweetness</div>
+                <div class="metric-label">Smoky</div>
                 <div>
-                  <input id="sweetness" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="sweetnessValue">0</span>/5</div>
+                  <input id="smoky" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="smokyValue">0</span>/5</div>
                 </div>
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Spice / Rye</div>
+                <div class="metric-label">Peaty</div>
                 <div>
-                  <input id="spice" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="spiceValue">0</span>/5</div>
+                  <input id="peaty" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="peatyValue">0</span>/5</div>
                 </div>
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Oak / Tannin</div>
+                <div class="metric-label">Spicy</div>
                 <div>
-                  <input id="oak" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="oakValue">0</span>/5</div>
+                  <input id="spicy" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="spicyValue">0</span>/5</div>
                 </div>
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Fruit</div>
+                <div class="metric-label">Herbal</div>
                 <div>
-                  <input id="fruit" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="fruitValue">0</span>/5</div>
+                  <input id="herbal" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="herbalValue">0</span>/5</div>
                 </div>
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Heat / Proof Perception</div>
+                <div class="metric-label">Oily</div>
                 <div>
-                  <input id="heat" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="heatValue">0</span>/5</div>
+                  <input id="oily" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="oilyValue">0</span>/5</div>
                 </div>
               </div>
 
               <div class="metric-row">
-                <div class="metric-label">Finish Length</div>
+                <div class="metric-label">Full</div>
                 <div>
-                  <input id="finishLen" type="range" min="0" max="5" step="1" value="0" />
-                  <div class="metric-value"><span id="finishLenValue">0</span>/5</div>
-                </div>
-              </div>
-            </section>
-
-            <div style="height: 10px;"></div>
-
-            <section class="metrics-section">
-              <div class="section-title">Overall Rating</div>
-
-              <div class="field" style="margin-bottom: 6px;">
-                <label for="rating">Score (0–10)</label>
-                <select id="rating">
-                  <option value="">Select...</option>
-                  <option>10 - Unreal / Must Hunt</option>
-                  <option>9 - Exceptional</option>
-                  <option>8 - Great</option>
-                  <option>7 - Very Good</option>
-                  <option>6 - Solid</option>
-                  <option>5 - Average</option>
-                  <option>4 - Below Average</option>
-                  <option>3 - Pass</option>
-                  <option>2 - Hard Pass</option>
-                  <option>1 - Drain Pour</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="ratingQuick">Quick Rating (0–10)</label>
-                <div class="rating-badge">
-                  <input id="ratingQuick" type="number" min="0" max="10" step="0.1" placeholder="e.g., 8.7" style="max-width: 70px;" />
-                  <span>/10</span>
+                  <input id="fullBody" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="fullBodyValue">0</span>/5</div>
                 </div>
               </div>
 
-              <div class="summary-chip-row" id="summaryChips">
-                <!-- Summary chips auto-populated -->
+              <div class="metric-row">
+                <div class="metric-label">Rich</div>
+                <div>
+                  <input id="rich" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="richValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Sweet</div>
+                <div>
+                  <input id="sweet" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="sweetValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Briny</div>
+                <div>
+                  <input id="briny" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="brinyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Salty</div>
+                <div>
+                  <input id="salty" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="saltyValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Vanilla</div>
+                <div>
+                  <input id="vanilla" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="vanillaValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Tart</div>
+                <div>
+                  <input id="tart" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="tartValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Fruity</div>
+                <div>
+                  <input id="fruity" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="fruityValue">0</span>/5</div>
+                </div>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric-label">Floral</div>
+                <div>
+                  <input id="floral" type="range" min="0" max="5" step="1" value="0" />
+                  <div class="metric-value"><span id="floralValue">0</span>/5</div>
+                </div>
               </div>
             </section>
           </section>
@@ -712,23 +765,31 @@
   </div>
 
   <script>
-    // Slider IDs
+    // Slider IDs (one per flavor)
     const sliderConfig = [
-      "sweetness",
-      "spice",
-      "oak",
-      "fruit",
-      "heat",
-      "finishLen"
+      "smoky",
+      "peaty",
+      "spicy",
+      "herbal",
+      "oily",
+      "fullBody",
+      "rich",
+      "sweet",
+      "briny",
+      "salty",
+      "vanilla",
+      "tart",
+      "fruity",
+      "floral"
     ];
 
     // Hook slider events
-    sliderConfig.forEach((id) => {
+    sliderConfig.forEach(function (id) {
       const slider = document.getElementById(id);
       const valueSpan = document.getElementById(id + "Value");
       if (!slider || !valueSpan) return;
 
-      const sync = () => {
+      const sync = function () {
         valueSpan.textContent = slider.value;
         buildSummary();
       };
@@ -736,7 +797,7 @@
       sync();
     });
 
-    // Draw SVG line based on metrics, interpolated across 14 axis labels
+    // Draw SVG line based on metrics (direct mapping 14 sliders -> 14 axis points)
     function updateFlavorChart(vals) {
       const svg = document.getElementById("flavorChart");
       if (!svg) return;
@@ -746,54 +807,78 @@
       const topPad = 25;
       const bottomPad = 40;
       const usableHeight = height - topPad - bottomPad;
+      const axisCount = sliderConfig.length;
+      const yBase = height - bottomPad;
 
-      // Get metric values as array in fixed order
-      const metrics = [
-        vals.sweetness ?? 0,
-        vals.spice ?? 0,
-        vals.oak ?? 0,
-        vals.fruit ?? 0,
-        vals.heat ?? 0,
-        vals.finishLen ?? 0
-      ];
-
-      const axisCount = 14; // Smoky...Floral
       const points = [];
 
       for (let i = 0; i < axisCount; i++) {
         const x = (i / (axisCount - 1)) * width;
-
-        // t in [0, metrics.length - 1]
-        const t = (i / (axisCount - 1)) * (metrics.length - 1);
-        const leftIndex = Math.floor(t);
-        const rightIndex = Math.ceil(t);
-        const frac = t - leftIndex;
-
-        const leftVal = metrics[leftIndex];
-        const rightVal = metrics[rightIndex] ?? metrics[leftIndex];
-
-        const value = leftVal + (rightVal - leftVal) * frac; // linear blend 0–5
+        const id = sliderConfig[i];
+        const value = vals[id] != null ? vals[id] : 0; // 0–5
         const ratio = Math.max(0, Math.min(5, value)) / 5;
-        const y = height - bottomPad - ratio * usableHeight;
-
-        points.push({ x, y });
+        const y = yBase - ratio * usableHeight;
+        points.push({ x: x, y: y });
       }
 
       const pathD = points
-        .map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`))
+        .map(function (p, i) {
+          return (i === 0 ? "M " : "L ") + p.x + " " + p.y;
+        })
         .join(" ");
 
-      const circles = points
-        .map(
-          (p) =>
-            `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
-        )
+      // Vertical guides & ticks
+      const guides = points
+        .map(function (p) {
+          return (
+            '<line class="profile-guide" x1="' +
+            p.x +
+            '" y1="' +
+            yBase +
+            '" x2="' +
+            p.x +
+            '" y2="' +
+            p.y +
+            '"></line>'
+          );
+        })
         .join("");
 
-      svg.innerHTML = `
-        <path class="profile-line" d="${pathD}"></path>
-        ${circles}
-      `;
+      const ticks = points
+        .map(function (p) {
+          return (
+            '<line class="profile-tick" x1="' +
+            p.x +
+            '" y1="' +
+            yBase +
+            '" x2="' +
+            p.x +
+            '" y2="' +
+            (yBase + 6) +
+            '"></line>'
+          );
+        })
+        .join("");
+
+      const circles = points
+        .map(function (p) {
+          return (
+            '<circle class="profile-point" cx="' +
+            p.x +
+            '" cy="' +
+            p.y +
+            '"></circle>'
+          );
+        })
+        .join("");
+
+      svg.innerHTML =
+        '<path class="profile-line" d="' +
+        pathD +
+        '"></path>' +
+        guides +
+        ticks +
+        circles;
     }
 
     // Compute profile title like "FRUITY & SPICY"
@@ -802,27 +887,34 @@
       if (!titleEl) return;
 
       const profiles = [
-        { id: "sweetness", label: "Sweet" },
-        { id: "spice", label: "Spicy" },
-        { id: "oak", label: "Oaky" },
-        { id: "fruit", label: "Fruity" },
-        { id: "heat", label: "Bold" },
-        { id: "finishLen", label: "Long Finish" }
+        { id: "smoky", label: "Smoky" },
+        { id: "peaty", label: "Peaty" },
+        { id: "spicy", label: "Spicy" },
+        { id: "herbal", label: "Herbal" },
+        { id: "oily", label: "Oily" },
+        { id: "fullBody", label: "Full" },
+        { id: "rich", label: "Rich" },
+        { id: "sweet", label: "Sweet" },
+        { id: "briny", label: "Briny" },
+        { id: "salty", label: "Salty" },
+        { id: "vanilla", label: "Vanilla" },
+        { id: "tart", label: "Tart" },
+        { id: "fruity", label: "Fruity" },
+        { id: "floral", label: "Floral" }
       ];
 
-      const sorted = [...profiles].sort(
-        (a, b) => (vals[b.id] ?? 0) - (vals[a.id] ?? 0)
-      );
+      const sorted = profiles.slice().sort(function (a, b) {
+        return (vals[b.id] || 0) - (vals[a.id] || 0);
+      });
 
-      const topVal = vals[sorted[0].id] ?? 0;
-      const secondVal = vals[sorted[1].id] ?? 0;
+      const topVal = vals[sorted[0].id] || 0;
+      const secondVal = vals[sorted[1].id] || 0;
 
       let words;
-
       if (topVal <= 0 && secondVal <= 0) {
         words = "BALANCED";
       } else if (Math.abs(topVal - secondVal) <= 1 && secondVal > 0) {
-        words = `${sorted[0].label} & ${sorted[1].label}`.toUpperCase();
+        words = (sorted[0].label + " & " + sorted[1].label).toUpperCase();
       } else {
         words = sorted[0].label.toUpperCase();
       }
@@ -830,12 +922,12 @@
       titleEl.textContent = words;
     }
 
-    // Build text chips + update chart + profile
+    // Build chips + update chart + profile
     function buildSummary() {
       const summaryEl = document.getElementById("summaryChips");
       if (!summaryEl) return;
 
-      const vals = sliderConfig.reduce((acc, id) => {
+      const vals = sliderConfig.reduce(function (acc, id) {
         const el = document.getElementById(id);
         acc[id] = el ? Number(el.value) : 0;
         return acc;
@@ -843,19 +935,25 @@
 
       const chips = [];
 
-      if (vals.sweetness >= 4) chips.push("Sweet-leaning");
-      if (vals.sweetness <= 1) chips.push("Dry");
-      if (vals.spice >= 4) chips.push("Spice / Rye-forward");
-      if (vals.oak >= 4) chips.push("Oak-heavy");
-      if (vals.oak <= 1) chips.push("Light oak");
-      if (vals.fruit >= 4) chips.push("Fruity");
-      if (vals.heat >= 4) chips.push("High perceived heat");
-      if (vals.heat <= 1) chips.push("Drinks below proof");
-      if (vals.finishLen >= 4) chips.push("Long finish");
-      if (vals.finishLen <= 1) chips.push("Short finish");
+      if (vals.smoky >= 4) chips.push("Smoky");
+      if (vals.peaty >= 4) chips.push("Peaty");
+      if (vals.spicy >= 4) chips.push("Spicy");
+      if (vals.herbal >= 4) chips.push("Herbal");
+      if (vals.oily >= 4) chips.push("Oily / Viscous");
+      if (vals.fullBody >= 4) chips.push("Full-bodied");
+      if (vals.rich >= 4) chips.push("Rich");
+      if (vals.sweet >= 4) chips.push("Sweet");
+      if (vals.briny >= 4) chips.push("Briny");
+      if (vals.salty >= 4) chips.push("Salty");
+      if (vals.vanilla >= 4) chips.push("Vanilla notes");
+      if (vals.tart >= 4) chips.push("Tart / Bright");
+      if (vals.fruity >= 4) chips.push("Fruity");
+      if (vals.floral >= 4) chips.push("Floral");
 
       summaryEl.innerHTML = chips
-        .map((c) => '<span class="chip">' + c + "</span>")
+        .map(function (c) {
+          return '<span class="chip">' + c + "</span>";
+        })
         .join("");
 
       updateFlavorChart(vals);
@@ -863,18 +961,18 @@
     }
 
     // Print button
-    document.getElementById("printBtn")?.addEventListener("click", () => {
+    document.getElementById("printBtn")?.addEventListener("click", function () {
       window.print();
     });
 
     // Clear button
-    document.getElementById("clearBtn")?.addEventListener("click", () => {
+    document.getElementById("clearBtn")?.addEventListener("click", function () {
       const form = document.getElementById("tastingForm");
       if (!form) return;
       form.reset();
 
       // Reset sliders to 0 and labels to 0
-      sliderConfig.forEach((id) => {
+      sliderConfig.forEach(function (id) {
         const slider = document.getElementById(id);
         const valueSpan = document.getElementById(id + "Value");
         if (slider && valueSpan) {
