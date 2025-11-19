@@ -174,7 +174,6 @@
       color: var(--muted);
     }
 
-    /* Bottle selector */
     .bottle-selector {
       display: flex;
       justify-content: space-between;
@@ -243,7 +242,6 @@
       background: rgba(255, 255, 255, 0.03);
     }
 
-    /* Bottle panels */
     .bottle-panels {
       position: relative;
       overflow: hidden;
@@ -719,7 +717,7 @@
                 </div>
                 <canvas id="chartA"></canvas>
                 <div class="chart-footnote">
-                  Polygon shows your balance across Sweetness, Spice, Oak, Fruit, Heat, and Herbal.
+                  Polygon shows your balance across Sweetness, Spice, Oak, Fruit, Grain, Heat, and Herbal.
                 </div>
               </div>
             </div>
@@ -734,7 +732,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice</span>
+                <span class="label">Spice / Rye</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_spice" />
                 <span class="slider-value" data-flavor-value="A_spice">3</span>
               </div>
@@ -752,7 +750,13 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat</span>
+                <span class="label">Grain</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_grain" />
+                <span class="slider-value" data-flavor-value="A_grain">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_heat" />
                 <span class="slider-value" data-flavor-value="A_heat">3</span>
               </div>
@@ -792,7 +796,7 @@
                 </div>
                 <canvas id="chartB"></canvas>
                 <div class="chart-footnote">
-                  Use the sliders to pull this bottle toward sweet, spicy, oaky, fruity, hot, or herbal.
+                  Use the sliders to pull this bottle toward sweet, spicy, oaky, fruity, grainy, hot, or herbal.
                 </div>
               </div>
             </div>
@@ -807,7 +811,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice</span>
+                <span class="label">Spice / Rye</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_spice" />
                 <span class="slider-value" data-flavor-value="B_spice">3</span>
               </div>
@@ -825,7 +829,13 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat</span>
+                <span class="label">Grain</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_grain" />
+                <span class="slider-value" data-flavor-value="B_grain">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_heat" />
                 <span class="slider-value" data-flavor-value="B_heat">3</span>
               </div>
@@ -880,7 +890,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice</span>
+                <span class="label">Spice / Rye</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_spice" />
                 <span class="slider-value" data-flavor-value="C_spice">3</span>
               </div>
@@ -898,7 +908,13 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat</span>
+                <span class="label">Grain</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_grain" />
+                <span class="slider-value" data-flavor-value="C_grain">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_heat" />
                 <span class="slider-value" data-flavor-value="C_heat">3</span>
               </div>
@@ -1010,14 +1026,15 @@
 
     const flavorLabels = [
       "Sweetness",
-      "Spice",
+      "Spice / Rye",
       "Oak / Tannin",
       "Fruit",
-      "Heat",
+      "Grain",
+      "Heat / Proof",
       "Herbal"
     ];
 
-    const defaultData = [3, 3, 3, 3, 3, 3];
+    const defaultData = [3, 3, 3, 3, 3, 3, 3];
 
     function createRadarChart(canvasId) {
       const ctx = document.getElementById(canvasId).getContext("2d");
@@ -1104,8 +1121,9 @@
             spice: 1,
             oak: 2,
             fruit: 3,
-            heat: 4,
-            herbal: 5
+            grain: 4,
+            heat: 5,
+            herbal: 6
           };
           const parts = flavorKey.split("_");
           const key = parts[1];
@@ -1164,7 +1182,6 @@
     });
 
     document.getElementById("exportBtn")?.addEventListener("click", () => {
-      // Export = print dialog; choose "Save as PDF" in browser to export
       window.print();
     });
 
@@ -1217,6 +1234,7 @@
           "spice",
           "oak",
           "fruit",
+          "grain",
           "heat",
           "herbal"
         ];
@@ -1268,10 +1286,11 @@
 
       const prettyFlavorName = {
         sweetness: "Sweetness",
-        spice: "Spice",
+        spice: "Spice / Rye",
         oak: "Oak / Tannin",
         fruit: "Fruit",
-        heat: "Heat",
+        grain: "Grain",
+        heat: "Heat / Proof",
         herbal: "Herbal"
       };
 
