@@ -284,24 +284,33 @@
     .rating-inline {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       font-size: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .rating-inline input[type="number"] {
-      width: 60px;
-      padding: 4px 6px;
+      width: 54px;
+      padding: 3px 5px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.02);
       color: var(--text);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      text-align: center;
     }
 
     .rating-inline input[type="number"]:focus {
       outline: none;
       border-color: var(--accent-soft);
       box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.3);
+    }
+
+    .overall-display {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-left: 4px;
     }
 
     textarea {
@@ -327,7 +336,7 @@
 
     .chart-and-sliders {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
       gap: 14px;
       align-items: center;
     }
@@ -338,7 +347,7 @@
       }
     }
 
-    /* Radar chart shell with DAGS watermark */
+    /* Bigger radar chart shell */
     .chart-shell {
       position: relative;
       border-radius: 18px;
@@ -346,7 +355,7 @@
       padding: 14px;
       background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 55%);
       overflow: hidden;
-      min-height: 260px;
+      min-height: 320px;
     }
 
     .chart-shell::before {
@@ -356,7 +365,7 @@
       background-image: url("dags-new-logo.png");
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 65%;
+      background-size: 70%;
       opacity: 0.08; /* watermark */
       pointer-events: none;
     }
@@ -364,7 +373,7 @@
     .chart-inner {
       position: relative;
       z-index: 1;
-      height: 230px;
+      height: 290px; /* bigger chart */
     }
 
     .chart-title-row {
@@ -630,8 +639,8 @@
         <div>
           <div class="card-title">Blind Tasting Flight</div>
           <div class="card-subtitle">
-            Three pours labeled <strong>A, B, C</strong>. Swipe or click through each bottle, set your 1–5 flavor chart and quick score,
-            then complete the flight to see the winner.
+            Three pours labeled <strong>A, B, C</strong>. For each bottle, score Nose, Palate, and Finish (1–10),
+            set your 1–5 flavor chart, then complete the flight to see the winner.
           </div>
         </div>
         <div class="button-row">
@@ -660,9 +669,13 @@
           <div class="bottle-header-line">
             <span class="bottle-label">Bottle A</span>
             <span class="rating-inline">
-              Quick rating:
-              <input type="number" min="0" max="10" step="0.1" data-quick-rating="A" placeholder="e.g., 8.5" />
-              <span>/10</span>
+              Nose:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="A" data-part="nose" placeholder="-" />
+              Palate:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="A" data-part="palate" placeholder="-" />
+              Finish:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="A" data-part="finish" placeholder="-" />
+              <span class="overall-display" data-overall="A">Overall: --/10</span>
             </span>
           </div>
 
@@ -677,7 +690,7 @@
                 </div>
                 <canvas id="chartA"></canvas>
                 <div class="chart-footnote">
-                  The polygon shows your balance across Sweetness, Spice, Oak, Fruit, Heat, and Finish.
+                  Polygon shows your balance across Sweetness, Spice, Oak, Fruit, Heat, and Finish.
                 </div>
               </div>
             </div>
@@ -729,9 +742,13 @@
           <div class="bottle-header-line">
             <span class="bottle-label">Bottle B</span>
             <span class="rating-inline">
-              Quick rating:
-              <input type="number" min="0" max="10" step="0.1" data-quick-rating="B" placeholder="e.g., 8.1" />
-              <span>/10</span>
+              Nose:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="B" data-part="nose" placeholder="-" />
+              Palate:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="B" data-part="palate" placeholder="-" />
+              Finish:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="B" data-part="finish" placeholder="-" />
+              <span class="overall-display" data-overall="B">Overall: --/10</span>
             </span>
           </div>
 
@@ -798,9 +815,13 @@
           <div class="bottle-header-line">
             <span class="bottle-label">Bottle C</span>
             <span class="rating-inline">
-              Quick rating:
-              <input type="number" min="0" max="10" step="0.1" data-quick-rating="C" placeholder="e.g., 9.0" />
-              <span>/10</span>
+              Nose:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="C" data-part="nose" placeholder="-" />
+              Palate:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="C" data-part="palate" placeholder="-" />
+              Finish:
+              <input type="number" min="1" max="10" step="0.1" data-bottle="C" data-part="finish" placeholder="-" />
+              <span class="overall-display" data-overall="C">Overall: --/10</span>
             </span>
           </div>
 
@@ -874,7 +895,7 @@
         <div>
           <div class="results-title">Blind Flight Results</div>
           <div class="muted-small">
-            Ordered by quick rating. Use this as your scorecard when you reveal the bottles.
+            Ordered by overall score (average of Nose, Palate, Finish). Use this as your scorecard when you reveal the bottles.
           </div>
         </div>
       </div>
@@ -1055,6 +1076,46 @@
 
     ["A", "B", "C"].forEach(setupSlidersForBottle);
 
+    // Score inputs: update overall display live
+    function computeOverallForBottle(bottle) {
+      const parts = ["nose", "palate", "finish"];
+      let sum = 0;
+      let count = 0;
+      const scores = {};
+      parts.forEach((part) => {
+        const input = document.querySelector(
+          `input[data-bottle="${bottle}"][data-part="${part}"]`
+        );
+        const val = input ? parseFloat(input.value) : NaN;
+        if (!isNaN(val)) {
+          sum += val;
+          count += 1;
+          scores[part] = val;
+        } else {
+          scores[part] = null;
+        }
+      });
+      const overall = count > 0 ? sum / count : null;
+      const display = document.querySelector(`[data-overall="${bottle}"]`);
+      if (display) {
+        display.textContent =
+          overall === null ? "Overall: --/10" : `Overall: ${overall.toFixed(1)}/10`;
+      }
+      return { scores, overall };
+    }
+
+    document
+      .querySelectorAll('input[type="number"][data-part]')
+      .forEach((input) => {
+        input.addEventListener("input", () => {
+          const bottle = input.getAttribute("data-bottle");
+          if (bottle) computeOverallForBottle(bottle);
+        });
+      });
+
+    // initial overall placeholders
+    bottles.forEach(computeOverallForBottle);
+
     // Print
     document.getElementById("printBtn")?.addEventListener("click", () => {
       window.print();
@@ -1063,7 +1124,7 @@
     // Clear all
     document.getElementById("clearBtn")?.addEventListener("click", () => {
       document
-        .querySelectorAll('input[type="number"][data-quick-rating]')
+        .querySelectorAll('input[type="number"][data-part]')
         .forEach((el) => (el.value = ""));
       document
         .querySelectorAll("textarea[data-notes]")
@@ -1085,19 +1146,22 @@
         chart.update();
       });
 
+      bottles.forEach(computeOverallForBottle);
+
       document.getElementById("resultsCard").style.display = "none";
       document.getElementById("podiumList").innerHTML = "";
       document.getElementById("scorecards").innerHTML = "";
     });
 
-    // Complete Flight: calculate winners + scorecards
+    // Complete Flight: calculate winners + scorecards using Nose/Palate/Finish
     document.getElementById("completeBtn")?.addEventListener("click", () => {
       const results = bottles.map((bottle) => {
-        const ratingInput = document.querySelector(
-          `input[data-quick-rating="${bottle}"]`
+        const { scores, overall } = computeOverallForBottle(bottle);
+
+        const notesEl = document.querySelector(
+          `textarea[data-notes="${bottle}"]`
         );
-        const rating = ratingInput ? parseFloat(ratingInput.value) : NaN;
-        const safeRating = isNaN(rating) ? null : rating;
+        const notes = notesEl ? notesEl.value.trim() : "";
 
         // read flavor values
         const flavorKeys = [
@@ -1116,25 +1180,22 @@
           flavors[k] = slider ? Number(slider.value) : 0;
         });
 
-        const notesEl = document.querySelector(`textarea[data-notes="${bottle}"]`);
-        const notes = notesEl ? notesEl.value.trim() : "";
-
         return {
           bottle,
-          rating: safeRating,
+          overall,
+          scores,
           flavors,
           notes
         };
       });
 
-      // sort by rating (descending), handling nulls at the end
       const sorted = results
         .slice()
         .sort((a, b) => {
-          if (a.rating === null && b.rating === null) return 0;
-          if (a.rating === null) return 1;
-          if (b.rating === null) return -1;
-          return b.rating - a.rating;
+          if (a.overall === null && b.overall === null) return 0;
+          if (a.overall === null) return 1;
+          if (b.overall === null) return -1;
+          return b.overall - a.overall;
         });
 
       const podiumList = document.getElementById("podiumList");
@@ -1148,7 +1209,9 @@
         const place =
           idx < placeNames.length ? placeNames[idx] : `${idx + 1}th`;
         const ratingText =
-          res.rating === null ? "no score entered" : `${res.rating.toFixed(1)}/10`;
+          res.overall === null
+            ? "no complete score"
+            : `${res.overall.toFixed(1)}/10`;
         const li = document.createElement("li");
         li.textContent = `${place}: Bottle ${res.bottle} (${ratingText})`;
         podiumList.appendChild(li);
@@ -1178,11 +1241,24 @@
         const ratingInfo = document.createElement("div");
         ratingInfo.className = "metric-line";
         ratingInfo.textContent =
-          res.rating === null ? "No quick rating" : `Quick rating: ${res.rating.toFixed(1)}/10`;
+          res.overall === null
+            ? "Overall: --/10"
+            : `Overall: ${res.overall.toFixed(1)}/10`;
 
         header.appendChild(label);
         header.appendChild(ratingInfo);
         card.appendChild(header);
+
+        const partLine = document.createElement("div");
+        partLine.className = "metric-line";
+        const n =
+          res.scores.nose === null ? "--" : res.scores.nose.toFixed(1);
+        const p =
+          res.scores.palate === null ? "--" : res.scores.palate.toFixed(1);
+        const f =
+          res.scores.finish === null ? "--" : res.scores.finish.toFixed(1);
+        partLine.textContent = `Nose: ${n}/10 · Palate: ${p}/10 · Finish: ${f}/10`;
+        card.appendChild(partLine);
 
         const flavorLines = document.createElement("div");
         Object.entries(res.flavors).forEach(([k, v]) => {
@@ -1206,7 +1282,6 @@
       });
 
       document.getElementById("resultsCard").style.display = "block";
-      // scroll into view a bit
       document.getElementById("resultsCard").scrollIntoView({
         behavior: "smooth",
         block: "start"
