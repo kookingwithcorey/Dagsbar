@@ -347,12 +347,11 @@
       }
     }
 
-    /* Bigger radar chart shell, shifted up a bit */
     .chart-shell {
       position: relative;
       border-radius: 18px;
       border: 1px solid var(--border);
-      padding: 10px 14px 26px 14px; /* more bottom padding */
+      padding: 10px 14px 26px 14px;
       background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 55%);
       overflow: hidden;
       min-height: 320px;
@@ -366,7 +365,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: 70%;
-      opacity: 0.08; /* watermark */
+      opacity: 0.08;
       pointer-events: none;
     }
 
@@ -483,7 +482,6 @@
       opacity: 0.7;
     }
 
-    /* Results / scorecard */
     .results-card {
       margin-top: 18px;
       border-radius: 20px;
@@ -498,6 +496,7 @@
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 8px;
+      align-items: center;
     }
 
     .results-title {
@@ -600,7 +599,6 @@
       color: var(--muted);
     }
 
-    /* Print */
     @media print {
       body {
         background: #ffffff;
@@ -614,7 +612,8 @@
       header nav,
       .button-row,
       .swipe-hint,
-      .nav-arrows {
+      .nav-arrows,
+      #exportBtn {
         display: none !important;
       }
 
@@ -735,7 +734,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice / Rye</span>
+                <span class="label">Spice</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_spice" />
                 <span class="slider-value" data-flavor-value="A_spice">3</span>
               </div>
@@ -753,7 +752,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat / Proof</span>
+                <span class="label">Heat</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_heat" />
                 <span class="slider-value" data-flavor-value="A_heat">3</span>
               </div>
@@ -808,7 +807,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice / Rye</span>
+                <span class="label">Spice</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_spice" />
                 <span class="slider-value" data-flavor-value="B_spice">3</span>
               </div>
@@ -826,7 +825,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat / Proof</span>
+                <span class="label">Heat</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_heat" />
                 <span class="slider-value" data-flavor-value="B_heat">3</span>
               </div>
@@ -881,7 +880,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Spice / Rye</span>
+                <span class="label">Spice</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_spice" />
                 <span class="slider-value" data-flavor-value="C_spice">3</span>
               </div>
@@ -899,7 +898,7 @@
               </div>
 
               <div class="slider-row">
-                <span class="label">Heat / Proof</span>
+                <span class="label">Heat</span>
                 <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_heat" />
                 <span class="slider-value" data-flavor-value="C_heat">3</span>
               </div>
@@ -928,6 +927,7 @@
             Ordered by overall score (average of Nose, Palate, Finish). Use this as your scorecard when you reveal the bottles.
           </div>
         </div>
+        <button type="button" id="exportBtn">Export (PDF)</button>
       </div>
 
       <div class="bottle-name-row">
@@ -983,7 +983,6 @@
       showBottle(currentIndex + 1);
     });
 
-    // Basic swipe support
     const card = document.getElementById("blindCard");
     let touchStartX = null;
 
@@ -997,7 +996,7 @@
         if (touchStartX === null) return;
         const t = e.changedTouches[0];
         const diffX = t.clientX - touchStartX;
-        const threshold = 40; // px
+        const threshold = 40;
         if (Math.abs(diffX) > threshold) {
           if (diffX < 0) {
             showBottle(currentIndex + 1);
@@ -1009,13 +1008,12 @@
       });
     }
 
-    // Radar chart configuration
     const flavorLabels = [
       "Sweetness",
-      "Spice / Rye",
+      "Spice",
       "Oak / Tannin",
       "Fruit",
-      "Heat / Proof",
+      "Heat",
       "Herbal"
     ];
 
@@ -1044,7 +1042,7 @@
           responsive: true,
           maintainAspectRatio: false,
           layout: {
-            padding: { top: 10, bottom: 26 } // extra bottom room so Heat / Proof shows
+            padding: { top: 10, bottom: 26 }
           },
           plugins: {
             legend: { display: false },
@@ -1087,7 +1085,6 @@
       C: createRadarChart("chartC")
     };
 
-    // Sync sliders with radar charts
     function setupSlidersForBottle(bottle) {
       const column = document.querySelector(`[data-slider-column="${bottle}"]`);
       if (!column) return;
@@ -1110,7 +1107,7 @@
             heat: 4,
             herbal: 5
           };
-          const parts = flavorKey.split("_"); // e.g. "A_sweetness"
+          const parts = flavorKey.split("_");
           const key = parts[1];
           const idx = idxMap[key];
           if (idx == null) return;
@@ -1118,13 +1115,12 @@
           chart.update();
         };
         slider.addEventListener("input", update);
-        update(); // initial sync
+        update();
       });
     }
 
     ["A", "B", "C"].forEach(setupSlidersForBottle);
 
-    // Score inputs: update overall display live
     function computeOverallForBottle(bottle) {
       const parts = ["nose", "palate", "finish"];
       let sum = 0;
@@ -1161,15 +1157,17 @@
         });
       });
 
-    // initial overall placeholders
     bottles.forEach(computeOverallForBottle);
 
-    // Print
     document.getElementById("printBtn")?.addEventListener("click", () => {
       window.print();
     });
 
-    // Clear all
+    document.getElementById("exportBtn")?.addEventListener("click", () => {
+      // Export = print dialog; choose "Save as PDF" in browser to export
+      window.print();
+    });
+
     document.getElementById("clearBtn")?.addEventListener("click", () => {
       document
         .querySelectorAll('input[type="number"][data-part]')
@@ -1200,7 +1198,6 @@
       document.getElementById("scorecards").innerHTML = "";
     });
 
-    // Complete Flight: calculate winners + scorecards
     document.getElementById("completeBtn")?.addEventListener("click", () => {
       const results = bottles.map((bottle) => {
         const { scores, overall } = computeOverallForBottle(bottle);
@@ -1255,7 +1252,6 @@
       podiumList.innerHTML = "";
       scorecards.innerHTML = "";
 
-      // podium
       sorted.forEach((res, idx) => {
         const placeNames = ["1st", "2nd", "3rd"];
         const place =
@@ -1272,10 +1268,10 @@
 
       const prettyFlavorName = {
         sweetness: "Sweetness",
-        spice: "Spice / Rye",
+        spice: "Spice",
         oak: "Oak / Tannin",
         fruit: "Fruit",
-        heat: "Heat / Proof",
+        heat: "Heat",
         herbal: "Herbal"
       };
 
