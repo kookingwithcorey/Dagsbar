@@ -514,94 +514,113 @@
           </section>
 
           <!-- RIGHT COLUMN – METRICS & RATING -->
-          <section>
-            <section class="metrics-section">
-              <div class="section-title">Flavor Metrics (0–5)</div>
+         <section>
+  <section class="metrics-section">
+    <!-- New flavor profile header + line graph -->
+    <div class="flavor-profile-header">
+      <div class="flavor-profile-label">Flavor Profile</div>
+      <div class="flavor-profile-title" id="flavorProfileTitle">Balanced</div>
+    </div>
 
-              <div class="metric-row">
-                <div class="metric-label">Sweetness</div>
-                <div>
-                  <input id="sweetness" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="sweetnessValue">3</span>/5</div>
-                </div>
-              </div>
+    <div class="flavor-chart">
+      <svg id="flavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+      <div class="flavor-chart-labels">
+        <span>Sweet</span>
+        <span>Spice</span>
+        <span>Oak</span>
+        <span>Fruit</span>
+        <span>Heat</span>
+        <span>Finish</span>
+      </div>
+    </div>
 
-              <div class="metric-row">
-                <div class="metric-label">Spice / Rye</div>
-                <div>
-                  <input id="spice" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="spiceValue">3</span>/5</div>
-                </div>
-              </div>
+    <div class="section-title">Flavor Metrics (0–5)</div>
 
-              <div class="metric-row">
-                <div class="metric-label">Oak / Tannin</div>
-                <div>
-                  <input id="oak" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="oakValue">3</span>/5</div>
-                </div>
-              </div>
+    <div class="metric-row">
+      <div class="metric-label">Sweetness</div>
+      <div>
+        <input id="sweetness" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="sweetnessValue">3</span>/5</div>
+      </div>
+    </div>
 
-              <div class="metric-row">
-                <div class="metric-label">Fruit</div>
-                <div>
-                  <input id="fruit" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="fruitValue">3</span>/5</div>
-                </div>
-              </div>
+    <div class="metric-row">
+      <div class="metric-label">Spice / Rye</div>
+      <div>
+        <input id="spice" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="spiceValue">3</span>/5</div>
+      </div>
+    </div>
 
-              <div class="metric-row">
-                <div class="metric-label">Heat / Proof Perception</div>
-                <div>
-                  <input id="heat" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="heatValue">3</span>/5</div>
-                </div>
-              </div>
+    <div class="metric-row">
+      <div class="metric-label">Oak / Tannin</div>
+      <div>
+        <input id="oak" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="oakValue">3</span>/5</div>
+      </div>
+    </div>
 
-              <div class="metric-row">
-                <div class="metric-label">Finish Length</div>
-                <div>
-                  <input id="finishLen" type="range" min="0" max="5" step="1" value="3" />
-                  <div class="metric-value"><span id="finishLenValue">3</span>/5</div>
-                </div>
-              </div>
-            </section>
-           
-            <div style="height: 10px;"></div>
+    <div class="metric-row">
+      <div class="metric-label">Fruit</div>
+      <div>
+        <input id="fruit" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="fruitValue">3</span>/5</div>
+      </div>
+    </div>
 
-            <section class="metrics-section">
-              <div class="section-title">Overall Rating</div>
+    <div class="metric-row">
+      <div class="metric-label">Heat / Proof Perception</div>
+      <div>
+        <input id="heat" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="heatValue">3</span>/5</div>
+      </div>
+    </div>
 
-              <div class="field" style="margin-bottom: 6px;">
-                <label for="rating">Score (0–10)</label>
-                <select id="rating">
-                  <option value="">Select...</option>
-                  <option>10 - Unreal / Must Hunt</option>
-                  <option>9 - Exceptional</option>
-                  <option>8 - Great</option>
-                  <option>7 - Very Good</option>
-                  <option>6 - Solid</option>
-                  <option>5 - Average</option>
-                  <option>4 - Below Average</option>
-                  <option>3 - Pass</option>
-                  <option>2 - Hard Pass</option>
-                  <option>1 - Drain Pour</option>
-                </select>
-              </div>
+    <div class="metric-row">
+      <div class="metric-label">Finish Length</div>
+      <div>
+        <input id="finishLen" type="range" min="0" max="5" step="1" value="3" />
+        <div class="metric-value"><span id="finishLenValue">3</span>/5</div>
+      </div>
+    </div>
+  </section>
 
-              <div class="field">
-                <label for="ratingQuick">Quick Rating (0–10)</label>
-                <div class="rating-badge">
-                  <input id="ratingQuick" type="number" min="0" max="10" step="0.1" placeholder="e.g., 8.7" style="max-width: 70px;" />
-                  <span>/10</span>
-                </div>
-              </div>
+  <div style="height: 10px;"></div>
 
-              <div class="summary-chip-row" id="summaryChips">
-                <!-- Summary chips auto-populated -->
-              </div>
-            </section>
-          </section>
+  <!-- keep your existing Overall Rating section exactly as it was -->
+  <section class="metrics-section">
+    <div class="section-title">Overall Rating</div>
+
+    <div class="field" style="margin-bottom: 6px;">
+      <label for="rating">Score (0–10)</label>
+      <select id="rating">
+        <option value="">Select...</option>
+        <option>10 - Unreal / Must Hunt</option>
+        <option>9 - Exceptional</option>
+        <option>8 - Great</option>
+        <option>7 - Very Good</option>
+        <option>6 - Solid</option>
+        <option>5 - Average</option>
+        <option>4 - Below Average</option>
+        <option>3 - Pass</option>
+        <option>2 - Hard Pass</option>
+        <option>1 - Drain Pour</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="ratingQuick">Quick Rating (0–10)</label>
+      <div class="rating-badge">
+        <input id="ratingQuick" type="number" min="0" max="10" step="0.1" placeholder="e.g., 8.7" style="max-width: 70px;" />
+        <span>/10</span>
+      </div>
+    </div>
+
+    <div class="summary-chip-row" id="summaryChips">
+      <!-- Summary chips auto-populated -->
+    </div>
+  </section>
+</section>
         </div>
       </form>
 
