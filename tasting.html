@@ -455,14 +455,28 @@
     }
 
     /* Print styles */
+    /* Print styles */
     @media print {
-      body {
+      /* Make the whole layout shrink a bit for print */
+      @page {
+        size: letter portrait;
+        margin: 0.3in;
+      }
+
+      html, body {
         background: #ffffff;
+        height: auto;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        zoom: 0.9;              /* Chrome-friendly scale down */
       }
 
       .page {
-        max-width: 100%;
-        padding: 0.4in;
+        max-width: 7.5in;       /* Keep it within one page width */
+        padding: 0;
       }
 
       header nav,
@@ -476,10 +490,33 @@
         border-radius: 0;
         background: #ffffff;
         border-color: #dddddd;
+        padding: 12px 12px 16px;
+        page-break-inside: avoid;
       }
 
       .card::before {
         color: rgba(0, 0, 0, 0.04);
+      }
+
+      .tasting-grid {
+        gap: 10px 12px;
+      }
+
+      .metrics-section,
+      .notes-section {
+        padding: 8px 10px 10px;
+      }
+
+      .section-title {
+        font-size: 0.7rem;
+      }
+
+      label,
+      .metric-label,
+      .notes-label-pill,
+      footer {
+        color: #333333 !important;
+        font-size: 0.8rem;
       }
 
       input[type="text"],
@@ -490,20 +527,14 @@
         color: #000000;
         border-color: #bbbbbb;
         box-shadow: none;
-      }
-
-      label,
-      .section-title,
-      .metric-label,
-      .notes-label-pill,
-      footer {
-        color: #333333 !important;
+        font-size: 0.8rem;
       }
 
       .summary-chip-row {
         border-top: 1px dashed #ccc;
         padding-top: 4px;
         margin-top: 6px;
+        font-size: 0.7rem;
       }
 
       .flavor-profile-title {
@@ -519,9 +550,10 @@
       }
 
       .flavor-chart::before {
-        opacity: 0.04;
+        opacity: 0.04; /* light logo on print */
       }
     }
+
   </style>
 </head>
 <body>
