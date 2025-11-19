@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>DAGS | Blind Tasting</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Radar chart library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg: #050608;
@@ -45,6 +47,7 @@
       align-items: center;
       margin-bottom: 24px;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .brand {
@@ -268,6 +271,7 @@
       gap: 10px;
       font-size: 0.85rem;
       color: var(--muted);
+      flex-wrap: wrap;
     }
 
     .bottle-label {
@@ -321,31 +325,46 @@
       box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.25);
     }
 
-    /* Chart */
-    .chart-wrapper {
+    .chart-and-sliders {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    @media (max-width: 840px) {
+      .chart-and-sliders {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Radar chart shell with DAGS watermark */
+    .chart-shell {
       position: relative;
       border-radius: 18px;
       border: 1px solid var(--border);
-      padding: 12px 12px 14px;
+      padding: 14px;
       background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 55%);
       overflow: hidden;
+      min-height: 260px;
     }
 
-    .chart-wrapper::before {
+    .chart-shell::before {
       content: "";
       position: absolute;
       inset: 0;
       background-image: url("dags-new-logo.png");
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 55%;
-      opacity: 0.06; /* watermark effect */
+      background-size: 65%;
+      opacity: 0.08; /* watermark */
       pointer-events: none;
     }
 
     .chart-inner {
       position: relative;
       z-index: 1;
+      height: 230px;
     }
 
     .chart-title-row {
@@ -368,79 +387,83 @@
       color: var(--muted);
     }
 
-    .rating-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 4px;
-      font-size: 0.8rem;
+    .slider-column {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.03), transparent 60%);
     }
 
-    .rating-table thead {
+    .slider-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
       color: var(--muted);
+      margin-bottom: 2px;
     }
 
-    .rating-table th,
-    .rating-table td {
-      padding: 4px 4px;
-      text-align: center;
+    .slider-row {
+      display: grid;
+      grid-template-columns: 1.3fr minmax(0, 1.6fr) 34px;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.78rem;
+      margin-top: 4px;
     }
 
-    .rating-table th:first-child,
-    .rating-table td:first-child {
-      text-align: left;
-      font-size: 0.82rem;
+    .slider-row span.label {
       color: var(--text);
       white-space: nowrap;
     }
 
-    .rating-table tr:nth-child(even) td {
-      background: rgba(255, 255, 255, 0.02);
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      background: transparent;
     }
 
-    /* Radio dots */
-    .dot-radio {
-      position: relative;
-      width: 18px;
-      height: 18px;
-      margin: 0 auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      background: linear-gradient(90deg, rgba(15, 139, 107, 0.8), rgba(255, 255, 255, 0.16));
+      border-radius: 999px;
     }
 
-    .dot-radio input {
-      position: absolute;
-      opacity: 0;
-      width: 18px;
-      height: 18px;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    .dot-visual {
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
       width: 14px;
       height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      margin-top: -6px;
+      box-shadow: 0 0 0 3px rgba(15, 139, 107, 0.32);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: linear-gradient(90deg, rgba(15, 139, 107, 0.8), rgba(255, 255, 255, 0.16));
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      background: rgba(0, 0, 0, 0.5);
-      transition: all 0.18s ease;
     }
 
-    .dot-radio input:checked + .dot-visual {
-      border-color: var(--accent-soft);
-      box-shadow: 0 0 0 3px rgba(15, 139, 107, 0.35);
-      background: rgba(15, 139, 107, 0.9);
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 139, 107, 0.32);
     }
 
-    .dot-radio input:focus-visible + .dot-visual {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+    .slider-value {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
     }
 
     .chart-footnote {
-      margin-top: 4px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
+      margin-top: 2px;
     }
 
     footer {
@@ -449,6 +472,94 @@
       font-size: 0.75rem;
       color: var(--muted);
       opacity: 0.7;
+    }
+
+    /* Results / scorecard */
+    .results-card {
+      margin-top: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: rgba(8, 10, 15, 0.95);
+      padding: 16px 18px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .results-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .podium-list {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 10px;
+      font-size: 0.88rem;
+    }
+
+    .podium-list li {
+      margin-bottom: 2px;
+    }
+
+    .scorecards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 900px) {
+      .scorecards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .scorecard {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .scorecard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.85rem;
+    }
+
+    .scorecard-label {
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .metric-line {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .notes-preview {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .notes-preview strong {
+      color: var(--text);
+    }
+
+    .muted-small {
+      font-size: 0.72rem;
+      color: var(--muted);
     }
 
     /* Print */
@@ -488,6 +599,10 @@
         box-shadow: none;
       }
 
+      .results-card {
+        background: #ffffff;
+      }
+
       footer {
         color: #333333 !important;
       }
@@ -515,11 +630,13 @@
         <div>
           <div class="card-title">Blind Tasting Flight</div>
           <div class="card-subtitle">
-            Three pours labeled <strong>A, B, C</strong>. Swipe or click through each bottle, rate them 1–5 by category, then compare.
+            Three pours labeled <strong>A, B, C</strong>. Swipe or click through each bottle, set your 1–5 flavor chart and quick score,
+            then complete the flight to see the winner.
           </div>
         </div>
         <div class="button-row">
-          <button type="button" id="printBtn">Print Page</button>
+          <button type="button" id="completeBtn">Complete Flight</button>
+          <button type="button" id="printBtn" class="btn-secondary">Print</button>
           <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
         </div>
       </div>
@@ -544,116 +661,64 @@
             <span class="bottle-label">Bottle A</span>
             <span class="rating-inline">
               Quick rating:
-              <input type="number" min="0" max="10" step="0.1" placeholder="e.g., 8.5" />
+              <input type="number" min="0" max="10" step="0.1" data-quick-rating="A" placeholder="e.g., 8.5" />
               <span>/10</span>
             </span>
           </div>
 
-          <textarea placeholder="Notes on nose, palate, finish, what you like / don’t like for Bottle A."></textarea>
+          <textarea data-notes="A" placeholder="Notes on nose, palate, finish, what you like / don’t like for Bottle A."></textarea>
 
-          <div class="chart-wrapper">
-            <div class="chart-inner">
-              <div class="chart-title-row">
-                <div class="chart-title">Flavor Chart (1–5)</div>
-                <div class="chart-scale">1 = low &middot; 3 = medium &middot; 5 = high</div>
+          <div class="chart-and-sliders">
+            <div class="chart-shell">
+              <div class="chart-inner">
+                <div class="chart-title-row">
+                  <div class="chart-title">Flavor Chart (1–5)</div>
+                  <div class="chart-scale">Center = 0 &middot; Outer ring = 5</div>
+                </div>
+                <canvas id="chartA"></canvas>
+                <div class="chart-footnote">
+                  The polygon shows your balance across Sweetness, Spice, Oak, Fruit, Heat, and Finish.
+                </div>
+              </div>
+            </div>
+
+            <div class="slider-column" data-slider-column="A">
+              <div class="slider-title">Adjust chart</div>
+
+              <div class="slider-row">
+                <span class="label">Sweetness</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_sweetness" />
+                <span class="slider-value" data-flavor-value="A_sweetness">3</span>
               </div>
 
-              <table class="rating-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- row helper: data-category for JS if needed later -->
-                  <tr data-category="sweetness">
-                    <td>Sweetness</td>
-                    <td>
-                      <label class="dot-radio">
-                        <input type="radio" name="A_sweetness" value="1" />
-                        <span class="dot-visual"></span>
-                      </label>
-                    </td>
-                    <td>
-                      <label class="dot-radio">
-                        <input type="radio" name="A_sweetness" value="2" />
-                        <span class="dot-visual"></span>
-                      </label>
-                    </td>
-                    <td>
-                      <label class="dot-radio">
-                        <input type="radio" name="A_sweetness" value="3" />
-                        <span class="dot-visual"></span>
-                      </label>
-                    </td>
-                    <td>
-                      <label class="dot-radio">
-                        <input type="radio" name="A_sweetness" value="4" />
-                        <span class="dot-visual"></span>
-                      </label>
-                    </td>
-                    <td>
-                      <label class="dot-radio">
-                        <input type="radio" name="A_sweetness" value="5" />
-                        <span class="dot-visual"></span>
-                      </label>
-                    </td>
-                  </tr>
+              <div class="slider-row">
+                <span class="label">Spice / Rye</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_spice" />
+                <span class="slider-value" data-flavor-value="A_spice">3</span>
+              </div>
 
-                  <tr data-category="spice">
-                    <td>Spice / Rye</td>
-                    <td><label class="dot-radio"><input type="radio" name="A_spice" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_spice" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_spice" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_spice" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_spice" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
+              <div class="slider-row">
+                <span class="label">Oak / Tannin</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_oak" />
+                <span class="slider-value" data-flavor-value="A_oak">3</span>
+              </div>
 
-                  <tr data-category="oak">
-                    <td>Oak / Tannin</td>
-                    <td><label class="dot-radio"><input type="radio" name="A_oak" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_oak" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_oak" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_oak" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_oak" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
+              <div class="slider-row">
+                <span class="label">Fruit</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_fruit" />
+                <span class="slider-value" data-flavor-value="A_fruit">3</span>
+              </div>
 
-                  <tr data-category="fruit">
-                    <td>Fruit</td>
-                    <td><label class="dot-radio"><input type="radio" name="A_fruit" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_fruit" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_fruit" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_fruit" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_fruit" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_heat" />
+                <span class="slider-value" data-flavor-value="A_heat">3</span>
+              </div>
 
-                  <tr data-category="heat">
-                    <td>Heat / Proof Feel</td>
-                    <td><label class="dot-radio"><input type="radio" name="A_heat" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_heat" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_heat" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_heat" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_heat" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-
-                  <tr data-category="finish">
-                    <td>Finish Length</td>
-                    <td><label class="dot-radio"><input type="radio" name="A_finish" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_finish" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_finish" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_finish" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="A_finish" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="chart-footnote">
-                Tap one dot per row to rate this bottle in each category.
+              <div class="slider-row">
+                <span class="label">Finish Length</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="A_finish" />
+                <span class="slider-value" data-flavor-value="A_finish">3</span>
               </div>
             </div>
           </div>
@@ -665,79 +730,64 @@
             <span class="bottle-label">Bottle B</span>
             <span class="rating-inline">
               Quick rating:
-              <input type="number" min="0" max="10" step="0.1" placeholder="e.g., 8.1" />
+              <input type="number" min="0" max="10" step="0.1" data-quick-rating="B" placeholder="e.g., 8.1" />
               <span>/10</span>
             </span>
           </div>
 
-          <textarea placeholder="Notes for Bottle B. Don’t look at the actual bottle until you’ve locked this in."></textarea>
+          <textarea data-notes="B" placeholder="Notes for Bottle B. Don’t look at the actual bottle until you’ve locked this in."></textarea>
 
-          <div class="chart-wrapper">
-            <div class="chart-inner">
-              <div class="chart-title-row">
-                <div class="chart-title">Flavor Chart (1–5)</div>
-                <div class="chart-scale">1 = low &middot; 3 = medium &middot; 5 = high</div>
+          <div class="chart-and-sliders">
+            <div class="chart-shell">
+              <div class="chart-inner">
+                <div class="chart-title-row">
+                  <div class="chart-title">Flavor Chart (1–5)</div>
+                  <div class="chart-scale">Center = 0 &middot; Outer ring = 5</div>
+                </div>
+                <canvas id="chartB"></canvas>
+                <div class="chart-footnote">
+                  Use the sliders to pull this bottle toward sweet, spicy, oaky, fruity, hot, or long finish.
+                </div>
+              </div>
+            </div>
+
+            <div class="slider-column" data-slider-column="B">
+              <div class="slider-title">Adjust chart</div>
+
+              <div class="slider-row">
+                <span class="label">Sweetness</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_sweetness" />
+                <span class="slider-value" data-flavor-value="B_sweetness">3</span>
               </div>
 
-              <table class="rating-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>Sweetness</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_sweetness" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_sweetness" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_sweetness" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_sweetness" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_sweetness" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Spice / Rye</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_spice" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_spice" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_spice" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_spice" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_spice" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Oak / Tannin</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_oak" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_oak" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_oak" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_oak" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_oak" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Fruit</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_fruit" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_fruit" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_fruit" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_fruit" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_fruit" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Heat / Proof Feel</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_heat" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_heat" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_heat" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_heat" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_heat" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Finish Length</td>
-                    <td><label class="dot-radio"><input type="radio" name="B_finish" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_finish" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_finish" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_finish" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="B_finish" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="slider-row">
+                <span class="label">Spice / Rye</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_spice" />
+                <span class="slider-value" data-flavor-value="B_spice">3</span>
+              </div>
 
-              <div class="chart-footnote">
-                Same categories, fresh pour. Don’t overthink it.
+              <div class="slider-row">
+                <span class="label">Oak / Tannin</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_oak" />
+                <span class="slider-value" data-flavor-value="B_oak">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Fruit</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_fruit" />
+                <span class="slider-value" data-flavor-value="B_fruit">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_heat" />
+                <span class="slider-value" data-flavor-value="B_heat">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Finish Length</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="B_finish" />
+                <span class="slider-value" data-flavor-value="B_finish">3</span>
               </div>
             </div>
           </div>
@@ -749,79 +799,64 @@
             <span class="bottle-label">Bottle C</span>
             <span class="rating-inline">
               Quick rating:
-              <input type="number" min="0" max="10" step="0.1" placeholder="e.g., 9.0" />
+              <input type="number" min="0" max="10" step="0.1" data-quick-rating="C" placeholder="e.g., 9.0" />
               <span>/10</span>
             </span>
           </div>
 
-          <textarea placeholder="Notes for Bottle C. After all three, decide your winner."></textarea>
+          <textarea data-notes="C" placeholder="Notes for Bottle C. After all three, decide your winner."></textarea>
 
-          <div class="chart-wrapper">
-            <div class="chart-inner">
-              <div class="chart-title-row">
-                <div class="chart-title">Flavor Chart (1–5)</div>
-                <div class="chart-scale">1 = low &middot; 3 = medium &middot; 5 = high</div>
+          <div class="chart-and-sliders">
+            <div class="chart-shell">
+              <div class="chart-inner">
+                <div class="chart-title-row">
+                  <div class="chart-title">Flavor Chart (1–5)</div>
+                  <div class="chart-scale">Center = 0 &middot; Outer ring = 5</div>
+                </div>
+                <canvas id="chartC"></canvas>
+                <div class="chart-footnote">
+                  When you reveal the bottles, see if the chart matches your expectations.
+                </div>
+              </div>
+            </div>
+
+            <div class="slider-column" data-slider-column="C">
+              <div class="slider-title">Adjust chart</div>
+
+              <div class="slider-row">
+                <span class="label">Sweetness</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_sweetness" />
+                <span class="slider-value" data-flavor-value="C_sweetness">3</span>
               </div>
 
-              <table class="rating-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>Sweetness</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_sweetness" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_sweetness" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_sweetness" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_sweetness" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_sweetness" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Spice / Rye</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_spice" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_spice" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_spice" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_spice" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_spice" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Oak / Tannin</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_oak" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_oak" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_oak" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_oak" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_oak" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Fruit</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_fruit" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_fruit" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_fruit" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_fruit" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_fruit" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Heat / Proof Feel</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_heat" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_heat" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_heat" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_heat" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_heat" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                  <tr><td>Finish Length</td>
-                    <td><label class="dot-radio"><input type="radio" name="C_finish" value="1" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_finish" value="2" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_finish" value="3" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_finish" value="4" /><span class="dot-visual"></span></label></td>
-                    <td><label class="dot-radio"><input type="radio" name="C_finish" value="5" /><span class="dot-visual"></span></label></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="slider-row">
+                <span class="label">Spice / Rye</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_spice" />
+                <span class="slider-value" data-flavor-value="C_spice">3</span>
+              </div>
 
-              <div class="chart-footnote">
-                Once you reveal the bottles, see if your winner surprises you.
+              <div class="slider-row">
+                <span class="label">Oak / Tannin</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_oak" />
+                <span class="slider-value" data-flavor-value="C_oak">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Fruit</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_fruit" />
+                <span class="slider-value" data-flavor-value="C_fruit">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Heat / Proof</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_heat" />
+                <span class="slider-value" data-flavor-value="C_heat">3</span>
+              </div>
+
+              <div class="slider-row">
+                <span class="label">Finish Length</span>
+                <input type="range" min="0" max="5" step="1" value="3" data-flavor="C_finish" />
+                <span class="slider-value" data-flavor-value="C_finish">3</span>
               </div>
             </div>
           </div>
@@ -832,6 +867,22 @@
         DAGS Bourbon &amp; Whiskey Lounge &mdash; Blind flight sheet.
       </footer>
     </main>
+
+    <!-- Results / scorecard -->
+    <section class="results-card" id="resultsCard" style="display:none;">
+      <div class="results-header">
+        <div>
+          <div class="results-title">Blind Flight Results</div>
+          <div class="muted-small">
+            Ordered by quick rating. Use this as your scorecard when you reveal the bottles.
+          </div>
+        </div>
+      </div>
+
+      <ul class="podium-list" id="podiumList"></ul>
+
+      <div class="scorecards" id="scorecards"></div>
+    </section>
   </div>
 
   <script>
@@ -883,16 +934,126 @@
         const threshold = 40; // px
         if (Math.abs(diffX) > threshold) {
           if (diffX < 0) {
-            // swipe left -> next
             showBottle(currentIndex + 1);
           } else {
-            // swipe right -> prev
             showBottle(currentIndex - 1);
           }
         }
         touchStartX = null;
       });
     }
+
+    // Radar chart configuration
+    const flavorLabels = [
+      "Sweetness",
+      "Spice / Rye",
+      "Oak / Tannin",
+      "Fruit",
+      "Heat / Proof",
+      "Finish Length"
+    ];
+
+    const defaultData = [3, 3, 3, 3, 3, 3];
+
+    function createRadarChart(canvasId) {
+      const ctx = document.getElementById(canvasId).getContext("2d");
+      return new Chart(ctx, {
+        type: "radar",
+        data: {
+          labels: flavorLabels,
+          datasets: [
+            {
+              data: defaultData.slice(),
+              borderWidth: 2,
+              borderColor: "rgba(255,255,255,0.85)",
+              backgroundColor: "rgba(15,139,107,0.35)",
+              pointBackgroundColor: "#ffffff",
+              pointBorderColor: "rgba(15,139,107,1)",
+              pointBorderWidth: 2,
+              pointRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.formattedValue} / 5`
+              }
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              min: 0,
+              max: 5,
+              ticks: {
+                stepSize: 1,
+                showLabelBackdrop: false,
+                color: "#a3acb9",
+                font: { size: 9 }
+              },
+              grid: {
+                color: "rgba(255,255,255,0.15)"
+              },
+              angleLines: {
+                color: "rgba(255,255,255,0.2)"
+              },
+              pointLabels: {
+                color: "#f7f7f7",
+                font: { size: 10 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    const charts = {
+      A: createRadarChart("chartA"),
+      B: createRadarChart("chartB"),
+      C: createRadarChart("chartC")
+    };
+
+    // Sync sliders with radar charts
+    function setupSlidersForBottle(bottle) {
+      const column = document.querySelector(`[data-slider-column="${bottle}"]`);
+      if (!column) return;
+      const sliders = column.querySelectorAll('input[type="range"][data-flavor]');
+      sliders.forEach((slider) => {
+        const flavorKey = slider.getAttribute("data-flavor");
+        const valueSpan = column.querySelector(
+          `[data-flavor-value="${flavorKey}"]`
+        );
+        const update = () => {
+          const v = Number(slider.value);
+          if (valueSpan) valueSpan.textContent = v;
+          const chart = charts[bottle];
+          if (!chart) return;
+          const idxMap = {
+            sweetness: 0,
+            spice: 1,
+            oak: 2,
+            fruit: 3,
+            heat: 4,
+            finish: 5
+          };
+          const parts = flavorKey.split("_"); // e.g. "A_sweetness"
+          const key = parts[1];
+          const idx = idxMap[key];
+          if (idx == null) return;
+          chart.data.datasets[0].data[idx] = v;
+          chart.update();
+        };
+        slider.addEventListener("input", update);
+        update(); // initial sync
+      });
+    }
+
+    ["A", "B", "C"].forEach(setupSlidersForBottle);
 
     // Print
     document.getElementById("printBtn")?.addEventListener("click", () => {
@@ -901,16 +1062,155 @@
 
     // Clear all
     document.getElementById("clearBtn")?.addEventListener("click", () => {
-      // clear all inputs and textareas
       document
-        .querySelectorAll('input[type="number"], textarea, input[type="radio"]')
-        .forEach((el) => {
-          if (el.type === "radio") {
-            el.checked = false;
-          } else {
-            el.value = "";
-          }
+        .querySelectorAll('input[type="number"][data-quick-rating]')
+        .forEach((el) => (el.value = ""));
+      document
+        .querySelectorAll("textarea[data-notes]")
+        .forEach((el) => (el.value = ""));
+      document
+        .querySelectorAll('input[type="range"][data-flavor]')
+        .forEach((slider) => {
+          slider.value = 3;
+          const key = slider.getAttribute("data-flavor");
+          const span = document.querySelector(
+            `[data-flavor-value="${key}"]`
+          );
+          if (span) span.textContent = "3";
         });
+
+      // reset charts
+      Object.values(charts).forEach((chart) => {
+        chart.data.datasets[0].data = defaultData.slice();
+        chart.update();
+      });
+
+      document.getElementById("resultsCard").style.display = "none";
+      document.getElementById("podiumList").innerHTML = "";
+      document.getElementById("scorecards").innerHTML = "";
+    });
+
+    // Complete Flight: calculate winners + scorecards
+    document.getElementById("completeBtn")?.addEventListener("click", () => {
+      const results = bottles.map((bottle) => {
+        const ratingInput = document.querySelector(
+          `input[data-quick-rating="${bottle}"]`
+        );
+        const rating = ratingInput ? parseFloat(ratingInput.value) : NaN;
+        const safeRating = isNaN(rating) ? null : rating;
+
+        // read flavor values
+        const flavorKeys = [
+          "sweetness",
+          "spice",
+          "oak",
+          "fruit",
+          "heat",
+          "finish"
+        ];
+        const flavors = {};
+        flavorKeys.forEach((k) => {
+          const slider = document.querySelector(
+            `input[data-flavor="${bottle}_${k}"]`
+          );
+          flavors[k] = slider ? Number(slider.value) : 0;
+        });
+
+        const notesEl = document.querySelector(`textarea[data-notes="${bottle}"]`);
+        const notes = notesEl ? notesEl.value.trim() : "";
+
+        return {
+          bottle,
+          rating: safeRating,
+          flavors,
+          notes
+        };
+      });
+
+      // sort by rating (descending), handling nulls at the end
+      const sorted = results
+        .slice()
+        .sort((a, b) => {
+          if (a.rating === null && b.rating === null) return 0;
+          if (a.rating === null) return 1;
+          if (b.rating === null) return -1;
+          return b.rating - a.rating;
+        });
+
+      const podiumList = document.getElementById("podiumList");
+      const scorecards = document.getElementById("scorecards");
+      podiumList.innerHTML = "";
+      scorecards.innerHTML = "";
+
+      // podium
+      sorted.forEach((res, idx) => {
+        const placeNames = ["1st", "2nd", "3rd"];
+        const place =
+          idx < placeNames.length ? placeNames[idx] : `${idx + 1}th`;
+        const ratingText =
+          res.rating === null ? "no score entered" : `${res.rating.toFixed(1)}/10`;
+        const li = document.createElement("li");
+        li.textContent = `${place}: Bottle ${res.bottle} (${ratingText})`;
+        podiumList.appendChild(li);
+      });
+
+      // detailed scorecards
+      const prettyFlavorName = {
+        sweetness: "Sweetness",
+        spice: "Spice / Rye",
+        oak: "Oak / Tannin",
+        fruit: "Fruit",
+        heat: "Heat / Proof",
+        finish: "Finish Length"
+      };
+
+      sorted.forEach((res) => {
+        const card = document.createElement("div");
+        card.className = "scorecard";
+
+        const header = document.createElement("div");
+        header.className = "scorecard-header";
+
+        const label = document.createElement("div");
+        label.className = "scorecard-label";
+        label.textContent = `Bottle ${res.bottle}`;
+
+        const ratingInfo = document.createElement("div");
+        ratingInfo.className = "metric-line";
+        ratingInfo.textContent =
+          res.rating === null ? "No quick rating" : `Quick rating: ${res.rating.toFixed(1)}/10`;
+
+        header.appendChild(label);
+        header.appendChild(ratingInfo);
+        card.appendChild(header);
+
+        const flavorLines = document.createElement("div");
+        Object.entries(res.flavors).forEach(([k, v]) => {
+          const line = document.createElement("div");
+          line.className = "metric-line";
+          line.textContent = `${prettyFlavorName[k]}: ${v} / 5`;
+          flavorLines.appendChild(line);
+        });
+        card.appendChild(flavorLines);
+
+        const notesDiv = document.createElement("div");
+        notesDiv.className = "notes-preview";
+        const shortNotes =
+          res.notes.length > 220
+            ? res.notes.slice(0, 220) + "…"
+            : res.notes || "No notes entered.";
+        notesDiv.innerHTML = `<strong>Notes:</strong> ${shortNotes}`;
+        card.appendChild(notesDiv);
+
+        scorecards.appendChild(card);
+      });
+
+      document.getElementById("resultsCard").style.display = "block";
+      // scroll into view a bit
+      document.getElementById("resultsCard").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     });
   </script>
 </body>
