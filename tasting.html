@@ -870,23 +870,26 @@ function saveTastingHistory(history) {
   localStorage.setItem(TASTING_HISTORY_KEY, JSON.stringify(history));
 }
 
-// Hook up the Save Tasting button
-document.getElementById("saveBtn")?.addEventListener("click", () => {
-  const entry = getCurrentTastingEntry();
+// Hook up the Save Tasting button (only bind once)
+if (!window.dagsTastingSaveBound) {
+  window.dagsTastingSaveBound = true;
 
-  // Don't save a completely blank sheet
-  if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
-    alert("Fill in at least the whiskey name, distillery, or rating before saving.");
-    return;
-  }
+  document.getElementById("saveBtn")?.addEventListener("click", () => {
+    const entry = getCurrentTastingEntry();
 
-  const history = loadTastingHistory();
-  history.push(entry);
-  saveTastingHistory(history);
+    // Don't save a completely blank sheet
+    if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
+      alert("Fill in at least the whiskey name, distillery, or rating before saving.");
+      return;
+    }
 
-  alert("Tasting saved to your Whiskey Log Book!");
-});
+    const history = loadTastingHistory();
+    history.push(entry);
+    saveTastingHistory(history);
 
+    alert("Tasting saved to your Whiskey Log Book!");
+  });
+}
         buildSummary();
       };
       slider.addEventListener("input", sync);
