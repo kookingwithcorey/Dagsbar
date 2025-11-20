@@ -205,6 +205,14 @@
       color: #ff9b9b;
     }
 
+    button:disabled,
+    .btn-danger:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
     select.filter-select {
       background: rgba(255, 255, 255, 0.02);
       border-radius: 999px;
@@ -218,6 +226,21 @@
     select.filter-select option {
       background: #050608;
       color: var(--text);
+    }
+
+    .search-input {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+      min-width: 160px;
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
     }
 
     .history-section-title {
@@ -260,7 +283,7 @@
     .history-item {
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 10px 12px;
+      padding: 8px 10px;
       background: rgba(0, 0, 0, 0.45);
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
@@ -279,6 +302,17 @@
       .history-item {
         grid-template-columns: minmax(0, 1fr);
       }
+    }
+
+    .history-left-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .history-select {
+      margin-top: 4px;
+      cursor: pointer;
     }
 
     .history-main-line {
@@ -522,11 +556,19 @@
           </div>
         </div>
         <div class="controls">
+          <input
+            id="searchInput"
+            type="text"
+            class="search-input"
+            placeholder="Search whiskey, notes..."
+          />
+          <button type="button" id="searchBtn" class="btn-secondary">Search</button>
           <select id="typeFilter" class="filter-select">
             <option value="all">All Entries</option>
             <option value="tasting">Tasting Sheets Only</option>
             <option value="blind">Blind Tastings Only</option>
           </select>
+          <button type="button" id="bulkDeleteBtn" class="btn-danger" disabled>Delete Selected</button>
           <button type="button" id="exportCsvBtn" class="btn-secondary">Export CSV</button>
           <button type="button" id="printBtn">Print</button>
         </div>
@@ -788,22 +830,48 @@
       return sorted.slice(0, 3).map(item => labelMap[item.id] || item.id);
     }
 
+    function getSearchQuery() {
+      const input = document.getElementById("searchInput");
+      return input ? input.value.toLowerCase().trim() : "";
+    }
+
     function renderHistory() {
       const container = document.getElementById("historyList");
       const emptyState = document.getElementById("historyEmpty");
       const filter = document.getElementById("typeFilter").value;
+      const searchQuery = getSearchQuery();
 
       const all = combineHistory();
       const filtered = all.filter(entry => {
-        if (filter === "tasting") return entry._type === "tasting";
-        if (filter === "blind") return entry._type === "blind";
-        return true;
+        if (filter === "tasting" && entry._type !== "tasting") return false;
+        if (filter === "blind" && entry._type !== "blind") return false;
+
+        if (!searchQuery) return true;
+
+        const haystack = [
+          entry.whiskeyName,
+          entry.title,
+          entry.distillery,
+          entry.price,
+          entry.rating,
+          entry.nose,
+          entry.palate,
+          entry.finish,
+          entry.other,
+          entry._type === "blind" ? "blind" : "tasting"
+        ]
+          .filter(Boolean)
+          .join(" | ")
+          .toLowerCase();
+
+        return haystack.includes(searchQuery);
       });
 
       if (!filtered.length) {
         container.innerHTML = "";
         emptyState.style.display = "block";
         closeDetailPanel();
+        updateBulkDeleteState();
         return;
       }
 
@@ -838,21 +906,31 @@
             .join(" | ")
             .slice(0, 220);
 
+          const idAttr = entry.id ?? "";
+
           return `
-            <article class="history-item" data-type="${entry._type}" data-id="${entry.id ?? ""}">
-              <div>
-                <div class="history-main-line">
-                  <span class="history-whiskey">${whiskeyName || (isBlind ? "Blind Flight" : "Untitled Tasting")}</span>
-                </div>
-                <div class="history-meta">
-                  ${firstLine || secondaryLine ? (firstLine || secondaryLine) : ""}
-                </div>
-                <div class="history-notes">
-                  ${notesSnippet ? `<span class="small-label">Notes:</span> ${notesSnippet}${notesSnippet.length === 220 ? "…" : ""}` : ""}
-                </div>
-                <div class="history-pill-row">
-                  ${ratingText ? `<span class="pill pill-rating">${ratingText}</span>` : ""}
-                  <span class="pill pill-type">${isBlind ? "Blind Tasting" : "Tasting Sheet"}</span>
+            <article class="history-item" data-type="${entry._type}" data-id="${idAttr}">
+              <div class="history-left-inner">
+                <input
+                  type="checkbox"
+                  class="history-select"
+                  data-type="${entry._type}"
+                  data-id="${idAttr}"
+                />
+                <div>
+                  <div class="history-main-line">
+                    <span class="history-whiskey">${whiskeyName || (isBlind ? "Blind Flight" : "Untitled Tasting")}</span>
+                  </div>
+                  <div class="history-meta">
+                    ${firstLine || secondaryLine ? (firstLine || secondaryLine) : ""}
+                  </div>
+                  <div class="history-notes">
+                    ${notesSnippet ? `<span class="small-label">Notes:</span> ${notesSnippet}${notesSnippet.length === 220 ? "…" : ""}` : ""}
+                  </div>
+                  <div class="history-pill-row">
+                    ${ratingText ? `<span class="pill pill-rating">${ratingText}</span>` : ""}
+                    <span class="pill pill-type">${isBlind ? "Blind Tasting" : "Tasting Sheet"}</span>
+                  </div>
                 </div>
               </div>
               <div class="history-right">
@@ -867,6 +945,8 @@
           `;
         })
         .join("");
+
+      updateBulkDeleteState();
     }
 
     function findEntry(type, id) {
@@ -987,6 +1067,46 @@
       closeDetailPanel();
     }
 
+    function updateBulkDeleteState() {
+      const btn = document.getElementById("bulkDeleteBtn");
+      if (!btn) return;
+      const anyChecked = document.querySelector(".history-select:checked") !== null;
+      btn.disabled = !anyChecked;
+    }
+
+    function bulkDeleteSelected() {
+      const checkboxes = document.querySelectorAll(".history-select:checked");
+      if (!checkboxes.length) {
+        alert("No entries selected.");
+        return;
+      }
+
+      if (!confirm(`Delete ${checkboxes.length} selected entr${checkboxes.length === 1 ? "y" : "ies"} from your Whiskey Log Book? This cannot be undone.`)) {
+        return;
+      }
+
+      const tastingIds = new Set();
+      const blindIds = new Set();
+
+      checkboxes.forEach(cb => {
+        const type = cb.getAttribute("data-type");
+        const id = cb.getAttribute("data-id");
+        if (!id) return;
+        if (type === "blind") {
+          blindIds.add(String(id));
+        } else {
+          tastingIds.add(String(id));
+        }
+      });
+
+      tastingHistoryRaw = tastingHistoryRaw.filter(e => !tastingIds.has(String(e.id)));
+      blindHistoryRaw = blindHistoryRaw.filter(e => !blindIds.has(String(e.id)));
+
+      saveHistory();
+      renderHistory();
+      closeDetailPanel();
+    }
+
     function exportCsv() {
       const all = combineHistory();
       if (!all.length) {
@@ -1069,8 +1189,27 @@
     document.getElementById("closeDetailBtn").addEventListener("click", closeDetailPanel);
     document.getElementById("saveChangesBtn").addEventListener("click", saveDetailChanges);
     document.getElementById("deleteEntryBtn").addEventListener("click", deleteCurrentEntry);
+    document.getElementById("bulkDeleteBtn").addEventListener("click", bulkDeleteSelected);
+    document.getElementById("searchBtn").addEventListener("click", renderHistory);
+    document.getElementById("searchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        renderHistory();
+      }
+    });
+    document.getElementById("searchInput").addEventListener("input", () => {
+      // optional: live filtering as you type
+      renderHistory();
+    });
 
     document.getElementById("historyList").addEventListener("click", (e) => {
+      // If click is on checkbox, just toggle selection
+      if (e.target.classList.contains("history-select")) {
+        updateBulkDeleteState();
+        e.stopPropagation();
+        return;
+      }
+
       const item = e.target.closest(".history-item");
       if (!item) return;
       const type = item.getAttribute("data-type");
