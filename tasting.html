@@ -574,6 +574,15 @@
        <div class="button-row">
   <button type="button" id="printBtn">Print Sheet</button>
   <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
+  // Collect current flavor slider values into an object
+function getFlavorMetricsFromSliders() {
+  return sliderConfig.reduce(function (acc, id) {
+    const el = document.getElementById(id);
+    acc[id] = el ? Number(el.value) : 0;
+    return acc;
+  }, {});
+}
+
   <button type="button" id="saveBtn" class="btn-secondary">Save Tasting</button>
 </div>
 
@@ -829,34 +838,43 @@ const TASTING_HISTORY_KEY = "dags_tastings_v1";
 
 // Build an object with all the current tasting sheet data
 function getCurrentTastingEntry() {
-  const flavors = sliderConfig.reduce((acc, id) => {
-    const el = document.getElementById(id);
-    acc[id] = el ? Number(el.value) : 0;
-    return acc;
-  }, {});
+  const whiskeyName = (document.getElementById("whiskeyName")?.value || "").trim();
+  const distillery  = (document.getElementById("distillery")?.value || "").trim();
+  const age         = (document.getElementById("age")?.value || "").trim();
+  const proof       = (document.getElementById("proof")?.value || "").trim();
+  const batch       = (document.getElementById("batch")?.value || "").trim();
+  const price       = (document.getElementById("price")?.value || "").trim();
+
+  const nose  = (document.getElementById("nose")?.value || "").trim();
+  const palate= (document.getElementById("palate")?.value || "").trim();
+  const finish= (document.getElementById("finish")?.value || "").trim();
+  const other = (document.getElementById("other")?.value || "").trim();
+
+  const ratingSelect = document.getElementById("rating");
+  const ratingText   = ratingSelect ? ratingSelect.value : "";
+
+  // Grab flavor sliders (Smoky, Spicy, Herbal, etc.)
+  const flavorMetrics = getFlavorMetricsFromSliders();
 
   return {
     id: Date.now(),
     createdAt: new Date().toISOString(),
-
-    whiskeyName: document.getElementById("whiskeyName")?.value || "",
-    distillery: document.getElementById("distillery")?.value || "",
-    age: document.getElementById("age")?.value || "",
-    proof: document.getElementById("proof")?.value || "",
-    batch: document.getElementById("batch")?.value || "",
-    price: document.getElementById("price")?.value || "",
-
-    nose: document.getElementById("nose")?.value || "",
-    palate: document.getElementById("palate")?.value || "",
-    finish: document.getElementById("finish")?.value || "",
-    other: document.getElementById("other")?.value || "",
-
-    rating: document.getElementById("rating")?.value || "",
-
-    // all 0–5 slider values
-    flavors
+    title: whiskeyName || "Tasting Sheet",
+    rating: ratingText,
+    nose,
+    palate,
+    finish,
+    other,
+    whiskeyName,
+    distillery,
+    age,
+    proof,
+    batch,
+    price,
+    flavorMetrics   // 👈 this is the key new piece
   };
 }
+
 
 function loadTastingHistory() {
   try {
