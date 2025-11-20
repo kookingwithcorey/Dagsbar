@@ -650,7 +650,6 @@
           </select>
           <button type="button" id="deleteSelectedBtn" class="btn-danger">Delete Selected</button>
           <button type="button" id="exportCsvBtn" class="btn-secondary">Export CSV</button>
-          <button type="button" id="printBtn">Print</button>
         </div>
       </div>
 
@@ -744,6 +743,7 @@
 
               <div class="detail-actions">
                 <button type="button" id="saveChangesBtn">Save Changes</button>
+                <button type="button" id="printDetailBtn" class="btn-secondary">Print Entry</button>
                 <button type="button" id="deleteEntryBtn" class="btn-danger">Delete Entry</button>
               </div>
             </form>
@@ -1325,10 +1325,6 @@
       .addEventListener("click", exportCsv);
 
     document
-      .getElementById("printBtn")
-      .addEventListener("click", () => window.print());
-
-    document
       .getElementById("closeDetailBtn")
       .addEventListener("click", closeDetailPanel);
 
@@ -1343,6 +1339,10 @@
     document
       .getElementById("deleteSelectedBtn")
       .addEventListener("click", deleteSelected);
+
+    document
+      .getElementById("printDetailBtn")
+      .addEventListener("click", () => window.print());
 
     // Delegate click on history items to open detail, but ignore checkbox clicks
     document.getElementById("historyList").addEventListener("click", (e) => {
