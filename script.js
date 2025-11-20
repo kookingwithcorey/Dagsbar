@@ -17,6 +17,65 @@
 
     const sync = () => {
       valueSpan.textContent = slider.value;
+     // ---- Simple localStorage-based history ----
+const HISTORY_KEY = "dags_tastings_v1";
+
+// grab all current form + slider values as one object
+function getCurrentTastingEntry() {
+  const vals = sliderConfig.reduce((acc, id) => {
+    const el = document.getElementById(id);
+    acc[id] = el ? Number(el.value) : 0;
+    return acc;
+  }, {});
+
+  return {
+    id: Date.now(), // simple unique id
+    createdAt: new Date().toISOString(),
+    whiskeyName: document.getElementById("whiskeyName")?.value || "",
+    distillery: document.getElementById("distillery")?.value || "",
+    age: document.getElementById("age")?.value || "",
+    proof: document.getElementById("proof")?.value || "",
+    batch: document.getElementById("batch")?.value || "",
+    price: document.getElementById("price")?.value || "",
+    nose: document.getElementById("nose")?.value || "",
+    palate: document.getElementById("palate")?.value || "",
+    finish: document.getElementById("finish")?.value || "",
+    other: document.getElementById("other")?.value || "",
+    rating: document.getElementById("rating")?.value || "",
+    flavors: vals   // all your slider values
+  };
+}
+
+function loadTastingHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveTastingHistory(history) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+// handle "Save Tasting" click
+document.getElementById("saveBtn")?.addEventListener("click", () => {
+  const entry = getCurrentTastingEntry();
+
+  // basic guard: don't save empty sheets
+  if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
+    alert("Fill in at least the whiskey name, distillery, or rating before saving.");
+    return;
+  }
+
+  const history = loadTastingHistory();
+  history.push(entry);
+  saveTastingHistory(history);
+
+  alert("Tasting saved to your browser history!");
+  console.log("Current tasting history:", history);
+});
+
       buildSummary();
     };
     slider.addEventListener("input", sync);
