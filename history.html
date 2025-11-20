@@ -571,6 +571,7 @@
       opacity: 0.7;
     }
 
+    /* PRINT: only detail panel when body has print-entry-only */
     @media print {
       body {
         background: #ffffff;
@@ -581,31 +582,21 @@
         padding: 0.4in;
       }
 
-      header nav,
-      .controls,
-      .detail-panel {
+      body.print-entry-only header nav,
+      body.print-entry-only .controls,
+      body.print-entry-only .history-section-title,
+      body.print-entry-only #historyEmpty,
+      body.print-entry-only .history-layout > div:first-child,
+      body.print-entry-only footer {
         display: none !important;
       }
 
-      .card {
-        box-shadow: none;
+      body.print-entry-only .detail-panel {
+        display: block !important;
         border-radius: 0;
+        box-shadow: none;
         background: #ffffff;
         border-color: #dddddd;
-      }
-
-      .card::before {
-        color: rgba(0, 0, 0, 0.04);
-      }
-
-      .history-item {
-        background: #ffffff;
-        border-color: #cccccc;
-        cursor: default;
-      }
-
-      footer {
-        color: #333333 !important;
       }
     }
   </style>
@@ -774,9 +765,14 @@
       "floral"
     ];
 
-    function drawHistoryFlavorChart(flavorMetrics) {
+    function drawHistoryFlavorChart(flavorMetricsRaw) {
       const svg = document.getElementById("historyFlavorChart");
       if (!svg) return;
+
+      // Accept flavors under different keys just in case
+      const flavorMetrics =
+        flavorMetricsRaw ||
+        {} ;
 
       const width = 600;
       const height = 200;
@@ -792,7 +788,9 @@
         const x = (i / (axisCount - 1)) * width;
         const id = historySliderConfig[i];
         const value =
-          flavorMetrics && flavorMetrics[id] != null ? Number(flavorMetrics[id]) : 0;
+          flavorMetrics && flavorMetrics[id] != null
+            ? Number(flavorMetrics[id])
+            : 0;
         const ratio = Math.max(0, Math.min(5, value)) / 5;
         const y = yBase - ratio * usableHeight;
         points.push({ x, y });
@@ -1102,13 +1100,15 @@
 
       // Tasting flavor chart (only if we have flavor data)
       const chartWrapper = document.getElementById("historyFlavorChartWrapper");
-      if (
-        type === "tasting" &&
-        entry.flavors &&
-        Object.keys(entry.flavors).length
-      ) {
+      const flavorsData =
+        entry.flavors ||
+        entry.flavorMetrics ||
+        entry.flavorProfile ||
+        null;
+
+      if (type === "tasting" && flavorsData && Object.keys(flavorsData).length) {
         chartWrapper.style.display = "block";
-        drawHistoryFlavorChart(entry.flavors);
+        drawHistoryFlavorChart(flavorsData);
       } else {
         chartWrapper.style.display = "none";
         drawHistoryFlavorChart({}); // clear
@@ -1308,6 +1308,21 @@
       URL.revokeObjectURL(url);
     }
 
+    // --- Print-entry-only helpers ---
+    let entryPrintMode = false;
+
+    function enableEntryPrintMode() {
+      entryPrintMode = true;
+      document.body.classList.add("print-entry-only");
+    }
+
+    function disableEntryPrintMode() {
+      entryPrintMode = false;
+      document.body.classList.remove("print-entry-only");
+    }
+
+    window.addEventListener("afterprint", disableEntryPrintMode);
+
     /* --- Event wiring --- */
     document
       .getElementById("typeFilter")
@@ -1340,9 +1355,21 @@
       .getElementById("deleteSelectedBtn")
       .addEventListener("click", deleteSelected);
 
-    document
-      .getElementById("printDetailBtn")
-      .addEventListener("click", () => window.print());
+    const printDetailBtn = document.getElementById("printDetailBtn");
+    if (printDetailBtn) {
+      printDetailBtn.addEventListener("click", () => {
+        if (!currentDetail) {
+          alert("Select an entry in the list first.");
+          return;
+        }
+        enableEntryPrintMode();
+        window.print();
+        // fallback in case afterprint doesn't fire
+        setTimeout(() => {
+          if (entryPrintMode) disableEntryPrintMode();
+        }, 1000);
+      });
+    }
 
     // Delegate click on history items to open detail, but ignore checkbox clicks
     document.getElementById("historyList").addEventListener("click", (e) => {
