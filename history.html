@@ -572,33 +572,68 @@
     }
 
     /* PRINT: only detail panel when body has print-entry-only */
-    @media print {
-      body {
-        background: #ffffff;
-      }
+   @media print {
+  @page {
+    margin: 0.4in;
+  }
 
-      .page {
-        max-width: 100%;
-        padding: 0.4in;
-      }
+  body {
+    background: #ffffff;
+    font-size: 11px;
+  }
 
-      body.print-entry-only header nav,
-      body.print-entry-only .controls,
-      body.print-entry-only .history-section-title,
-      body.print-entry-only #historyEmpty,
-      body.print-entry-only .history-layout > div:first-child,
-      body.print-entry-only footer {
-        display: none !important;
-      }
+  .page {
+    max-width: 100%;
+    padding: 0.2in 0.3in;
+  }
 
-      body.print-entry-only .detail-panel {
-        display: block !important;
-        border-radius: 0;
-        box-shadow: none;
-        background: #ffffff;
-        border-color: #dddddd;
-      }
-    }
+  /* ENTRY-ONLY PRINT:
+     On print, when we add .print-entry-only to <body>,
+     hide literally everything, then turn the detail panel back on. */
+  body.print-entry-only * {
+    display: none !important;
+  }
+
+  body.print-entry-only #detailPanel,
+  body.print-entry-only #detailPanel * {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  body.print-entry-only #detailPanel {
+    position: static !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    border: 1px solid #cccccc !important;
+    padding: 8px 4px 4px !important;
+    width: 100% !important;
+  }
+
+  body.print-entry-only .detail-row label {
+    font-size: 10px;
+  }
+
+  body.print-entry-only .detail-row input,
+  body.print-entry-only .detail-row textarea {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  /* keep textareas small enough to stay on one page */
+  body.print-entry-only .detail-row textarea {
+    min-height: 32px;
+  }
+
+  body.print-entry-only #historyFlavorChartWrapper svg {
+    height: 120px;
+  }
+
+  /* hide buttons on the printout */
+  body.print-entry-only .detail-actions button {
+    display: none !important;
+  }
+}
   </style>
 </head>
 <body>
