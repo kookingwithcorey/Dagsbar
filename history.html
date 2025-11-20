@@ -5,31 +5,6 @@
   <title>DAGS | Whiskey Log Book</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Line-chart styles for tasting flavor profile in history detail */
-    #historyFlavorChartWrapper .profile-line {
-      fill: none;
-      stroke: #ff5f3b;
-      stroke-width: 4;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    #historyFlavorChartWrapper .profile-guide {
-      stroke: rgba(255, 255, 255, 0.18);
-      stroke-width: 1;
-      stroke-dasharray: 3 3;
-    }
-
-    #historyFlavorChartWrapper .profile-tick {
-      stroke: rgba(255, 255, 255, 0.6);
-      stroke-width: 1.4;
-    }
-
-    #historyFlavorChartWrapper .profile-point {
-      r: 4;
-      fill: #ff5f3b;
-    }
-
     :root {
       --bg: #050608;
       --bg-alt: #11141a;
@@ -70,6 +45,7 @@
       align-items: center;
       margin-bottom: 24px;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .brand {
@@ -205,14 +181,6 @@
       color: #ff9b9b;
     }
 
-    button:disabled,
-    .btn-danger:disabled {
-      opacity: 0.4;
-      cursor: default;
-      box-shadow: none;
-      transform: none;
-    }
-
     select.filter-select {
       background: rgba(255, 255, 255, 0.02);
       border-radius: 999px;
@@ -229,18 +197,24 @@
     }
 
     .search-input {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.03);
       border-radius: 999px;
       border: 1px solid var(--border);
       padding: 6px 12px;
       font-size: 0.85rem;
       color: var(--text);
       outline: none;
-      min-width: 160px;
+      min-width: 190px;
     }
 
     .search-input::placeholder {
       color: var(--muted);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.28);
+      background: rgba(0, 0, 0, 0.75);
     }
 
     .history-section-title {
@@ -283,14 +257,15 @@
     .history-item {
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 8px 10px;
+      padding: 10px 12px;
       background: rgba(0, 0, 0, 0.45);
       display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
-      column-gap: 16px;
+      grid-template-columns: auto minmax(0, 2fr) minmax(0, 1.4fr);
+      column-gap: 12px;
       row-gap: 6px;
       font-size: 0.85rem;
       cursor: pointer;
+      align-items: flex-start;
     }
 
     .history-item:hover {
@@ -300,19 +275,8 @@
 
     @media (max-width: 720px) {
       .history-item {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: auto minmax(0, 1fr);
       }
-    }
-
-    .history-left-inner {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .history-select {
-      margin-top: 4px;
-      cursor: pointer;
     }
 
     .history-main-line {
@@ -364,6 +328,13 @@
       color: #9de5ce;
     }
 
+    /* Blind tasting pill = purple */
+    .history-item[data-type="blind"] .pill-type {
+      border-color: rgba(168, 85, 247, 0.85);
+      color: #e9d5ff;
+      background: rgba(76, 29, 149, 0.22);
+    }
+
     .history-right {
       text-align: right;
       display: flex;
@@ -390,11 +361,44 @@
       margin-bottom: 2px;
     }
 
-    .section-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: var(--muted);
+    /* iOS-style selector for each history entry */
+    .history-select-wrap {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 3px;
+    }
+
+    .history-select {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: transparent;
+      margin-right: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      outline: none;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .history-select:checked {
+      border-color: #34c759;
+      background: #34c759;
+      box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.35);
+    }
+
+    .history-select:checked::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 999px;
+      background: #ffffff;
     }
 
     /* Detail panel */
@@ -482,6 +486,75 @@
       line-height: 1.4;
     }
 
+    /* Flavor chart inside detail panel (from tasting sheet) */
+    #historyFlavorChartWrapper {
+      margin-top: 12px;
+      display: none;
+    }
+
+    #historyFlavorChartWrapper .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #a3acb9;
+      margin-bottom: 4px;
+    }
+
+    #historyFlavorChartWrapper .flavor-chart {
+      position: relative;
+      margin: 4px -4px 10px;
+      padding: 0 4px 24px;
+      overflow: hidden;
+    }
+
+    #historyFlavorChartWrapper svg {
+      width: 100%;
+      height: 150px;
+      display: block;
+    }
+
+    #historyFlavorChartWrapper .flavor-chart-labels {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: #a3acb9;
+      pointer-events: none;
+    }
+
+    #historyFlavorChartWrapper .flavor-chart-labels span {
+      white-space: nowrap;
+    }
+
+    #historyFlavorChartWrapper .profile-line {
+      fill: none;
+      stroke: #ff5f3b;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #historyFlavorChartWrapper .profile-guide {
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 1;
+      stroke-dasharray: 3 3;
+    }
+
+    #historyFlavorChartWrapper .profile-tick {
+      stroke: rgba(255, 255, 255, 0.6);
+      stroke-width: 1.4;
+    }
+
+    #historyFlavorChartWrapper .profile-point {
+      r: 4;
+      fill: #ff5f3b;
+    }
+
     footer {
       margin-top: 14px;
       text-align: center;
@@ -552,23 +625,22 @@
           <div class="card-title">Whiskey Log Book</div>
           <div class="card-subtitle">
             Every time you save a tasting or blind flight, it’s stored in your browser.
-            Click any entry to view details, edit your notes, or clean up duplicates.
+            Search, filter, click any entry to view details, edit notes, or clean up duplicates.
           </div>
         </div>
         <div class="controls">
           <input
             id="searchInput"
-            type="text"
             class="search-input"
+            type="text"
             placeholder="Search whiskey, notes..."
           />
-          <button type="button" id="searchBtn" class="btn-secondary">Search</button>
           <select id="typeFilter" class="filter-select">
             <option value="all">All Entries</option>
             <option value="tasting">Tasting Sheets Only</option>
             <option value="blind">Blind Tastings Only</option>
           </select>
-          <button type="button" id="bulkDeleteBtn" class="btn-danger" disabled>Delete Selected</button>
+          <button type="button" id="deleteSelectedBtn" class="btn-secondary">Delete Selected</button>
           <button type="button" id="exportCsvBtn" class="btn-secondary">Export CSV</button>
           <button type="button" id="printBtn">Print</button>
         </div>
@@ -640,14 +712,12 @@
                 <div id="blindBreakdown" class="blind-breakdown"></div>
               </div>
 
-              <!-- Flavor chart for tasting entries -->
-              <div id="historyFlavorChartWrapper" style="margin-top: 12px; display:none;">
-                <div class="section-title" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.13em; color:#a3acb9; margin-bottom:4px;">
-                  Flavor Profile (from Tasting Sheet)
-                </div>
-                <div class="flavor-chart" style="position:relative; margin:4px -4px 10px; padding:0 4px 24px; overflow:hidden;">
+              <!-- Flavor chart from tasting sheet -->
+              <div id="historyFlavorChartWrapper">
+                <div class="section-title">Flavor Profile (from Tasting Sheet)</div>
+                <div class="flavor-chart">
                   <svg id="historyFlavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
-                  <div class="flavor-chart-labels" style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.11em; color:#a3acb9; pointer-events:none;">
+                  <div class="flavor-chart-labels">
                     <span>Smoky</span>
                     <span>Spicy</span>
                     <span>Herbal</span>
@@ -680,7 +750,14 @@
   </div>
 
   <script>
-    /* Axis order matches tasting.html sliders */
+    const TASTING_HISTORY_KEY = "dags_tastings_v1";
+    const BLIND_HISTORY_KEY = "dags_blind_tastings_v1";
+
+    let tastingHistoryRaw = [];
+    let blindHistoryRaw = [];
+    let currentDetail = null; // { type: "tasting" | "blind", id: string }
+    let searchQuery = "";
+
     const historySliderConfig = [
       "smoky",
       "spicy",
@@ -697,8 +774,15 @@
     ];
 
     function drawHistoryFlavorChart(flavorMetrics) {
+      const wrapper = document.getElementById("historyFlavorChartWrapper");
       const svg = document.getElementById("historyFlavorChart");
-      if (!svg) return;
+      if (!wrapper || !svg) return;
+
+      if (!flavorMetrics) {
+        wrapper.style.display = "none";
+        svg.innerHTML = "";
+        return;
+      }
 
       const width = 600;
       const height = 200;
@@ -713,7 +797,8 @@
       for (let i = 0; i < axisCount; i++) {
         const x = (i / (axisCount - 1)) * width;
         const id = historySliderConfig[i];
-        const value = flavorMetrics && flavorMetrics[id] != null ? flavorMetrics[id] : 0; // 0–5
+        const rawVal = flavorMetrics[id];
+        const value = rawVal != null ? Number(rawVal) : 0;
         const ratio = Math.max(0, Math.min(5, value)) / 5;
         const y = yBase - ratio * usableHeight;
         points.push({ x, y });
@@ -724,20 +809,23 @@
         .join(" ");
 
       const guides = points
-        .map((p) =>
-          `<line class="profile-guide" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${p.y}"></line>`
+        .map(
+          (p) =>
+            `<line class="profile-guide" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${p.y}"></line>`
         )
         .join("");
 
       const ticks = points
-        .map((p) =>
-          `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${yBase + 6}"></line>`
+        .map(
+          (p) =>
+            `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${yBase + 6}"></line>`
         )
         .join("");
 
       const circles = points
-        .map((p) =>
-          `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
+        .map(
+          (p) =>
+            `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
         )
         .join("");
 
@@ -746,14 +834,9 @@
         guides +
         ticks +
         circles;
+
+      wrapper.style.display = "block";
     }
-
-    const TASTING_HISTORY_KEY = "dags_tastings_v1";
-    const BLIND_HISTORY_KEY = "dags_blind_tastings_v1";
-
-    let tastingHistoryRaw = [];
-    let blindHistoryRaw = [];
-    let currentDetail = null; // { type: "tasting" | "blind", id: string }
 
     function loadHistory(key) {
       try {
@@ -775,9 +858,13 @@
     }
 
     function combineHistory() {
-      const t = tastingHistoryRaw.map(e => ({ ...e, _type: "tasting" }));
-      const b = blindHistoryRaw.map(e => ({ ...e, _type: "blind" }));
+      const t = tastingHistoryRaw.map((e) => ({ ...e, _type: "tasting" }));
+      const b = blindHistoryRaw.map((e) => ({ ...e, _type: "blind" }));
       const all = [...t, ...b];
+
+      all.forEach((entry, idx) => {
+        if (!entry.id) entry.id = "e_" + (entry.createdAt || "") + "_" + idx;
+      });
 
       all.sort((a, b) => {
         const da = new Date(a.createdAt || 0).getTime();
@@ -802,8 +889,7 @@
     }
 
     function topFlavorPills(entry) {
-      // New tastings use flavorMetrics; older data might use flavors
-      const flavors = entry.flavorMetrics || entry.flavors || {};
+      const flavors = entry.flavors || {};
       const entries = Object.entries(flavors);
       if (!entries.length) return [];
 
@@ -825,60 +911,57 @@
       const sorted = entries
         .map(([id, val]) => ({ id, val: Number(val) || 0 }))
         .sort((a, b) => b.val - a.val)
-        .filter(item => item.val > 0);
+        .filter((item) => item.val > 0);
 
-      return sorted.slice(0, 3).map(item => labelMap[item.id] || item.id);
+      return sorted.slice(0, 3).map((item) => labelMap[item.id] || item.id);
     }
 
-    function getSearchQuery() {
-      const input = document.getElementById("searchInput");
-      return input ? input.value.toLowerCase().trim() : "";
+    function matchesSearch(entry, term) {
+      if (!term) return true;
+      const lower = term.toLowerCase();
+
+      const texts = [
+        entry.whiskeyName,
+        entry.title,
+        entry.distillery,
+        entry.price,
+        entry.rating,
+        entry.nose,
+        entry.palate,
+        entry.finish,
+        entry.other
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return texts.includes(lower);
     }
 
     function renderHistory() {
       const container = document.getElementById("historyList");
       const emptyState = document.getElementById("historyEmpty");
       const filter = document.getElementById("typeFilter").value;
-      const searchQuery = getSearchQuery();
 
       const all = combineHistory();
-      const filtered = all.filter(entry => {
+      const filtered = all.filter((entry) => {
         if (filter === "tasting" && entry._type !== "tasting") return false;
         if (filter === "blind" && entry._type !== "blind") return false;
-
-        if (!searchQuery) return true;
-
-        const haystack = [
-          entry.whiskeyName,
-          entry.title,
-          entry.distillery,
-          entry.price,
-          entry.rating,
-          entry.nose,
-          entry.palate,
-          entry.finish,
-          entry.other,
-          entry._type === "blind" ? "blind" : "tasting"
-        ]
-          .filter(Boolean)
-          .join(" | ")
-          .toLowerCase();
-
-        return haystack.includes(searchQuery);
+        if (!matchesSearch(entry, searchQuery)) return false;
+        return true;
       });
 
       if (!filtered.length) {
         container.innerHTML = "";
         emptyState.style.display = "block";
         closeDetailPanel();
-        updateBulkDeleteState();
         return;
       }
 
       emptyState.style.display = "none";
 
       container.innerHTML = filtered
-        .map(entry => {
+        .map((entry) => {
           const isBlind = entry._type === "blind";
 
           const whiskeyName = entry.whiskeyName || entry.title || "";
@@ -906,53 +989,58 @@
             .join(" | ")
             .slice(0, 220);
 
-          const idAttr = entry.id ?? "";
-
           return `
-            <article class="history-item" data-type="${entry._type}" data-id="${idAttr}">
-              <div class="history-left-inner">
+            <article class="history-item" data-type="${entry._type}" data-id="${entry.id}">
+              <div class="history-select-wrap">
                 <input
                   type="checkbox"
                   class="history-select"
-                  data-type="${entry._type}"
-                  data-id="${idAttr}"
+                  data-select-id="${entry.id}"
+                  data-select-type="${entry._type}"
                 />
-                <div>
-                  <div class="history-main-line">
-                    <span class="history-whiskey">${whiskeyName || (isBlind ? "Blind Flight" : "Untitled Tasting")}</span>
-                  </div>
-                  <div class="history-meta">
-                    ${firstLine || secondaryLine ? (firstLine || secondaryLine) : ""}
-                  </div>
-                  <div class="history-notes">
-                    ${notesSnippet ? `<span class="small-label">Notes:</span> ${notesSnippet}${notesSnippet.length === 220 ? "…" : ""}` : ""}
-                  </div>
-                  <div class="history-pill-row">
-                    ${ratingText ? `<span class="pill pill-rating">${ratingText}</span>` : ""}
-                    <span class="pill pill-type">${isBlind ? "Blind Tasting" : "Tasting Sheet"}</span>
-                  </div>
+              </div>
+              <div>
+                <div class="history-main-line">
+                  <span class="history-whiskey">${whiskeyName || (isBlind ? "Blind Flight" : "Untitled Tasting")}</span>
+                </div>
+                <div class="history-meta">
+                  ${firstLine || secondaryLine ? (firstLine || secondaryLine) : ""}
+                </div>
+                <div class="history-notes">
+                  ${
+                    notesSnippet
+                      ? `<span class="small-label">Notes:</span> ${notesSnippet}${
+                          notesSnippet.length === 220 ? "…" : ""
+                        }`
+                      : ""
+                  }
+                </div>
+                <div class="history-pill-row">
+                  ${ratingText ? `<span class="pill pill-rating">${ratingText}</span>` : ""}
+                  <span class="pill pill-type">${isBlind ? "Blind Tasting" : "Tasting Sheet"}</span>
                 </div>
               </div>
               <div class="history-right">
                 <div class="history-date">${created}</div>
-                ${flavorText ? `
-                  <div class="history-flavors">
-                    <div class="small-label">Top Flavors</div>
-                    <span>${flavorText}</span>
-                  </div>` : ""}
+                ${
+                  flavorText
+                    ? `<div class="history-flavors">
+                         <div class="small-label">Top Flavors</div>
+                         <span>${flavorText}</span>
+                       </div>`
+                    : ""
+                }
               </div>
             </article>
           `;
         })
         .join("");
-
-      updateBulkDeleteState();
     }
 
     function findEntry(type, id) {
       if (!id) return null;
       const arr = type === "blind" ? blindHistoryRaw : tastingHistoryRaw;
-      return arr.find(e => String(e.id) === String(id)) || null;
+      return arr.find((e) => String(e.id) === String(id)) || null;
     }
 
     function openDetailPanel(type, id) {
@@ -985,28 +1073,19 @@
         const raw = entry.other || "";
         const parts = raw
           .split("|")
-          .map(s => s.trim())
+          .map((s) => s.trim())
           .filter(Boolean);
         if (parts.length) {
-          blindDiv.innerHTML = parts.map(p => `<div>• ${p}</div>`).join("");
+          blindDiv.innerHTML = parts.map((p) => `<div>• ${p}</div>`).join("");
         } else {
           blindDiv.innerHTML = "<div>No bottle summary stored.</div>";
         }
         blindRow.style.display = "flex";
+        drawHistoryFlavorChart(null); // no chart for blind right now
       } else {
         blindRow.style.display = "none";
         blindDiv.innerHTML = "";
-      }
-
-      // Show flavor chart for tasting entries that have flavor metrics
-      const chartWrapper = document.getElementById("historyFlavorChartWrapper");
-      const flavorMetrics = entry.flavorMetrics || entry.flavors;
-
-      if (type === "tasting" && flavorMetrics && Object.keys(flavorMetrics).length) {
-        chartWrapper.style.display = "block";
-        drawHistoryFlavorChart(flavorMetrics);
-      } else {
-        chartWrapper.style.display = "none";
+        drawHistoryFlavorChart(entry.flavors || null);
       }
     }
 
@@ -1014,6 +1093,7 @@
       const panel = document.getElementById("detailPanel");
       panel.classList.remove("active");
       currentDetail = null;
+      drawHistoryFlavorChart(null);
     }
 
     function saveDetailChanges() {
@@ -1021,7 +1101,7 @@
 
       const { type, id } = currentDetail;
       const arr = type === "blind" ? blindHistoryRaw : tastingHistoryRaw;
-      const entry = arr.find(e => String(e.id) === String(id));
+      const entry = arr.find((e) => String(e.id) === String(id));
       if (!entry) return;
 
       const whiskey = document.getElementById("detailWhiskey").value.trim();
@@ -1055,7 +1135,7 @@
         return;
       }
 
-      const newArr = arr.filter(e => String(e.id) !== String(id));
+      const newArr = arr.filter((e) => String(e.id) !== String(id));
       if (type === "blind") {
         blindHistoryRaw = newArr;
       } else {
@@ -1067,40 +1147,41 @@
       closeDetailPanel();
     }
 
-    function updateBulkDeleteState() {
-      const btn = document.getElementById("bulkDeleteBtn");
-      if (!btn) return;
-      const anyChecked = document.querySelector(".history-select:checked") !== null;
-      btn.disabled = !anyChecked;
-    }
-
-    function bulkDeleteSelected() {
-      const checkboxes = document.querySelectorAll(".history-select:checked");
+    function deleteSelectedEntries() {
+      const checkboxes = Array.from(
+        document.querySelectorAll(".history-select:checked")
+      );
       if (!checkboxes.length) {
-        alert("No entries selected.");
+        alert("Select at least one entry to delete.");
         return;
       }
 
-      if (!confirm(`Delete ${checkboxes.length} selected entr${checkboxes.length === 1 ? "y" : "ies"} from your Whiskey Log Book? This cannot be undone.`)) {
+      if (
+        !confirm(
+          `Delete ${checkboxes.length} selected entr${
+            checkboxes.length === 1 ? "y" : "ies"
+          }? This cannot be undone.`
+        )
+      ) {
         return;
       }
 
-      const tastingIds = new Set();
-      const blindIds = new Set();
+      const idsToDeleteTasting = new Set();
+      const idsToDeleteBlind = new Set();
 
-      checkboxes.forEach(cb => {
-        const type = cb.getAttribute("data-type");
-        const id = cb.getAttribute("data-id");
-        if (!id) return;
-        if (type === "blind") {
-          blindIds.add(String(id));
-        } else {
-          tastingIds.add(String(id));
-        }
+      checkboxes.forEach((cb) => {
+        const id = cb.getAttribute("data-select-id");
+        const type = cb.getAttribute("data-select-type");
+        if (type === "blind") idsToDeleteBlind.add(id);
+        else idsToDeleteTasting.add(id);
       });
 
-      tastingHistoryRaw = tastingHistoryRaw.filter(e => !tastingIds.has(String(e.id)));
-      blindHistoryRaw = blindHistoryRaw.filter(e => !blindIds.has(String(e.id)));
+      tastingHistoryRaw = tastingHistoryRaw.filter(
+        (e) => !idsToDeleteTasting.has(String(e.id))
+      );
+      blindHistoryRaw = blindHistoryRaw.filter(
+        (e) => !idsToDeleteBlind.has(String(e.id))
+      );
 
       saveHistory();
       renderHistory();
@@ -1127,12 +1208,22 @@
         "Palate",
         "Finish",
         "Other",
-        "Smoky","Spicy","Herbal","Full","Rich","Sweet",
-        "Vanilla","Creamy","Oaky","Tart","Fruity","Floral"
+        "Smoky",
+        "Spicy",
+        "Herbal",
+        "Full",
+        "Rich",
+        "Sweet",
+        "Vanilla",
+        "Creamy",
+        "Oaky",
+        "Tart",
+        "Fruity",
+        "Floral"
       ];
 
-      const rows = all.map(entry => {
-        const f = entry.flavorMetrics || entry.flavors || {};
+      const rows = all.map((entry) => {
+        const f = entry.flavors || {};
         const row = [
           entry._type === "blind" ? "Blind" : "Tasting",
           entry.createdAt || "",
@@ -1160,13 +1251,15 @@
           f.floral ?? ""
         ];
 
-        return row.map(value => {
-          const str = String(value ?? "");
-          if (str.includes('"') || str.includes(",") || str.includes("\n")) {
-            return '"' + str.replace(/"/g, '""') + '"';
-          }
-          return str;
-        }).join(",");
+        return row
+          .map((value) => {
+            const str = String(value ?? "");
+            if (str.includes('"') || str.includes(",") || str.includes("\n")) {
+              return '"' + str.replace(/"/g, '""') + '"';
+            }
+            return str;
+          })
+          .join(",");
       });
 
       const csv = [header.join(","), ...rows].join("\n");
@@ -1182,34 +1275,28 @@
       URL.revokeObjectURL(url);
     }
 
-    // Events
+    // Event wiring
     document.getElementById("typeFilter").addEventListener("change", renderHistory);
     document.getElementById("exportCsvBtn").addEventListener("click", exportCsv);
     document.getElementById("printBtn").addEventListener("click", () => window.print());
     document.getElementById("closeDetailBtn").addEventListener("click", closeDetailPanel);
     document.getElementById("saveChangesBtn").addEventListener("click", saveDetailChanges);
     document.getElementById("deleteEntryBtn").addEventListener("click", deleteCurrentEntry);
-    document.getElementById("bulkDeleteBtn").addEventListener("click", bulkDeleteSelected);
-    document.getElementById("searchBtn").addEventListener("click", renderHistory);
-    document.getElementById("searchInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        renderHistory();
-      }
-    });
-    document.getElementById("searchInput").addEventListener("input", () => {
-      // optional: live filtering as you type
+    document
+      .getElementById("deleteSelectedBtn")
+      .addEventListener("click", deleteSelectedEntries);
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
       renderHistory();
     });
 
     document.getElementById("historyList").addEventListener("click", (e) => {
-      // If click is on checkbox, just toggle selection
-      if (e.target.classList.contains("history-select")) {
-        updateBulkDeleteState();
-        e.stopPropagation();
+      const checkbox = e.target.closest(".history-select");
+      if (checkbox) {
+        // Just toggling selection, don't open detail
         return;
       }
-
       const item = e.target.closest(".history-item");
       if (!item) return;
       const type = item.getAttribute("data-type");
@@ -1218,6 +1305,7 @@
       openDetailPanel(type, id);
     });
 
+    // Init
     initHistory();
     renderHistory();
   </script>
