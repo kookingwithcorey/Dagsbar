@@ -1015,7 +1015,79 @@
   <script>
     const bottles = ["A", "B", "C"];
     let currentIndex = 0;
+    // ----- BLIND FLIGHT HISTORY (LOCALSTORAGE) -----
+const BLIND_HISTORY_KEY = "dags_blind_tastings_v1";
 
+function loadBlindHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(BLIND_HISTORY_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveBlindHistory(history) {
+  localStorage.setItem(BLIND_HISTORY_KEY, JSON.stringify(history));
+}
+
+// Build a single history entry from the current blind flight
+function getCurrentBlindFlightEntry() {
+  // Reuse your scoring logic
+  const results = bottles.map((bottle) => {
+    const { scores, overall } = computeOverallForBottle(bottle);
+
+    const notesEl = document.querySelector(
+      `textarea[data-notes="${bottle}"]`
+    );
+    const notes = notesEl ? notesEl.value.trim() : "";
+
+    const nameInput = document.querySelector(
+      `input[data-bottle-name="${bottle}"]`
+    );
+    const name = nameInput ? nameInput.value.trim() : "";
+
+    return {
+      bottle,
+      name,
+      overall,
+      scores,
+      notes
+    };
+  });
+
+  // Find winner by overall score
+  const scored = results.filter(r => r.overall != null);
+  let winnerText = "";
+  if (scored.length) {
+    scored.sort((a, b) => b.overall - a.overall);
+    const w = scored[0];
+    const namePart = w.name ? ` – ${w.name}` : "";
+    winnerText = `Winner: Bottle ${w.bottle}${namePart} (${w.overall.toFixed(1)}/10)`;
+  }
+
+  // Compact summary line for the history page
+  const summary = results
+    .map((r) => {
+      const namePart = r.name ? ` – ${r.name}` : "";
+      const scorePart =
+        r.overall == null ? "no score" : `${r.overall.toFixed(1)}/10`;
+      return `Bottle ${r.bottle}${namePart}: ${scorePart}`;
+    })
+    .join(" | ");
+
+  return {
+    id: Date.now(),
+    createdAt: new Date().toISOString(),
+    // history.html will use title for blind entries
+    title: "Blind Flight",
+    rating: winnerText,      // shows up as rating pill in log
+    nose: "",                // you can expand later if you want
+    palate: "",
+    finish: "",
+    other: summary           // shows up in Notes snippet
+    // you could also store flavors here later if you want
+  };
+}
     const pills = Array.from(document.querySelectorAll(".pill"));
     const panels = Array.from(document.querySelectorAll(".bottle-panel"));
 
@@ -1407,6 +1479,26 @@
         block: "start"
       });
     });
+    // ----- SAVE FLIGHT BUTTON (ONLY BIND ONCE) -----
+if (!window.dagsBlindSaveBound) {
+  window.dagsBlindSaveBound = true;
+
+  document.getElementById("saveBtn")?.addEventListener("click", () => {
+    const entry = getCurrentBlindFlightEntry();
+
+    // Don't save a completely empty flight
+    if (!entry.rating && !entry.other) {
+      alert("Complete the flight and results before saving to the log.");
+      return;
+    }
+
+    const history = loadBlindHistory();
+    history.push(entry);
+    saveBlindHistory(history);
+
+    alert("Blind flight saved to your Whiskey Log Book!");
+  });
+}
   </script>
 </body>
 </html>
