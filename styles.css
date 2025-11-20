@@ -252,3 +252,52 @@ a:hover {
 .btn::after {
   display: none !important;
 }
+/* ---- FORCE 1-PAGE PRINT FOR TASTING + BLIND TASTING ---- */
+@media print {
+
+  /* Force printer page size + margins */
+  @page {
+    size: letter portrait;   /* Change to A4 if needed */
+    margin: 0.35in;
+  }
+
+  /* Full-page layout control */
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* The main card/page wrapper */
+  .page,
+  main.card {
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+
+    /* Slight scale to ensure everything fits on one page */
+    transform: scale(0.96);
+    transform-origin: top left;
+  }
+
+  /* Remove shadows and fancy effects for clean print */
+  .card {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Prevent all element breaks */
+  * {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Optional: hide nav + buttons when printing */
+  nav,
+  .button-row,
+  header {
+    display: none !important;
+  }
+}
