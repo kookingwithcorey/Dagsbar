@@ -233,7 +233,7 @@
       background: rgba(0, 0, 0, 0.75);
     }
 
-    /* Force dropdown to dark grey like other fields */
+    /* dropdown dark like others */
     select {
       background: #11141a;
       color: var(--text);
@@ -389,7 +389,7 @@
     .flavor-chart {
       position: relative;
       margin: 4px -4px 18px;
-      padding: 0 4px 26px;
+      padding: 0 4px 32px; /* a bit more bottom room for labels */
       overflow: hidden;
     }
 
@@ -438,10 +438,13 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 2px;
       display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 2px;
+      column-gap: 4px;
+      font-size: 0.64rem;
       text-transform: uppercase;
       letter-spacing: 0.11em;
       color: var(--muted);
@@ -451,9 +454,11 @@
 
     .flavor-chart-labels span {
       white-space: nowrap;
+      flex: 0 0 25%; /* 4 per row, 3 rows total */
+      text-align: center;
     }
 
-    /* Print styles – force one-page fit */
+    /* Print styles – one-page fit */
     @media print {
       @page {
         size: letter portrait;
@@ -559,7 +564,7 @@
     <main class="card">
       <div class="card-header">
         <div>
-          <div class="card-title">Bourbon Tasting Sheet</div>
+          <div class="card-title">Whiskey Tasting Sheet</div>
           <div class="card-subtitle">
             Fill this out live at the bar, then use your browser’s print button (or the one below) for a clean one-page print.
           </div>
@@ -586,17 +591,31 @@
               </div>
             </div>
 
+            <!-- Age + Distilled In -->
             <div class="field-group">
               <div class="field">
                 <label for="age">Age (Years)</label>
                 <input id="age" type="number" min="0" step="1" placeholder="e.g., 7" />
               </div>
               <div class="field">
-                <label for="proof">Proof</label>
-                <input id="proof" type="number" min="0" step="0.1" placeholder="e.g., 100" />
+                <label for="distilledIn">Distilled In</label>
+                <input id="distilledIn" type="text" placeholder="e.g., 2015" />
               </div>
             </div>
 
+            <!-- Proof + Mashbill -->
+            <div class="field-group">
+              <div class="field">
+                <label for="proof">Proof</label>
+                <input id="proof" type="number" min="0" step="0.1" placeholder="e.g., 100" />
+              </div>
+              <div class="field">
+                <label for="mashbill">Mashbill</label>
+                <input id="mashbill" type="text" placeholder="e.g., 75/21/4 corn/rye/malt" />
+              </div>
+            </div>
+
+            <!-- Barrel / Price -->
             <div class="field-group">
               <div class="field">
                 <label for="batch">Barrel / Batch</label>
@@ -804,7 +823,6 @@
       "floral"
     ];
 
-    // Sync slider values + summary
     sliderConfig.forEach(function (id) {
       const slider = document.getElementById(id);
       const valueSpan = document.getElementById(id + "Value");
@@ -838,63 +856,38 @@
         const value = vals[id] != null ? vals[id] : 0;
         const ratio = Math.max(0, Math.min(5, value)) / 5;
         const y = yBase - ratio * usableHeight;
-        points.push({ x: x, y: y });
+        points.push({ x, y });
       }
 
       const pathD = points
-        .map(function (p, i) {
-          return (i === 0 ? "M " : "L ") + p.x + " " + p.y;
-        })
+        .map((p, i) => (i === 0 ? "M " : "L ") + p.x + " " + p.y)
         .join(" ");
 
       const guides = points
-        .map(function (p) {
-          return (
-            '<line class="profile-guide" x1="' +
-            p.x +
-            '" y1="' +
-            yBase +
-            '" x2="' +
-            p.x +
-            '" y2="' +
-            p.y +
-            '"></line>'
-          );
-        })
+        .map(
+          (p) =>
+            `<line class="profile-guide" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${p.y}"></line>`
+        )
         .join("");
 
       const ticks = points
-        .map(function (p) {
-          return (
-            '<line class="profile-tick" x1="' +
-            p.x +
-            '" y1="' +
-            yBase +
-            '" x2="' +
-            p.x +
-            '" y2="' +
-            (yBase + 6) +
-            '"></line>'
-          );
-        })
+        .map(
+          (p) =>
+            `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${
+              yBase + 6
+            }"></line>`
+        )
         .join("");
 
       const circles = points
-        .map(function (p) {
-          return (
-            '<circle class="profile-point" cx="' +
-            p.x +
-            '" cy="' +
-            p.y +
-            '"></circle>'
-          );
-        })
+        .map(
+          (p) =>
+            `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
+        )
         .join("");
 
       svg.innerHTML =
-        '<path class="profile-line" d="' +
-        pathD +
-        '"></path>' +
+        `<path class="profile-line" d="${pathD}"></path>` +
         guides +
         ticks +
         circles;
@@ -919,9 +912,9 @@
         { id: "floral", label: "Floral" }
       ];
 
-      const sorted = profiles.slice().sort(function (a, b) {
-        return (vals[b.id] || 0) - (vals[a.id] || 0);
-      });
+      const sorted = profiles
+        .slice()
+        .sort((a, b) => (vals[b.id] || 0) - (vals[a.id] || 0));
 
       const topVal = vals[sorted[0].id] || 0;
       const secondVal = vals[sorted[1].id] || 0;
@@ -942,14 +935,13 @@
       const summaryEl = document.getElementById("summaryChips");
       if (!summaryEl) return;
 
-      const vals = sliderConfig.reduce(function (acc, id) {
+      const vals = sliderConfig.reduce((acc, id) => {
         const el = document.getElementById(id);
         acc[id] = el ? Number(el.value) : 0;
         return acc;
       }, {});
 
       const chips = [];
-
       if (vals.smoky >= 4) chips.push("Smoky");
       if (vals.spicy >= 4) chips.push("Spicy");
       if (vals.herbal >= 4) chips.push("Herbal");
@@ -964,16 +956,14 @@
       if (vals.floral >= 4) chips.push("Floral");
 
       summaryEl.innerHTML = chips
-        .map(function (c) {
-          return '<span class="chip">' + c + "</span>";
-        })
+        .map((c) => `<span class="chip">${c}</span>`)
         .join("");
 
       updateFlavorChart(vals);
       updateFlavorProfile(vals);
     }
 
-    // --- Local storage + Save to Whiskey Log Book ---
+    // --- Local storage integration ---
 
     const TASTING_HISTORY_KEY = "dags_tastings_v1";
 
@@ -991,7 +981,7 @@
     }
 
     function getFlavorMetricsFromSliders() {
-      return sliderConfig.reduce(function (acc, id) {
+      return sliderConfig.reduce((acc, id) => {
         const el = document.getElementById(id);
         acc[id] = el ? Number(el.value) : 0;
         return acc;
@@ -1008,7 +998,9 @@
         whiskeyName: document.getElementById("whiskeyName").value.trim(),
         distillery: document.getElementById("distillery").value.trim(),
         age: document.getElementById("age").value.trim(),
+        distilledIn: document.getElementById("distilledIn").value.trim(),
         proof: document.getElementById("proof").value.trim(),
+        mashbill: document.getElementById("mashbill").value.trim(),
         batch: document.getElementById("batch").value.trim(),
         price: document.getElementById("price").value.trim(),
         rating: ratingText,
@@ -1020,7 +1012,7 @@
       };
     }
 
-    document.getElementById("saveBtn")?.addEventListener("click", function () {
+    document.getElementById("saveBtn")?.addEventListener("click", () => {
       const entry = getCurrentTastingEntry();
 
       if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
@@ -1035,18 +1027,16 @@
       alert("Tasting saved to your Whiskey Log Book!");
     });
 
-    // Print button
-    document.getElementById("printBtn")?.addEventListener("click", function () {
+    document.getElementById("printBtn")?.addEventListener("click", () => {
       window.print();
     });
 
-    // Clear button
-    document.getElementById("clearBtn")?.addEventListener("click", function () {
+    document.getElementById("clearBtn")?.addEventListener("click", () => {
       const form = document.getElementById("tastingForm");
       if (!form) return;
       form.reset();
 
-      sliderConfig.forEach(function (id) {
+      sliderConfig.forEach((id) => {
         const slider = document.getElementById(id);
         const valueSpan = document.getElementById(id + "Value");
         if (slider && valueSpan) {
@@ -1058,7 +1048,6 @@
       buildSummary();
     });
 
-    // Initial draw
     buildSummary();
   </script>
 </body>
