@@ -435,29 +435,24 @@
     }
 
     .flavor-chart-labels {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 2px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      row-gap: 2px;
-      column-gap: 4px;
-      font-size: 0.64rem;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--muted);
-      pointer-events: none;
-      z-index: 2;
-    }
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 0.62rem;          /* smaller so all 12 fit */
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--muted);
+  pointer-events: none;
+  padding: 0 4px 0 4px;        /* tiny side padding */
+}
 
-    .flavor-chart-labels span {
-      white-space: nowrap;
-      flex: 0 0 25%; /* 4 per row, 3 rows total */
-      text-align: center;
-    }
-
+.flavor-chart-labels span {
+  white-space: nowrap;         /* keep each flavor on one line */
+}
     /* Print styles – one-page fit */
     @media print {
       @page {
@@ -683,20 +678,20 @@
 
               <div class="flavor-chart">
                 <svg id="flavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
-                <div class="flavor-chart-labels">
-                  <span>Smoky</span>
-                  <span>Spicy</span>
-                  <span>Herbal</span>
-                  <span>Full</span>
-                  <span>Rich</span>
-                  <span>Sweet</span>
-                  <span>Vanilla</span>
-                  <span>Creamy</span>
-                  <span>Oaky</span>
-                  <span>Tart</span>
-                  <span>Fruity</span>
-                  <span>Floral</span>
-                </div>
+               <div class="flavor-chart-labels">
+  <span>Smoky</span>
+  <span>Spicy</span>
+  <span>Herbal</span>
+  <span>Full</span>
+  <span>Rich</span>
+  <span>Sweet</span>
+  <span>Vanilla</span>
+  <span>Creamy</span>
+  <span>Oaky</span>
+  <span>Tart</span>
+  <span>Fruity</span>
+  <span>Floral</span>
+</div>
               </div>
 
               <div class="section-title">Flavor Metrics (0–5)</div>
