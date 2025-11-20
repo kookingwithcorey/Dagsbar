@@ -5,6 +5,31 @@
   <title>DAGS | Whiskey Log Book</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* Line-chart styles for tasting flavor profile in history detail */
+    #historyFlavorChartWrapper .profile-line {
+      fill: none;
+      stroke: #ff5f3b;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #historyFlavorChartWrapper .profile-guide {
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 1;
+      stroke-dasharray: 3 3;
+    }
+
+    #historyFlavorChartWrapper .profile-tick {
+      stroke: rgba(255, 255, 255, 0.6);
+      stroke-width: 1.4;
+    }
+
+    #historyFlavorChartWrapper .profile-point {
+      r: 4;
+      fill: #ff5f3b;
+    }
+
     :root {
       --bg: #050608;
       --bg-alt: #11141a;
@@ -331,6 +356,13 @@
       margin-bottom: 2px;
     }
 
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+    }
+
     /* Detail panel */
     .detail-panel {
       border-radius: 18px;
@@ -566,6 +598,30 @@
                 <div id="blindBreakdown" class="blind-breakdown"></div>
               </div>
 
+              <!-- Flavor chart for tasting entries -->
+              <div id="historyFlavorChartWrapper" style="margin-top: 12px; display:none;">
+                <div class="section-title" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.13em; color:#a3acb9; margin-bottom:4px;">
+                  Flavor Profile (from Tasting Sheet)
+                </div>
+                <div class="flavor-chart" style="position:relative; margin:4px -4px 10px; padding:0 4px 24px; overflow:hidden;">
+                  <svg id="historyFlavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+                  <div class="flavor-chart-labels" style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.11em; color:#a3acb9; pointer-events:none;">
+                    <span>Smoky</span>
+                    <span>Spicy</span>
+                    <span>Herbal</span>
+                    <span>Full</span>
+                    <span>Rich</span>
+                    <span>Sweet</span>
+                    <span>Vanilla</span>
+                    <span>Creamy</span>
+                    <span>Oaky</span>
+                    <span>Tart</span>
+                    <span>Fruity</span>
+                    <span>Floral</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="detail-actions">
                 <button type="button" id="saveChangesBtn">Save Changes</button>
                 <button type="button" id="deleteEntryBtn" class="btn-danger">Delete Entry</button>
@@ -582,6 +638,74 @@
   </div>
 
   <script>
+    /* Axis order matches tasting.html sliders */
+    const historySliderConfig = [
+      "smoky",
+      "spicy",
+      "herbal",
+      "fullBody",
+      "rich",
+      "sweet",
+      "vanilla",
+      "creamy",
+      "oaky",
+      "tart",
+      "fruity",
+      "floral"
+    ];
+
+    function drawHistoryFlavorChart(flavorMetrics) {
+      const svg = document.getElementById("historyFlavorChart");
+      if (!svg) return;
+
+      const width = 600;
+      const height = 200;
+      const topPad = 25;
+      const bottomPad = 40;
+      const usableHeight = height - topPad - bottomPad;
+      const axisCount = historySliderConfig.length;
+      const yBase = height - bottomPad;
+
+      const points = [];
+
+      for (let i = 0; i < axisCount; i++) {
+        const x = (i / (axisCount - 1)) * width;
+        const id = historySliderConfig[i];
+        const value = flavorMetrics && flavorMetrics[id] != null ? flavorMetrics[id] : 0; // 0–5
+        const ratio = Math.max(0, Math.min(5, value)) / 5;
+        const y = yBase - ratio * usableHeight;
+        points.push({ x, y });
+      }
+
+      const pathD = points
+        .map((p, i) => (i === 0 ? "M " : "L ") + p.x + " " + p.y)
+        .join(" ");
+
+      const guides = points
+        .map((p) =>
+          `<line class="profile-guide" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${p.y}"></line>`
+        )
+        .join("");
+
+      const ticks = points
+        .map((p) =>
+          `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${yBase + 6}"></line>`
+        )
+        .join("");
+
+      const circles = points
+        .map((p) =>
+          `<circle class="profile-point" cx="${p.x}" cy="${p.y}"></circle>`
+        )
+        .join("");
+
+      svg.innerHTML =
+        `<path class="profile-line" d="${pathD}"></path>` +
+        guides +
+        ticks +
+        circles;
+    }
+
     const TASTING_HISTORY_KEY = "dags_tastings_v1";
     const BLIND_HISTORY_KEY = "dags_blind_tastings_v1";
 
@@ -636,7 +760,8 @@
     }
 
     function topFlavorPills(entry) {
-      const flavors = entry.flavors || {};
+      // New tastings use flavorMetrics; older data might use flavors
+      const flavors = entry.flavorMetrics || entry.flavors || {};
       const entries = Object.entries(flavors);
       if (!entries.length) return [];
 
@@ -792,6 +917,17 @@
         blindRow.style.display = "none";
         blindDiv.innerHTML = "";
       }
+
+      // Show flavor chart for tasting entries that have flavor metrics
+      const chartWrapper = document.getElementById("historyFlavorChartWrapper");
+      const flavorMetrics = entry.flavorMetrics || entry.flavors;
+
+      if (type === "tasting" && flavorMetrics && Object.keys(flavorMetrics).length) {
+        chartWrapper.style.display = "block";
+        drawHistoryFlavorChart(flavorMetrics);
+      } else {
+        chartWrapper.style.display = "none";
+      }
     }
 
     function closeDetailPanel() {
@@ -876,7 +1012,7 @@
       ];
 
       const rows = all.map(entry => {
-        const f = entry.flavors || {};
+        const f = entry.flavorMetrics || entry.flavors || {};
         const row = [
           entry._type === "blind" ? "Blind" : "Tasting",
           entry.createdAt || "",
