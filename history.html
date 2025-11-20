@@ -323,10 +323,6 @@
       color: var(--muted);
     }
 
-    .history-flavors span {
-      opacity: 0.9;
-    }
-
     .small-label {
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -335,7 +331,7 @@
       margin-bottom: 2px;
     }
 
-    /* Detail panel (right side) */
+    /* Detail panel */
     .detail-panel {
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -414,6 +410,12 @@
       margin-top: 8px;
     }
 
+    .blind-breakdown {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
     footer {
       margin-top: 14px;
       text-align: center;
@@ -433,7 +435,8 @@
       }
 
       header nav,
-      .controls {
+      .controls,
+      .detail-panel {
         display: none !important;
       }
 
@@ -452,10 +455,6 @@
         background: #ffffff;
         border-color: #cccccc;
         cursor: default;
-      }
-
-      .detail-panel {
-        display: none !important;
       }
 
       footer {
@@ -559,6 +558,12 @@
               <div class="detail-row">
                 <label>Other Notes</label>
                 <textarea id="detailOther"></textarea>
+              </div>
+
+              <!-- Blind-only breakdown -->
+              <div class="detail-row" id="blindBreakdownRow" style="display:none;">
+                <label>Blind Bottles Summary</label>
+                <div id="blindBreakdown" class="blind-breakdown"></div>
               </div>
 
               <div class="detail-actions">
@@ -673,7 +678,6 @@
       if (!filtered.length) {
         container.innerHTML = "";
         emptyState.style.display = "block";
-        // also hide detail panel if nothing
         closeDetailPanel();
         return;
       }
@@ -768,6 +772,26 @@
       document.getElementById("detailPalate").value = entry.palate || "";
       document.getElementById("detailFinish").value = entry.finish || "";
       document.getElementById("detailOther").value = entry.other || "";
+
+      // Blind breakdown view
+      const blindRow = document.getElementById("blindBreakdownRow");
+      const blindDiv = document.getElementById("blindBreakdown");
+      if (type === "blind") {
+        const raw = entry.other || "";
+        const parts = raw
+          .split("|")
+          .map(s => s.trim())
+          .filter(Boolean);
+        if (parts.length) {
+          blindDiv.innerHTML = parts.map(p => `<div>• ${p}</div>`).join("");
+        } else {
+          blindDiv.innerHTML = "<div>No bottle summary stored.</div>";
+        }
+        blindRow.style.display = "flex";
+      } else {
+        blindRow.style.display = "none";
+        blindDiv.innerHTML = "";
+      }
     }
 
     function closeDetailPanel() {
@@ -786,7 +810,6 @@
 
       const whiskey = document.getElementById("detailWhiskey").value.trim();
 
-      // For tastings, store in whiskeyName; for blind, store in title
       if (type === "blind") {
         entry.title = whiskey || entry.title || "Blind Flight";
       } else {
@@ -803,7 +826,6 @@
 
       saveHistory();
       renderHistory();
-      // keep panel open but updated
       openDetailPanel(type, id);
     }
 
@@ -904,16 +926,14 @@
       URL.revokeObjectURL(url);
     }
 
-    // ---- Event wiring ----
+    // Events
     document.getElementById("typeFilter").addEventListener("change", renderHistory);
     document.getElementById("exportCsvBtn").addEventListener("click", exportCsv);
     document.getElementById("printBtn").addEventListener("click", () => window.print());
-
     document.getElementById("closeDetailBtn").addEventListener("click", closeDetailPanel);
     document.getElementById("saveChangesBtn").addEventListener("click", saveDetailChanges);
     document.getElementById("deleteEntryBtn").addEventListener("click", deleteCurrentEntry);
 
-    // click-to-open on list
     document.getElementById("historyList").addEventListener("click", (e) => {
       const item = e.target.closest(".history-item");
       if (!item) return;
@@ -923,7 +943,6 @@
       openDetailPanel(type, id);
     });
 
-    // Initial load + render
     initHistory();
     renderHistory();
   </script>
