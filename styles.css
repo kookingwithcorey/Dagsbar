@@ -301,3 +301,10 @@ a:hover {
     display: none !important;
   }
 }
+/* Push the RIGHT column down in Bourbon only */
+.push-right-col {
+  break-before: column;   /* forces element to appear at top of column 2 */
+  height: 2rem;           /* adjust this number to raise/lower the right column */
+  display: block;
+}
+
