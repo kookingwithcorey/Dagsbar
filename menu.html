@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -57,161 +57,359 @@
       .columns { column-count: 1; }
       body { margin: 0.8rem 0.8rem 1.6rem; }
     }
+
+    /* Logo + search styling */
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0.5rem 0 0.5rem;
+    }
+    .logo-wrap img {
+      max-height: 80px;
+      width: auto;
+      display: block;
+    }
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 0.5rem 0 1rem;
+    }
+    .search-bar input {
+      width: 100%;
+      max-width: 420px;
+      padding: 0.45rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(5, 6, 8, 0.9);
+      color: #f7f7f7;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .search-bar input::placeholder {
+      color: #a3acb9;
+    }
+    .search-bar input:focus {
+      border-color: #0f8b6b;
+      box-shadow: 0 0 0 1px rgba(15,139,107,0.4);
+    }
   </style>
 </head>
 <body>
   <a href="index.html" style="font-size:0.8rem;">← Back to Home</a>
+
+  <!-- DAGS logo -->
+  <div class="logo-wrap">
+    <img src="dags-new-logo.png" alt="DAGS Bar Logo">
+  </div>
+
   <h1>DAGS Bar Whiskey Library</h1>
   <div class="meta">
     Full bottle list • Concept bourbon lounge • Portsmouth, New Hampshire
   </div>
 
-  <div class="columns">
-    <!-- BOURBON -->
+  <!-- Search bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      id="menuSearch"
+      placeholder="Search the DAGS whiskey library..."
+      aria-label="Search whiskey menu"
+    />
+  </div>
+
+  <div class="columns" id="menuColumns">
     <h2>Bourbon</h2>
-
-    <h3>Elite & Unicorn</h3>
     <ul>
-      <li>George T. Stagg Bourbon (Fall 2019)</li>
-      <li>Old Rip Van Winkle 10 Year</li>
-      <li>Pappy Van Winkle 12 / 15 / 20 / 23</li>
-      <li>Old Fitzgerald 9 & 11 Year (Decanter)</li>
-      <li>Old Forester Birthday Bourbon 2018</li>
-      <li>Russell’s Reserve 2003 & 13 Year</li>
-      <li>Elijah Craig 18 Year</li>
-      <li>Sam Houston 15</li>
-      <li>Rhetoric 24 & 25 Year</li>
-      <li>Blood Oath Bourbon Pact No. 7</li>
-      <li>Parker’s Heritage (barrel finish, heavy char)</li>
-      <li>Elmer T. Lee Sour Mash</li>
-      <li>Little Book Chapters 1 & 5</li>
-      <li>Stagg Jr. (2016, 2019, 2020, 2021)</li>
+      <li>13th Century Barrel Proof Toasted Barrel Bourbon (13th Century Whiskey, 140 proof)</li>
+      <li>13th Century Bourbon Reserve 2024 (13th Century Whiskey, 141.4 proof)</li>
+      <li>13th Colony 113 Straight Bourbon Finished with Maple Wood Spirals (Thirteenth Colony Distilleries, 113 proof)</li>
+      <li>13th Colony Cask Strength Bourbon (Thirteenth Colony Distilleries)</li>
+      <li>13th Colony Southern Bourbon Whiskey (Thirteenth Colony Distilleries, 95 proof)</li>
+      <li>1792 'Bottled In Bond' Bourbon (2025) (1792 Barton, 100 proof)</li>
+      <li>1792 12 Year Bourbon (1792 Barton, 96.6 proof)</li>
+      <li>1792 Full Proof (1792 Barton, 125 proof)</li>
+      <li>1792 High Rye (1792 Barton, 94.3 proof)</li>
+      <li>1792 Single Barrel (1792 Barton, 98.6 proof)</li>
+      <li>1792 Sweet Wheat Kentucky Straight Bourbon Whiskey (1792 Barton, 91.2 proof)</li>
+      <li>2XO The Kiawah Blend (2XO Distillery, 104 proof)</li>
+      <li>APW Heritage 15 Year Old Kentucky Straight Bourbon Whiskey (Ass Pocket Whiskey, 107 proof)</li>
+      <li>APW Heritage Kentucky Straight Bourbon Whiskey (Ass Pocket Whiskey, 97.5 proof)</li>
+      <li>Aces High 8 Year Kentucky Straight Bourbon Whiskey (Heritage Fork Distilling, 100 proof)</li>
+      <li>Aces High 8 Year Kentucky Straight Bourbon Whiskey Double Oaked (Heritage Fork Distilling, 100 proof)</li>
+      <li>Aces High Kentucky Straight Bourbon Whiskey Finished in Port Casks (Heritage Fork Distilling, 115 proof)</li>
+      <li>Aged 15 Years Bourbon Whiskey (Sam Houston Bourbon Whiskey, 103 proof)</li>
+      <li>American Highway Reserve (Brad Paisley, 98 proof)</li>
+      <li>Angel’s Envy Port Wine Barrel Finished Bourbon (Angel's Envy, 86.6 proof)</li>
+      <li>Angel’s Envy Port Wine Barrel Finished Cask Strength Bourbon (Angel's Envy, 119.8 proof)</li>
+      <li>Angel’s Envy Bourbon Finished in Mizunara Oak Casks (Angel's Envy, 97.8 proof)</li>
+      <li>Antique Collection George T. Stagg 15th Release 2007 Straight Bourbon (Buffalo Trace, 144.8 proof)</li>
+      <li>Antique Collection George T. Stagg 2020 Straight Bourbon (Buffalo Trace, 130.4 proof)</li>
+      <li>Antique Collection George T. Stagg 2022 Straight Bourbon (Buffalo Trace, 138.7 proof)</li>
+      <li>Antique Collection George T. Stagg 2023 Straight Bourbon (Buffalo Trace, 135 proof)</li>
+      <li>Barrell Craft Spirits Bourbon Cask Strength Blended Batch 035 (Barrell Craft Spirits, 116.24 proof)</li>
+      <li>Barrell Craft Spirits New Year 2025 Cask Strength Blended Straight Bourbon Whiskey (Barrell Craft Spirits, 117.6 proof)</li>
+      <li>Bardstown Bourbon Co. Collaborative Series Plantation Rum Finish Straight Bourbon (Bardstown Bourbon Co., 104 proof)</li>
+      <li>Bardstown Bourbon Co. Fusion Series #4 (Bardstown Bourbon Co., 94.9 proof)</li>
+      <li>Bardstown Bourbon Co. Fusion Series #6 (Bardstown Bourbon Co., 97.9 proof)</li>
+      <li>Bardstown Bourbon Co. Origin Series Kentucky Straight Bourbon (Bardstown Bourbon Co., 96 proof)</li>
+      <li>Bardstown Bourbon Co. Origin Series Straight Bourbon Bottled in Bond (Bardstown Bourbon Co., 100 proof)</li>
+      <li>Bardstown Bourbon Co. Triple Smoke Bourbon (New Riff, 100 proof)</li>
+      <li>Basil Hayden Kentucky Straight Bourbon Whiskey (Jim Beam, 80 proof)</li>
+      <li>Basil Hayden Toast Kentucky Straight Bourbon Whiskey (Jim Beam, 80 proof)</li>
+      <li>Belle Meade Bourbon Sherry Cask Finish (Nelson's Green Brier Distillery, 90.4 proof)</li>
+      <li>Blanton's Gold Edition Single Barrel Bourbon (Buffalo Trace, 103 proof)</li>
+      <li>Blanton's Original Single Barrel Bourbon (Buffalo Trace, 93 proof)</li>
+      <li>Blanton's Straight from the Barrel Single Barrel Bourbon (Buffalo Trace, 126.7 proof)</li>
+      <li>Blood Oath Pact 7 Kentucky Straight Bourbon Whiskey (Lux Row Distillers, 98.6 proof)</li>
+      <li>Bomberger's Declaration Kentucky Straight Bourbon Whiskey (Michter's, 108 proof)</li>
+      <li>Booker’s "Charlie’s Batch" 2023-01 (Jim Beam, 126.6 proof)</li>
+      <li>Booker’s "Kentucky Tea Batch" 2022-03 (Jim Beam, 126.5 proof)</li>
+      <li>Booker’s "Shiny Barrel Batch" 2019-02 (Jim Beam, 124 proof)</li>
+      <li>Booker’s “Donohoe’s Batch” 2021-01 (Jim Beam, 127.3 proof)</li>
+      <li>Bowman Brothers Small Batch Virginia Straight Bourbon Whiskey (A. Smith Bowman, 90 proof)</li>
+      <li>Bradshaw Kentucky Straight Bourbon Whiskey (Green River, 103.8 proof)</li>
+      <li>Bulleit Kentucky Straight Bourbon Whiskey (Bulleit, 90 proof)</li>
+      <li>Bulleit Single Barrel Frontier Whiskey (Bulleit, 104 proof)</li>
+      <li>Calumet Farm 16 Year Kentucky Straight Bourbon Whiskey (Calumet Farm, 106 proof)</li>
+      <li>Calumet Farm 18 Year Single Rack Black Bourbon Whiskey (Calumet Farm, 105 proof)</li>
+      <li>Calumet Farm Small Batch Kentucky Straight Bourbon Whiskey (Calumet Farm, 86 proof)</li>
+      <li>Chicken Cock Beer Barrel Select Bourbon Finished in Beer Barrels (Chicken Cock, 114 proof)</li>
+      <li>Chicken Cock Kentucky Straight Bourbon (Chicken Cock, 90 proof)</li>
+      <li>Colonel E.H. Taylor Barrel Proof Straight Kentucky Bourbon Whiskey (Buffalo Trace, 129 proof)</li>
+      <li>Colonel E.H. Taylor Four Grain (Buffalo Trace, 100 proof)</li>
+      <li>Colonel E.H. Taylor Small Batch Bourbon (Buffalo Trace, 100 proof)</li>
+      <li>Colonel E.H. Taylor Straight Kentucky Bourbon Whiskey Single Barrel (Buffalo Trace, 100 proof)</li>
+      <li>Dark Arts 8 Year Straight Bourbon Whiskey Finished in Portuguese White Port Wine Casks (Dark Arts Whiskey House, 116.5 proof)</li>
+      <li>Daviess County Cabernet Sauvignon Finish (Lux Row Distillers, 96 proof)</li>
+      <li>Daviess County Kentucky Straight Bourbon Whiskey F (Lux Row Distillers, 96 proof)</li>
+      <li>Eagle Rare Barrel Select (Buffalo Trace, 90 proof)</li>
+      <li>Elijah Craig 'Ryder Cup' Toasted Barrel Bourbon (2023) (Heaven Hill, 94 proof)</li>
+      <li>Elijah Craig 18 Year Old Single Barrel Straight Bourbon Whiskey (Heaven Hill, 90 proof)</li>
+      <li>Elijah Craig 2024 PGA Championship Edition (Heaven Hill, 94 proof)</li>
+      <li>Elijah Craig Barrel Proof (Heaven Hill)</li>
+      <li>Elijah Craig Single Barrel NH Liquor & Wine Outlet Store Pick Barrel Straight Bourbon Whiskey (Heaven Hill, 127.1 proof)</li>
+      <li>Elijah Craig Toasted Barrel (Heaven Hill, 94 proof)</li>
+      <li>Elijah Craig Toasted Barrel Proof Private Barrel (Heaven Hill)</li>
+      <li>Elmer T. Lee Single Barrel Bourbon (Buffalo Trace, 90 proof)</li>
+      <li>Evan Williams Single Barrel Vintage 2016 Straight Bourbon Whiskey (Heaven Hill, 86.6 proof)</li>
+      <li>Ezra Brooks Kentucky Straight Bourbon Whiskey (Lux Row Distillers, 90 proof)</li>
+      <li>First West Small Batch Proprietary Corn Kentucky Straight Bourbon Whiskey (15 Stars, 102 proof)</li>
+      <li>First West Toasted Oak Finish Kentucky Straight Bourbon Whiskey (15 Stars, 98 proof)</li>
+      <li>Found North 21 Year Peregrine 2024 (Found North, 114.2 proof)</li>
+      <li>Found North Cask Strength Whisky Batch 004 (Found North, 124.8 proof)</li>
+      <li>Found North Cask Strength Whisky Batch 008 (Found North, 124.4 proof)</li>
+      <li>Found North Hover Hawk First Flight (Found North, 123.2 proof)</li>
+      <li>Four Roses 2025 Limited Edition Small Batch Kentucky Straight Bourbon Whiskey (Four Roses, 109 proof)</li>
+      <li>Four Roses Single Barrel Barrel Strength (Four Roses)</li>
+      <li>Four Roses Small Batch Kentucky Straight Bourbon Whiskey (Four Roses, 90 proof)</li>
+      <li>Frank August Case Study 02: 1948 XO PX Brandy Cask Finished (Frank August Distillery, 101 proof)</li>
+      <li>Frank August Small Batch Kentucky Straight Bourbon (Frank August Distillery, 100 proof)</li>
+      <li>Frey Ranch Farm Strength Uncut Straight Bourbon (Frey Ranch, 124.3 proof)</li>
+      <li>Frey Ranch Straight Bourbon 150th Anniversary University of Nevada Limited Edition (Frey Ranch, 90 proof)</li>
+      <li>George Remus Single Barrel Cask Strength (Ross & Squibb Distillery, 114.2 proof)</li>
+      <li>George T. Stagg (Buffalo Trace)</li>
+      <li>H.Deringer Small Batch Bourbon Whiskey (Dehner Distillery, 92 proof)</li>
+      <li>Hard Truth High Road Sweet Mash Rye Bourbon Finish (Hard Truth, 103 proof)</li>
+      <li>Heaven Hill Heritage Collection 10 Year Old Kentucky Straight 2024 Bourbon Whiskey (Heaven Hill, 100 proof)</li>
+      <li>Henry McKenna Single Barrel Bottled-in-Bond Kentucky Straight Bourbon Whiskey (Heaven Hill, 100 proof)</li>
+      <li>High West American Prairie Bourbon (High West, 92 proof)</li>
+      <li>High West American Prairie Bourbon Single Barrel Store Pick (High West, 105.3 proof)</li>
+      <li>High West Campfire (High West, 92 proof)</li>
+      <li>I.W. Harper 15 Year Old Kentucky Straight Bourbon Whiskey (I.W. Harper, 86 proof)</li>
+      <li>Jack Daniel's Single Barrel Barrel Proof Bourbon (Jack Daniel's, 130.9 proof)</li>
+      <li>Jack Daniel's Single Barrel Select (Jack Daniel's, 94 proof)</li>
+      <li>Jefferson's Grand Selection Château Pichon Baron Cask Finish Kentucky Straight Bourbon Whiskey (Jefferson's, 92 proof)</li>
+      <li>Jefferson's Ocean Aged At Sea (Jefferson's, 90 proof)</li>
+      <li>Jefferson's Very Small Batch (Jefferson's, 82.3 proof)</li>
+      <li>Juan de Latorre Small Batch Bourbon (Juan de Latorre, 90 proof)</li>
+      <li>Knob Creek 15 Year Old Kentucky Straight Bourbon (Knob Creek, 100 proof)</li>
+      <li>Knob Creek Bourbon 2001 Limited Edition Batch 1 (Knob Creek, 100 proof)</li>
+      <li>Larceny Small Batch (Heaven Hill, 92 proof)</li>
+      <li>Little Book Chapter 01: “The Easy” (Jim Beam, 128.7 proof)</li>
+      <li>Little Book Chapter 05: "The Invitation" (Jim Beam, 116.8 proof)</li>
+      <li>Maker's Mark 101 Proof Bourbon Whisky (Maker's Mark, 101 proof)</li>
+      <li>Maker's Mark 46 Cask Strength (Maker's Mark, 110.3 proof)</li>
+      <li>Maker's Mark Private Selection Single Barrel (Maker's Mark, 110.4 proof)</li>
+      <li>Maker's Mark Wood Finishing Series BEP (Maker's Mark, 110.7 proof)</li>
+      <li>Maker's Mark Wood Finishing Series The Heart Release 2024 (Maker's Mark, 111.7 proof)</li>
+      <li>Maker's Mark Wood Finishing Series The Keepers Release Bourbon 2025 (Maker's Mark, 112.6 proof)</li>
+      <li>Maker’s Mark Cask Strength Batch 21-03 (Maker's Mark, 109.6 proof)</li>
+      <li>Maker’s Mark FAE-01 Wood Finishing Series (Maker's Mark, 110.6 proof)</li>
+      <li>Maker’s Mark Wood Finishing BRT-02 (Maker's Mark, 109.4 proof)</li>
+      <li>Manifest Whiskey Project 10 Year Bourbon Small Batch #2 (Manifest Distilling, 107 proof)</li>
+      <li>Manifest Whiskey Project x Seelbach's (Manifest Distilling, 110.2 proof)</li>
+      <li>Michter's 10 Year Kentucky Straight Bourbon (Michter's, 94.4 proof)</li>
+      <li>Michter's Limited Release Toasted Barrel Finish Sour Mash Bourbon Whiskey (Michter's, 86 proof)</li>
+      <li>Michter's Toasted Barrel Finish Bourbon (Michter's, 91.4 proof)</li>
+      <li>Mister Sam Tribute Whiskey (Seagram's, 133.8 proof)</li>
+      <li>Nashville Barrel Single Barrel Canadian Whiskey (Nashville Barrel Company)</li>
+      <li>Navigator Spirits Kentucky Bourbon Finished in Cabernet Sauvignon (Unknown, 86.6 proof)</li>
+      <li>New Louisville Whiskey Co 8 Year Old Straight Bourbon Whisky (Skurnik, 129.4 proof)</li>
+      <li>New Louisville Whiskey Co Cinn-City 9 Year Old Straight Bourbon Whiskey (Skurnik, 135.4 proof)</li>
+      <li>New Riff 8 Year Old Kentucky Straight Bourbon Whiskey (New Riff, 100 proof)</li>
+      <li>New Riff Bourbon (New Riff, 100 proof)</li>
+      <li>Nulu Maple Brulee Finished Bourbon (Prohibition Craft Spirits (Nulu), 113.6 proof)</li>
+      <li>Nulu Vdn Finished Bourbon (Prohibition Craft Spirits (Nulu))</li>
+      <li>O.K.I. Double Oaked Bourbon (O.K.I. Spirits, 90 proof)</li>
+      <li>O.K.I. Single Barrel 16 Year Kentucky Straight Bourbon Whiskey (O.K.I. Spirits)</li>
+      <li>Old Commonwealth 10 Year Old Straight Bourbon Whiskey (Old Commonwealth, 131.83 proof)</li>
+      <li>Old Ezra 7 Year Barrel Strength (Lux Row Distillers, 117 proof)</li>
+      <li>Old Fitzgerald 11 Year Bottled In Bond (Fall) (Heaven Hill, 100 proof)</li>
+      <li>Old Fitzgerald 9 Year Bottled in Bond (Heaven Hill, 100 proof)</li>
+      <li>Old Fitzgerald Bottled in Bond 7 Year Old Kentucky Straight Bourbon Whiskey (Heaven Hill, 100 proof)</li>
+      <li>Old Forester 117 Series 1910 Extra Extra Old Bourbon (Old Forester, 93 proof)</li>
+      <li>Old Forester 1924 10 Year Old Kentucky Straight Bourbon Whiskey (Old Forester, 100 proof)</li>
+      <li>Old Forester Birthday Bourbon 2025 (Old Forester, 92 proof)</li>
+      <li>Old Grand-Dad 114 Proof Bourbon (Jim Beam, 114 proof)</li>
+      <li>Old Man of the Mountain Straight Bourbon Whiskey (Tamworth Distilling, 100 proof)</li>
+      <li>Old Potrero 6 Year Old Straight Rye Whiskey Barrel Strength (Old Potrero, 132.6 proof)</li>
+      <li>Old Tub 'Unfiltered' Bourbon (Jim Beam, 100 proof)</li>
+      <li>Onyx & Amber Straight Bourbon Whiskey (Onyx & Amber, 106.4 proof)</li>
+      <li>Orphan Barrel Rhetoric 24 Year Bourbon (Orphan Barrel Whiskey Distilling Co, 90.4 proof)</li>
+      <li>Orphan Barrel Rhetoric 25 Year Bourbon (Orphan Barrel Whiskey Distilling Co, 91 proof)</li>
+      <li>Pappy Van Winkle 15 Year (Buffalo Trace, 107 proof)</li>
+      <li>Pappy Van Winkle 20 Year (Buffalo Trace, 90.4 proof)</li>
+      <li>Pappy Van Winkle 23 (Buffalo Trace, 95.6 proof)</li>
+      <li>Parker's Heritage Collection 10 Year Heavy Char (Heaven Hill, 120 proof)</li>
+      <li>Parkers Heritage Barrel Finished 12th Edition (Heaven Hill, 110 proof)</li>
+      <li>Penelope Architect Bourbon Build 11 (Penelope, 104 proof)</li>
+      <li>Penelope Architect Creme Brulee Bourbon (Penelope, 110 proof)</li>
+      <li>Penelope Barrel Strength Bourbon (Penelope, 112 proof)</li>
+      <li>Penelope Barrel Strength Private Select (Penelope, 114 proof)</li>
+      <li>Penelope Cigar Sessions (Penelope, 101 proof)</li>
+      <li>Penelope Estate Collection 10 Year Old Single Barrel Straight Bourbon Whiskey (Penelope, 110 proof)</li>
+      <li>Penelope Estate Collection Founders Reserve 13 Year Kentucky Straight Bourbon Whiskey (Penelope, 121.4 proof)</li>
+      <li>Penelope Four Grain Bourbon (Penelope, 80 proof)</li>
+      <li>Penelope Private Select Bourbon (Penelope, 119.7 proof)</li>
+      <li>Penelope Toasted Barrel Bourbon (Penelope, 94 proof)</li>
+      <li>Penelope Toasted Series Barrel Strength Four Grain (Penelope, 114 proof)</li>
+      <li>Penelope Valencia Finish Bourbon (Penelope, 97 proof)</li>
+      <li>Penelope x Seelbach's Honey Cask Finish Bourbon (Penelope, 106 proof)</li>
+      <li>Remus Repeal Reserve Straight Bourbon (Ross & Squibb Distillery, 100 proof)</li>
+      <li>Rock Hill Farms Single Barrel Bourbon (Buffalo Trace, 100 proof)</li>
+      <li>Rough Rider Double Casked Straight Bourbon (L.I. Spirits, 90 proof)</li>
+      <li>Rowan's Creek Straight Kentucky Bourbon Whiskey (Rowan's Creek, 100.1 proof)</li>
+      <li>Russell's Reserve 10 Year Old Bourbon (Wild Turkey, 90 proof)</li>
+      <li>Russell's Reserve 13 Year Old Bourbon (Wild Turkey, 114.8 proof)</li>
+      <li>Russell's Reserve Single Barrel Bourbon (Wild Turkey, 110 proof)</li>
+      <li>Sam Houston 15 Year Bourbon (Sam Houston Bourbon Whiskey, 103 proof)</li>
+      <li>Seelbach's Private Reserve 15 Year Straight Bourbon Whiskey (Seelbach's, 130.64 proof)</li>
+      <li>Seelbach's The Beekepper Finished In Honey Barrels Straight Bourbon Whiskey (Seelbach's, 113 proof)</li>
+      <li>Seelbach's Wheated Kentucky Bourbon Whiskey (Seelbach's, 107 proof)</li>
+      <li>Seelbach’s 10 Year Old Cask Strength Straight Bourbon Whiskey Batch 1 (Seelbach's, 119 proof)</li>
+      <li>Seelbach’s Private Reserve Humidor Blend Bourbon (Seelbach's, 118.6 proof)</li>
+      <li>Shortbarrel Four Grain Straight Bourbon (Shortbarrel Bourbon, 92 proof)</li>
+      <li>Shortbarrel Sapsquatch Finished In Maple Syrup Barrels Straight Bourbon Whiskey (Shortbarrel Bourbon, 116.2 proof)</li>
+      <li>Shortbarrel Single Barrel Double Oaked Series Finish Straight Bourbon Whiskey (Shortbarrel Bourbon, 121.2 proof)</li>
+      <li>Shortbarrel The Bees Knees IV Single Barrel Series Finish Straight Bourbon Whiskey (Shortbarrel Bourbon, 111.5 proof)</li>
+      <li>Silk Velvet 6 Year Old Kentucky Straight Bourbon Whiskey (Western Kentucky Distilling Co., 107 proof)</li>
+      <li>Smokeye Hill Barrel Proof Straight Bourbon Whiskey (Hazelwood Spirits Co., 131.2 proof)</li>
+      <li>Smooth Ambler Old Scout American Whiskey (Smooth Ambler, 99 proof)</li>
+      <li>Stagg Jr. Batch #10 (Buffalo Trace, 126.4 proof)</li>
+      <li>Stagg Jr. Batch #12 (Buffalo Trace, 132.3 proof)</li>
+      <li>Stagg Jr. Batch #16 (Buffalo Trace, 130.9 proof)</li>
+      <li>Stagg Jr. Batch #9 (Buffalo Trace, 131.9 proof)</li>
+      <li>Starlight Carl T American Double Oaked Bourbon Btb (Starlight Distillery)</li>
+      <li>Starlight Carl T. Bourbon (Starlight Distillery, 92 proof)</li>
+      <li>Starlight Carl T. Huber’s Single Barrel Bourbon Finished in Blueberry Port Barrels (Starlight Distillery, 108 proof)</li>
+      <li>Starlight Single Barrel Bourbon Finished in Honey Barrels (Starlight Distillery)</li>
+      <li>Starlight Straight Light Whiskey (Starlight Distillery)</li>
+      <li>Stitzel Weller D.H Cromwell 15 Year Old Kentucky Straight Bourbon Whiskey (Stitzel-Weller, 106 proof)</li>
+      <li>Stolen Whiskey Aged 11 Years (Ross & Squibb Distillery, 92 proof)</li>
+      <li>Tamworth Crab Trapper Whiskey (Tamworth Distilling, 92 proof)</li>
+      <li>Tamworth The Old Man of the Mountain Straight Bourbon Bottled In Bond (Tamworth Distilling, 100 proof)</li>
+      <li>Traveller Whiskey (Buffalo Trace, 90 proof)</li>
+      <li>Tullamore Dew Carribean Rum Cask (Tullamore D.E.W, 86 proof)</li>
+      <li>Tumblin' Dice Single Barrel Double Oak (Proof and Wood Ventures, 102.4 proof)</li>
+      <li>Van Winkle Special Reserve 12 Year (Buffalo Trace, 90.4 proof)</li>
+      <li>Wb Saffell (Wild Turkey, 107 proof)</li>
+      <li>Weller C.Y.P.B. (Buffalo Trace, 95 proof)</li>
+      <li>Weller Full Proof Kentucky Straight Bourbon (Buffalo Trace, 114 proof)</li>
+      <li>Weller Single Barrel (Buffalo Trace, 97 proof)</li>
+      <li>Wild Turkey 101 Bourbon (Wild Turkey, 101 proof)</li>
+      <li>Wild Turkey Master's Keep One Bourbon (Wild Turkey, 101 proof)</li>
+      <li>Wild Turkey Rare Breed Bourbon (Wild Turkey, 116.8 proof)</li>
+      <li>Willett Family Estate 7 Year Bourbon (Willett Distillery, 130.4 proof)</li>
+      <li>Willett Pot Still Reserve Straight Bourbon (Willett Distillery, 94 proof)</li>
+      <li>Woodford Reserve Cherry Wood Smoked Barley Bourbon (Woodford Reserve, 90.4 proof)</li>
+      <li>Woodford Reserve Very Fine Rare Bourbon (Woodford Reserve, 90.4 proof)</li>
+      <li>Yellowstone 2020 Limited Edition 7 Year Bourbon (Limestone Branch Distillery, 101 proof)</li>
     </ul>
 
-    <h3>Weller & Wheated</h3>
-    <ul>
-      <li>Weller Special Reserve</li>
-      <li>Weller 12 Year</li>
-      <li>Weller Antique 107</li>
-      <li>Weller Full Proof</li>
-      <li>Weller CYPB</li>
-      <li>Weller Single Barrel</li>
-      <li>1792 Sweet Wheat</li>
-      <li>Henry McKenna 10 Year Single Barrel BiB</li>
-    </ul>
-
-    <h3>Allocated & Single Barrel</h3>
-    <ul>
-      <li>Blanton’s, Blanton’s Gold, Blanton’s Cask Strength</li>
-      <li>Buffalo Trace (store pick)</li>
-      <li>EH Taylor Barrel Proof / Single Barrel / Small Batch BiB</li>
-      <li>Jack Daniel’s Eric Church Single Barrel Select</li>
-      <li>Jack Daniel’s Single Barrel Proof</li>
-      <li>John J. Bowman Single Barrel</li>
-      <li>New Riff Single Barrel Proof</li>
-      <li>Evan Williams Single Barrel Vintage</li>
-      <li>Four Roses Single Barrel</li>
-      <li>Elijah Craig Barrel Proof & Small Batch Barrel Select</li>
-      <li>Michter’s 10 Year Bourbon</li>
-      <li>Michter’s Toasted Barrel Bourbon & Sour Mash</li>
-      <li>Knob Creek 15 Year (2020), Knob Creek 2001 Small Batch</li>
-      <li>Knob Creek Single Barrel</li>
-    </ul>
-
-    <h3>House & Classic Bourbons</h3>
-    <ul>
-      <li>1792 (Small Batch, High Rye, Bottled in Bond, 12 Year, Single Barrel)</li>
-      <li>A Midwinter Night’s Dram</li>
-      <li>Angel’s Envy (Port finish & Cask Strength)</li>
-      <li>Bardstown Fusion Series #4</li>
-      <li>Basil Hayden Straight & Toast</li>
-      <li>Belle Meade, Blade and Bow, Bomberger’s</li>
-      <li>Bond & Lillard Kentucky Straight (Batch #2)</li>
-      <li>Booker’s “Donohoe’s Batch” 2021-01</li>
-      <li>Bowman Brothers Small Batch</li>
-      <li>Bulleit Bourbon</li>
-      <li>Davies County Cabernet Finish & French Oak Finish</li>
-      <li>Dickel 9 Year Single Barrel (store pick)</li>
-      <li>Eagle Rare 10 Year</li>
-      <li>Elijah Craig Small Batch & Toasted Barrel</li>
-      <li>Ezra Brooks “Old Ezra” 7 Year Barrel Strength & Sour Mash</li>
-      <li>Four Roses Bourbon & Small Batch</li>
-      <li>H. Derringer Small Batch • Hancock’s Presidents Reserve</li>
-      <li>High West American Prairie (standard & barrel select) • Campfire</li>
-      <li>I.W. Harper 15 Year</li>
-      <li>Jefferson’s Very Small Batch • Jefferson’s Grand Selection</li>
-      <li>Larceny Small Batch</li>
-      <li>Maker’s Mark 101 • Private Select • FAE-01</li>
-      <li>Navigators, Noah’s Mill, Old Elk</li>
-      <li>Old Grand-Dad Bottled in Bond</li>
-      <li>Old Man of the Mountain • Old Tub</li>
-      <li>Penelope Batch 7 & Toasted Barrel</li>
-      <li>Redemption Straight Bourbon • Remus Repeal Reserve II</li>
-      <li>Rockhill Farms • Rough Rider • Rowan’s Creek</li>
-      <li>Russell’s Reserve 10 Year & Single Barrel Bourbon</li>
-      <li>Shenk’s Homestead (2020 & 2021)</li>
-      <li>Smooth Ambler Old Scout</li>
-      <li>Sonoma “West of Kentucky” No. 1 / 2 / 3</li>
-      <li>Stollen Whiskey 11 Year</li>
-      <li>Thomas S. Moore Port Cask Finished Bourbon</li>
-      <li>W.B. Saffell</li>
-      <li>Wild Turkey 101, Forgiven, Master’s Keep One, Rare Breed</li>
-      <li>Willett Pot Still • Willett 7 Year</li>
-      <li>Woodford Cherry Wood Smoked • Very Fine Rare Bourbon</li>
-      <li>Yellowstone 7 Year (2020 Limited)</li>
-    </ul>
-
-    <!-- RYE -->
     <h2>Rye</h2>
     <ul>
-      <li>A Midwinter Night’s Dram (Acts 7, 8, 9)</li>
-      <li>Alberta Premium Cask Strength Rye (2020 & 2021)</li>
-      <li>Barrell Seagrass</li>
-      <li>Basil Hayden Dark Rye</li>
-      <li>EH Taylor Straight Rye & 4 Grain</li>
-      <li>Jack Daniel’s Single Barrel Proof Rye (2020)</li>
-      <li>Jefferson’s Rye Cognac Cask Finish</li>
-      <li>Kentucky Owl 11 Year Rye</li>
-      <li>Lock Stock & Barrel 13 Year Rye</li>
-      <li>Michter’s 10 Year Rye (2019 & 2021)</li>
-      <li>Michter’s Barrel Strength Rye • Toasted Rye</li>
-      <li>Pappy Van Winkle 13 Year Rye</li>
-      <li>Parker’s Heritage Heavy Char Rye 8 Year</li>
-      <li>Pikesville Straight Rye</li>
-      <li>Ragtime Rye Single Barrel</li>
-      <li>Redemption Rye Rum Cask Finish (Batch 2)</li>
-      <li>Russell’s 6 Year Rye & Single Barrel Rye</li>
-      <li>Thomas H. Handy Sazerac Rye (Fall 2020)</li>
-      <li>Wild Turkey Rare Breed Rye</li>
-      <li>Willett Small Batch Rye & Family Estate 7 Year Rye</li>
+      <li>Angel's Envy Rum Cask Finished Rye (Angel's Envy, 100 proof)</li>
+      <li>Barrell Seagrass Rye (Barrell Craft Spirits, 118.4 proof)</li>
+      <li>Basil Hayden Dark Rye (Jim Beam, 80 proof)</li>
+      <li>E.H. Taylor Straight Rye (Buffalo Trace, 100 proof)</li>
+      <li>Found North Cask Strength Rye Batch 006 (Found North, 124 proof)</li>
+      <li>Hard Truth Sweet Mash Rye (Hard Truth, 115 proof)</li>
+      <li>Jack Daniel's Single Barrel Barrel Proof Rye (Jack Daniel's, 127.6 proof)</li>
+      <li>Jefferson's Straight Rye Whiskey Finished in Cognac Casks (Jefferson's, 94 proof)</li>
+      <li>Kentucky Owl 11 Year Straight Rye (Kentucky Owl, 101.8 proof)</li>
+      <li>Lock Stock & Barrel 13 Year Straight Rye (Cooper Spirits, 101.3 proof)</li>
+      <li>Michter's 10 Year Kentucky Straight Rye (Michter's, 92.8 proof)</li>
+      <li>Michter's Barrel Strength Rye (Michter's, 110.2 proof)</li>
+      <li>Michter's Toasted Barrel Strength Rye (2023) (Michter's, 108.2 proof)</li>
+      <li>Middle West Straight Dark Pumpernickel Rye Whiskey (Middle West Spirits, 96 proof)</li>
+      <li>New Riff 8 Year Rye (New Riff, 100 proof)</li>
+      <li>New Riff Balboa Rye (New Riff, 100 proof)</li>
+      <li>New York Distilling Ragtime Rye Cask Strength Single Barrel (New York Distilling Co., 112 proof)</li>
+      <li>Old Forester Single Barrel Rye Barrel Proof (Old Forester)</li>
+      <li>Old Overholt 11 Year Cask Strength Rye Whiskey (Jim Beam, 107.4 proof)</li>
+      <li>Parkers Heritage 13th Edition Heavy Char Rye (Heaven Hill, 105 proof)</li>
+      <li>Penelope Cooper Series Tokaji Cask Finish 8 Year Rye (Penelope, 106 proof)</li>
+      <li>Penelope Toasted Rye Barrel Finish (Penelope, 100 proof)</li>
+      <li>Pikesville 110 Proof Straight Rye Whiskey (Heaven Hill, 110 proof)</li>
+      <li>Pursuit United Double Oaked Rye (Pursuit Spirits, 108 proof)</li>
+      <li>Rare Character Single Barrel Series Rye Finished in White Port Casks (Rare Character)</li>
+      <li>Russell's Reserve 6 Year Old Kentucky Straight Rye Whiskey (Wild Turkey, 90 proof)</li>
+      <li>Still Austin Distillery Reserve Madeira Cask Finished Rye Whiskey (Still Austin, 107.6 proof)</li>
+      <li>Still Austin Distillery Reserve Series Ex Blue Corn Bourbon Cask Finished Rye (Still Austin, 116.7 proof)</li>
+      <li>Still Austin Nancy's Pick October 2024 Single Barrel Cask Strength Straight Rye Whiskey (Still Austin, 115 proof)</li>
+      <li>Still Austin Single Barrel Cask Strength Rye (Still Austin)</li>
+      <li>Templeton Barrel Strength Rye 2022 (Templeton Distillery, 114.6 proof)</li>
+      <li>Thomas H. Handy (Buffalo Trace, 130.9 proof)</li>
+      <li>Van Winkle Family Reserve Rye 13 Year (Buffalo Trace, 95.6 proof)</li>
+      <li>Wild Turkey Master's Keep Triumph (Wild Turkey, 104 proof)</li>
+      <li>Wild Turkey Rare Breed Rye (Wild Turkey, 112.2 proof)</li>
+      <li>Wild Turkey Rye 101 (Wild Turkey, 101 proof)</li>
+      <li>Willett Family Estate Bottled 4 Year Rye (Willett Distillery)</li>
+      <li>Willett Family Estate Bottled Small Batch 3 Year Old Straight Rye Whiskey (Willett Distillery, 108 proof)</li>
+      <li>Wolves Whiskey X Willett Distillery The Rye Project Volume One (Wolves Whiskey)</li>
+      <li>Woody Creek Distillers Single Barrel Rye Whiskey (Woody Creek Distillers, 90 proof)</li>
     </ul>
 
-    <!-- OTHER WHISKEY -->
-    <h2>Other Whiskey</h2>
-    <h3>American</h3>
+    <h2>Single Malt & Scotch</h2>
     <ul>
-      <li>Wyoming Whiskey Outryder</li>
-      <li>High n Wicked Release 2</li>
+      <li>Ardbeg 10 Year Old Single Malt Scotch Whisky (Ardbeg, 92 proof)</li>
+      <li>GlenDronach 15 Year Revival Single Malt Scotch Whisky (GlenDronach, 92 proof)</li>
+      <li>Glenfiddich 18 Year Old Single Malt Scotch Whisky (Glenfiddich, 86 proof)</li>
+      <li>Lagavulin 16 Year Old Single Malt Scotch Whisky (Lagavulin, 86 proof)</li>
+      <li>Macallan 12 Year Sherry Oak Single Malt Scotch Whisky (Macallan, 86 proof)</li>
+      <li>Macallan 18 Year Sherry Oak Single Malt Scotch Whisky (Macallan, 86 proof)</li>
+      <li>Talisker 10 Year Old Single Malt Scotch Whisky (Talisker, 91.6 proof)</li>
+      <li>Yamazaki 12 Year Old Single Malt Japanese Whisky (Suntory, 86 proof)</li>
+      <li>Yamazaki 18 Year Old Single Malt Japanese Whisky (Suntory, 86 proof)</li>
     </ul>
 
-    <h3>Irish</h3>
+    <h2>Other American Whiskey</h2>
     <ul>
-      <li>Green Spot Single Pot Still</li>
-      <li>Red Spot 15 Year Single Pot Still</li>
-      <li>Teeling Irish Whiskey</li>
-      <li>Glendalough Pot Still</li>
-    </ul>
-
-    <h3>Japanese</h3>
-    <ul>
-      <li>Yamato Takeda Shingen Edition</li>
-      <li>Yamazaki 12 Year</li>
-    </ul>
-
-    <!-- SCOTCH -->
-    <h2>Scotch</h2>
-    <ul>
-      <li>GoT series: Cardhu, Clynelish, Dalwhinnie, Lagavulin, Oban, Royal Lochnagar, Talisker, Singleton of Glendullan</li>
+      <li>Barrell Craft Spirits American Vatted Malt (Barrell Craft Spirits, 117 proof)</li>
+      <li>Blue Note Juke Joint Uncut Memphis Straight Whiskey (B.R. Distilling, 119 proof)</li>
+      <li>High West American Single Malt (High West, 92 proof)</li>
+      <li>Jack Daniel's Tennessee Honey (Jack Daniel's, 70 proof)</li>
+      <li>Jack Daniel's Tennessee Fire (Jack Daniel's, 70 proof)</li>
+      <li>Sam Houston 15 Year American Whiskey (Sam Houston Bourbon Whiskey, 103 proof)</li>
+      <li>Seelbach’s Private Reserve 20 Year Straight American Light Whiskey (Seelbach's, 142 proof)</li>
+      <li>Shortbarrel The Shortlist 18 Year Old American Light Whiskey (Shortbarrel Bourbon, 154 proof)</li>
+      <li>Star Hill Farm American Wheat Whiskey (Maker's Mark, 114.7 proof)</li>
+      <li>Starlight Blackberry Flavored Whiskey (Starlight Distillery, 84 proof)</li>
+      <li>Starlight Peach Flavored Whiskey (Starlight Distillery, 84 proof)</li>
+      <li>Suntory Hibiki Japanese Harmony Master's Select Blended Whisky (Suntory, 86 proof)</li>
+      <li>Weller 12 Year Old Kentucky Straight Wheated Bourbon Whiskey (Buffalo Trace, 90 proof)</li>
+      <li>Wild Turkey Master's Keep Voyage (Wild Turkey, 105 proof)</li>
+      <li>Willett 8 Year Old Wheated Straight Bourbon Whiskey (Willett Distillery, 108 proof)</li>
     </ul>
 
     <!-- TEQUILA -->
@@ -275,5 +473,30 @@
       <li>Pinot Grigio 2019</li>
     </ul>
   </div>
+
+  <script>
+    // Live search over all <li> items inside #menuColumns
+    (function () {
+      const input = document.getElementById('menuSearch');
+      const container = document.getElementById('menuColumns');
+      if (!input || !container) return;
+
+      const items = Array.from(container.querySelectorAll('li'));
+
+      input.addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+
+        if (!q) {
+          items.forEach(li => li.style.display = '');
+          return;
+        }
+
+        items.forEach(li => {
+          const text = li.textContent.toLowerCase();
+          li.style.display = text.includes(q) ? '' : 'none';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
