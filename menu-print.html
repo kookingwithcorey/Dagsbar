@@ -54,6 +54,18 @@
       column-count: 2;
       column-gap: 0.35in;
     }
+    @media print {
+  .columns {
+    column-count: 2;
+    column-gap: 1.6rem;
+    column-fill: balance;
+  }
+
+  .group {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+}
 
     @media screen and (max-width: 900px) {
       .columns {
