@@ -25,7 +25,7 @@
       text-align: center;
       font-size: 0.8rem;
       color: #a3acb9;
-      margin-bottom: 1rem;
+      margin-bottom: 0.35rem;
     }
     h2 {
       text-transform: uppercase;
@@ -48,7 +48,9 @@
       margin: 0;
       font-size: 0.8rem;
     }
-    li { padding: 0.06rem 0; }
+    li { 
+      padding: 0.06rem 0; 
+    }
     .columns {
       column-count: 2;
       column-gap: 1.6rem;
@@ -72,7 +74,7 @@
     .search-bar {
       display: flex;
       justify-content: center;
-      margin: 0.5rem 0 1rem;
+      margin: 0.5rem 0 0.6rem;
     }
     .search-bar input {
       width: 100%;
@@ -92,6 +94,41 @@
       border-color: #0f8b6b;
       box-shadow: 0 0 0 1px rgba(15,139,107,0.4);
     }
+
+    /* Rarity chips + legend */
+    .rarity-legend {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #a3acb9;
+      margin-bottom: 0.6rem;
+    }
+    .rarity-legend span {
+      margin: 0 0.3rem;
+    }
+
+    .rarity-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 999px;
+      padding: 0.08rem 0.4rem;
+      margin-left: 0.35rem;
+      border: 1px solid rgba(255,255,255,0.28);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .rarity-unicorn {
+      border-color: #fbbf24;
+      color: #fbbf24;
+    }
+    .rarity-rare {
+      border-color: #0f8b6b;
+      color: #0f8b6b;
+    }
+    .rarity-common {
+      border-color: #6b7280;
+      color: #9ca3af;
+    }
   </style>
 </head>
 <body>
@@ -105,6 +142,12 @@
   <h1>DAGS Bar Whiskey Library</h1>
   <div class="meta">
     Full bottle list • Concept bourbon lounge • Portsmouth, New Hampshire
+  </div>
+
+  <div class="rarity-legend">
+    <span><strong>Unicorn</strong> = ultra-allocated / grail bottles</span> •
+    <span><strong>Rare</strong> = limited / age-stated / special release</span> •
+    <span><strong>Common</strong> = generally available</span>
   </div>
 
   <!-- Search bar -->
@@ -475,26 +518,121 @@
   </div>
 
   <script>
-    // Live search over all <li> items inside #menuColumns
     (function () {
-      const input = document.getElementById('menuSearch');
-      const container = document.getElementById('menuColumns');
-      if (!input || !container) return;
+      const rarityMap = {
+        unicorn: [
+          "Pappy Van Winkle 15",
+          "Pappy Van Winkle 20",
+          "Pappy Van Winkle 23",
+          "Van Winkle Special Reserve 12 Year",
+          "Van Winkle Family Reserve Rye 13 Year",
+          "Weller C.Y.P.B.",
+          "Weller Single Barrel",
+          "Antique Collection George T. Stagg",
+          "George T. Stagg (Buffalo Trace)",
+          "Thomas H. Handy",
+          "Heaven Hill Heritage Collection 10 Year",
+          "Heaven Hill Heritage Collection 10 Year Old Kentucky Straight 2024",
+          "Old Forester Birthday Bourbon 2025",
+          "Old Fitzgerald 11 Year Bottled In Bond",
+          "Old Fitzgerald 9 Year Bottled in Bond",
+          "Old Fitzgerald Bottled in Bond 7 Year",
+          "Four Roses 2025 Limited Edition Small Batch",
+          "Found North 21 Year Peregrine 2024",
+          "Seelbach’s Private Reserve 20 Year",
+          "Shortbarrel The Shortlist 18 Year Old American Light Whiskey",
+          "Willett Family Estate 7 Year Bourbon",
+          "Willett 8 Year Old Wheated Straight Bourbon Whiskey",
+          "Yamazaki 18 Year",
+          "Macallan 18 Year",
+          "Kentucky Owl 11 Year Straight Rye"
+        ],
+        rare: [
+          "Sam Houston 15 Year Bourbon",
+          "Sam Houston 15 Year American Whiskey",
+          "Calumet Farm 16 Year Kentucky Straight Bourbon Whiskey",
+          "Calumet Farm 18 Year Single Rack Black Bourbon Whiskey",
+          "Found North Cask Strength Whisky Batch 004",
+          "Found North Cask Strength Whisky Batch 008",
+          "Found North Hover Hawk First Flight",
+          "Found North Cask Strength Rye Batch 006",
+          "Michter's 10 Year Kentucky Straight Bourbon",
+          "Michter's 10 Year Kentucky Straight Rye",
+          "Lock Stock & Barrel 13 Year Straight Rye",
+          "Old Commonwealth 10 Year Old Straight Bourbon Whiskey",
+          "Stitzel Weller D.H Cromwell 15 Year Old Kentucky Straight Bourbon Whiskey",
+          "Orphan Barrel Rhetoric 24 Year Bourbon",
+          "Orphan Barrel Rhetoric 25 Year Bourbon",
+          "Seelbach's Private Reserve 15 Year",
+          "Seelbach’s 10 Year Old Cask Strength Straight Bourbon Whiskey Batch 1",
+          "Shortbarrel The Bees Knees IV",
+          "Shortbarrel Sapsquatch",
+          "Barrell Craft Spirits New Year 2025",
+          "Bardstown Bourbon Co. Collaborative Series Plantation Rum Finish",
+          "Bardstown Bourbon Co. Fusion Series #4",
+          "Bardstown Bourbon Co. Fusion Series #6",
+          "Russell's Reserve 13 Year Old Bourbon",
+          "Wild Turkey Master's Keep One Bourbon",
+          "Wild Turkey Master's Keep Triumph",
+          "Wild Turkey Master's Keep Voyage",
+          "Macallan 12 Year",
+          "Yamazaki 12 Year",
+          "Seelbach's Private Reserve Humidor Blend Bourbon"
+        ]
+      };
 
-      const items = Array.from(container.querySelectorAll('li'));
-
-      input.addEventListener('input', function () {
-        const q = this.value.toLowerCase().trim();
-
-        if (!q) {
-          items.forEach(li => li.style.display = '');
-          return;
-        }
+      function applyRarity(rootId) {
+        const root = document.getElementById(rootId);
+        if (!root) return;
+        const items = Array.from(root.querySelectorAll('li'));
 
         items.forEach(li => {
-          const text = li.textContent.toLowerCase();
-          li.style.display = text.includes(q) ? '' : 'none';
+          const text = (li.textContent || "").trim();
+          let rarity = "common";
+
+          if (rarityMap.unicorn.some(name => text.includes(name))) {
+            rarity = "unicorn";
+          } else if (rarityMap.rare.some(name => text.includes(name))) {
+            rarity = "rare";
+          }
+
+          li.dataset.rarity = rarity;
+
+          const tag = document.createElement('span');
+          tag.className = 'rarity-tag rarity-' + rarity;
+          tag.textContent =
+            rarity === "unicorn" ? "Unicorn" :
+            rarity === "rare" ? "Rare" :
+            "Common";
+          li.appendChild(tag);
         });
+      }
+
+      function setupSearch() {
+        const input = document.getElementById('menuSearch');
+        const container = document.getElementById('menuColumns');
+        if (!input || !container) return;
+
+        const items = Array.from(container.querySelectorAll('li'));
+
+        input.addEventListener('input', function () {
+          const q = this.value.toLowerCase().trim();
+
+          if (!q) {
+            items.forEach(li => li.style.display = '');
+            return;
+          }
+
+          items.forEach(li => {
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(q) ? '' : 'none';
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        applyRarity('menuColumns');
+        setupSearch();
       });
     })();
   </script>
