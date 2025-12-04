@@ -50,10 +50,18 @@
     }
 
     /* CONTENT LAYOUT */
-    .columns {
-      column-count: 2;
-      column-gap: 0.35in;
-    }
+  .columns {
+  column-count: 2;
+  column-gap: 1.6rem;
+  /* Try to balance content between the two columns */
+  column-fill: balance;
+}
+
+.group {
+  /* Allow sections to split so columns can be even */
+  break-inside: auto;
+  page-break-inside: auto;
+}
     @media print {
   .columns {
     column-count: 2;
