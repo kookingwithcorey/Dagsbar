@@ -587,15 +587,19 @@
     </section>
   </div>
 
-  <script>
-   <script>
+<script>
   // Normalize name: compare only text before "(" and ignore case
   const normalizeName = (name) =>
     (name || "").split("(")[0].trim().toLowerCase();
 
-  // Base-name rarity definitions (from your CSV)
+  // Rarity definitions by base name
   const rarityMap = {
     unicorn: [
+      // your specific unicorns that must match this menu
+      "Colonel E.H. Taylor Four Grain",
+      "Russell's Reserve 13 Year Old Bourbon",
+      "Russell's Reserve 16 year old 2013 Edition",
+
       // tequila
       "Clase Azul Day of the Dead",
 
@@ -677,7 +681,7 @@
       "Tequila Komos Añejo Cristalino",
       "Tequila Revolution Extra Añejo",
 
-      // bourbon / rye / etc rare (FLATTENED – NO NESTED ARRAY)
+      // bourbon / rye / etc rare (flattened)
       "13th Colony Cask Strength Bourbon",
       "1792 12 Year Bourbon",
       "APW Heritage 15 Year Old Kentucky Straight Bourbon Whiskey",
@@ -732,7 +736,7 @@
       "Knob Creek Bourbon 2001 Limited Edition",
       "Knob Creek Small Batch Limited Edition 21 Year Old Straight Bourbon Whiskey",
       "Little Book Chapter 1: The Easy",
-      "little Book Chapter 02",
+      "Little Book Chapter 02",
       "Little Book Chapter 03",
       "Little Book Chapter 04",
       "Little Book Chapter 05: The Invitation (Jim Beam, 116.8 proof)",
@@ -806,7 +810,13 @@
     common: []
   };
 
-  const rarityEligibleTypes = new Set(["bourbon", "rye", "singlemalt", "american", "tequila"]);
+  const rarityEligibleTypes = new Set([
+    "bourbon",
+    "rye",
+    "singlemalt",
+    "american",
+    "tequila"
+  ]);
 
   const allItems = document.querySelectorAll("#menu li");
   const groups = document.querySelectorAll(".group");
@@ -879,10 +889,8 @@
   typeFilter.addEventListener("change", applyFilters);
   rarityFilter.addEventListener("change", applyFilters);
 
+  // Initial filter application
   applyFilters();
 </script>
-
-    applyFilters();
-  </script>
 </body>
 </html>
