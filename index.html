@@ -611,27 +611,71 @@
     </section>
 
     <!-- GALLERY -->
-    <section id="gallery">
-      <div class="container">
-        <div class="section-header">
-          <h2>Gallery</h2>
-          <p>
-            Photos from the real DAGS spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
-          </p>
+   <section id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <h2>Gallery</h2>
+      <p>
+        Photos from the real DAGS spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
+      </p>
+    </div>
+
+    <div class="gallery-wrap">
+      <div class="gallery-grid" id="galleryTrack">
+        <div class="gallery-item">
+          <img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf" loading="lazy">
+          <div class="gallery-caption">Buffalo Trace and Blanton's bottle shelf</div>
         </div>
 
-        <div class="gallery-grid">
-          <div class="gallery-item"><img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf"></div>
-          <div class="gallery-item"><img src="IMG_2150.jpg" alt="Bar cart and portraits"></div>
-          <div class="gallery-item"><img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall"></div>
-          <div class="gallery-item"><img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves"></div>
-          <div class="gallery-item"><img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug"></div>
-          <div class="gallery-item"><img src="IMG_2155.jpg" alt="Bottle room seating corner"></div>
-          <div class="gallery-item"><img src="IMG_2147.jpg" alt="White built-in shelf with decor"></div>
-          <div class="gallery-item"><img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall"></div>
+        <div class="gallery-item">
+          <img src="IMG_2150.jpg" alt="Bar cart and portraits" loading="lazy">
+          <div class="gallery-caption">Bar cart and portraits</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall" loading="lazy">
+          <div class="gallery-caption">Main lounge couch with pillows and bottle wall</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves" loading="lazy">
+          <div class="gallery-caption">Wide shot of lounge with couches and shelves</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug" loading="lazy">
+          <div class="gallery-caption">Bottle room shelves with chairs and rug</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2155.jpg" alt="Bottle room seating corner" loading="lazy">
+          <div class="gallery-caption">Bottle room seating corner</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2147.jpg" alt="White built-in shelf with decor" loading="lazy">
+          <div class="gallery-caption">White built-in shelf with decor</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall" loading="lazy">
+          <div class="gallery-caption">Cowboy painting on wood-paneled wall</div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close image">×</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+  <div class="lightbox-inner">
+    <img id="lightboxImage" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+</div>
 
     <!-- VISIT -->
     <section id="visit">
