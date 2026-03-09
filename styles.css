@@ -497,6 +497,43 @@ a:hover {
     height: 300px;
   }
 }
+  #gallery {
+  overflow: hidden;
+}
+
+.gallery-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-item {
+  flex: 0 0 auto;
+}
+
+.gallery-item img {
+  display: block;
+  width: 220px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .gallery-item img {
+    width: 180px;
+    height: 120px;
+  }
+}
   cursor: pointer;
 }
 
