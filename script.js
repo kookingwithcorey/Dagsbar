@@ -1,5 +1,31 @@
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const gallery = document.getElementById("galleryScroll");
+  if (!gallery) return;
 
+  let autoScroll;
+
+  function startAutoScroll() {
+    autoScroll = setInterval(() => {
+      gallery.scrollLeft += 1;
+
+      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
+        gallery.scrollLeft = 0;
+      }
+    }, 20);
+  }
+
+  function stopAutoScroll() {
+    clearInterval(autoScroll);
+  }
+
+  gallery.addEventListener("mouseenter", stopAutoScroll);
+  gallery.addEventListener("mouseleave", startAutoScroll);
+  gallery.addEventListener("touchstart", stopAutoScroll, { passive: true });
+  gallery.addEventListener("touchend", startAutoScroll, { passive: true });
+
+  startAutoScroll();
+});
   // IDs for the sliders
   const sliderConfig = [
     "sweetness",
