@@ -1,4 +1,23 @@
 <script>
+
+const gallery = document.querySelector(".gallery-grid");
+
+gallery.innerHTML += gallery.innerHTML;
+
+let speed = 0.35;
+
+function autoScroll(){
+  gallery.scrollLeft += speed;
+
+  if(gallery.scrollLeft >= gallery.scrollWidth/2){
+    gallery.scrollLeft = 0;
+  }
+
+  requestAnimationFrame(autoScroll);
+}
+
+autoScroll();
+
   // IDs for the sliders
   const sliderConfig = [
     "sweetness",
