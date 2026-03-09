@@ -122,7 +122,6 @@
       width: 100%;
     }
 
-    /* Optional: make Instagram stand out slightly */
     .nav-instagram {
       font-weight: 500;
       letter-spacing: 0.14em;
@@ -141,7 +140,6 @@
       padding-bottom: 40px;
     }
 
-    /* HERO LAYOUT: text left, card right */
     .hero-inner {
       display: grid;
       grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
@@ -187,7 +185,6 @@
       background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), rgba(5, 6, 8, 0.9));
     }
 
-    /* BUTTONS */
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -226,7 +223,6 @@
       background: rgba(5, 6, 8, 0.6);
     }
 
-    /* HERO CARD (HOUSE IDEA) */
     .hero-card {
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
@@ -344,27 +340,37 @@
     }
 
     /* GALLERY */
-  <section id="gallery">
-  <div class="container">
-    <div class="section-header">
-      <h2>Gallery</h2>
-      <p>
-        Photos from the real DAGS spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
-      </p>
-    </div>
+    #gallery {
+      overflow: hidden;
+    }
 
-    <div class="gallery-scroll" id="galleryScroll">
-      <div class="gallery-item"><img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf"></div>
-      <div class="gallery-item"><img src="IMG_2150.jpg" alt="Bar cart and portraits"></div>
-      <div class="gallery-item"><img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall"></div>
-      <div class="gallery-item"><img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves"></div>
-      <div class="gallery-item"><img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug"></div>
-      <div class="gallery-item"><img src="IMG_2155.jpg" alt="Bottle room seating corner"></div>
-      <div class="gallery-item"><img src="IMG_2147.jpg" alt="White built-in shelf with decor"></div>
-      <div class="gallery-item"><img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall"></div>
-    </div>
-  </div>
-</section>
+    .gallery-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 10px 0;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .gallery-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-item {
+      flex: 0 0 auto;
+    }
+
+    .gallery-item img {
+      display: block;
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
     /* Visit */
     .visit-card {
       border-radius: var(--radius-lg);
@@ -411,6 +417,13 @@
         padding-top: 24px;
       }
     }
+
+    @media (max-width: 768px) {
+      .gallery-item img {
+        width: 180px;
+        height: 120px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -427,11 +440,9 @@
         <a href="#home">Home</a>
         <a href="#menu">Whiskey Menu</a>
         <a href="#gallery">Gallery</a>
-       <a href="tasting.html">Tasting Sheet</a>
+        <a href="tasting.html">Tasting Sheet</a>
         <a href="blind-tasting.html">Blind Tasting</a>
         <a href="history.html">Whiskey Log Book</a>
-
-        <!-- INSTAGRAM TAG IN HEADER -->
         <a
           href="https://www.instagram.com/kookingwithcorey"
           target="_blank"
@@ -445,10 +456,8 @@
   </header>
 
   <main>
-    <!-- HERO / HOME -->
     <section class="hero" id="home">
       <div class="container hero-inner">
-        <!-- LEFT: text + chips + buttons -->
         <div>
           <div class="eyebrow">Whiskey-only concept lounge</div>
           <h1>DAGS</h1>
@@ -468,7 +477,6 @@
           </div>
         </div>
 
-        <!-- RIGHT: House Idea card -->
         <aside class="hero-card">
           <div class="hero-card-title">House Idea</div>
           <div class="hero-card-main">
@@ -487,7 +495,6 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
     <section id="about">
       <div class="container">
         <div class="section-header">
@@ -523,7 +530,6 @@
       </div>
     </section>
 
-    <!-- MENU (TEASER) -->
     <section id="menu">
       <div class="container">
         <div class="section-header">
@@ -532,15 +538,9 @@
             The full bottle list runs deep: Pappy, BTAC, Weller, Russell’s, Parker’s Heritage, Michter’s,
             and a wall of single barrel and store picks. Below is just a hint of what lives on the shelves.
           </p>
-          <!-- Full List links+ Printable PDF-->
           <div class="btn-row" style="margin-top:16px;">
-             <a href="menu.html" class="btn btn-outline">
-              View Full Bottle List
-            </a>
-           <a href="menu-print.html" class="btn btn-outline">
-  Printable / PDF Menu
-</a>
-           
+            <a href="menu.html" class="btn btn-outline">View Full Bottle List</a>
+            <a href="menu-print.html" class="btn btn-outline">Printable / PDF Menu</a>
           </div>
         </div>
 
@@ -598,74 +598,28 @@
       </div>
     </section>
 
-    <!-- GALLERY -->
-   <section id="gallery">
-  <div class="container">
-    <div class="section-header">
-      <h2>Gallery</h2>
-      <p>
-        Photos from the real DAGS spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
-      </p>
-    </div>
-
-    <div class="gallery-wrap">
-      <div class="gallery-grid" id="galleryTrack">
-        <div class="gallery-item">
-          <img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf" loading="lazy">
-          <div class="gallery-caption">Buffalo Trace and Blanton's bottle shelf</div>
+    <section id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <h2>Gallery</h2>
+          <p>
+            Photos from the real DAGS spaces: the lounge, cellar, bottle room, and the art that lives on the walls.
+          </p>
         </div>
 
-        <div class="gallery-item">
-          <img src="IMG_2150.jpg" alt="Bar cart and portraits" loading="lazy">
-          <div class="gallery-caption">Bar cart and portraits</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall" loading="lazy">
-          <div class="gallery-caption">Main lounge couch with pillows and bottle wall</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves" loading="lazy">
-          <div class="gallery-caption">Wide shot of lounge with couches and shelves</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug" loading="lazy">
-          <div class="gallery-caption">Bottle room shelves with chairs and rug</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2155.jpg" alt="Bottle room seating corner" loading="lazy">
-          <div class="gallery-caption">Bottle room seating corner</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2147.jpg" alt="White built-in shelf with decor" loading="lazy">
-          <div class="gallery-caption">White built-in shelf with decor</div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall" loading="lazy">
-          <div class="gallery-caption">Cowboy painting on wood-paneled wall</div>
+        <div class="gallery-scroll" id="galleryScroll">
+          <div class="gallery-item"><img src="IMG_2149.jpg" alt="Buffalo Trace and Blanton's bottle shelf"></div>
+          <div class="gallery-item"><img src="IMG_2150.jpg" alt="Bar cart and portraits"></div>
+          <div class="gallery-item"><img src="IMG_2152.jpg" alt="Main lounge couch with pillows and bottle wall"></div>
+          <div class="gallery-item"><img src="IMG_2153.jpg" alt="Wide shot of lounge with couches and shelves"></div>
+          <div class="gallery-item"><img src="IMG_2154.jpg" alt="Bottle room shelves with chairs and rug"></div>
+          <div class="gallery-item"><img src="IMG_2155.jpg" alt="Bottle room seating corner"></div>
+          <div class="gallery-item"><img src="IMG_2147.jpg" alt="White built-in shelf with decor"></div>
+          <div class="gallery-item"><img src="IMG_2148.jpg" alt="Cowboy painting on wood-paneled wall"></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Close image">×</button>
-  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
-  <div class="lightbox-inner">
-    <img id="lightboxImage" src="" alt="">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
-  </div>
-  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
-</div>
-
-    <!-- VISIT -->
     <section id="visit">
       <div class="container">
         <div class="section-header">
@@ -688,5 +642,35 @@
   <footer>
     © DAGS Concept • Bourbon & Whiskey Lounge • Portsmouth, NH
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const gallery = document.getElementById("galleryScroll");
+      if (!gallery) return;
+
+      let autoScroll;
+
+      function startAutoScroll() {
+        autoScroll = setInterval(() => {
+          gallery.scrollLeft += 1;
+
+          if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
+            gallery.scrollLeft = 0;
+          }
+        }, 20);
+      }
+
+      function stopAutoScroll() {
+        clearInterval(autoScroll);
+      }
+
+      gallery.addEventListener("mouseenter", stopAutoScroll);
+      gallery.addEventListener("mouseleave", startAutoScroll);
+      gallery.addEventListener("touchstart", stopAutoScroll, { passive: true });
+      gallery.addEventListener("touchend", startAutoScroll, { passive: true });
+
+      startAutoScroll();
+    });
+  </script>
 </body>
 </html>
