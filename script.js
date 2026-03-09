@@ -1,22 +1,25 @@
 <script>
 
-const gallery = document.querySelector(".gallery-grid");
+document.addEventListener("DOMContentLoaded", function () {
+  const gallery = document.querySelector(".gallery-grid");
+  if (!gallery) return;
 
-gallery.innerHTML += gallery.innerHTML;
+  gallery.innerHTML += gallery.innerHTML;
 
-let speed = 0.35;
+  let speed = 0.4;
 
-function autoScroll(){
-  gallery.scrollLeft += speed;
+  function autoScroll() {
+    gallery.scrollLeft += speed;
 
-  if(gallery.scrollLeft >= gallery.scrollWidth/2){
-    gallery.scrollLeft = 0;
+    if (gallery.scrollLeft >= gallery.scrollWidth / 2) {
+      gallery.scrollLeft = 0;
+    }
+
+    requestAnimationFrame(autoScroll);
   }
 
-  requestAnimationFrame(autoScroll);
-}
-
-autoScroll();
+  autoScroll();
+});
 
   // IDs for the sliders
   const sliderConfig = [
