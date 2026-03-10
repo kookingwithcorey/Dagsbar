@@ -686,9 +686,11 @@
   </footer>
 
   <div id="imageModal" class="image-modal">
-    <button class="image-modal-close" id="imageModalClose" aria-label="Close image">&times;</button>
-    <img class="image-modal-content" id="modalImage" src="" alt="">
-  </div>
+  <button class="image-modal-close" id="imageModalClose" aria-label="Close image">&times;</button>
+  <button class="image-modal-nav image-modal-prev" id="imageModalPrev" aria-label="Previous image">&#10094;</button>
+  <img class="image-modal-content" id="modalImage" src="" alt="">
+  <button class="image-modal-nav image-modal-next" id="imageModalNext" aria-label="Next image">&#10095;</button>
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const gallery = document.getElementById("galleryScroll");
@@ -698,6 +700,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let startX = 0;
   let scrollLeft = 0;
   let dragMoved = false;
+  let currentIndex = 0;
+
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.getElementById("imageModalClose");
+  const prevBtn = document.getElementById("imageModalPrev");
+  const nextBtn = document.getElementById("imageModalNext");
+  const galleryImages = Array.from(document.querySelectorAll(".gallery-item img"));
 
   gallery.addEventListener("mousedown", (e) => {
     isDragging = true;
@@ -730,28 +740,52 @@ document.addEventListener("DOMContentLoaded", function () {
     gallery.scrollLeft = scrollLeft - walk;
   });
 
-  const modal = document.getElementById("imageModal");
-  const modalImg = document.getElementById("modalImage");
-  const closeBtn = document.getElementById("imageModalClose");
-  const galleryImages = document.querySelectorAll(".gallery-item img");
+  function openModal(index) {
+    currentIndex = index;
+    modal.classList.add("open");
+    modalImg.src = galleryImages[currentIndex].src;
+    modalImg.alt = galleryImages[currentIndex].alt;
+  }
 
-  galleryImages.forEach((img) => {
+  function closeModal() {
+    modal.classList.remove("open");
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    modalImg.src = galleryImages[currentIndex].src;
+    modalImg.alt = galleryImages[currentIndex].alt;
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    modalImg.src = galleryImages[currentIndex].src;
+    modalImg.alt = galleryImages[currentIndex].alt;
+  }
+
+  galleryImages.forEach((img, index) => {
     img.addEventListener("click", function () {
       if (dragMoved) return;
-      modal.classList.add("open");
-      modalImg.src = this.src;
-      modalImg.alt = this.alt;
+      openModal(index);
     });
   });
 
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
-  });
+  closeBtn.addEventListener("click", closeModal);
+  prevBtn.addEventListener("click", showPrev);
+  nextBtn.addEventListener("click", showNext);
 
   modal.addEventListener("click", function (e) {
     if (e.target === modal) {
-      modal.classList.remove("open");
+      closeModal();
     }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (!modal.classList.contains("open")) return;
+
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft") showPrev();
+    if (e.key === "ArrowRight") showNext();
   });
 });
 </script>
