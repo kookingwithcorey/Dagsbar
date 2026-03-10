@@ -691,109 +691,64 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const gallery = document.getElementById("galleryScroll");
-      if (!gallery) return;
+document.addEventListener("DOMContentLoaded", function () {
 
-      let autoScroll;
-      let isDragging = false;
-      let startX = 0;
-      let scrollLeft = 0;
-      let dragMoved = false;
+  const gallery = document.getElementById("galleryScroll");
+  if (!gallery) return;
 
-      function startAutoScroll() {
-        stopAutoScroll();
-        autoScroll = setInterval(() => {
-          gallery.scrollLeft += 1;
+  let isDragging = false;
+  let startX;
+  let scrollLeft;
 
-          if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
-            gallery.scrollLeft = 0;
-          }
-        }, 20);
-      }
+  gallery.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    gallery.classList.add("dragging");
+    startX = e.pageX - gallery.offsetLeft;
+    scrollLeft = gallery.scrollLeft;
+  });
 
-      function stopAutoScroll() {
-        clearInterval(autoScroll);
-      }
+  gallery.addEventListener("mouseleave", () => {
+    isDragging = false;
+    gallery.classList.remove("dragging");
+  });
 
-      gallery.addEventListener("mouseenter", stopAutoScroll);
-      gallery.addEventListener("mouseleave", function () {
-        if (!isDragging) startAutoScroll();
-      });
+  gallery.addEventListener("mouseup", () => {
+    isDragging = false;
+    gallery.classList.remove("dragging");
+  });
 
-      gallery.addEventListener("touchstart", stopAutoScroll, { passive: true });
-      gallery.addEventListener("touchend", startAutoScroll, { passive: true });
+  gallery.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - gallery.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    gallery.scrollLeft = scrollLeft - walk;
+  });
 
-      gallery.addEventListener("mousedown", function (e) {
-        isDragging = true;
-        dragMoved = false;
-        gallery.classList.add("dragging");
-        stopAutoScroll();
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.getElementById("imageModalClose");
+  const galleryImages = document.querySelectorAll(".gallery-item img");
 
-        startX = e.pageX - gallery.offsetLeft;
-        scrollLeft = gallery.scrollLeft;
-      });
-
-      window.addEventListener("mouseup", function () {
-        if (isDragging) {
-          isDragging = false;
-          gallery.classList.remove("dragging");
-          startAutoScroll();
-        }
-      });
-
-      gallery.addEventListener("mousemove", function (e) {
-        if (!isDragging) return;
-
-        e.preventDefault();
-        const x = e.pageX - gallery.offsetLeft;
-        const walk = (x - startX) * 1.5;
-
-        if (Math.abs(walk) > 5) {
-          dragMoved = true;
-        }
-
-        gallery.scrollLeft = scrollLeft - walk;
-      });
-
-      const modal = document.getElementById("imageModal");
-      const modalImg = document.getElementById("modalImage");
-      const closeBtn = document.getElementById("imageModalClose");
-      const galleryImages = document.querySelectorAll(".gallery-item img");
-
-      galleryImages.forEach((img) => {
-        img.addEventListener("click", function () {
-          if (dragMoved) return;
-
-          modal.classList.add("open");
-          modalImg.src = this.src;
-          modalImg.alt = this.alt;
-          stopAutoScroll();
-        });
-      });
-
-      function closeModal() {
-        modal.classList.remove("open");
-        modalImg.src = "";
-        startAutoScroll();
-      }
-
-      closeBtn.addEventListener("click", closeModal);
-
-      modal.addEventListener("click", function (e) {
-        if (e.target === modal) {
-          closeModal();
-        }
-      });
-
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && modal.classList.contains("open")) {
-          closeModal();
-        }
-      });
-
-      startAutoScroll();
+  galleryImages.forEach((img) => {
+    img.addEventListener("click", function () {
+      modal.classList.add("open");
+      modalImg.src = this.src;
+      modalImg.alt = this.alt;
     });
-  </script>
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("open");
+  });
+
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      modal.classList.remove("open");
+    }
+  });
+
+});
+</script>
 </body>
 </html>
