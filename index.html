@@ -643,34 +643,117 @@
     © DAGS Concept • Bourbon & Whiskey Lounge • Portsmouth, NH
   </footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const gallery = document.getElementById("galleryScroll");
-      if (!gallery) return;
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const gallery = document.getElementById("galleryScroll");
+    if (!gallery) return;
 
-      let autoScroll;
+    let autoScroll;
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let dragMoved = false;
 
-      function startAutoScroll() {
-        autoScroll = setInterval(() => {
-          gallery.scrollLeft += 1;
+    function startAutoScroll() {
+      stopAutoScroll();
+      autoScroll = setInterval(() => {
+        gallery.scrollLeft += 1;
 
-          if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
-            gallery.scrollLeft = 0;
-          }
-        }, 20);
-      }
+        if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) {
+          gallery.scrollLeft = 0;
+        }
+      }, 20);
+    }
 
-      function stopAutoScroll() {
-        clearInterval(autoScroll);
-      }
+    function stopAutoScroll() {
+      clearInterval(autoScroll);
+    }
 
-      gallery.addEventListener("mouseenter", stopAutoScroll);
-      gallery.addEventListener("mouseleave", startAutoScroll);
-      gallery.addEventListener("touchstart", stopAutoScroll, { passive: true });
-      gallery.addEventListener("touchend", startAutoScroll, { passive: true });
-
-      startAutoScroll();
+    /* Pause on hover / touch */
+    gallery.addEventListener("mouseenter", stopAutoScroll);
+    gallery.addEventListener("mouseleave", function () {
+      if (!isDragging) startAutoScroll();
     });
-  </script>
+
+    gallery.addEventListener("touchstart", stopAutoScroll, { passive: true });
+    gallery.addEventListener("touchend", startAutoScroll, { passive: true });
+
+    /* Drag to scroll with mouse */
+    gallery.addEventListener("mousedown", function (e) {
+      isDragging = true;
+      dragMoved = false;
+      gallery.classList.add("dragging");
+      stopAutoScroll();
+
+      startX = e.pageX - gallery.offsetLeft;
+      scrollLeft = gallery.scrollLeft;
+    });
+
+    window.addEventListener("mouseup", function () {
+      if (isDragging) {
+        isDragging = false;
+        gallery.classList.remove("dragging");
+        startAutoScroll();
+      }
+    });
+
+    gallery.addEventListener("mousemove", function (e) {
+      if (!isDragging) return;
+
+      e.preventDefault();
+      const x = e.pageX - gallery.offsetLeft;
+      const walk = (x - startX) * 1.5;
+
+      if (Math.abs(walk) > 5) {
+        dragMoved = true;
+      }
+
+      gallery.scrollLeft = scrollLeft - walk;
+    });
+
+    /* Click to zoom modal */
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.getElementById("imageModalClose");
+    const galleryImages = document.querySelectorAll(".gallery-item img");
+
+    galleryImages.forEach((img) => {
+      img.addEventListener("click", function () {
+        if (dragMoved) return;
+
+        modal.classList.add("open");
+        modalImg.src = this.src;
+        modalImg.alt = this.alt;
+        stopAutoScroll();
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove("open");
+      modalImg.src = "";
+      startAutoScroll();
+    }
+
+    closeBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("open")) {
+        closeModal();
+      }
+    });
+
+    startAutoScroll();
+  });
+</script>
+  <div id="imageModal" class="image-modal">
+  <button class="image-modal-close" id="imageModalClose" aria-label="Close image">&times;</button>
+  <img class="image-modal-content" id="modalImage" src="" alt="">
+</div>
 </body>
 </html>
