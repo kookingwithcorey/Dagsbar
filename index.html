@@ -5,6 +5,50 @@
   <title>DAGS | Bourbon & Whiskey Lounge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+   .image-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-prev {
+  left: 20px;
+}
+
+.image-modal-next {
+  right: 20px;
+}
+
+.image-modal-nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 768px) {
+  .image-modal-nav {
+    width: 42px;
+    height: 42px;
+    font-size: 24px;
+  }
+
+  .image-modal-prev {
+    left: 12px;
+  }
+
+  .image-modal-next {
+    right: 12px;
+  }
+} 
     :root {
       --bg: #050608;
       --bg-alt: #11141a;
@@ -749,6 +793,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function closeModal() {
     modal.classList.remove("open");
+    modalImg.src = "";
+    modalImg.alt = "";
   }
 
   function showPrev() {
