@@ -689,19 +689,19 @@
     <button class="image-modal-close" id="imageModalClose" aria-label="Close image">&times;</button>
     <img class="image-modal-content" id="modalImage" src="" alt="">
   </div>
-
-  <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-
   const gallery = document.getElementById("galleryScroll");
   if (!gallery) return;
 
   let isDragging = false;
-  let startX;
-  let scrollLeft;
+  let startX = 0;
+  let scrollLeft = 0;
+  let dragMoved = false;
 
   gallery.addEventListener("mousedown", (e) => {
     isDragging = true;
+    dragMoved = false;
     gallery.classList.add("dragging");
     startX = e.pageX - gallery.offsetLeft;
     scrollLeft = gallery.scrollLeft;
@@ -712,7 +712,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gallery.classList.remove("dragging");
   });
 
-  gallery.addEventListener("mouseup", () => {
+  window.addEventListener("mouseup", () => {
     isDragging = false;
     gallery.classList.remove("dragging");
   });
@@ -722,6 +722,11 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const x = e.pageX - gallery.offsetLeft;
     const walk = (x - startX) * 1.5;
+
+    if (Math.abs(walk) > 5) {
+      dragMoved = true;
+    }
+
     gallery.scrollLeft = scrollLeft - walk;
   });
 
@@ -732,6 +737,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   galleryImages.forEach((img) => {
     img.addEventListener("click", function () {
+      if (dragMoved) return;
       modal.classList.add("open");
       modalImg.src = this.src;
       modalImg.alt = this.alt;
@@ -747,7 +753,6 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.classList.remove("open");
     }
   });
-
 });
 </script>
 </body>
