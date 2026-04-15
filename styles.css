@@ -904,9 +904,10 @@ footer a:hover,
 }
 
 .brand-link .brand-subtitle {
-  color: var(--muted) !important;
+  color: var(--text-muted) !important;
   text-decoration: none !important;
 }
+
 .home-link {
   text-decoration: none;
   color: inherit;
