@@ -892,3 +892,16 @@ footer a:hover,
   color: inherit;
   display: inline-block;
 }
+.brand-link,
+.brand-link:visited,
+.brand-link:hover,
+.brand-link:active {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.brand-link .brand-title,
+.brand-link .brand-subtitle {
+  color: inherit !important;
+  text-decoration: none !important;
+}
