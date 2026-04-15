@@ -61,17 +61,38 @@
     }
 
     .brand-subtitle {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: var(--muted);
-      letter-spacing: 0.28em;
-    }
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.28em;
+}
 
-    nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+.brand-link,
+.brand-link:link,
+.brand-link:visited,
+.brand-link:hover,
+.brand-link:active {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.brand-link .brand-title {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand-link .brand-subtitle {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
     nav a {
       font-size: 0.85rem;
