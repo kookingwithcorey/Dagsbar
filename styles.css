@@ -918,3 +918,23 @@ footer a:hover,
   opacity: 0.9;
   transform: translateY(-1px);
 }
+header .brand-link,
+header .brand-link:link,
+header .brand-link:visited,
+header .brand-link:hover,
+header .brand-link:active {
+  color: var(--text) !important;
+  text-decoration: none !important;
+}
+
+header .brand-link .brand-title,
+header .brand-link .brand-title:link,
+header .brand-link .brand-title:visited {
+  color: var(--text) !important;
+  text-decoration: none !important;
+}
+
+header .brand-link .brand-subtitle {
+  color: var(--text-muted) !important;
+  text-decoration: none !important;
+}
