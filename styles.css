@@ -887,19 +887,18 @@ footer a:hover,
   text-decoration: none;
   cursor: pointer;
 }
-.brand-link {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-}
+
 .brand-link,
+.brand-link:link,
 .brand-link:visited,
 .brand-link:hover,
 .brand-link:active {
-  color: inherit !important;
+  display: inline-block;
   text-decoration: none !important;
+  color: inherit !important;
 }
 
+.brand-link .brand,
 .brand-link .brand-title,
 .brand-link .brand-subtitle {
   color: inherit !important;
