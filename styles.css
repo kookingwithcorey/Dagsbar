@@ -887,3 +887,8 @@ footer a:hover,
   text-decoration: none;
   cursor: pointer;
 }
+.brand-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
