@@ -907,3 +907,13 @@ footer a:hover,
   color: var(--muted) !important;
   text-decoration: none !important;
 }
+.home-link {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.home-link:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
