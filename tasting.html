@@ -45,6 +45,7 @@
       align-items: center;
       margin-bottom: 24px;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .brand {
@@ -61,38 +62,39 @@
     }
 
     .brand-subtitle {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: var(--muted);
-  letter-spacing: 0.28em;
-}
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.28em;
+      white-space: nowrap;
+    }
 
-.brand-link,
-.brand-link:link,
-.brand-link:visited,
-.brand-link:hover,
-.brand-link:active {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--text);
-  cursor: pointer;
-}
+    .brand-link,
+    .brand-link:link,
+    .brand-link:visited,
+    .brand-link:hover,
+    .brand-link:active {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+    }
 
-.brand-link .brand-title {
-  color: var(--text);
-  text-decoration: none;
-}
+    .brand-link .brand-title {
+      color: var(--text);
+      text-decoration: none;
+    }
 
-.brand-link .brand-subtitle {
-  color: var(--muted);
-  text-decoration: none;
-}
+    .brand-link .brand-subtitle {
+      color: var(--muted);
+      text-decoration: none;
+    }
 
-nav {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
     nav a {
       font-size: 0.85rem;
@@ -114,6 +116,45 @@ nav {
       border-color: var(--accent-soft);
       background: rgba(15, 139, 107, 0.12);
       color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand-link {
+        width: 100%;
+      }
+
+      nav {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        column-gap: 22px;
+        row-gap: 12px;
+        justify-content: start;
+        align-items: start;
+      }
+
+      nav a {
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        display: inline-block;
+        width: auto;
+      }
+
+      nav a.active {
+        padding: 6px 14px;
+        border: 1px solid var(--accent-soft);
+        border-radius: 999px;
+        background: rgba(15, 139, 107, 0.12);
+        display: inline-block;
+        width: fit-content;
+      }
     }
 
     .card {
@@ -254,7 +295,6 @@ nav {
       background: rgba(0, 0, 0, 0.75);
     }
 
-    /* dropdown dark like others */
     select {
       background: #11141a;
       color: var(--text);
@@ -386,8 +426,6 @@ nav {
       opacity: 0.7;
     }
 
-    /* --- Flavor profile / chart --- */
-
     .flavor-profile-header {
       text-align: center;
       text-transform: uppercase;
@@ -410,7 +448,7 @@ nav {
     .flavor-chart {
       position: relative;
       margin: 4px -4px 18px;
-      padding: 0 4px 32px; /* a bit more bottom room for labels */
+      padding: 0 4px 32px;
       overflow: hidden;
     }
 
@@ -456,25 +494,25 @@ nav {
     }
 
     .flavor-chart-labels {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 0.62rem;          /* smaller so all 12 fit */
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
-  color: var(--muted);
-  pointer-events: none;
-  padding: 0 4px 0 4px;        /* tiny side padding */
-}
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--muted);
+      pointer-events: none;
+      padding: 0 4px 0 4px;
+    }
 
-.flavor-chart-labels span {
-  white-space: nowrap;         /* keep each flavor on one line */
-}
-    /* Print styles – one-page fit */
+    .flavor-chart-labels span {
+      white-space: nowrap;
+    }
+
     @media print {
       @page {
         size: letter portrait;
@@ -562,22 +600,22 @@ nav {
 </head>
 <body>
   <div class="page">
-   <header>
-  <a href="index.html" class="brand-link" aria-label="Return to Home">
-    <div class="brand">
-      <div class="brand-title">DAGS</div>
-      <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
-    </div>
-  </a>
- <nav>
-  <a href="menu.html">Whiskey List</a>
-  <a href="menu-print.html">Printable Menu</a>
-  <a href="tasting.html" class="active">Tasting Sheet</a>
-  <a href="blind-tasting.html">Blind Tasting</a>
-  <a href="history.html">Whiskey Log</a>
-  <a href="https://dramhub.lovable.app" target="_blank" rel="noopener" class="nav-pill">Dram Hub</a>
-</nav>
-</header>
+    <header>
+      <a href="index.html" class="brand-link" aria-label="Return to Home">
+        <div class="brand">
+          <div class="brand-title">DAGS</div>
+          <div class="brand-subtitle">Bourbon &amp; Whiskey Lounge</div>
+        </div>
+      </a>
+      <nav>
+        <a href="menu.html">Whiskey List</a>
+        <a href="menu-print.html">Printable Menu</a>
+        <a href="tasting.html" class="active">Tasting Sheet</a>
+        <a href="blind-tasting.html">Blind Tasting</a>
+        <a href="history.html">Whiskey Log</a>
+        <a href="https://dramhub.lovable.app" target="_blank" rel="noopener">Dram Hub</a>
+      </nav>
+    </header>
 
     <main class="card">
       <div class="card-header">
@@ -596,7 +634,6 @@ nav {
 
       <form id="tastingForm" autocomplete="off">
         <div class="tasting-grid">
-          <!-- LEFT COLUMN -->
           <section>
             <div class="field-group">
               <div class="field">
@@ -609,7 +646,6 @@ nav {
               </div>
             </div>
 
-            <!-- Age + Distilled In -->
             <div class="field-group">
               <div class="field">
                 <label for="age">Age (Years)</label>
@@ -621,7 +657,6 @@ nav {
               </div>
             </div>
 
-            <!-- Proof + Mashbill -->
             <div class="field-group">
               <div class="field">
                 <label for="proof">Proof</label>
@@ -633,7 +668,6 @@ nav {
               </div>
             </div>
 
-            <!-- Barrel / Price -->
             <div class="field-group">
               <div class="field">
                 <label for="batch">Barrel / Batch</label>
@@ -691,7 +725,6 @@ nav {
             </section>
           </section>
 
-          <!-- RIGHT COLUMN – FLAVOR PROFILE -->
           <section>
             <section class="metrics-section">
               <div class="flavor-profile-header">
@@ -701,20 +734,20 @@ nav {
 
               <div class="flavor-chart">
                 <svg id="flavorChart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
-               <div class="flavor-chart-labels">
-  <span>Smoky</span>
-  <span>Spicy</span>
-  <span>Herbal</span>
-  <span>Full</span>
-  <span>Rich</span>
-  <span>Sweet</span>
-  <span>Vanilla</span>
-  <span>Creamy</span>
-  <span>Oaky</span>
-  <span>Tart</span>
-  <span>Fruity</span>
-  <span>Floral</span>
-</div>
+                <div class="flavor-chart-labels">
+                  <span>Smoky</span>
+                  <span>Spicy</span>
+                  <span>Herbal</span>
+                  <span>Full</span>
+                  <span>Rich</span>
+                  <span>Sweet</span>
+                  <span>Vanilla</span>
+                  <span>Creamy</span>
+                  <span>Oaky</span>
+                  <span>Tart</span>
+                  <span>Fruity</span>
+                  <span>Floral</span>
+                </div>
               </div>
 
               <div class="section-title">Flavor Metrics (0–5)</div>
@@ -891,9 +924,7 @@ nav {
       const ticks = points
         .map(
           (p) =>
-            `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${
-              yBase + 6
-            }"></line>`
+            `<line class="profile-tick" x1="${p.x}" y1="${yBase}" x2="${p.x}" y2="${yBase + 6}"></line>`
         )
         .join("");
 
@@ -980,8 +1011,6 @@ nav {
       updateFlavorChart(vals);
       updateFlavorProfile(vals);
     }
-
-    // --- Local storage integration ---
 
     const TASTING_HISTORY_KEY = "dags_tastings_v1";
 
