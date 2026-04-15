@@ -895,12 +895,15 @@ footer a:hover,
 .brand-link:active {
   display: inline-block;
   text-decoration: none !important;
-  color: inherit !important;
+  color: var(--text) !important;
 }
 
-.brand-link .brand,
-.brand-link .brand-title,
+.brand-link .brand-title {
+  color: var(--text) !important;
+  text-decoration: none !important;
+}
+
 .brand-link .brand-subtitle {
-  color: inherit !important;
+  color: var(--muted) !important;
   text-decoration: none !important;
 }
