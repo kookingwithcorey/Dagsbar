@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DAGS | Whiskey IQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-alt: #0d1218;
+      --panel: #10161d;
+      --panel-2: #151b23;
+      --card: #121922;
+      --text: #f7f7f7;
+      --muted: #a3acb9;
+      --border: rgba(255,255,255,0.10);
+      --accent: #0f8b6b;
+      --accent-2: #d4af37;
+      --gold-line: #c69b74;
+      --shadow: 0 20px 45px rgba(0,0,0,0.35);
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --hero: linear-gradient(135deg, #0d1d46 0%, #11285a 100%);
+      --hero-text: #ffffff;
+      --tag-bg: rgba(212,175,55,0.08);
+      --tag-border: rgba(212,175,55,0.22);
+      --tag-text: #f3e1a5;
+      --status-bg: rgba(255,255,255,0.04);
+      --status-border: rgba(255,255,255,0.10);
+      --status-active-bg: linear-gradient(135deg, rgba(15,139,107,0.16), rgba(212,175,55,0.12));
+      --status-active-border: rgba(212,175,55,0.36);
+      --input-bg: rgba(255,255,255,0.05);
+      --summary-card: rgba(255,255,255,0.03);
+      --danger-border: rgba(220,120,120,0.35);
+      --danger-bg: rgba(180,75,75,0.06);
+      --danger-text: #e3a1a1;
+    }
+
+    body.light-mode {
+      --bg: #efe6dc;
+      --bg-alt: #f5ede5;
+      --panel: #f3ece4;
+      --panel-2: #efe6dd;
+      --card: #faf6f1;
+      --text: #1f1c1a;
+      --muted: #7f7267;
+      --border: rgba(47,34,22,0.10);
+      --accent: #0f8b6b;
+      --accent-2: #bc9169;
+      --gold-line: #bc9169;
+      --shadow: 0 14px 30px rgba(69,45,24,0.08);
+      --hero: linear-gradient(135deg, #132454 0%, #152b5e 100%);
+      --hero-text: #ffffff;
+      --tag-bg: #f6e9d8;
+      --tag-border: rgba(188,145,105,0.26);
+      --tag-text: #9c6f44;
+      --status-bg: #f8f3ee;
+      --status-border: rgba(47,34,22,0.10);
+      --status-active-bg: linear-gradient(135deg, rgba(188,145,105,0.18), rgba(15,139,107,0.10));
+      --status-active-border: rgba(188,145,105,0.32);
+      --input-bg: rgba(255,255,255,0.8);
+      --summary-card: rgba(255,255,255,0.65);
+      --danger-border: rgba(214,120,120,0.32);
+      --danger-bg: rgba(255,235,235,0.85);
+      --danger-text: #ba6d6d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(15,139,107,0.12) 0%, rgba(0,0,0,0) 28%),
+        linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 88%, transparent);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, rgba(15,139,107,0.24), rgba(212,175,55,0.14));
+      border: 1px solid rgba(212,175,55,0.28);
+      color: var(--accent-2);
+      flex-shrink: 0;
+    }
+
+    .eyebrow {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.5vw, 2rem);
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn,
+    .icon-btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-weight: 800;
+      font-size: 0.93rem;
+    }
+
+    .btn:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-glass {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-2), #efd070);
+      color: #14110f;
+      box-shadow: 0 10px 24px rgba(212,175,55,0.18);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, rgba(15,139,107,0.22), rgba(15,139,107,0.12));
+      color: var(--text);
+      border: 1px solid rgba(15,139,107,0.34);
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 1.15rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 90px;
+      height: fit-content;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(15,139,107,0.10), rgba(212,175,55,0.08));
+    }
+
+    .sidebar-head h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .total-pill {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(212,175,55,0.18);
+      color: var(--accent-2);
+      font-weight: 900;
+    }
+
+    .total-pill small {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .side-list {
+      display: grid;
+    }
+
+    .side-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      transition: 0.2s ease;
+    }
+
+    .side-item:hover {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    }
+
+    .side-item.active {
+      background: linear-gradient(135deg, rgba(15,139,107,0.16), rgba(212,175,55,0.12));
+      box-shadow: inset 3px 0 0 var(--accent-2);
+    }
+
+    .side-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .side-score {
+      font-size: 1.95rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .side-score span {
+      font-size: 0.42em;
+      color: var(--muted);
+      margin-left: 4px;
+      font-weight: 700;
+    }
+
+    .mini-progress {
+      height: 6px;
+      border-radius: 999px;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .mini-progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .main {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 94%, transparent);
+      box-shadow: var(--shadow);
+    }
+
+    .stage {
+      display: none;
+      padding: 22px;
+    }
+
+    .stage.active {
+      display: block;
+    }
+
+    .stage-head {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .stage-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-2);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .stage-title {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .stage-subtitle {
+      margin: 10px auto 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .stage-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) 360px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .rating-card,
+    .notes-card {
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      padding: 20px;
+    }
+
+    .rating-emoji {
+      min-height: 52px;
+      text-align: center;
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .rating-label {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .vertical-rating {
+      display: grid;
+      grid-template-columns: 64px 1fr 64px;
+      gap: 8px;
+      align-items: center;
+      min-height: 430px;
+    }
+
+    .circle-btn {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 1.9rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .slider-shell {
+      position: relative;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-line {
+      position: absolute;
+      top: 28px;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .slider-fill {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      width: 6px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      box-shadow: 0 0 16px rgba(15,139,107,0.25);
+      transition: height 0.2s ease;
+    }
+
+    .slider-track {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 400px;
+      height: 56px;
+      transform: rotate(-90deg);
+      background: transparent;
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .slider-track::-webkit-slider-runnable-track {
+      height: 6px;
+      background: transparent;
+    }
+
+    .slider-track::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #f4efe7;
+      border: 4px solid #151b23;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.28), 0 0 0 5px rgba(255,255,255,0.05);
+      margin-top: -12px;
+    }
+
+    .slider-track::-moz-range-track {
+      height: 6px;
+      background: transparent;
+    }
+
+    .slider-track::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #f4efe7;
+      border: 4px solid #151b23;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.28), 0 0 0 5px rgba(255,255,255,0.05);
+    }
+
+    .score-box {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .score-box input {
+      width: 110px;
+      max-width: 100%;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--text);
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 10px;
+      outline: none;
+    }
+
+    .score-box small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .choice-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .choice-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .choice-btn span {
+      color: var(--muted);
+      margin-left: 8px;
+      font-weight: 700;
+    }
+
+    .choice-btn.active,
+    .choice-btn:hover {
+      background: linear-gradient(135deg, rgba(15,139,107,0.14), rgba(212,175,55,0.10));
+      border-color: rgba(212,175,55,0.30);
+    }
+
+    .field-label {
+      margin: 0 0 10px;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 900;
+      color: var(--accent-2);
+    }
+
+    .notes-card input[type="text"],
+    .notes-card textarea {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 14px;
+      outline: none;
+    }
+
+    .notes-card textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tag-btn {
+      border-radius: 999px;
+      padding: 10px 14px;
+      border: 1px solid var(--tag-border);
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tag-btn.active,
+    .tag-btn:hover {
+      background: linear-gradient(135deg, rgba(212,175,55,0.22), rgba(15,139,107,0.14));
+      border-color: rgba(212,175,55,0.40);
+      color: var(--text);
+    }
+
+    .stage-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stage-actions .left,
+    .stage-actions .right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .summary-hero-card {
+      border-radius: 24px;
+      padding: 20px 22px;
+      background: var(--hero);
+      color: var(--hero-text);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .summary-hero-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 900;
+      opacity: 0.75;
+      margin-bottom: 8px;
+    }
+
+    .summary-hero-score {
+      font-size: clamp(3rem, 10vw, 5.2rem);
+      line-height: 0.9;
+      font-weight: 900;
+    }
+
+    .summary-hero-score span {
+      font-size: 0.34em;
+      opacity: 0.72;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .summary-hero-emoji {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      flex-shrink: 0;
+    }
+
+    .summary-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .summary-score-card {
+      background: var(--summary-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .summary-score-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-2);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .summary-score-value {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .summary-score-value span {
+      font-size: 0.42em;
+      color: var(--muted);
+      margin-left: 4px;
+      font-weight: 700;
+    }
+
+    .summary-line {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .summary-line span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold-line), #e4cdb8);
+    }
+
+    .summary-section-block {
+      margin-top: 14px;
+    }
+
+    .summary-section-title {
+      margin: 0 0 10px;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-2);
+      font-weight: 900;
+    }
+
+    .summary-card-box {
+      background: var(--summary-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .summary-notes-copy {
+      color: var(--muted);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .summary-pills-row,
+    .summary-status-row,
+    .summary-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .summary-pill {
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--tag-text);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .summary-status-pill {
+      border-radius: 14px;
+      padding: 12px 15px;
+      background: var(--status-bg);
+      border: 1px solid var(--status-border);
+      color: var(--text);
+      font-size: 0.93rem;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .summary-status-pill.active {
+      background: var(--status-active-bg);
+      border-color: var(--status-active-border);
+      box-shadow: inset 0 0 0 1px rgba(212,175,55,0.08);
+    }
+
+    .summary-chart-card {
+      margin-top: 14px;
+      background: var(--summary-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      display: block;
+    }
+
+    .summary-delete-btn {
+      width: 100%;
+      border-radius: 16px;
+      padding: 15px 18px;
+      border: 1px solid var(--danger-border);
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .summary-delete-btn:hover {
+      filter: brightness(1.02);
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .stage-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 12px 10px 34px;
+      }
+
+      .topbar {
+        padding: 12px;
+        border-radius: 16px;
+      }
+
+      .top-actions {
+        width: 100%;
+      }
+
+      .top-actions > * {
+        flex: 1 1 auto;
+      }
+
+      .layout {
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .sidebar,
+      .main {
+        border-radius: 18px;
+      }
+
+      .sidebar-head {
+        padding: 14px;
+      }
+
+      .side-item {
+        padding: 13px 14px;
+      }
+
+      .stage {
+        padding: 16px 12px 18px;
+      }
+
+      .stage-title {
+        font-size: 2rem;
+      }
+
+      .stage-grid {
+        gap: 14px;
+      }
+
+      .rating-card,
+      .notes-card {
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .vertical-rating {
+        grid-template-columns: 54px 1fr 54px;
+        min-height: 360px;
+      }
+
+      .circle-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.6rem;
+      }
+
+      .slider-shell {
+        height: 320px;
+      }
+
+      .slider-track {
+        width: 320px;
+      }
+
+      .score-box input {
+        width: 92px;
+        font-size: 1.9rem;
+      }
+
+      .summary-wrap {
+        max-width: 100%;
+      }
+
+      .summary-hero-card {
+        border-radius: 20px;
+        padding: 18px;
+      }
+
+      .summary-grid-compact {
+        gap: 10px;
+      }
+
+      .summary-score-card,
+      .summary-card-box,
+      .summary-chart-card {
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .summary-grid-compact {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-actions-row {
+        flex-direction: column;
+      }
+
+      .summary-actions-row .btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .sidebar,
+      .stage-actions,
+      .summary-actions-row,
+      .icon-btn,
+      #themeToggle {
+        display: none !important;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      .page {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .main,
+      .summary-card-box,
+      .summary-score-card,
+      .summary-chart-card {
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+
+      .stage {
+        display: none !important;
+      }
+
+      .stage.summary-print {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">IQ</div>
+        <div>
+          <div class="eyebrow">DAGS Experience</div>
+          <h1 class="title">Whiskey IQ</h1>
+          <p class="subtitle">Six-question bottle evaluation with weighted scoring and a DAGS-style summary.</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <a class="btn btn-glass" href="index.html">← Back Home</a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">🌙</button>
+        <button class="btn btn-green" id="resetBtn" type="button">Reset</button>
+        <button class="btn btn-gold" id="jumpSummaryBtn" type="button">View Summary</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <h2>Whiskey IQ Score</h2>
+          <div class="total-pill"><span id="totalScore">0</span><small>/100</small></div>
+        </div>
+        <div class="side-list" id="sideList"></div>
+      </aside>
+
+      <main class="main">
+        <div id="stages"></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const categories = [
+      {
+        key: "aroma",
+        label: "Aroma",
+        max: 25,
+        type: "range",
+        question: "How do you like the smell?",
+        emojiMap: [
+          { min: 0, emoji: "😬", text: "Needs work" },
+          { min: 6, emoji: "🙂", text: "Good" },
+          { min: 13, emoji: "😍", text: "Really good" },
+          { min: 21, emoji: "🤩", text: "Amazing" }
+        ]
+      },
+      {
+        key: "flavor",
+        label: "Flavor",
+        max: 30,
+        type: "range",
+        question: "How does it taste?",
+        emojiMap: [
+          { min: 0, emoji: "😕", text: "Flat" },
+          { min: 8, emoji: "🙂", text: "Solid" },
+          { min: 16, emoji: "😋", text: "Delicious" },
+          { min: 25, emoji: "🤯", text: "Elite" }
+        ]
+      },
+      {
+        key: "finish",
+        label: "Finish",
+        max: 25,
+        type: "range",
+        question: "How long and enjoyable is the finish?",
+        emojiMap: [
+          { min: 0, emoji: "😐", text: "Short" },
+          { min: 6, emoji: "🙂", text: "Good" },
+          { min: 13, emoji: "😍", text: "Long & rich" },
+          { min: 21, emoji: "🔥", text: "Outstanding" }
+        ]
+      },
+      {
+        key: "drinkAgain",
+        label: "Drink Again",
+        max: 5,
+        type: "choice",
+        question: "Would you drink this again?",
+        choices: [
+          { label: "No", value: 0, emoji: "🙅", note: "No" },
+          { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
+          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" }
+        ]
+      },
+      {
+        key: "recommend",
+        label: "Recommend",
+        max: 5,
+        type: "choice",
+        question: "Would you recommend this?",
+        choices: [
+          { label: "No", value: 0, emoji: "👎", note: "No" },
+          { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
+        ]
+      },
+      {
+        key: "value",
+        label: "Value",
+        max: 10,
+        type: "range",
+        question: "Is it worth the price?",
+        emojiMap: [
+          { min: 0, emoji: "😬", text: "Overpriced" },
+          { min: 3, emoji: "🙂", text: "Fair" },
+          { min: 6, emoji: "😍", text: "Great value" },
+          { min: 9, emoji: "🤑", text: "Steal" }
+        ]
+      }
+    ];
+
+    const flavorTags = [
+      "Vanilla", "Caramel", "Oak", "Honey", "Spice", "Smoke",
+      "Fruit", "Floral", "Cherry", "Leather", "Corn", "Rye",
+      "Citrus", "Pepper", "Chocolate", "Butter", "Coffee", "Mint"
+    ];
+
+    const state = {
+      bottleName: "",
+      notes: "",
+      tags: [],
+      activeStage: 0,
+      theme: localStorage.getItem("whiskeyIQTheme") || "dark",
+      statuses: {
+        wantToTry: false,
+        onShelf: false,
+        finished: false
+      },
+      scores: {
+        aroma: 0,
+        flavor: 0,
+        finish: 0,
+        drinkAgain: 0,
+        recommend: 0,
+        value: 0
+      }
+    };
+
+    const sideList = document.getElementById("sideList");
+    const stages = document.getElementById("stages");
+    const totalScoreEl = document.getElementById("totalScore");
+    const resetBtn = document.getElementById("resetBtn");
+    const jumpSummaryBtn = document.getElementById("jumpSummaryBtn");
+    const themeToggle = document.getElementById("themeToggle");
+
+    function clamp(num, min, max) {
+      return Math.max(min, Math.min(max, num));
+    }
+
+    function totalScore() {
+      return Object.values(state.scores).reduce((a, b) => a + Number(b || 0), 0);
+    }
+
+    function overallEmoji(score) {
+      if (score >= 90) return "🏆";
+      if (score >= 80) return "🤩";
+      if (score >= 70) return "🥃";
+      if (score >= 60) return "🙂";
+      if (score >= 45) return "😐";
+      return "😬";
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getRangeMeta(cat, value) {
+      let meta = cat.emojiMap[0];
+      for (const item of cat.emojiMap) {
+        if (value >= item.min) meta = item;
+      }
+      return meta;
+    }
+
+    function getChoiceMeta(cat, value) {
+      return cat.choices.find(c => c.value === value) || cat.choices[0];
+    }
+
+    function applyTheme() {
+      document.body.classList.toggle("light-mode", state.theme === "light");
+      themeToggle.textContent = state.theme === "light" ? "☀️" : "🌙";
+      localStorage.setItem("whiskeyIQTheme", state.theme);
+    }
+
+    function renderSidebar() {
+      sideList.innerHTML = "";
+
+      categories.forEach((cat, index) => {
+        const item = document.createElement("div");
+        item.className = "side-item" + (state.activeStage === index ? " active" : "");
+        const score = state.scores[cat.key];
+        const pct = (score / cat.max) * 100;
+
+        item.innerHTML = `
+          <div class="side-label">${cat.label}</div>
+          <div class="side-score">${score}<span>/${cat.max}</span></div>
+          <div class="mini-progress"><span style="width:${pct}%"></span></div>
+        `;
+
+        item.addEventListener("click", () => {
+          state.activeStage = index;
+          render();
+        });
+
+        sideList.appendChild(item);
+      });
+
+      const totalItem = document.createElement("div");
+      totalItem.className = "side-item" + (state.activeStage === categories.length ? " active" : "");
+      totalItem.innerHTML = `
+        <div class="side-label">Total</div>
+        <div class="side-score">${totalScore()}<span>/100</span></div>
+        <div class="mini-progress"><span style="width:${totalScore()}%"></span></div>
+      `;
+      totalItem.addEventListener("click", () => {
+        state.activeStage = categories.length;
+        render();
+      });
+      sideList.appendChild(totalItem);
+
+      totalScoreEl.textContent = totalScore();
+    }
+
+    function renderNotesPanel() {
+      return `
+        <div class="notes-card">
+          <p class="field-label">Bottle Name</p>
+          <input type="text" id="bottleNameInput" placeholder="Silk Velvet Cask Strength Bourbon" value="${escapeHtml(state.bottleName)}" />
+
+          <p class="field-label" style="margin-top:16px;">Tasting Notes</p>
+          <textarea id="notesInput" placeholder="Add notes on nose, palate, finish, heat, complexity, value, or anything else...">${escapeHtml(state.notes)}</textarea>
+
+          <p class="field-label" style="margin-top:16px;">Flavor Notes</p>
+          <div class="tags">
+            ${flavorTags.map(tag => `
+              <button type="button" class="tag-btn ${state.tags.includes(tag) ? "active" : ""}" data-tag="${tag}">
+                ${tag}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRangeStage(cat, index) {
+      const value = Number(state.scores[cat.key]);
+      const meta = getRangeMeta(cat, value);
+      const fillPct = (value / cat.max) * 100;
+
+      return `
+        <section class="stage ${state.activeStage === index ? "active" : ""}">
+          <div class="stage-head">
+            <div class="stage-kicker">${cat.label}</div>
+            <h2 class="stage-title">${cat.label}</h2>
+            <div class="stage-subtitle">${cat.question}</div>
+          </div>
+
+          <div class="stage-grid">
+            <div class="rating-card">
+              <div class="rating-emoji">${meta.emoji}</div>
+              <div class="rating-label">${value}/${cat.max} · ${meta.text}</div>
+
+              <div class="vertical-rating">
+                <button class="circle-btn" type="button" data-step="down" data-key="${cat.key}">−</button>
+
+                <div>
+                  <div class="slider-shell">
+                    <div class="slider-line"></div>
+                    <div class="slider-fill" style="height:${fillPct}%"></div>
+                    <input
+                      class="slider-track"
+                      type="range"
+                      min="0"
+                      max="${cat.max}"
+                      step="1"
+                      value="${value}"
+                      data-range-key="${cat.key}"
+                    />
+                  </div>
+
+                  <div class="score-box">
+                    <input
+                      type="number"
+                      min="0"
+                      max="${cat.max}"
+                      step="1"
+                      value="${value}"
+                      data-input-key="${cat.key}"
+                    />
+                    <small>Type score or move the slider line</small>
+                  </div>
+                </div>
+
+                <button class="circle-btn" type="button" data-step="up" data-key="${cat.key}">+</button>
+              </div>
+            </div>
+
+            ${renderNotesPanel()}
+          </div>
+
+          ${renderStageActions(index)}
+        </section>
+      `;
+    }
+
+    function renderChoiceStage(cat, index) {
+      const value = Number(state.scores[cat.key]);
+      const meta = getChoiceMeta(cat, value);
+
+      return `
+        <section class="stage ${state.activeStage === index ? "active" : ""}">
+          <div class="stage-head">
+            <div class="stage-kicker">${cat.label}</div>
+            <h2 class="stage-title">${cat.label}</h2>
+            <div class="stage-subtitle">${cat.question}</div>
+          </div>
+
+          <div class="stage-grid">
+            <div class="rating-card">
+              <div class="rating-emoji">${meta.emoji}</div>
+              <div class="rating-label">${value}/${cat.max} · ${meta.note}</div>
+
+              <div class="choice-grid">
+                ${cat.choices.map(choice => `
+                  <button
+                    class="choice-btn ${choice.value === value ? "active" : ""}"
+                    type="button"
+                    data-choice-key="${cat.key}"
+                    data-choice-value="${choice.value}"
+                  >
+                    ${choice.emoji} ${choice.label}
+                    <span>${choice.value}/${cat.max}</span>
+                  </button>
+                `).join("")}
+              </div>
+
+              <div class="score-box" style="margin-top:22px;">
+                <input
+                  type="number"
+                  min="0"
+                  max="${cat.max}"
+                  step="1"
+                  value="${value}"
+                  data-input-key="${cat.key}"
+                />
+                <small>Manual score input also works here</small>
+              </div>
+            </div>
+
+            ${renderNotesPanel()}
+          </div>
+
+          ${renderStageActions(index)}
+        </section>
+      `;
+    }
+
+    function renderStageActions(index) {
+      const first = index === 0;
+      const lastQuestion = index === categories.length - 1;
+
+      return `
+        <div class="stage-actions">
+          <div class="left">
+            ${!first ? `<button class="btn btn-glass" type="button" data-nav="prev">← Previous</button>` : ``}
+          </div>
+          <div class="right">
+            ${!lastQuestion
+              ? `<button class="btn btn-gold" type="button" data-nav="next">Next →</button>`
+              : `<button class="btn btn-gold" type="button" data-nav="summary">Finish & View Summary</button>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSummaryStage() {
+      const total = totalScore();
+
+      return `
+        <section class="stage ${state.activeStage === categories.length ? "active summary-print" : ""}">
+          <div class="stage-head">
+            <div class="stage-kicker">Final Score</div>
+            <h2 class="stage-title">Whiskey IQ Summary</h2>
+            <div class="stage-subtitle">Final weighted score with a compact DAGS-style recap.</div>
+          </div>
+
+          <div class="summary-wrap">
+            <div class="summary-hero-card">
+              <div>
+                <div class="summary-hero-label">Total Score</div>
+                <div class="summary-hero-score">${total}<span>/100</span></div>
+              </div>
+              <div class="summary-hero-emoji">${overallEmoji(total)}</div>
+            </div>
+
+            <div class="summary-grid-compact">
+              ${categories.map(cat => `
+                <div class="summary-score-card">
+                  <div class="summary-score-label">${cat.label}</div>
+                  <div class="summary-score-value">${state.scores[cat.key]}<span>/${cat.max}</span></div>
+                  <div class="summary-line">
+                    <span style="width:${(state.scores[cat.key] / cat.max) * 100}%"></span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+
+            <div class="summary-section-block">
+              <div class="summary-section-title">Bottle Name</div>
+              <div class="summary-card-box">
+                <div class="summary-notes-copy" style="color:var(--text);font-weight:800;">${escapeHtml(state.bottleName || "No bottle name entered")}</div>
+              </div>
+            </div>
+
+            <div class="summary-section-block">
+              <div class="summary-section-title">Flavor Notes</div>
+              <div class="summary-pills-row">
+                ${state.tags.length
+                  ? state.tags.map(tag => `<span class="summary-pill">${escapeHtml(tag)}</span>`).join("")
+                  : `<span class="summary-pill">No tags selected</span>`}
+              </div>
+            </div>
+
+            <div class="summary-section-block">
+              <div class="summary-section-title">Collection Status</div>
+              <div class="summary-status-row">
+                <button type="button" class="summary-status-pill ${state.statuses.wantToTry ? "active" : ""}" data-status="wantToTry">🥃 Want to Try</button>
+                <button type="button" class="summary-status-pill ${state.statuses.onShelf ? "active" : ""}" data-status="onShelf">🥃 On My Shelf</button>
+                <button type="button" class="summary-status-pill ${state.statuses.finished ? "active" : ""}" data-status="finished">✓ Finished</button>
+              </div>
+            </div>
+
+            <div class="summary-section-block">
+              <div class="summary-section-title">Tasting Notes</div>
+              <div class="summary-card-box">
+                <div class="summary-notes-copy">${escapeHtml(state.notes || "No tasting notes added.")}</div>
+              </div>
+            </div>
+
+            <div class="summary-chart-card">
+              <div class="summary-section-title">Radar Graph</div>
+              <canvas id="radarChart" width="500" height="500"></canvas>
+            </div>
+
+            <div class="summary-section-block">
+              <div class="summary-actions-row">
+                <button class="btn btn-gold" type="button" data-nav="prev">Edit Rating</button>
+                <button class="btn btn-glass" type="button" onclick="window.print()">Save PDF</button>
+                <button class="btn btn-green" type="button" id="downloadBtn">Download JSON</button>
+              </div>
+            </div>
+
+            <div class="summary-section-block">
+              <button class="summary-delete-btn" type="button">Delete Bourbon</button>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderStages() {
+      let html = "";
+      categories.forEach((cat, index) => {
+        html += cat.type === "range"
+          ? renderRangeStage(cat, index)
+          : renderChoiceStage(cat, index);
+      });
+      html += renderSummaryStage();
+      stages.innerHTML = html;
+    }
+
+    function drawRadar() {
+      const canvas = document.getElementById("radarChart");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const radius = Math.min(w, h) * 0.34;
+      const labels = categories.map(c => c.label);
+      const values = categories.map(c => state.scores[c.key] / c.max);
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.save();
+      ctx.translate(cx, cy);
+
+      const levels = 5;
+
+      for (let level = 1; level <= levels; level++) {
+        const r = radius * (level / levels);
+        ctx.beginPath();
+        labels.forEach((_, i) => {
+          const angle = (-Math.PI / 2) + ((Math.PI * 2 * i) / labels.length);
+          const x = Math.cos(angle) * r;
+          const y = Math.sin(angle) * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.closePath();
+        ctx.strokeStyle = "rgba(255,255,255,0.10)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      labels.forEach((label, i) => {
+        const angle = (-Math.PI / 2) + ((Math.PI * 2 * i) / labels.length);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = "rgba(255,255,255,0.12)";
+        ctx.stroke();
+
+        const lx = Math.cos(angle) * (radius + 36);
+        const ly = Math.sin(angle) * (radius + 36);
+
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text').trim() || "#f7f7f7";
+        ctx.font = "700 16px system-ui";
+        ctx.textAlign = lx >= 0 ? "left" : "right";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, lx, ly);
+      });
+
+      ctx.beginPath();
+      values.forEach((val, i) => {
+        const angle = (-Math.PI / 2) + ((Math.PI * 2 * i) / labels.length);
+        const x = Math.cos(angle) * radius * val;
+        const y = Math.sin(angle) * radius * val;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(15,139,107,0.28)";
+      ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent-2').trim() || "#d4af37";
+      ctx.lineWidth = 3;
+      ctx.fill();
+      ctx.stroke();
+
+      values.forEach((val, i) => {
+        const angle = (-Math.PI / 2) + ((Math.PI * 2 * i) / labels.length);
+        const x = Math.cos(angle) * radius * val;
+        const y = Math.sin(angle) * radius * val;
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = "#f7ebc2";
+        ctx.fill();
+        ctx.strokeStyle = "#0f8b6b";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+
+      ctx.restore();
+    }
+
+    function downloadJSON() {
+      const payload = {
+        bottleName: state.bottleName,
+        notes: state.notes,
+        tags: state.tags,
+        statuses: state.statuses,
+        scores: state.scores,
+        total: totalScore(),
+        theme: state.theme,
+        createdAt: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "whiskey-iq-score.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function attachEvents() {
+      document.querySelectorAll("[data-step='down']").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.key;
+          const cat = categories.find(c => c.key === key);
+          state.scores[key] = clamp(Number(state.scores[key]) - 1, 0, cat.max);
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-step='up']").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.key;
+          const cat = categories.find(c => c.key === key);
+          state.scores[key] = clamp(Number(state.scores[key]) + 1, 0, cat.max);
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-range-key]").forEach(input => {
+        input.addEventListener("input", () => {
+          const key = input.dataset.rangeKey;
+          state.scores[key] = Number(input.value);
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-input-key]").forEach(input => {
+        input.addEventListener("input", () => {
+          const key = input.dataset.inputKey;
+          const cat = categories.find(c => c.key === key);
+          const val = Number(input.value || 0);
+          state.scores[key] = clamp(isNaN(val) ? 0 : val, 0, cat.max);
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-choice-key]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.choiceKey;
+          const value = Number(btn.dataset.choiceValue);
+          state.scores[key] = value;
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-nav]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const action = btn.dataset.nav;
+          if (action === "prev") {
+            state.activeStage = clamp(state.activeStage - 1, 0, categories.length);
+          } else if (action === "next") {
+            state.activeStage = clamp(state.activeStage + 1, 0, categories.length);
+          } else if (action === "summary") {
+            state.activeStage = categories.length;
+          }
+          render();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      const bottleNameInput = document.getElementById("bottleNameInput");
+      if (bottleNameInput) {
+        bottleNameInput.addEventListener("input", (e) => {
+          state.bottleName = e.target.value;
+        });
+      }
+
+      const notesInput = document.getElementById("notesInput");
+      if (notesInput) {
+        notesInput.addEventListener("input", (e) => {
+          state.notes = e.target.value;
+        });
+      }
+
+      document.querySelectorAll("[data-tag]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tag = btn.dataset.tag;
+          if (state.tags.includes(tag)) {
+            state.tags = state.tags.filter(t => t !== tag);
+          } else {
+            state.tags.push(tag);
+          }
+          render();
+        });
+      });
+
+      document.querySelectorAll("[data-status]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.status;
+          state.statuses[key] = !state.statuses[key];
+          render();
+        });
+      });
+
+      const downloadBtn = document.getElementById("downloadBtn");
+      if (downloadBtn) {
+        downloadBtn.addEventListener("click", downloadJSON);
+      }
+
+      drawRadar();
+    }
+
+    function render() {
+      applyTheme();
+      renderSidebar();
+      renderStages();
+      attachEvents();
+    }
+
+    resetBtn.addEventListener("click", () => {
+      state.bottleName = "";
+      state.notes = "";
+      state.tags = [];
+      state.activeStage = 0;
+      state.statuses = {
+        wantToTry: false,
+        onShelf: false,
+        finished: false
+      };
+      state.scores = {
+        aroma: 0,
+        flavor: 0,
+        finish: 0,
+        drinkAgain: 0,
+        recommend: 0,
+        value: 0
+      };
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    jumpSummaryBtn.addEventListener("click", () => {
+      state.activeStage = categories.length;
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    themeToggle.addEventListener("click", () => {
+      state.theme = state.theme === "light" ? "dark" : "light";
+      applyTheme();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
