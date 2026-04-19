@@ -1336,26 +1336,51 @@
 
     @media (max-width: 840px) {
       .iq-rating-shell {
-        grid-template-columns: 1fr;
+        grid-template-columns: 120px minmax(0, 1fr);
       }
 
       .iq-left {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        display: flex;
+        flex-direction: column;
       }
 
       .iq-side-item {
-        min-height: 96px;
+        min-height: 82px;
+        padding: 10px 10px;
+      }
+
+      .iq-side-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+      }
+
+      .iq-side-score {
+        font-size: 1.7rem;
+      }
+
+      .iq-side-empty {
+        font-size: 1.4rem;
       }
 
       .iq-total {
-        grid-column: 1 / -1;
+        margin-top: auto;
+        padding: 16px 12px;
+      }
+
+      .iq-total-label {
+        font-size: 0.72rem;
+        margin-bottom: 8px;
+      }
+
+      .iq-total-score {
+        font-size: 2rem;
       }
     }
 
     @media (max-width: 720px) {
       .page {
-        padding: 16px 10px 34px;
+        padding: 10px 6px 20px;
       }
 
       .header-right {
@@ -1367,125 +1392,212 @@
       }
 
       .app-shell {
-        padding: 10px;
-        border-radius: 20px;
+        padding: 6px;
+        border-radius: 16px;
       }
 
       .app-frame,
       .iq-rating-shell {
-        border-radius: 16px;
+        border-radius: 12px;
         min-height: auto;
       }
 
+      .iq-rating-shell {
+        grid-template-columns: 96px minmax(0, 1fr);
+      }
+
       .iq-left {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
+        flex-direction: column;
       }
 
       .iq-side-item {
-        min-height: 96px;
-        padding: 12px;
+        min-height: 72px;
+        padding: 8px 8px;
+      }
+
+      .iq-side-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
       }
 
       .iq-side-score {
-        font-size: 2rem;
+        font-size: 1.45rem;
       }
 
-      .iq-right {
-        min-width: 0;
+      .iq-side-score small {
+        font-size: 0.42em;
+      }
+
+      .iq-side-empty {
+        font-size: 1.2rem;
+      }
+
+      .iq-total {
+        padding: 12px 10px;
+      }
+
+      .iq-total-label {
+        font-size: 0.65rem;
+        margin-bottom: 6px;
+      }
+
+      .iq-total-score {
+        font-size: 1.7rem;
       }
 
       .iq-topbar {
-        padding: 12px 54px 12px 14px;
+        padding: 10px 44px 10px 10px;
       }
 
       .iq-theme-btn,
       .home-theme-btn {
-        width: 36px !important;
-        height: 36px !important;
-        top: 10px !important;
-        right: 10px !important;
+        width: 32px !important;
+        height: 32px !important;
+        top: 8px !important;
+        right: 8px !important;
       }
 
       .iq-theme-btn svg,
       .home-theme-btn svg {
-        width: 18px !important;
-        height: 18px !important;
+        width: 16px !important;
+        height: 16px !important;
       }
 
       .home-top {
-        padding-right: 48px !important;
+        padding-right: 40px !important;
+        margin-bottom: 12px;
       }
 
-      .iq-bottle-name {
-        font-size: 1.08rem;
+      .home-brand {
+        font-size: 1.7rem;
       }
 
-      .iq-stage {
-        padding: 16px 12px 18px;
+      .search-wrap {
+        grid-template-columns: 1fr 48px;
+        gap: 8px;
       }
 
-      .iq-stage-title {
-        font-size: 2.2rem;
+      .search-box {
+        min-height: 48px;
+        padding: 0 14px 0 40px;
       }
 
-      .iq-stage-subtitle {
+      .search-box::before {
+        left: 14px;
         font-size: 1rem;
       }
 
+      .search-go {
+        font-size: 1.1rem;
+      }
+
+      .iq-stage {
+        padding: 12px 10px 16px;
+      }
+
+      .iq-stage-title {
+        font-size: 1.9rem;
+      }
+
+      .iq-stage-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .iq-emoji {
+        font-size: 3.2rem;
+        min-height: 58px;
+        margin: 10px 0 6px;
+      }
+
       .iq-slider-wrap {
-        grid-template-columns: 58px minmax(0, 1fr) 58px;
-        gap: 8px;
-        min-height: 360px;
+        grid-template-columns: 46px minmax(0, 1fr) 46px;
+        gap: 6px;
+        max-width: 100%;
+        min-height: 300px;
       }
 
       .iq-track-shell {
-        height: 350px;
+        height: 280px;
       }
 
       .iq-range {
-        width: 350px;
+        width: 280px;
       }
 
       .iq-pm-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 2rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.7rem;
+      }
+
+      .iq-manual {
+        max-width: 120px;
       }
 
       .iq-manual input {
-        font-size: 3rem;
+        font-size: 2.5rem;
+      }
+
+      .iq-notes-block {
+        margin-top: 8px;
+        padding-top: 12px;
+      }
+
+      .iq-notes-textarea {
+        min-height: 80px;
+        padding: 10px 12px;
+      }
+
+      .iq-tags {
+        gap: 8px;
+      }
+
+      .iq-tag {
+        padding: 7px 10px;
+        font-size: 0.82rem;
+      }
+
+      .iq-save-btn,
+      .iq-edit-btn,
+      .iq-delete-btn {
+        min-height: 54px;
+        padding: 12px 14px;
+        font-size: 1rem;
       }
 
       .iq-summary-grid {
         grid-template-columns: 1fr;
-      }
-
-      .iq-summary-actions {
-        flex-direction: column;
-      }
-
-      .iq-summary-actions .iq-save-btn,
-      .iq-summary-actions .iq-edit-btn {
-        width: 100%;
-      }
-
-      .bottle-card {
-        grid-template-columns: 60px minmax(0, 1fr) 78px;
         gap: 10px;
       }
 
+      .iq-summary-hero {
+        padding: 16px 16px;
+      }
+
+      .iq-summary-hero-score {
+        font-size: 3.3rem;
+      }
+
+      .bottle-card {
+        grid-template-columns: 52px minmax(0, 1fr) 64px;
+        gap: 8px;
+        padding: 10px;
+      }
+
       .bottle-thumb {
-        width: 52px;
-        height: 52px;
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
       }
 
       .bottle-name {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
 
-      .home-brand {
-        font-size: 1.9rem;
+      .bottle-score-top {
+        font-size: 1.7rem;
       }
     }
   </style>
@@ -1595,7 +1707,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v9";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v10";
 
     const categories = [
       {
@@ -1782,7 +1894,9 @@
     }
 
     function setThemeIcon() {
-      const moonIcon = `<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>`;
+      const moonIcon = `
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+      `;
       const sunIcon = `
         <circle cx="12" cy="12" r="4"></circle>
         <path d="M12 2v2"></path>
@@ -1799,6 +1913,14 @@
 
       if (iqThemeIcon) iqThemeIcon.innerHTML = iconMarkup;
       if (homeThemeIcon) homeThemeIcon.innerHTML = iconMarkup;
+
+      if (appState.theme === "dark") {
+        if (iqThemeIcon) iqThemeIcon.style.color = "#111111";
+        if (homeThemeIcon) homeThemeIcon.style.color = "#111111";
+      } else {
+        if (iqThemeIcon) iqThemeIcon.style.color = "";
+        if (homeThemeIcon) homeThemeIcon.style.color = "";
+      }
     }
 
     function applyTheme() {
