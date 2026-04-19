@@ -1086,7 +1086,21 @@
       justify-content: space-between;
       align-items: center;
       gap: 14px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    .iq-summary-hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .iq-summary-hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      flex-shrink: 0;
     }
 
     .iq-summary-hero-label {
@@ -1120,8 +1134,8 @@
     .iq-summary-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-bottom: 8px;
     }
 
     .iq-summary-box {
@@ -1170,7 +1184,7 @@
     }
 
     .iq-summary-block {
-      margin-top: 14px;
+      margin-top: 8px;
     }
 
     .iq-summary-title {
@@ -1185,7 +1199,7 @@
     .iq-summary-card {
       background: rgba(255,255,255,0.62);
       border-radius: 18px;
-      padding: 14px 16px;
+      padding: 12px 16px;
       border: 1px solid rgba(24,18,13,0.06);
     }
 
@@ -1225,10 +1239,10 @@
     .iq-summary-actions .iq-save-btn,
     .iq-summary-actions .iq-edit-btn {
       flex: 1 1 220px;
-      min-height: 62px;
+      min-height: 58px;
       border-radius: 16px;
-      padding: 16px 18px;
-      font-size: 1.1rem;
+      padding: 14px 18px;
+      font-size: 1.05rem;
       font-weight: 800;
     }
 
@@ -1277,11 +1291,11 @@
     .iq-delete-btn {
       width: 100%;
       border-radius: 16px;
-      padding: 16px 18px;
+      padding: 14px 18px;
       border: 1px solid rgba(212,154,154,0.5);
       background: rgba(255,255,255,0.46);
       color: var(--danger);
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
     }
@@ -1983,7 +1997,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v14";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v15";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2437,11 +2451,13 @@
         <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}">
           <div class="iq-summary">
             <div class="iq-summary-hero">
-              <div>
+              <div class="iq-summary-hero-left">
                 <div class="iq-summary-hero-label">Total Score</div>
                 <div class="iq-summary-hero-score">${total}<small>/100</small></div>
               </div>
-              <div class="iq-summary-hero-emoji">${overallEmoji(total)}</div>
+              <div class="iq-summary-hero-right">
+                <div class="iq-summary-hero-emoji">${overallEmoji(total)}</div>
+              </div>
             </div>
 
             <div class="iq-summary-grid">
