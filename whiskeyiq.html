@@ -20,16 +20,12 @@
       --navy: #0f8b6b;
       --navy-2: #0b6f58;
       --gold: #c18d5c;
-      --gold-soft: rgba(193, 141, 92, 0.16);
       --line: #ddd1c4;
       --text-dark: #18120d;
       --muted-dark: #8b7d72;
       --black-btn: #160d08;
       --danger: #d49a9a;
       --blue: #4a95de;
-
-      --dags-green: #0f8b6b;
-      --dags-green-dark: #0b6f58;
     }
 
     body.dark-ui {
@@ -39,7 +35,6 @@
       --navy: #050608;
       --navy-2: #0a0d13;
       --gold: #d2a36d;
-      --gold-soft: rgba(210, 163, 109, 0.16);
       --line: #3a4458;
       --text-dark: #f3f4f7;
       --muted-dark: #a9b0bf;
@@ -180,14 +175,10 @@
     }
 
     .home-screen {
-      padding: 20px 18px 90px;
+      padding: 20px 18px 120px;
       position: relative;
       background: var(--cream);
       color: var(--text-dark);
-    }
-
-    .home-screen .bottle-list {
-      padding-bottom: 96px;
     }
 
     .home-theme-btn {
@@ -505,15 +496,15 @@
 
     .fab-add {
       position: absolute;
-      right: 18px;
-      bottom: 18px;
-      width: 64px;
-      height: 64px;
+      right: 22px;
+      bottom: 22px;
+      width: 68px;
+      height: 68px;
       border-radius: 999px;
       border: none;
       background: #120d09;
       color: #fff;
-      font-size: 2.2rem;
+      font-size: 2.35rem;
       line-height: 1;
       cursor: pointer;
       box-shadow: 0 18px 34px rgba(0,0,0,0.2);
@@ -532,6 +523,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100%;
+      min-width: 0;
     }
 
     .iq-side-item {
@@ -630,11 +622,7 @@
       min-height: 100%;
       position: relative;
       overflow: hidden;
-    }
-
-    .iq-stage.active {
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      min-width: 0;
     }
 
     .iq-theme-btn,
@@ -711,6 +699,8 @@
 
     .iq-stage.active {
       display: block;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .iq-stage-head {
@@ -1057,26 +1047,6 @@
       border-color: #0b6f58 !important;
     }
 
-    body.dark-ui .iq-save-btn,
-    body.dark-ui button[data-nav="next"],
-    body.dark-ui button[data-nav="summary"],
-    body.dark-ui button[data-nav="edit"],
-    body.dark-ui .iq-summary-actions .iq-save-btn {
-      background: #0f8b6b !important;
-      color: #ffffff !important;
-      border-color: #0f8b6b !important;
-    }
-
-    body.dark-ui .iq-save-btn:hover,
-    body.dark-ui button[data-nav="next"]:hover,
-    body.dark-ui button[data-nav="summary"]:hover,
-    body.dark-ui button[data-nav="edit"]:hover,
-    body.dark-ui .iq-summary-actions .iq-save-btn:hover {
-      background: #0b6f58 !important;
-      color: #ffffff !important;
-      border-color: #0b6f58 !important;
-    }
-
     .iq-summary {
       max-width: 820px;
       margin: 0 auto;
@@ -1091,7 +1061,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
 
     .iq-summary-hero-left {
@@ -1203,7 +1173,7 @@
     }
 
     .iq-summary-block {
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .iq-summary-title {
@@ -1265,6 +1235,20 @@
       font-weight: 800;
     }
 
+    .iq-stage.active[data-stage="summary"] {
+      padding-top: 0;
+      padding-bottom: 8px;
+      overflow-y: auto;
+    }
+
+    .iq-stage.active[data-stage="summary"] .iq-summary {
+      margin-top: 0;
+    }
+
+    .iq-stage.active[data-stage="summary"] .iq-summary-grid {
+      margin-bottom: 2px;
+    }
+
     .iq-edit-btn {
       border: 1px solid #0f8b6b !important;
       background: #0f8b6b !important;
@@ -1273,18 +1257,6 @@
     }
 
     .iq-edit-btn:hover {
-      background: #0b6f58 !important;
-      color: #ffffff !important;
-      border-color: #0b6f58 !important;
-    }
-
-    body.dark-ui .iq-edit-btn {
-      background: #0f8b6b !important;
-      color: #ffffff !important;
-      border-color: #0f8b6b !important;
-    }
-
-    body.dark-ui .iq-edit-btn:hover {
       background: #0b6f58 !important;
       color: #ffffff !important;
       border-color: #0b6f58 !important;
@@ -1492,11 +1464,6 @@
         grid-template-columns: 120px minmax(0, 1fr);
       }
 
-      .iq-left {
-        display: flex;
-        flex-direction: column;
-      }
-
       .iq-side-item {
         min-height: 82px;
         padding: 10px 10px;
@@ -1517,7 +1484,6 @@
       }
 
       .iq-total {
-        margin-top: auto;
         padding: 16px 12px;
       }
 
@@ -1531,507 +1497,450 @@
       }
     }
 
-  @media (max-width: 720px) {
-  html, body {
-    height: auto;
-    min-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  .page {
-    min-height: 100vh;
-    height: auto;
-    padding: 1px;
-  }
-
-  header {
-    margin-bottom: 3px;
-    gap: 3px;
-  }
-
-  .brand-title {
-    font-size: 0.78rem;
-  }
-
-  .brand-subtitle {
-    font-size: 0.38rem;
-    letter-spacing: 0.12em;
-  }
-
-  nav {
-    gap: 3px;
-  }
-
-  nav a {
-    font-size: 0.5rem;
-    padding: 2px 4px;
-  }
-
-  .app-shell {
-    min-height: calc(100vh - 52px);
-    height: auto;
-    padding: 2px;
-    border-radius: 9px;
-  }
-
-  .app-frame,
-  .screen,
-  .iq-rating-shell {
-    min-height: 100%;
-    height: auto;
-  }
-
-  .home-screen {
-    min-height: 100%;
-    height: auto;
-    padding: 7px 7px 88px;
-    overflow-y: auto;
-  }
-
-  .home-screen .bottle-list {
-    padding-bottom: 88px;
-  }
-
-  .home-top {
-    padding-right: 28px !important;
-    margin-bottom: 6px;
-  }
-
-  .home-brand {
-    font-size: 0.92rem;
-    line-height: 1;
-  }
-
-  .iq-theme-btn,
-  .home-theme-btn {
-    width: 22px !important;
-    height: 22px !important;
-    top: 4px !important;
-    right: 4px !important;
-  }
-
-  .iq-theme-btn svg,
-  .home-theme-btn svg {
-    width: 11px !important;
-    height: 11px !important;
-  }
-
-  .search-wrap {
-    grid-template-columns: 1fr 36px;
-    gap: 5px;
-    margin-bottom: 8px;
-  }
-
-  .search-box {
-    min-height: 30px;
-    padding: 0 8px 0 24px;
-  }
-
-  .search-box::before {
-    left: 8px;
-    font-size: 0.66rem;
-  }
-
-  .search-input {
-    font-size: 0.58rem;
-  }
-
-  .search-go {
-    font-size: 0.78rem;
-  }
-
-  .collection-head {
-    margin-bottom: 6px;
-    gap: 4px;
-  }
-
-  .collection-title {
-    font-size: 0.5rem;
-    letter-spacing: 0.09em;
-  }
-
-  .collection-count {
-    font-size: 0.56rem;
-  }
-
-  .sort-btn {
-    min-height: 24px;
-    padding: 0 8px;
-    font-size: 0.56rem;
-  }
-
-  .empty-state {
-    border-radius: 10px;
-    padding: 14px 10px;
-    font-size: 0.62rem;
-    line-height: 1.28;
-  }
-
-  .bottle-list {
-    gap: 6px;
-  }
-
-  .bottle-card {
-    grid-template-columns: 34px minmax(0, 1fr) 42px;
-    gap: 5px;
-    padding: 6px;
-    border-radius: 10px;
-  }
-
-  .bottle-thumb {
-    width: 26px;
-    height: 26px;
-    font-size: 0.7rem;
-    border-radius: 7px;
-  }
-
-  .bottle-meta-top {
-    font-size: 0.42rem;
-    margin-bottom: 1px;
-    letter-spacing: 0.07em;
-  }
-
-  .bottle-name {
-    font-size: 0.6rem;
-    line-height: 1;
-  }
-
-  .bottle-score-top {
-    font-size: 0.92rem;
-  }
-
-  .bottle-score-top small {
-    margin-top: 1px;
-  }
-
-  .bottle-score-line {
-    margin-top: 3px;
-    height: 3px;
-  }
-
-  .bottle-actions {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-top: 1px;
-    gap: 4px;
-  }
-
-  .bottle-action-btn {
-    font-size: 0.5rem;
-    padding: 3px 6px;
-    min-height: 20px;
-  }
-
-  .fab-add {
-    right: 10px;
-    bottom: 6px;
-    width: 46px;
-    height: 46px;
-    font-size: 1.55rem;
-  }
-
-  .iq-left {
-    width: 64px;
-  }
-
-  .iq-rating-shell {
-    grid-template-columns: 64px minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .iq-side-item {
-    min-height: 44px;
-    padding: 4px;
-  }
-
-  .iq-side-label {
-    font-size: 0.42rem;
-    margin-bottom: 2px;
-    letter-spacing: 0.05em;
-  }
-
-  .iq-side-score {
-    font-size: 0.92rem;
-  }
-
-  .iq-side-empty {
-    font-size: 0.8rem;
-  }
-
-  .iq-total {
-    padding: 7px 5px;
-  }
-
-  .iq-total-label {
-    font-size: 0.46rem;
-    margin-bottom: 2px;
-  }
-
-  .iq-total-score {
-    font-size: 1rem;
-  }
-
-  .iq-topbar {
-    padding: 5px 28px 5px 5px;
-    min-height: 30px;
-  }
-
-  .iq-bottle-name {
-    font-size: 0.72rem;
-  }
-
-  .iq-back {
-    font-size: 0.92rem;
-  }
-
-  .iq-stage {
-    padding: 5px 5px 8px;
-    min-height: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .iq-stage.active {
-    padding-bottom: 120px;
-  }
-
-  .iq-stage-head {
-    margin-bottom: 2px;
-  }
-
-  .iq-stage-kicker {
-    font-size: 0.42rem;
-    margin-bottom: 1px;
-  }
-
-  .iq-stage-title {
-    font-size: 0.94rem;
-    margin-bottom: 1px;
-  }
-
-  .iq-stage-subtitle {
-    font-size: 0.56rem;
-  }
-
-  .iq-emoji {
-    font-size: 1.45rem;
-    min-height: 20px;
-    margin: 3px 0 1px;
-  }
-
-  .iq-current-score-label {
-    font-size: 0.54rem;
-    min-height: 12px;
-    margin-bottom: 1px;
-  }
-
-  .iq-slider-wrap {
-    grid-template-columns: 26px minmax(0, 1fr) 26px;
-    gap: 2px;
-    min-height: 122px;
-    margin: 1px auto;
-    max-width: 100%;
-  }
-
-  .iq-track-shell {
-    height: 114px;
-  }
-
-  .iq-line {
-    top: 5px;
-    bottom: 5px;
-  }
-
-  .iq-line::before,
-  .iq-line::after {
-    width: 10px;
-    height: 2px;
-  }
-
-  .iq-range {
-    width: 114px;
-    height: 24px;
-  }
-
-  .iq-range::-webkit-slider-thumb {
-    width: 16px;
-    height: 16px;
-    margin-top: -6px;
-    border-width: 3px;
-  }
-
-  .iq-range::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-width: 3px;
-  }
-
-  .iq-pm-btn {
-    width: 24px;
-    height: 24px;
-    font-size: 0.9rem;
-  }
-
-  .iq-manual {
-    max-width: 54px;
-    margin: 0 auto 2px;
-  }
-
-  .iq-manual input {
-    font-size: 1.2rem;
-  }
-
-  .iq-manual small {
-    font-size: 0.44rem;
-    margin-top: 0;
-  }
-
-  .iq-choice-wrap {
-    gap: 4px;
-    margin: 5px auto 3px;
-  }
-
-  .iq-choice-btn {
-    padding: 6px 7px;
-    font-size: 0.6rem;
-    border-radius: 8px;
-  }
-
-  .iq-notes-block {
-    margin-top: 2px;
-    padding-top: 5px;
-  }
-
-  .iq-notes-label,
-  .iq-flavor-label,
-  .iq-summary-title {
-    font-size: 0.48rem;
-    margin-bottom: 4px;
-  }
-
-  .iq-notes-textarea {
-    min-height: 34px;
-    padding: 5px 7px;
-    margin-bottom: 5px;
-    font-size: 0.6rem;
-    border-radius: 8px;
-  }
-
-  .iq-tags {
-    gap: 3px;
-  }
-
-  .iq-tag,
-  .iq-summary-pill {
-    padding: 3px 6px;
-    font-size: 0.52rem;
-  }
-
-  .iq-bottom-row {
-    margin-top: 5px;
-  }
-
-  .iq-summary {
-    max-width: 100%;
-  }
-
-  .iq-summary-hero {
-    padding: 10px 12px;
-    border-radius: 12px;
-    margin-bottom: 8px;
-  }
-
-  .iq-summary-hero-label {
-    font-size: 0.55rem;
-    margin-bottom: 3px;
-  }
-
-  .iq-summary-hero-score {
-    font-size: 2rem;
-  }
-
-  .iq-summary-hero-emoji {
-    font-size: 1.6rem;
-  }
-
-  .iq-summary-grid {
-    gap: 6px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-bottom: 4px;
-  }
-
-  .iq-summary-box {
-    padding: 8px 10px;
-    border-radius: 10px;
-  }
-
-  .iq-summary-box-top {
-    margin-bottom: 5px;
-  }
-
-  .iq-summary-box-label {
-    font-size: 0.52rem;
-    margin-bottom: 4px;
-  }
-
-  .iq-summary-box-score {
-    font-size: 1.2rem;
-  }
-
-  .iq-summary-box-emoji {
-    font-size: 1.1rem;
-  }
-
-  .iq-summary-line {
-    height: 4px;
-  }
-
-  .iq-summary-block {
-    margin-top: 4px;
-  }
-
-  .iq-summary-title {
-    font-size: 0.56rem;
-    margin-bottom: 4px;
-  }
-
-  .iq-summary-card {
-    padding: 8px 10px;
-    border-radius: 10px;
-  }
-
-  .iq-summary-text {
-    font-size: 0.68rem;
-  }
-
-  .iq-summary-pills,
-  .iq-summary-actions {
-    gap: 6px;
-  }
-
-  .iq-summary-pill {
-    padding: 4px 8px;
-    font-size: 0.56rem;
-  }
-
-  .iq-summary-actions .iq-save-btn,
-  .iq-summary-actions .iq-edit-btn {
-    flex: 1 1 calc(50% - 6px);
-    min-height: 42px;
-    padding: 8px 10px;
-    font-size: 0.78rem;
-    border-radius: 10px;
-  }
-
-  .iq-delete-btn {
-    min-height: 40px;
-    padding: 8px 10px;
-    font-size: 0.76rem;
-    border-radius: 10px;
-  }
-}
+    @media (max-width: 720px) {
+      html, body {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .page {
+        min-height: 100vh;
+        height: auto;
+        padding: 10px 8px 18px;
+      }
+
+      header {
+        margin-bottom: 10px;
+        gap: 10px;
+      }
+
+      .brand-title {
+        font-size: 1.1rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+      }
+
+      nav {
+        gap: 8px;
+      }
+
+      nav a {
+        font-size: 0.82rem;
+        padding: 5px 9px;
+      }
+
+      .app-shell {
+        min-height: calc(100vh - 88px);
+        height: auto;
+        padding: 8px;
+        border-radius: 18px;
+      }
+
+      .app-frame,
+      .screen,
+      .iq-rating-shell {
+        min-height: 100%;
+        height: auto;
+      }
+
+      .home-screen {
+        min-height: 100%;
+        height: auto;
+        padding: 18px 18px 110px;
+        overflow-y: auto;
+      }
+
+      .home-top {
+        padding-right: 56px !important;
+        margin-bottom: 16px;
+      }
+
+      .home-brand {
+        font-size: 1.95rem;
+      }
+
+      .home-theme-btn,
+      .iq-theme-btn {
+        width: 36px !important;
+        height: 36px !important;
+        top: 10px !important;
+        right: 10px !important;
+      }
+
+      .home-theme-btn svg,
+      .iq-theme-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      .search-wrap {
+        grid-template-columns: 1fr 58px;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .search-box {
+        min-height: 54px;
+        padding: 0 16px 0 44px;
+      }
+
+      .search-box::before {
+        left: 16px;
+        font-size: 1rem;
+      }
+
+      .search-go {
+        font-size: 1.2rem;
+      }
+
+      .collection-head {
+        margin-bottom: 14px;
+      }
+
+      .collection-title {
+        font-size: 0.78rem;
+      }
+
+      .collection-count {
+        font-size: 0.92rem;
+      }
+
+      .sort-btn {
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 0.95rem;
+      }
+
+      .bottle-list {
+        gap: 12px;
+      }
+
+      .empty-state {
+        padding: 26px 18px;
+        font-size: 0.98rem;
+        border-radius: 20px;
+      }
+
+      .bottle-card {
+        grid-template-columns: 60px minmax(0, 1fr) 86px;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .bottle-thumb {
+        width: 52px;
+        height: 52px;
+        font-size: 1.25rem;
+      }
+
+      .bottle-meta-top {
+        font-size: 0.68rem;
+      }
+
+      .bottle-name {
+        font-size: 1.02rem;
+      }
+
+      .bottle-score-top {
+        font-size: 1.9rem;
+      }
+
+      .bottle-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .bottle-action-btn {
+        font-size: 0.78rem;
+        padding: 7px 11px;
+      }
+
+      .fab-add {
+        right: 18px;
+        bottom: 18px;
+        width: 72px;
+        height: 72px;
+        font-size: 2.5rem;
+      }
+
+      .iq-rating-shell {
+        grid-template-columns: 96px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .iq-left {
+        width: 96px;
+      }
+
+      .iq-side-item {
+        min-height: 72px;
+        padding: 10px 8px;
+      }
+
+      .iq-side-label {
+        font-size: 0.64rem;
+        margin-bottom: 5px;
+        letter-spacing: 0.07em;
+      }
+
+      .iq-side-score {
+        font-size: 1.45rem;
+      }
+
+      .iq-side-empty {
+        font-size: 1.1rem;
+      }
+
+      .iq-total {
+        padding: 12px 10px;
+      }
+
+      .iq-total-label {
+        font-size: 0.66rem;
+        margin-bottom: 5px;
+      }
+
+      .iq-total-score {
+        font-size: 1.6rem;
+      }
+
+      .iq-topbar {
+        padding: 10px 44px 10px 10px;
+        min-height: 48px;
+      }
+
+      .iq-bottle-name {
+        font-size: 1.05rem;
+      }
+
+      .iq-back {
+        font-size: 1.35rem;
+      }
+
+      .iq-stage {
+        padding: 14px 14px 18px;
+        min-height: 100%;
+        height: auto;
+        overflow: visible;
+      }
+
+      .iq-stage.active[data-stage="summary"] {
+        padding-top: 0;
+        padding-bottom: 8px;
+      }
+
+      .iq-stage-kicker {
+        font-size: 0.62rem;
+        margin-bottom: 4px;
+      }
+
+      .iq-stage-title {
+        font-size: 1.9rem;
+        margin-bottom: 4px;
+      }
+
+      .iq-stage-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .iq-emoji {
+        font-size: 2.8rem;
+        min-height: 48px;
+        margin: 8px 0 4px;
+      }
+
+      .iq-current-score-label {
+        font-size: 0.9rem;
+        min-height: 22px;
+        margin-bottom: 6px;
+      }
+
+      .iq-slider-wrap {
+        grid-template-columns: 46px minmax(0, 1fr) 46px;
+        gap: 8px;
+        min-height: 230px;
+        margin: 6px auto 8px;
+        max-width: 100%;
+      }
+
+      .iq-track-shell {
+        height: 220px;
+      }
+
+      .iq-line {
+        top: 10px;
+        bottom: 10px;
+      }
+
+      .iq-range {
+        width: 220px;
+        height: 42px;
+      }
+
+      .iq-range::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+        margin-top: -12px;
+      }
+
+      .iq-range::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+      }
+
+      .iq-pm-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.45rem;
+      }
+
+      .iq-manual {
+        max-width: 96px;
+        margin: 0 auto 6px;
+      }
+
+      .iq-manual input {
+        font-size: 2.25rem;
+      }
+
+      .iq-manual small {
+        font-size: 0.64rem;
+      }
+
+      .iq-choice-wrap {
+        gap: 8px;
+        margin: 10px auto 8px;
+      }
+
+      .iq-choice-btn {
+        padding: 11px 12px;
+        font-size: 0.9rem;
+        border-radius: 14px;
+      }
+
+      .iq-notes-block {
+        margin-top: 6px;
+        padding-top: 10px;
+      }
+
+      .iq-notes-label,
+      .iq-flavor-label,
+      .iq-summary-title {
+        font-size: 0.68rem;
+        margin-bottom: 7px;
+      }
+
+      .iq-notes-textarea {
+        min-height: 68px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        font-size: 0.88rem;
+        border-radius: 14px;
+      }
+
+      .iq-tags {
+        gap: 7px;
+      }
+
+      .iq-tag,
+      .iq-summary-pill {
+        padding: 7px 10px;
+        font-size: 0.76rem;
+      }
+
+      .iq-bottom-row {
+        margin-top: 10px;
+      }
+
+      .iq-save-btn,
+      .iq-edit-btn,
+      .iq-delete-btn {
+        min-height: 46px;
+        padding: 10px 12px;
+        font-size: 0.92rem;
+        border-radius: 12px;
+      }
+
+      .iq-summary {
+        max-width: 100%;
+      }
+
+      .iq-summary-hero {
+        padding: 12px 14px;
+        border-radius: 16px;
+        margin-bottom: 6px;
+      }
+
+      .iq-summary-hero-label {
+        font-size: 0.62rem;
+        margin-bottom: 4px;
+      }
+
+      .iq-summary-hero-score {
+        font-size: 2.4rem;
+      }
+
+      .iq-summary-hero-emoji {
+        font-size: 2.1rem;
+      }
+
+      .iq-summary-grid {
+        gap: 8px;
+        grid-template-columns: 1fr;
+        margin-bottom: 2px;
+      }
+
+      .iq-summary-box {
+        padding: 10px 12px;
+        border-radius: 14px;
+      }
+
+      .iq-summary-box-top {
+        margin-bottom: 7px;
+      }
+
+      .iq-summary-box-label {
+        font-size: 0.66rem;
+        margin-bottom: 6px;
+      }
+
+      .iq-summary-box-score {
+        font-size: 1.5rem;
+      }
+
+      .iq-summary-box-emoji {
+        font-size: 1.3rem;
+      }
+
+      .iq-summary-card {
+        padding: 10px 12px;
+        border-radius: 14px;
+      }
+
+      .iq-summary-text {
+        font-size: 0.88rem;
+      }
+
+      .iq-summary-actions {
+        gap: 8px;
+      }
+
+      .iq-summary-actions .iq-save-btn,
+      .iq-summary-actions .iq-edit-btn {
+        min-height: 46px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        flex: 1 1 calc(50% - 8px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -2139,7 +2048,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v16";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v19";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2362,19 +2271,9 @@
         <path d="M4.93 19.07l1.41-1.41"></path>
         <path d="M17.66 6.34l1.41-1.41"></path>
       `;
-
       const iconMarkup = appState.theme === "dark" ? moonIcon : sunIcon;
-
       if (iqThemeIcon) iqThemeIcon.innerHTML = iconMarkup;
       if (homeThemeIcon) homeThemeIcon.innerHTML = iconMarkup;
-
-      if (appState.theme === "dark") {
-        if (iqThemeIcon) iqThemeIcon.style.color = "#111111";
-        if (homeThemeIcon) homeThemeIcon.style.color = "#111111";
-      } else {
-        if (iqThemeIcon) iqThemeIcon.style.color = "";
-        if (homeThemeIcon) homeThemeIcon.style.color = "";
-      }
     }
 
     function applyTheme() {
@@ -2520,13 +2419,13 @@
       const value = Number(bottle.scores[cat.key] || 0);
       const meta = getRangeMeta(cat, value);
       const isMobile = window.innerWidth <= 720;
-      const trackHeight = isMobile ? 124 : 424;
-      const thumbSize = isMobile ? 18 : 40;
+      const trackHeight = isMobile ? 200 : 424;
+      const thumbSize = isMobile ? 28 : 40;
       const usableHeight = trackHeight - thumbSize;
       const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
       return `
-        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}">
+        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
           <div class="iq-stage-head">
             <div class="iq-stage-kicker">${cat.label}</div>
             <div class="iq-stage-title">${cat.label}</div>
@@ -2566,7 +2465,7 @@
       const meta = getChoiceMeta(cat, value);
 
       return `
-        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}">
+        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
           <div class="iq-stage-head">
             <div class="iq-stage-kicker">${cat.label}</div>
             <div class="iq-stage-title">${cat.label}</div>
@@ -2599,7 +2498,7 @@
       const total = totalScore(bottle.scores);
 
       return `
-        <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}">
+        <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}" data-stage="summary">
           <div class="iq-summary">
             <div class="iq-summary-hero">
               <div class="iq-summary-hero-left">
