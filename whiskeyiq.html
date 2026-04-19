@@ -27,6 +27,9 @@
       --black-btn: #160d08;
       --danger: #d49a9a;
       --blue: #4a95de;
+
+      --dags-green: #0f8b6b;
+      --dags-green-dark: #0b6f58;
     }
 
     body.dark-ui {
@@ -183,24 +186,28 @@
       color: var(--text-dark);
     }
 
+    .home-theme-btn {
+      position: absolute !important;
+      top: 14px !important;
+      right: 14px !important;
+      z-index: 999 !important;
+      display: inline-flex !important;
+    }
+
     .home-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 18px;
       gap: 12px;
+      padding-right: 62px !important;
     }
 
     .home-brand {
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(2rem, 4vw, 2.7rem);
       line-height: 1;
-    }
-
-    .home-brand .small {
-      font-style: italic;
-      font-weight: 400;
-      margin-right: 6px;
+      color: var(--text-dark);
     }
 
     .search-wrap {
@@ -247,6 +254,26 @@
       cursor: pointer;
     }
 
+    body.dark-ui .home-screen {
+      background: var(--cream);
+      color: var(--text-dark);
+    }
+
+    body.dark-ui .home-brand {
+      color: var(--text-dark);
+    }
+
+    body.dark-ui .empty-state {
+      background: #171d28;
+      color: var(--muted-dark);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    body.dark-ui .bottle-thumb {
+      background: linear-gradient(135deg, #202838, #111722);
+      border-color: rgba(255,255,255,0.08);
+    }
+
     body.dark-ui .search-box,
     body.dark-ui .sort-btn,
     body.dark-ui .iq-choice-btn,
@@ -285,17 +312,11 @@
 
     body.dark-ui .iq-notes-textarea,
     body.dark-ui .iq-theme-btn,
-    body.dark-ui .iq-pm-btn {
+    body.dark-ui .iq-pm-btn,
+    body.dark-ui .home-theme-btn {
       background: #171d28;
       color: #f3f4f7;
       border-color: rgba(255,255,255,0.08);
-    }
-
-    body.dark-ui .iq-tag.active,
-    body.dark-ui .iq-tag:hover {
-      background: #0f8b6b;
-      color: #ffffff;
-      border-color: #0f8b6b;
     }
 
     .collection-head {
@@ -560,32 +581,37 @@
       position: relative;
     }
 
+    .iq-theme-btn,
+    .home-theme-btn {
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 999px !important;
+      border: 1px solid rgba(24,18,13,0.12) !important;
+      background: rgba(255,255,255,0.92) !important;
+      color: var(--text-dark) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
+    }
+
     .iq-theme-btn {
       position: absolute;
       top: 14px;
       right: 14px;
       z-index: 30;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(24,18,13,0.08);
-      background: rgba(255,255,255,0.7);
-      color: var(--text-dark);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     }
 
-    .iq-theme-btn svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .iq-theme-btn svg,
+    .home-theme-btn svg {
+      width: 22px !important;
+      height: 22px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 2.2 !important;
+      stroke-linecap: round !important;
+      stroke-linejoin: round !important;
     }
 
     .iq-topbar {
@@ -907,9 +933,9 @@
     .iq-tag {
       padding: 8px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(193,141,92,0.24);
-      background: #fff;
-      color: var(--gold);
+      border: 1px solid #0f8b6b !important;
+      background: #ffffff !important;
+      color: #0f8b6b !important;
       font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
@@ -917,10 +943,25 @@
     }
 
     .iq-tag.active,
-    .iq-tag:hover {
-      background: var(--gold);
-      color: #fff;
-      border-color: var(--gold);
+    .iq-tag:hover,
+    .iq-tag:focus {
+      background: #0f8b6b !important;
+      color: #ffffff !important;
+      border-color: #0f8b6b !important;
+    }
+
+    body.dark-ui .iq-tag {
+      border-color: #0f8b6b !important;
+      color: #f3f4f7 !important;
+      background: #171d28 !important;
+    }
+
+    body.dark-ui .iq-tag.active,
+    body.dark-ui .iq-tag:hover,
+    body.dark-ui .iq-tag:focus {
+      background: #0f8b6b !important;
+      color: #ffffff !important;
+      border-color: #0f8b6b !important;
     }
 
     .iq-bottom-row {
@@ -932,22 +973,52 @@
       align-items: center;
     }
 
-    .iq-save-btn {
+    .iq-save-btn,
+    button[data-nav="next"],
+    button[data-nav="summary"],
+    button[data-nav="edit"],
+    .iq-summary-actions .iq-save-btn {
       width: 100%;
       border-radius: 16px;
       padding: 16px 18px;
-      border: none;
-      background: var(--black-btn);
-      color: var(--cream);
+      min-height: 62px;
+      background: #0f8b6b !important;
+      color: #ffffff !important;
+      border: 1px solid #0f8b6b !important;
       font-size: 1.15rem;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.18s ease;
-      min-height: 62px;
     }
 
-    body.dark-ui .iq-save-btn {
-      color: #111;
+    .iq-save-btn:hover,
+    button[data-nav="next"]:hover,
+    button[data-nav="summary"]:hover,
+    button[data-nav="edit"]:hover,
+    .iq-summary-actions .iq-save-btn:hover {
+      background: #0b6f58 !important;
+      color: #ffffff !important;
+      border-color: #0b6f58 !important;
+    }
+
+    body.dark-ui .iq-save-btn,
+    body.dark-ui button[data-nav="next"],
+    body.dark-ui button[data-nav="summary"],
+    body.dark-ui button[data-nav="edit"],
+    body.dark-ui .iq-summary-actions .iq-save-btn {
+      background: #0f8b6b !important;
+      color: #ffffff !important;
+      border-color: #0f8b6b !important;
+    }
+
+    body.dark-ui .iq-save-btn:hover,
+    body.dark-ui button[data-nav="next"]:hover,
+    body.dark-ui button[data-nav="summary"]:hover,
+    body.dark-ui button[data-nav="edit"]:hover,
+    body.dark-ui .iq-summary-actions .iq-save-btn:hover {
+      background: #0b6f58 !important;
+      color: #ffffff !important;
+      border-color: #0b6f58 !important;
     }
 
     .iq-summary {
@@ -1087,11 +1158,17 @@
     .iq-summary-pill {
       padding: 8px 14px;
       border-radius: 999px;
-      background: #fff;
-      color: var(--gold);
-      border: 1px solid rgba(193,141,92,0.24);
+      background: #ffffff !important;
+      color: #0f8b6b !important;
+      border: 1px solid #0f8b6b !important;
       font-weight: 700;
       font-size: 0.9rem;
+    }
+
+    body.dark-ui .iq-summary-pill {
+      background: #171d28 !important;
+      color: #ffffff !important;
+      border-color: #0f8b6b !important;
     }
 
     .iq-summary-actions .iq-save-btn,
@@ -1105,10 +1182,28 @@
     }
 
     .iq-edit-btn {
-      border: 1px solid rgba(24,18,13,0.08);
-      background: rgba(255,255,255,0.74);
-      color: var(--text-dark);
+      border: 1px solid #0f8b6b !important;
+      background: #0f8b6b !important;
+      color: #ffffff !important;
       cursor: pointer;
+    }
+
+    .iq-edit-btn:hover {
+      background: #0b6f58 !important;
+      color: #ffffff !important;
+      border-color: #0b6f58 !important;
+    }
+
+    body.dark-ui .iq-edit-btn {
+      background: #0f8b6b !important;
+      color: #ffffff !important;
+      border-color: #0f8b6b !important;
+    }
+
+    body.dark-ui .iq-edit-btn:hover {
+      background: #0b6f58 !important;
+      color: #ffffff !important;
+      border-color: #0b6f58 !important;
     }
 
     .iq-delete-btn {
@@ -1304,16 +1399,22 @@
         padding: 12px 54px 12px 14px;
       }
 
-      .iq-theme-btn {
-        width: 36px;
-        height: 36px;
-        top: 10px;
-        right: 10px;
+      .iq-theme-btn,
+      .home-theme-btn {
+        width: 36px !important;
+        height: 36px !important;
+        top: 10px !important;
+        right: 10px !important;
       }
 
-      .iq-theme-btn svg {
-        width: 18px;
-        height: 18px;
+      .iq-theme-btn svg,
+      .home-theme-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      .home-top {
+        padding-right: 48px !important;
       }
 
       .iq-bottle-name {
@@ -1387,72 +1488,6 @@
         font-size: 1.9rem;
       }
     }
-    /* Home page light/dark polish */
-body.dark-ui .home-screen {
-  background: var(--cream);
-  color: var(--text-dark);
-}
-
-body.dark-ui .home-brand {
-  color: var(--text-dark);
-}
-
-body.dark-ui .empty-state {
-  background: #171d28;
-  color: var(--muted-dark);
-  border-color: rgba(255,255,255,0.08);
-}
-
-body.dark-ui .bottle-thumb {
-  background: linear-gradient(135deg, #202838, #111722);
-  border-color: rgba(255,255,255,0.08);
-}
-
-/* Flavor tags in light mode = DAGS green when selected */
-.iq-tag.active,
-.iq-tag:hover {
-  background: #0f8b6b;
-  color: #ffffff;
-  border-color: #0f8b6b;
-}
-
-/* Keep dark mode flavor tags green too */
-body.dark-ui .iq-tag.active,
-body.dark-ui .iq-tag:hover {
-  background: #0f8b6b;
-  color: #ffffff;
-  border-color: #0f8b6b;
-}
-
-/* Results buttons = DAGS green in both modes */
-.iq-edit-btn,
-.iq-summary-actions .iq-save-btn {
-  background: #0f8b6b;
-  color: #ffffff;
-  border-color: #0f8b6b;
-}
-
-.iq-edit-btn:hover,
-.iq-summary-actions .iq-save-btn:hover {
-  background: #0b6f58;
-  color: #ffffff;
-  border-color: #0b6f58;
-}
-
-/* Dark mode keep them green and readable */
-body.dark-ui .iq-edit-btn,
-body.dark-ui .iq-summary-actions .iq-save-btn {
-  background: #0f8b6b;
-  color: #ffffff;
-  border-color: #0f8b6b;
-}
-
-body.dark-ui .iq-edit-btn:hover,
-body.dark-ui .iq-summary-actions .iq-save-btn:hover {
-  background: #0b6f58;
-  color: #ffffff;
-  border-color: #0b6f58;
-}
   </style>
 </head>
 <body>
@@ -1481,8 +1516,12 @@ body.dark-ui .iq-summary-actions .iq-save-btn:hover {
     <main class="app-shell">
       <div class="app-frame">
         <section class="screen home-screen active" id="homeScreen">
+          <button class="iq-theme-btn home-theme-btn" id="homeThemeToggle" type="button" aria-label="Toggle theme">
+            <svg id="homeThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+          </button>
+
           <div class="home-top">
-           <div class="home-brand">Whiskey IQ</div>
+            <div class="home-brand">Whiskey IQ</div>
           </div>
 
           <div class="search-wrap">
@@ -1556,7 +1595,7 @@ body.dark-ui .iq-summary-actions .iq-save-btn:hover {
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v6";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v9";
 
     const categories = [
       {
@@ -1653,6 +1692,8 @@ body.dark-ui .iq-summary-actions .iq-save-btn:hover {
     const bottleTitleDisplay = document.getElementById("bottleTitleDisplay");
     const iqThemeToggle = document.getElementById("iqThemeToggle");
     const iqThemeIcon = document.getElementById("iqThemeIcon");
+    const homeThemeToggle = document.getElementById("homeThemeToggle");
+    const homeThemeIcon = document.getElementById("homeThemeIcon");
     const addBottleModal = document.getElementById("addBottleModal");
 
     let currentSort = "score";
@@ -1741,21 +1782,23 @@ body.dark-ui .iq-summary-actions .iq-save-btn:hover {
     }
 
     function setThemeIcon() {
-      if (appState.theme === "dark") {
-        iqThemeIcon.innerHTML = `<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>`;
-      } else {
-        iqThemeIcon.innerHTML = `
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="M4.93 4.93l1.41 1.41"></path>
-          <path d="M17.66 17.66l1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="M4.93 19.07l1.41-1.41"></path>
-          <path d="M17.66 6.34l1.41-1.41"></path>
-        `;
-      }
+      const moonIcon = `<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>`;
+      const sunIcon = `
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="M4.93 4.93l1.41 1.41"></path>
+        <path d="M17.66 17.66l1.41 1.41"></path>
+        <path d="M2 12h2"></path>
+        <path d="M20 12h2"></path>
+        <path d="M4.93 19.07l1.41-1.41"></path>
+        <path d="M17.66 6.34l1.41-1.41"></path>
+      `;
+
+      const iconMarkup = appState.theme === "dark" ? moonIcon : sunIcon;
+
+      if (iqThemeIcon) iqThemeIcon.innerHTML = iconMarkup;
+      if (homeThemeIcon) homeThemeIcon.innerHTML = iconMarkup;
     }
 
     function applyTheme() {
@@ -2252,6 +2295,11 @@ body.dark-ui .iq-summary-actions .iq-save-btn:hover {
     });
 
     iqThemeToggle.addEventListener("click", () => {
+      appState.theme = appState.theme === "dark" ? "light" : "dark";
+      applyTheme();
+    });
+
+    homeThemeToggle.addEventListener("click", () => {
       appState.theme = appState.theme === "dark" ? "light" : "dark";
       applyTheme();
     });
