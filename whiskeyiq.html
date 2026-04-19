@@ -7,8 +7,6 @@
   <style>
     :root {
       --bg: #050608;
-      --bg-alt: #11141a;
-      --accent: #0f8b6b;
       --accent-soft: rgba(15, 139, 107, 0.24);
       --text: #f7f7f7;
       --muted: #a3acb9;
@@ -530,7 +528,6 @@
       padding: 20px 16px;
       min-height: 118px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      position: relative;
       cursor: pointer;
       transition: background 0.12s linear;
       display: flex;
@@ -1981,7 +1978,7 @@
             <div class="search-box">
               <input class="search-input" id="searchInput" type="text" placeholder="Search your collection..." />
             </div>
-            <button class="search-go" type="button">→</button>
+            <button class="search-go" id="searchGoBtn" type="button" aria-label="Search">→</button>
           </div>
 
           <div class="collection-head">
@@ -2048,7 +2045,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v19";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v20";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2140,6 +2137,7 @@
     const bottleListEl = document.getElementById("bottleList");
     const collectionCountEl = document.getElementById("collectionCount");
     const searchInput = document.getElementById("searchInput");
+    const searchGoBtn = document.getElementById("searchGoBtn");
     const sortBtn = document.getElementById("sortBtn");
     const sidebarEl = document.getElementById("iqSidebar");
     const stagesEl = document.getElementById("iqStages");
@@ -2335,8 +2333,7 @@
       document.querySelectorAll("[data-print-bottle]").forEach(el => {
         el.addEventListener("click", (e) => {
           e.stopPropagation();
-          const id = el.dataset.printBottle;
-          openBottle(id);
+          openBottle(el.dataset.printBottle);
           setTimeout(() => window.print(), 150);
         });
       });
@@ -2345,8 +2342,7 @@
         el.addEventListener("click", (e) => {
           e.stopPropagation();
           const id = el.dataset.deleteBottle;
-          const ok = confirm("Delete this bottle?");
-          if (!ok) return;
+          if (!confirm("Delete this bottle?")) return;
           appState.bottles = appState.bottles.filter(b => b.id !== id);
           saveBottles();
           renderHome();
@@ -2829,8 +2825,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
       const deleteBottleBtn = document.getElementById("deleteBottleBtn");
       if (deleteBottleBtn) {
         deleteBottleBtn.addEventListener("click", () => {
-          const ok = confirm("Delete this bottle?");
-          if (!ok) return;
+          if (!confirm("Delete this bottle?")) return;
           appState.bottles = appState.bottles.filter(b => b.id !== bottle.id);
           saveBottles();
           currentBottleId = null;
@@ -2845,6 +2840,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
       document.getElementById("newBottleProof").value = "";
       document.getElementById("newBottleType").value = "Bourbon";
       addBottleModal.classList.add("active");
+      setTimeout(() => document.getElementById("newBottleName").focus(), 50);
     }
 
     function closeAddBottleModal() {
@@ -2883,7 +2879,20 @@ Tasting Notes: ${bottle.notes || "None"}`;
       openBottle(bottle.id);
     }
 
+    function handleSearchAction() {
+      renderHome();
+      searchInput.focus();
+    }
+
     searchInput.addEventListener("input", renderHome);
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSearchAction();
+      }
+    });
+
+    searchGoBtn.addEventListener("click", handleSearchAction);
 
     sortBtn.addEventListener("click", () => {
       currentSort = currentSort === "score" ? "name" : "score";
@@ -2895,6 +2904,16 @@ Tasting Notes: ${bottle.notes || "None"}`;
     document.getElementById("cancelAddBottle").addEventListener("click", closeAddBottleModal);
     document.getElementById("confirmAddBottle").addEventListener("click", confirmAddOrEditBottle);
     document.getElementById("backToHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("newBottleName").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") confirmAddOrEditBottle();
+    });
+    document.getElementById("newBottleProof").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") confirmAddOrEditBottle();
+    });
+    document.getElementById("newBottleType").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") confirmAddOrEditBottle();
+    });
 
     addBottleModal.addEventListener("click", (e) => {
       if (e.target === addBottleModal) closeAddBottleModal();
