@@ -180,7 +180,7 @@
     }
 
     .home-screen {
-      padding: 20px 18px 120px;
+      padding: 20px 18px 90px;
       position: relative;
       background: var(--cream);
       color: var(--text-dark);
@@ -501,19 +501,18 @@
 
     .fab-add {
       position: absolute;
-      right: 22px;
-      bottom: 22px;
-      width: 68px;
-      height: 68px;
+      right: 18px;
+      bottom: 18px;
+      width: 64px;
+      height: 64px;
       border-radius: 999px;
       border: none;
       background: #120d09;
       color: #fff;
-      font-size: 2.35rem;
+      font-size: 2.2rem;
       line-height: 1;
       cursor: pointer;
       box-shadow: 0 18px 34px rgba(0,0,0,0.2);
-      z-index: 20;
     }
 
     .iq-rating-shell {
@@ -1136,7 +1135,7 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .iq-summary-box {
@@ -1144,6 +1143,14 @@
       border-radius: 20px;
       padding: 16px 18px;
       border: 1px solid rgba(24,18,13,0.06);
+    }
+
+    .iq-summary-box-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
     .iq-summary-box-label {
@@ -1160,7 +1167,6 @@
       line-height: 1;
       font-weight: 800;
       color: var(--text-dark);
-      margin-bottom: 12px;
     }
 
     .iq-summary-box-score small {
@@ -1168,6 +1174,13 @@
       color: var(--muted-dark);
       margin-left: 4px;
       font-weight: 600;
+    }
+
+    .iq-summary-box-emoji {
+      font-size: 1.9rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .iq-summary-line {
@@ -1185,7 +1198,7 @@
     }
 
     .iq-summary-block {
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .iq-summary-title {
@@ -1524,37 +1537,33 @@
       .page {
         min-height: 100vh;
         height: auto;
-        padding: 10px 8px 18px;
+        padding: 4px;
       }
 
       header {
-        margin-bottom: 10px;
-        gap: 10px;
+        margin-bottom: 6px;
+        gap: 6px;
       }
 
       .brand-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
 
       .brand-subtitle {
-        font-size: 0.62rem;
+        font-size: 0.55rem;
         letter-spacing: 0.18em;
       }
 
-      nav {
-        gap: 8px;
-      }
-
       nav a {
-        font-size: 0.82rem;
-        padding: 5px 9px;
+        font-size: 0.68rem;
+        padding: 4px 7px;
       }
 
       .app-shell {
-        min-height: calc(100vh - 88px);
+        min-height: calc(100vh - 70px);
         height: auto;
-        padding: 8px;
-        border-radius: 18px;
+        padding: 4px;
+        border-radius: 12px;
       }
 
       .app-frame,
@@ -1567,377 +1576,344 @@
       .home-screen {
         min-height: 100%;
         height: auto;
-        padding: 18px 18px 110px;
+        padding: 12px 10px 64px;
         overflow-y: auto;
       }
 
+      .iq-left {
+        width: 82px;
+      }
+
+      .iq-rating-shell {
+        grid-template-columns: 82px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .iq-side-item {
+        min-height: 58px;
+        padding: 6px;
+      }
+
+      .iq-side-label {
+        font-size: 0.55rem;
+        margin-bottom: 4px;
+        letter-spacing: 0.06em;
+      }
+
+      .iq-side-score {
+        font-size: 1.2rem;
+      }
+
+      .iq-side-empty {
+        font-size: 1rem;
+      }
+
+      .iq-total {
+        padding: 10px 8px;
+      }
+
+      .iq-total-label {
+        font-size: 0.58rem;
+        margin-bottom: 4px;
+      }
+
+      .iq-total-score {
+        font-size: 1.35rem;
+      }
+
+      .iq-topbar {
+        padding: 8px 38px 8px 8px;
+        min-height: 42px;
+      }
+
+      .iq-bottle-name {
+        font-size: 0.95rem;
+      }
+
+      .iq-back {
+        font-size: 1.25rem;
+      }
+
+      .iq-theme-btn,
+      .home-theme-btn {
+        width: 28px !important;
+        height: 28px !important;
+        top: 6px !important;
+        right: 6px !important;
+      }
+
+      .iq-theme-btn svg,
+      .home-theme-btn svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+
       .home-top {
-        padding-right: 56px !important;
-        margin-bottom: 16px;
+        padding-right: 40px !important;
+        margin-bottom: 12px;
       }
 
       .home-brand {
-        font-size: 1.95rem;
-      }
-
-      .home-theme-btn,
-      .iq-theme-btn {
-        width: 36px !important;
-        height: 36px !important;
-        top: 10px !important;
-        right: 10px !important;
-      }
-
-      .home-theme-btn svg,
-      .iq-theme-btn svg {
-        width: 18px !important;
-        height: 18px !important;
+        font-size: 1.7rem;
       }
 
       .search-wrap {
-        grid-template-columns: 1fr 58px;
-        gap: 10px;
-        margin-bottom: 18px;
+        grid-template-columns: 1fr 48px;
+        gap: 8px;
       }
 
       .search-box {
-        min-height: 54px;
-        padding: 0 16px 0 44px;
+        min-height: 48px;
+        padding: 0 14px 0 40px;
       }
 
       .search-box::before {
-        left: 16px;
+        left: 14px;
         font-size: 1rem;
       }
 
       .search-go {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
 
-      .collection-head {
-        margin-bottom: 14px;
+      .iq-stage {
+        padding: 8px 8px 14px;
+        min-height: 100%;
+        height: auto;
+        overflow: visible;
       }
 
-      .collection-title {
+      .iq-stage-head {
+        margin-bottom: 4px;
+      }
+
+      .iq-stage-kicker {
+        font-size: 0.55rem;
+        margin-bottom: 2px;
+      }
+
+      .iq-stage-title {
+        font-size: 1.45rem;
+        margin-bottom: 2px;
+      }
+
+      .iq-stage-subtitle {
         font-size: 0.78rem;
       }
 
-      .collection-count {
-        font-size: 0.92rem;
+      .iq-emoji {
+        font-size: 2.2rem;
+        min-height: 36px;
+        margin: 6px 0 2px;
       }
 
-      .sort-btn {
-        min-height: 40px;
-        padding: 0 14px;
-        font-size: 0.95rem;
+      .iq-current-score-label {
+        font-size: 0.75rem;
+        min-height: 18px;
+        margin-bottom: 2px;
       }
 
-      .bottle-list {
-        gap: 12px;
+      .iq-slider-wrap {
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        gap: 4px;
+        min-height: 180px;
+        margin: 2px auto 2px;
+        max-width: 100%;
       }
 
-      .empty-state {
-        padding: 26px 18px;
-        font-size: 0.98rem;
-        border-radius: 20px;
+      .iq-track-shell {
+        height: 170px;
       }
 
-      .bottle-card {
-        grid-template-columns: 60px minmax(0, 1fr) 86px;
-        gap: 10px;
-        padding: 12px;
-        border-radius: 18px;
+      .iq-line {
+        top: 8px;
+        bottom: 8px;
       }
 
-      .bottle-thumb {
-        width: 52px;
-        height: 52px;
+      .iq-range {
+        width: 170px;
+        height: 36px;
+      }
+
+      .iq-range::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+        margin-top: -10px;
+      }
+
+      .iq-range::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+      }
+
+      .iq-pm-btn {
+        width: 34px;
+        height: 34px;
         font-size: 1.25rem;
       }
 
-      .bottle-meta-top {
+      .iq-manual {
+        max-width: 80px;
+        margin: 0 auto 4px;
+      }
+
+      .iq-manual input {
+        font-size: 1.9rem;
+      }
+
+      .iq-manual small {
+        font-size: 0.58rem;
+        margin-top: 1px;
+      }
+
+      .iq-choice-wrap {
+        gap: 6px;
+        margin: 8px auto 6px;
+      }
+
+      .iq-choice-btn {
+        padding: 9px 10px;
+        font-size: 0.8rem;
+        border-radius: 12px;
+      }
+
+      .iq-notes-block {
+        margin-top: 4px;
+        padding-top: 8px;
+      }
+
+      .iq-notes-label,
+      .iq-flavor-label,
+      .iq-summary-title {
+        font-size: 0.62rem;
+        margin-bottom: 6px;
+      }
+
+      .iq-notes-textarea {
+        min-height: 52px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        font-size: 0.78rem;
+        border-radius: 12px;
+      }
+
+      .iq-tags {
+        gap: 5px;
+      }
+
+      .iq-tag,
+      .iq-summary-pill {
+        padding: 5px 8px;
         font-size: 0.68rem;
       }
 
+      .iq-bottom-row {
+        margin-top: 8px;
+      }
+
+      .iq-save-btn,
+      .iq-edit-btn,
+      .iq-delete-btn,
+      .bottle-action-btn {
+        min-height: 40px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+        border-radius: 10px;
+      }
+
+      .iq-summary {
+        max-width: 100%;
+      }
+
+      .iq-summary-grid {
+        gap: 6px;
+        grid-template-columns: 1fr;
+        margin-bottom: 2px;
+      }
+
+      .iq-summary-block {
+        margin-top: 4px;
+      }
+
+      .iq-summary-hero {
+        padding: 12px;
+        border-radius: 14px;
+        margin-bottom: 10px;
+      }
+
+      .iq-summary-hero-label {
+        font-size: 0.58rem;
+        margin-bottom: 4px;
+      }
+
+      .iq-summary-hero-score {
+        font-size: 2.3rem;
+      }
+
+      .iq-summary-hero-emoji {
+        font-size: 2rem;
+      }
+
+      .iq-summary-box {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+
+      .iq-summary-box-top {
+        margin-bottom: 6px;
+      }
+
+      .iq-summary-box-label {
+        font-size: 0.6rem;
+        margin-bottom: 6px;
+      }
+
+      .iq-summary-box-score {
+        font-size: 1.5rem;
+      }
+
+      .iq-summary-box-emoji {
+        font-size: 1.45rem;
+      }
+
+      .iq-summary-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+
+      .iq-summary-text {
+        font-size: 0.78rem;
+      }
+
+      .bottle-card {
+        grid-template-columns: 52px minmax(0, 1fr) 64px;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .bottle-thumb {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+
       .bottle-name {
-        font-size: 1.02rem;
+        font-size: 0.95rem;
       }
 
       .bottle-score-top {
-        font-size: 1.9rem;
+        font-size: 1.7rem;
       }
 
       .bottle-actions {
         grid-column: 1 / -1;
         justify-content: flex-start;
         flex-wrap: wrap;
-        margin-top: 8px;
       }
 
       .bottle-action-btn {
-        font-size: 0.78rem;
-        padding: 7px 11px;
-      }
-
-      .fab-add {
-        right: 18px;
-        bottom: 18px;
-        width: 72px;
-        height: 72px;
-        font-size: 2.5rem;
-        z-index: 20;
-      }
-
-      .iq-rating-shell {
-        grid-template-columns: 96px minmax(0, 1fr);
-        align-items: start;
-      }
-
-      .iq-left {
-        width: 96px;
-      }
-
-      .iq-side-item {
-        min-height: 72px;
-        padding: 10px 8px;
-      }
-
-      .iq-side-label {
-        font-size: 0.64rem;
-        margin-bottom: 5px;
-        letter-spacing: 0.07em;
-      }
-
-      .iq-side-score {
-        font-size: 1.45rem;
-      }
-
-      .iq-side-empty {
-        font-size: 1.1rem;
-      }
-
-      .iq-total {
-        padding: 12px 10px;
-      }
-
-      .iq-total-label {
-        font-size: 0.66rem;
-        margin-bottom: 5px;
-      }
-
-      .iq-total-score {
-        font-size: 1.6rem;
-      }
-
-      .iq-topbar {
-        padding: 10px 44px 10px 10px;
-        min-height: 48px;
-      }
-
-      .iq-bottle-name {
-        font-size: 1.05rem;
-      }
-
-      .iq-back {
-        font-size: 1.35rem;
-      }
-
-      .iq-stage {
-        padding: 14px 14px 18px;
-        min-height: 100%;
-        height: auto;
-        overflow: visible;
-      }
-
-      .iq-stage-kicker {
-        font-size: 0.62rem;
-        margin-bottom: 4px;
-      }
-
-      .iq-stage-title {
-        font-size: 1.9rem;
-        margin-bottom: 4px;
-      }
-
-      .iq-stage-subtitle {
-        font-size: 0.95rem;
-      }
-
-      .iq-emoji {
-        font-size: 2.8rem;
-        min-height: 48px;
-        margin: 8px 0 4px;
-      }
-
-      .iq-current-score-label {
-        font-size: 0.9rem;
-        min-height: 22px;
-        margin-bottom: 6px;
-      }
-
-      .iq-slider-wrap {
-        grid-template-columns: 46px minmax(0, 1fr) 46px;
-        gap: 8px;
-        min-height: 230px;
-        margin: 6px auto 8px;
-        max-width: 100%;
-      }
-
-      .iq-track-shell {
-        height: 220px;
-      }
-
-      .iq-line {
-        top: 10px;
-        bottom: 10px;
-      }
-
-      .iq-range {
-        width: 220px;
-        height: 42px;
-      }
-
-      .iq-range::-webkit-slider-thumb {
-        width: 28px;
-        height: 28px;
-        margin-top: -12px;
-      }
-
-      .iq-range::-moz-range-thumb {
-        width: 28px;
-        height: 28px;
-      }
-
-      .iq-pm-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.45rem;
-      }
-
-      .iq-manual {
-        max-width: 96px;
-        margin: 0 auto 6px;
-      }
-
-      .iq-manual input {
-        font-size: 2.25rem;
-      }
-
-      .iq-manual small {
-        font-size: 0.64rem;
-      }
-
-      .iq-choice-wrap {
-        gap: 8px;
-        margin: 10px auto 8px;
-      }
-
-      .iq-choice-btn {
-        padding: 11px 12px;
-        font-size: 0.9rem;
-        border-radius: 14px;
-      }
-
-      .iq-notes-block {
-        margin-top: 6px;
-        padding-top: 10px;
-      }
-
-      .iq-notes-label,
-      .iq-flavor-label,
-      .iq-summary-title {
-        font-size: 0.68rem;
-        margin-bottom: 7px;
-      }
-
-      .iq-notes-textarea {
-        min-height: 68px;
-        padding: 10px 12px;
-        margin-bottom: 10px;
-        font-size: 0.88rem;
-        border-radius: 14px;
-      }
-
-      .iq-tags {
-        gap: 7px;
-      }
-
-      .iq-tag,
-      .iq-summary-pill {
-        padding: 7px 10px;
-        font-size: 0.76rem;
-      }
-
-      .iq-bottom-row {
-        margin-top: 10px;
-      }
-
-      .iq-save-btn,
-      .iq-edit-btn,
-      .iq-delete-btn {
-        min-height: 46px;
-        padding: 10px 12px;
-        font-size: 0.92rem;
-        border-radius: 12px;
-      }
-
-      .iq-summary-hero {
-        padding: 14px;
-        border-radius: 16px;
-        margin-bottom: 10px;
-      }
-
-      .iq-summary-hero-label {
-        font-size: 0.62rem;
-        margin-bottom: 4px;
-      }
-
-      .iq-summary-hero-score {
-        font-size: 2.7rem;
-      }
-
-      .iq-summary-hero-emoji {
-        font-size: 2.4rem;
-      }
-
-      .iq-summary-grid {
-        gap: 10px;
-        grid-template-columns: 1fr;
-      }
-
-      .iq-summary-box {
-        padding: 12px 14px;
-        border-radius: 14px;
-      }
-
-      .iq-summary-box-label {
-        font-size: 0.66rem;
-        margin-bottom: 7px;
-      }
-
-      .iq-summary-box-score {
-        font-size: 1.8rem;
-        margin-bottom: 8px;
-      }
-
-      .iq-summary-card {
-        padding: 12px 14px;
-        border-radius: 14px;
-      }
-
-      .iq-summary-text {
-        font-size: 0.88rem;
-      }
-
-      .iq-summary-actions {
-        gap: 8px;
-      }
-
-      .iq-summary-actions .iq-save-btn,
-      .iq-summary-actions .iq-edit-btn {
-        min-height: 48px;
-        padding: 10px 12px;
-        font-size: 0.9rem;
+        font-size: 0.75rem;
+        padding: 6px 10px;
       }
     }
   </style>
@@ -2237,6 +2213,15 @@
       return "😬";
     }
 
+    function scoreEmoji(cat, value) {
+      if (cat.type === "choice") {
+        const meta = getChoiceMeta(cat, value);
+        return meta ? meta.emoji : "•";
+      }
+      const meta = getRangeMeta(cat, value);
+      return meta ? meta.emoji : "•";
+    }
+
     function escapeHtml(str) {
       return String(str || "")
         .replaceAll("&", "&amp;")
@@ -2419,8 +2404,8 @@
       const value = Number(bottle.scores[cat.key] || 0);
       const meta = getRangeMeta(cat, value);
       const isMobile = window.innerWidth <= 720;
-      const trackHeight = isMobile ? 200 : 424;
-      const thumbSize = isMobile ? 28 : 40;
+      const trackHeight = isMobile ? 154 : 424;
+      const thumbSize = isMobile ? 24 : 40;
       const usableHeight = trackHeight - thumbSize;
       const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
@@ -2513,8 +2498,13 @@
             <div class="iq-summary-grid">
               ${categories.map(cat => `
                 <div class="iq-summary-box">
-                  <div class="iq-summary-box-label">${cat.label}</div>
-                  <div class="iq-summary-box-score">${bottle.scores[cat.key]}<small>/${cat.max}</small></div>
+                  <div class="iq-summary-box-top">
+                    <div>
+                      <div class="iq-summary-box-label">${cat.label}</div>
+                      <div class="iq-summary-box-score">${bottle.scores[cat.key]}<small>/${cat.max}</small></div>
+                    </div>
+                    <div class="iq-summary-box-emoji">${scoreEmoji(cat, bottle.scores[cat.key])}</div>
+                  </div>
                   <div class="iq-summary-line">
                     <span style="width:${(bottle.scores[cat.key] / cat.max) * 100}%"></span>
                   </div>
