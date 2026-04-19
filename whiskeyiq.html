@@ -1379,7 +1379,7 @@
       .page,
       .app-shell,
       .app-frame,
-      .ratingScreen,
+      #ratingScreen,
       .iq-rating-shell,
       .iq-right,
       .iq-stage.active {
@@ -1387,6 +1387,9 @@
         background: #ffffff !important;
         box-shadow: none !important;
         border: none !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
       }
 
       .iq-left {
@@ -1467,90 +1470,119 @@
     }
 
     @media (max-width: 720px) {
+      html, body {
+        height: 100%;
+        overflow: hidden;
+      }
+
       .page {
-        padding: 10px 6px 20px;
+        height: 100vh;
+        padding: 4px;
       }
 
-      .header-right {
-        width: 100%;
+      header {
+        margin-bottom: 6px;
+        gap: 6px;
       }
 
-      nav {
-        width: 100%;
+      .brand-title {
+        font-size: 1rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.55rem;
+        letter-spacing: 0.18em;
+      }
+
+      nav a {
+        font-size: 0.68rem;
+        padding: 4px 7px;
       }
 
       .app-shell {
-        padding: 6px;
-        border-radius: 16px;
+        height: calc(100vh - 70px);
+        padding: 4px;
+        border-radius: 12px;
       }
 
       .app-frame,
+      .screen,
       .iq-rating-shell {
-        border-radius: 12px;
-        min-height: auto;
+        height: 100%;
+        min-height: 100%;
       }
 
-      .iq-rating-shell {
-        grid-template-columns: 96px minmax(0, 1fr);
+      .home-screen {
+        height: 100%;
+        padding: 12px 10px 64px;
+        overflow-y: auto;
       }
 
       .iq-left {
-        display: flex;
-        flex-direction: column;
+        width: 82px;
+      }
+
+      .iq-rating-shell {
+        grid-template-columns: 82px minmax(0, 1fr);
       }
 
       .iq-side-item {
-        min-height: 72px;
-        padding: 8px 8px;
+        min-height: 58px;
+        padding: 6px;
       }
 
       .iq-side-label {
-        font-size: 0.62rem;
-        letter-spacing: 0.08em;
-        margin-bottom: 6px;
+        font-size: 0.55rem;
+        margin-bottom: 4px;
+        letter-spacing: 0.06em;
       }
 
       .iq-side-score {
-        font-size: 1.45rem;
-      }
-
-      .iq-side-score small {
-        font-size: 0.42em;
-      }
-
-      .iq-side-empty {
         font-size: 1.2rem;
       }
 
+      .iq-side-empty {
+        font-size: 1rem;
+      }
+
       .iq-total {
-        padding: 12px 10px;
+        padding: 10px 8px;
       }
 
       .iq-total-label {
-        font-size: 0.65rem;
-        margin-bottom: 6px;
+        font-size: 0.58rem;
+        margin-bottom: 4px;
       }
 
       .iq-total-score {
-        font-size: 1.7rem;
+        font-size: 1.35rem;
       }
 
       .iq-topbar {
-        padding: 10px 44px 10px 10px;
+        padding: 8px 38px 8px 8px;
+        min-height: 42px;
+      }
+
+      .iq-bottle-name {
+        font-size: 0.95rem;
+      }
+
+      .iq-back {
+        font-size: 1.25rem;
       }
 
       .iq-theme-btn,
       .home-theme-btn {
-        width: 32px !important;
-        height: 32px !important;
-        top: 8px !important;
-        right: 8px !important;
+        width: 28px !important;
+        height: 28px !important;
+        top: 6px !important;
+        right: 6px !important;
       }
 
       .iq-theme-btn svg,
       .home-theme-btn svg {
-        width: 16px !important;
-        height: 16px !important;
+        width: 14px !important;
+        height: 14px !important;
       }
 
       .home-top {
@@ -1582,90 +1614,199 @@
       }
 
       .iq-stage {
-        padding: 12px 10px 16px;
+        padding: 8px 8px 10px;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .iq-stage-head {
+        margin-bottom: 4px;
+      }
+
+      .iq-stage-kicker {
+        font-size: 0.55rem;
+        margin-bottom: 2px;
       }
 
       .iq-stage-title {
-        font-size: 1.9rem;
+        font-size: 1.45rem;
+        margin-bottom: 2px;
       }
 
       .iq-stage-subtitle {
-        font-size: 0.95rem;
+        font-size: 0.78rem;
       }
 
       .iq-emoji {
-        font-size: 3.2rem;
-        min-height: 58px;
-        margin: 10px 0 6px;
+        font-size: 2.2rem;
+        min-height: 36px;
+        margin: 6px 0 2px;
+      }
+
+      .iq-current-score-label {
+        font-size: 0.75rem;
+        min-height: 18px;
+        margin-bottom: 2px;
       }
 
       .iq-slider-wrap {
-        grid-template-columns: 46px minmax(0, 1fr) 46px;
-        gap: 6px;
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        gap: 4px;
+        min-height: 180px;
+        margin: 2px auto 2px;
         max-width: 100%;
-        min-height: 300px;
       }
 
       .iq-track-shell {
-        height: 280px;
+        height: 170px;
+      }
+
+      .iq-line {
+        top: 8px;
+        bottom: 8px;
       }
 
       .iq-range {
-        width: 280px;
+        width: 170px;
+        height: 36px;
+      }
+
+      .iq-range::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+        margin-top: -10px;
+      }
+
+      .iq-range::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
       }
 
       .iq-pm-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 1.7rem;
+        width: 34px;
+        height: 34px;
+        font-size: 1.25rem;
       }
 
       .iq-manual {
-        max-width: 120px;
+        max-width: 80px;
+        margin: 0 auto 4px;
       }
 
       .iq-manual input {
-        font-size: 2.5rem;
+        font-size: 1.9rem;
+      }
+
+      .iq-manual small {
+        font-size: 0.58rem;
+        margin-top: 1px;
+      }
+
+      .iq-choice-wrap {
+        gap: 6px;
+        margin: 8px auto 6px;
+      }
+
+      .iq-choice-btn {
+        padding: 9px 10px;
+        font-size: 0.8rem;
+        border-radius: 12px;
       }
 
       .iq-notes-block {
-        margin-top: 8px;
-        padding-top: 12px;
+        margin-top: 4px;
+        padding-top: 8px;
+      }
+
+      .iq-notes-label,
+      .iq-flavor-label,
+      .iq-summary-title {
+        font-size: 0.62rem;
+        margin-bottom: 6px;
       }
 
       .iq-notes-textarea {
-        min-height: 80px;
-        padding: 10px 12px;
+        min-height: 52px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        font-size: 0.78rem;
+        border-radius: 12px;
       }
 
       .iq-tags {
-        gap: 8px;
+        gap: 5px;
       }
 
-      .iq-tag {
-        padding: 7px 10px;
-        font-size: 0.82rem;
+      .iq-tag,
+      .iq-summary-pill {
+        padding: 5px 8px;
+        font-size: 0.68rem;
+      }
+
+      .iq-bottom-row {
+        margin-top: 8px;
       }
 
       .iq-save-btn,
       .iq-edit-btn,
-      .iq-delete-btn {
-        min-height: 54px;
-        padding: 12px 14px;
-        font-size: 1rem;
+      .iq-delete-btn,
+      .bottle-action-btn {
+        min-height: 40px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+        border-radius: 10px;
       }
 
-      .iq-summary-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
+      .iq-summary {
+        max-width: 100%;
       }
 
       .iq-summary-hero {
-        padding: 16px 16px;
+        padding: 12px;
+        border-radius: 14px;
+        margin-bottom: 10px;
+      }
+
+      .iq-summary-hero-label {
+        font-size: 0.58rem;
+        margin-bottom: 4px;
       }
 
       .iq-summary-hero-score {
-        font-size: 3.3rem;
+        font-size: 2.3rem;
+      }
+
+      .iq-summary-hero-emoji {
+        font-size: 2rem;
+      }
+
+      .iq-summary-grid {
+        gap: 8px;
+        grid-template-columns: 1fr;
+      }
+
+      .iq-summary-box {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+
+      .iq-summary-box-label {
+        font-size: 0.6rem;
+        margin-bottom: 6px;
+      }
+
+      .iq-summary-box-score {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      .iq-summary-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+
+      .iq-summary-text {
+        font-size: 0.78rem;
       }
 
       .bottle-card {
@@ -1806,7 +1947,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v11";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v12";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
