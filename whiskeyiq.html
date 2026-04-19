@@ -294,10 +294,12 @@
       border-color: rgba(255,255,255,0.08);
     }
 
-    body.dark-ui .iq-tag.active,
-    body.dark-ui .iq-tag:hover {
-      color: #111;
-    }
+   body.dark-ui .iq-tag.active,
+body.dark-ui .iq-tag:hover {
+  background: #0f8b6b;
+  color: #ffffff;
+  border-color: #0f8b6b;
+}
 
     .collection-head {
       display: flex;
@@ -1574,29 +1576,29 @@
           { min: 21, emoji: "🔥", text: "Outstanding" }
         ]
       },
+   {
+  key: "drinkAgain",
+  label: "Drink Again",
+  max: 5,
+  type: "choice",
+  question: "Would you drink this again?",
+  choices: [
+    { label: "Yes", value: 5, emoji: "🥃", note: "Yes" },
+    { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
+    { label: "No", value: 0, emoji: "🙅", note: "No" }
+  ]
+}
       {
-        key: "drinkAgain",
-        label: "Drink Again",
-        max: 5,
-        type: "choice",
-        question: "Would you drink this again?",
-        choices: [
-          { label: "No", value: 0, emoji: "🙅", note: "No" },
-          { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
-          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" }
-        ]
-      },
-      {
-        key: "recommend",
-        label: "Recommend",
-        max: 5,
-        type: "choice",
-        question: "Would you recommend this?",
-        choices: [
-          { label: "No", value: 0, emoji: "👎", note: "No" },
-          { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
-        ]
-      },
+  key: "recommend",
+  label: "Recommend",
+  max: 5,
+  type: "choice",
+  question: "Would you recommend this?",
+  choices: [
+    { label: "Yes", value: 5, emoji: "💯", note: "Yes" },
+    { label: "No", value: 0, emoji: "👎", note: "No" }
+  ]
+}
       {
         key: "value",
         label: "Value",
