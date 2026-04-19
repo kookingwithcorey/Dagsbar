@@ -1387,6 +1387,72 @@
         font-size: 1.9rem;
       }
     }
+    /* Home page light/dark polish */
+body.dark-ui .home-screen {
+  background: var(--cream);
+  color: var(--text-dark);
+}
+
+body.dark-ui .home-brand {
+  color: var(--text-dark);
+}
+
+body.dark-ui .empty-state {
+  background: #171d28;
+  color: var(--muted-dark);
+  border-color: rgba(255,255,255,0.08);
+}
+
+body.dark-ui .bottle-thumb {
+  background: linear-gradient(135deg, #202838, #111722);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Flavor tags in light mode = DAGS green when selected */
+.iq-tag.active,
+.iq-tag:hover {
+  background: #0f8b6b;
+  color: #ffffff;
+  border-color: #0f8b6b;
+}
+
+/* Keep dark mode flavor tags green too */
+body.dark-ui .iq-tag.active,
+body.dark-ui .iq-tag:hover {
+  background: #0f8b6b;
+  color: #ffffff;
+  border-color: #0f8b6b;
+}
+
+/* Results buttons = DAGS green in both modes */
+.iq-edit-btn,
+.iq-summary-actions .iq-save-btn {
+  background: #0f8b6b;
+  color: #ffffff;
+  border-color: #0f8b6b;
+}
+
+.iq-edit-btn:hover,
+.iq-summary-actions .iq-save-btn:hover {
+  background: #0b6f58;
+  color: #ffffff;
+  border-color: #0b6f58;
+}
+
+/* Dark mode keep them green and readable */
+body.dark-ui .iq-edit-btn,
+body.dark-ui .iq-summary-actions .iq-save-btn {
+  background: #0f8b6b;
+  color: #ffffff;
+  border-color: #0f8b6b;
+}
+
+body.dark-ui .iq-edit-btn:hover,
+body.dark-ui .iq-summary-actions .iq-save-btn:hover {
+  background: #0b6f58;
+  color: #ffffff;
+  border-color: #0b6f58;
+}
   </style>
 </head>
 <body>
@@ -1416,7 +1482,7 @@
       <div class="app-frame">
         <section class="screen home-screen active" id="homeScreen">
           <div class="home-top">
-            <div class="home-brand"><span class="small">the</span>BOURBON IQ</div>
+           <div class="home-brand">Whiskey IQ</div>
           </div>
 
           <div class="search-wrap">
