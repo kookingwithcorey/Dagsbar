@@ -1458,7 +1458,7 @@
       <div class="app-frame">
         <section class="screen home-screen active" id="homeScreen">
           <div class="home-top">
-            <div class="home-brand"><span class="small">the</span>Whiskey IQ</div>
+            <div class="home-brand"><span class="small">Whiskey IQ</div>
           </div>
 
           <div class="search-wrap">
@@ -1511,7 +1511,7 @@
 
       <div class="modal-field">
         <label class="modal-label" for="newBottleName">Bottle Name</label>
-        <input class="modal-input" id="newBottleName" type="text" placeholder="Whiskey Name" />
+        <input class="modal-input" id="newBottleName" type="text" placeholder="Silk Velvet Cask Strength Bourbon" />
       </div>
 
       <div class="modal-field">
@@ -1581,9 +1581,9 @@
         type: "choice",
         question: "Would you drink this again?",
         choices: [
-          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" }
-         	{ label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
           { label: "No", value: 0, emoji: "🙅", note: "No" },
+          { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
+          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" }
         ]
       },
       {
@@ -1593,9 +1593,8 @@
         type: "choice",
         question: "Would you recommend this?",
         choices: [
-            { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
           { label: "No", value: 0, emoji: "👎", note: "No" },
-        
+          { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
         ]
       },
       {
@@ -1962,7 +1961,17 @@
                   : `<span class="iq-summary-pill">No tags selected</span>`}
               </div>
             </div>
-						 <div class="iq-summary-block">
+
+            <div class="iq-summary-block">
+              <div class="iq-summary-title">Collection Status</div>
+              <div class="iq-status-row">
+                <button type="button" class="iq-status-pill ${bottle.statuses.wantToTry ? "active" : ""}" data-status="wantToTry">Want to Try</button>
+                <button type="button" class="iq-status-pill ${bottle.statuses.onShelf ? "active" : ""}" data-status="onShelf">On My Shelf</button>
+                <button type="button" class="iq-status-pill ${bottle.statuses.finished ? "active" : ""}" data-status="finished">Finished</button>
+              </div>
+            </div>
+
+            <div class="iq-summary-block">
               <div class="iq-summary-title">Tasting Notes</div>
               <div class="iq-summary-card">
                 <div class="iq-summary-text muted">${escapeHtml(bottle.notes || "No tasting notes added.")}</div>
