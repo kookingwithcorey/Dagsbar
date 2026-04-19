@@ -1531,7 +1531,7 @@
       }
     }
 
-   @media (max-width: 720px) {
+  @media (max-width: 720px) {
   html, body {
     height: auto;
     min-height: 100%;
@@ -1585,12 +1585,12 @@
   .home-screen {
     min-height: 100%;
     height: auto;
-    padding: 7px 7px 76px;
+    padding: 7px 7px 88px;
     overflow-y: auto;
   }
 
   .home-screen .bottle-list {
-    padding-bottom: 76px;
+    padding-bottom: 88px;
   }
 
   .home-top {
@@ -1673,16 +1673,16 @@
   }
 
   .bottle-card {
-    grid-template-columns: 36px minmax(0, 1fr) 44px;
+    grid-template-columns: 34px minmax(0, 1fr) 42px;
     gap: 5px;
-    padding: 7px;
+    padding: 6px;
     border-radius: 10px;
   }
 
   .bottle-thumb {
-    width: 28px;
-    height: 28px;
-    font-size: 0.74rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.7rem;
     border-radius: 7px;
   }
 
@@ -1693,12 +1693,12 @@
   }
 
   .bottle-name {
-    font-size: 0.64rem;
+    font-size: 0.6rem;
     line-height: 1;
   }
 
   .bottle-score-top {
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .bottle-score-top small {
@@ -1714,19 +1714,19 @@
     grid-column: 1 / -1;
     justify-content: flex-start;
     flex-wrap: wrap;
-    margin-top: 2px;
+    margin-top: 1px;
     gap: 4px;
   }
 
   .bottle-action-btn {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
     padding: 3px 6px;
-    min-height: 22px;
+    min-height: 20px;
   }
 
   .fab-add {
     right: 10px;
-    bottom: 10px;
+    bottom: 6px;
     width: 46px;
     height: 46px;
     font-size: 1.55rem;
@@ -1791,6 +1791,10 @@
     min-height: 100%;
     height: auto;
     overflow: visible;
+  }
+
+  .iq-stage.active {
+    padding-bottom: 120px;
   }
 
   .iq-stage-head {
@@ -1929,82 +1933,103 @@
     margin-top: 5px;
   }
 
-  .iq-save-btn,
-  .iq-edit-btn,
-  .iq-delete-btn,
-  .bottle-action-btn {
-    min-height: 30px;
-    padding: 5px 7px;
-    font-size: 0.62rem;
-    border-radius: 7px;
-  }
-
   .iq-summary {
     max-width: 100%;
   }
 
-  .iq-summary-grid {
-    gap: 4px;
-    grid-template-columns: 1fr;
-    margin-bottom: 1px;
-  }
-
-  .iq-summary-block {
-    margin-top: 2px;
-  }
-
   .iq-summary-hero {
-    padding: 8px;
-    border-radius: 10px;
-    margin-bottom: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
   }
 
   .iq-summary-hero-label {
-    font-size: 0.44rem;
-    margin-bottom: 2px;
-  }
-
-  .iq-summary-hero-score {
-    font-size: 1.6rem;
-  }
-
-  .iq-summary-hero-emoji {
-    font-size: 1.35rem;
-  }
-
-  .iq-summary-box {
-    padding: 7px 8px;
-    border-radius: 8px;
-  }
-
-  .iq-summary-box-top {
-    margin-bottom: 4px;
-  }
-
-  .iq-summary-box-label {
-    font-size: 0.44rem;
+    font-size: 0.55rem;
     margin-bottom: 3px;
   }
 
+  .iq-summary-hero-score {
+    font-size: 2rem;
+  }
+
+  .iq-summary-hero-emoji {
+    font-size: 1.6rem;
+  }
+
+  .iq-summary-grid {
+    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 4px;
+  }
+
+  .iq-summary-box {
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+
+  .iq-summary-box-top {
+    margin-bottom: 5px;
+  }
+
+  .iq-summary-box-label {
+    font-size: 0.52rem;
+    margin-bottom: 4px;
+  }
+
   .iq-summary-box-score {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .iq-summary-box-emoji {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .iq-summary-line {
     height: 4px;
   }
 
+  .iq-summary-block {
+    margin-top: 4px;
+  }
+
+  .iq-summary-title {
+    font-size: 0.56rem;
+    margin-bottom: 4px;
+  }
+
   .iq-summary-card {
-    padding: 7px 8px;
-    border-radius: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
   }
 
   .iq-summary-text {
-    font-size: 0.58rem;
+    font-size: 0.68rem;
+  }
+
+  .iq-summary-pills,
+  .iq-summary-actions {
+    gap: 6px;
+  }
+
+  .iq-summary-pill {
+    padding: 4px 8px;
+    font-size: 0.56rem;
+  }
+
+  .iq-summary-actions .iq-save-btn,
+  .iq-summary-actions .iq-edit-btn {
+    flex: 1 1 calc(50% - 6px);
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    border-radius: 10px;
+  }
+
+  .iq-delete-btn {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.76rem;
+    border-radius: 10px;
   }
 }
   </style>
