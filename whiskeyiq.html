@@ -457,7 +457,7 @@
       display: block;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--gold), #e7d3be);
+      background: linear-gradient(90deg, #0f8b6b, #0b6f58);
     }
 
     .bottle-actions {
@@ -1160,7 +1160,7 @@
       display: block;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--gold), #ead9ca);
+      background: linear-gradient(90deg, #0f8b6b, #0b6f58);
     }
 
     .iq-summary-block {
@@ -1249,6 +1249,23 @@
       background: #0b6f58 !important;
       color: #ffffff !important;
       border-color: #0b6f58 !important;
+    }
+
+    .iq-share-btn {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .iq-share-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .iq-delete-btn {
@@ -1374,6 +1391,12 @@
       .bottle-actions,
       .fab-add {
         display: none !important;
+      }
+
+      .page {
+        transform: scale(0.6);
+        transform-origin: top left;
+        width: 166.67%;
       }
 
       .page,
@@ -1947,7 +1970,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v12";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v13";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2447,6 +2470,16 @@
                 <button class="iq-save-btn" type="button" id="addToLogBtn">Add to Log</button>
                 <button class="iq-edit-btn" type="button" id="printBottleBtn">Print</button>
                 <button class="iq-edit-btn" type="button" id="saveBottleBtn">Save</button>
+                <button class="iq-edit-btn iq-share-btn" type="button" id="shareBottleBtn" aria-label="Share review">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="18" cy="5" r="2.2"></circle>
+                    <circle cx="6" cy="12" r="2.2"></circle>
+                    <circle cx="18" cy="19" r="2.2"></circle>
+                    <path d="M7.9 11.1 16.1 6.1"></path>
+                    <path d="M7.9 12.9 16.1 17.9"></path>
+                  </svg>
+                  <span>Share</span>
+                </button>
               </div>
             </div>
 
@@ -2668,6 +2701,43 @@
         saveBottleBtn.addEventListener("click", () => {
           saveBottles();
           alert("Bottle saved.");
+        });
+      }
+
+      const shareBottleBtn = document.getElementById("shareBottleBtn");
+      if (shareBottleBtn) {
+        shareBottleBtn.addEventListener("click", async () => {
+          const total = totalScore(bottle.scores);
+          const shareText = `${bottle.name}
+Type: ${bottle.type || "N/A"}
+Proof: ${bottle.proof || "N/A"}
+Whiskey IQ: ${total}/100
+
+Aroma: ${bottle.scores.aroma}/25
+Flavor: ${bottle.scores.flavor}/30
+Finish: ${bottle.scores.finish}/25
+Drink Again: ${bottle.scores.drinkAgain}/5
+Recommend: ${bottle.scores.recommend}/5
+Value: ${bottle.scores.value}/10
+
+Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
+Tasting Notes: ${bottle.notes || "None"}`;
+
+          try {
+            if (navigator.share) {
+              await navigator.share({
+                title: `${bottle.name} — Whiskey IQ`,
+                text: shareText
+              });
+            } else if (navigator.clipboard) {
+              await navigator.clipboard.writeText(shareText);
+              alert("Review copied to clipboard.");
+            } else {
+              alert(shareText);
+            }
+          } catch (err) {
+            console.log(err);
+          }
         });
       }
 
