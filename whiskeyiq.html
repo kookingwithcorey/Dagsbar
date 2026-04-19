@@ -18,6 +18,7 @@
       --iq-cream: #efe7dd;
       --iq-cream-2: #f7f1ea;
       --iq-navy: #13264f;
+      --iq-navy-2: #0f1d3d;
       --iq-gold: #c3915e;
       --iq-gold-soft: rgba(195, 145, 94, 0.18);
       --iq-line: #d9d0c5;
@@ -25,7 +26,6 @@
       --iq-muted-dark: #8d7e72;
       --iq-danger: #d89a9a;
       --iq-blue: #4b97df;
-      --iq-blue-soft: rgba(75, 151, 223, 0.2);
     }
 
     body.light-mode {
@@ -39,6 +39,7 @@
       --iq-cream: #efe7dd;
       --iq-cream-2: #f7f1ea;
       --iq-navy: #13264f;
+      --iq-navy-2: #0f1d3d;
       --iq-gold: #bc9169;
       --iq-gold-soft: rgba(188, 145, 105, 0.18);
       --iq-line: #d8cec1;
@@ -46,7 +47,6 @@
       --iq-muted-dark: #8d7e72;
       --iq-danger: #c77f7f;
       --iq-blue: #4b97df;
-      --iq-blue-soft: rgba(75, 151, 223, 0.18);
     }
 
     * {
@@ -231,26 +231,17 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
       position: relative;
       cursor: pointer;
-      transition: background 0.18s ease;
+      transition: background 0.12s linear;
+      background: var(--iq-navy);
     }
 
     .iq-side-item:hover {
-      background: rgba(255,255,255,0.03);
+      background: var(--iq-navy-2);
     }
 
     .iq-side-item.active {
-      background: rgba(255,255,255,0.06);
-    }
-
-    .iq-side-item.active::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 8px;
-      bottom: 8px;
-      width: 4px;
-      background: var(--iq-gold);
-      border-radius: 0 999px 999px 0;
+      background: linear-gradient(135deg, rgba(15,139,107,0.3), rgba(195,145,94,0.18));
+      box-shadow: inset 4px 0 0 var(--accent);
     }
 
     .iq-side-label {
@@ -258,7 +249,7 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       font-weight: 700;
-      color: rgba(255,255,255,0.74);
+      color: rgba(255,255,255,0.78);
       margin-bottom: 14px;
     }
 
@@ -286,8 +277,13 @@
     .iq-total {
       margin-top: auto;
       padding: 22px 18px;
-      background: rgba(0,0,0,0.14);
+      background: #0d2844;
       cursor: pointer;
+    }
+
+    .iq-total.active {
+      background: linear-gradient(135deg, rgba(15,139,107,0.3), rgba(195,145,94,0.18));
+      box-shadow: inset 4px 0 0 var(--accent);
     }
 
     .iq-total-label {
@@ -303,6 +299,7 @@
       font-size: 3.2rem;
       line-height: 1;
       font-weight: 800;
+      color: #fff;
     }
 
     .iq-total-score small {
@@ -431,17 +428,13 @@
       justify-content: center;
       margin: 0 auto;
       cursor: pointer;
-      transition: transform 0.08s linear, box-shadow 0.08s linear;
+      transition: transform 0.03s linear;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       user-select: none;
     }
 
-    .iq-pm-btn:hover {
-      transform: translateY(-1px);
-    }
-
     .iq-pm-btn:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
     .iq-track-shell {
@@ -487,7 +480,7 @@
       background: linear-gradient(180deg, var(--iq-gold), #8c6f52);
       border-radius: 999px;
       opacity: 0.42;
-      transition: height 0.03s linear;
+      transition: none;
     }
 
     .iq-range {
@@ -1292,6 +1285,7 @@
       categories.forEach((cat, index) => {
         const score = Number(state.scores[cat.key] || 0);
         const hasValue = score > 0;
+
         html += `
           <div class="iq-side-item ${state.activeStage === index ? "active" : ""}" data-side-stage="${index}">
             <div class="iq-side-label">${cat.label}</div>
@@ -1305,7 +1299,7 @@
       });
 
       html += `
-        <div class="iq-total" data-side-stage="${categories.length}">
+        <div class="iq-total ${state.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
           <div class="iq-total-label">Total</div>
           <div class="iq-total-score">${totalScore()}<small>/100</small></div>
         </div>
@@ -1533,6 +1527,41 @@
       stagesEl.innerHTML = html;
     }
 
+    function setupHoldButton(btn, direction, key) {
+      let timer = null;
+      let interval = null;
+
+      const run = () => {
+        const cat = categories.find(c => c.key === key);
+        if (!cat) return;
+        const delta = direction === "up" ? 1 : -1;
+        state.scores[key] = clamp(Number(state.scores[key]) + delta, 0, cat.max);
+        render();
+      };
+
+      const start = (e) => {
+        e.preventDefault();
+        run();
+        timer = setTimeout(() => {
+          interval = setInterval(run, 45);
+        }, 180);
+      };
+
+      const stop = () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+        timer = null;
+        interval = null;
+      };
+
+      btn.addEventListener("mousedown", start);
+      btn.addEventListener("touchstart", start, { passive: false });
+      btn.addEventListener("mouseup", stop);
+      btn.addEventListener("mouseleave", stop);
+      btn.addEventListener("touchend", stop);
+      btn.addEventListener("touchcancel", stop);
+    }
+
     function attachEvents() {
       const notesInput = document.getElementById("notesInput");
       if (notesInput) {
@@ -1554,21 +1583,11 @@
       });
 
       document.querySelectorAll("[data-step='down']").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const key = btn.dataset.key;
-          const cat = categories.find(c => c.key === key);
-          state.scores[key] = clamp(Number(state.scores[key]) - 1, 0, cat.max);
-          render();
-        });
+        setupHoldButton(btn, "down", btn.dataset.key);
       });
 
       document.querySelectorAll("[data-step='up']").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const key = btn.dataset.key;
-          const cat = categories.find(c => c.key === key);
-          state.scores[key] = clamp(Number(state.scores[key]) + 1, 0, cat.max);
-          render();
-        });
+        setupHoldButton(btn, "up", btn.dataset.key);
       });
 
       document.querySelectorAll("[data-range-key]").forEach(input => {
