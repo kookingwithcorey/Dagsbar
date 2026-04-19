@@ -17,7 +17,7 @@
       --cream: #efe5dc;
       --cream-2: #f7f1ea;
       --card: #ffffff;
-      --navy: #0f8b6b;          /* light mode left rail = DAGS green */
+      --navy: #0f8b6b;
       --navy-2: #0b6f58;
       --gold: #c18d5c;
       --gold-soft: rgba(193, 141, 92, 0.16);
@@ -250,9 +250,6 @@
     body.dark-ui .search-box,
     body.dark-ui .sort-btn,
     body.dark-ui .iq-choice-btn,
-    body.dark-ui .iq-share-btn,
-    body.dark-ui .iq-status-pill,
-    body.dark-ui .iq-edit-btn,
     body.dark-ui .iq-summary-box,
     body.dark-ui .iq-summary-card,
     body.dark-ui .bottle-card,
@@ -294,12 +291,12 @@
       border-color: rgba(255,255,255,0.08);
     }
 
-   body.dark-ui .iq-tag.active,
-body.dark-ui .iq-tag:hover {
-  background: #0f8b6b;
-  color: #ffffff;
-  border-color: #0f8b6b;
-}
+    body.dark-ui .iq-tag.active,
+    body.dark-ui .iq-tag:hover {
+      background: #0f8b6b;
+      color: #ffffff;
+      border-color: #0f8b6b;
+    }
 
     .collection-head {
       display: flex;
@@ -930,7 +927,7 @@ body.dark-ui .iq-tag:hover {
       max-width: 760px;
       margin: 18px auto 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 68px;
+      grid-template-columns: minmax(0,1fr);
       gap: 12px;
       align-items: center;
     }
@@ -951,20 +948,6 @@ body.dark-ui .iq-tag:hover {
 
     body.dark-ui .iq-save-btn {
       color: #111;
-    }
-
-    .iq-share-btn {
-      width: 68px;
-      height: 62px;
-      border-radius: 16px;
-      border: 1px solid rgba(24,18,13,0.08);
-      background: rgba(255,255,255,0.7);
-      color: var(--muted-dark);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      cursor: pointer;
     }
 
     .iq-summary {
@@ -1095,7 +1078,6 @@ body.dark-ui .iq-tag:hover {
     }
 
     .iq-summary-pills,
-    .iq-status-row,
     .iq-summary-actions {
       display: flex;
       flex-wrap: wrap;
@@ -1110,23 +1092,6 @@ body.dark-ui .iq-tag:hover {
       border: 1px solid rgba(193,141,92,0.24);
       font-weight: 700;
       font-size: 0.9rem;
-    }
-
-    .iq-status-pill {
-      padding: 11px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(24,18,13,0.08);
-      background: rgba(255,255,255,0.7);
-      color: var(--text-dark);
-      font-weight: 700;
-      font-size: 0.96rem;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .iq-status-pill.active {
-      background: rgba(193,141,92,0.16);
-      border-color: rgba(193,141,92,0.34);
     }
 
     .iq-summary-actions .iq-save-btn,
@@ -1391,15 +1356,6 @@ body.dark-ui .iq-tag:hover {
         font-size: 3rem;
       }
 
-      .iq-bottom-row {
-        grid-template-columns: 1fr 58px;
-      }
-
-      .iq-share-btn {
-        width: 58px;
-        height: 58px;
-      }
-
       .iq-summary-grid {
         grid-template-columns: 1fr;
       }
@@ -1460,7 +1416,7 @@ body.dark-ui .iq-tag:hover {
       <div class="app-frame">
         <section class="screen home-screen active" id="homeScreen">
           <div class="home-top">
-            <div class="home-brand"><span class="small">Whiskey IQ</div>
+            <div class="home-brand"><span class="small">the</span>BOURBON IQ</div>
           </div>
 
           <div class="search-wrap">
@@ -1513,12 +1469,12 @@ body.dark-ui .iq-tag:hover {
 
       <div class="modal-field">
         <label class="modal-label" for="newBottleName">Bottle Name</label>
-        <input class="modal-input" id="newBottleName" type="text" placeholder="Whiskey" />
+        <input class="modal-input" id="newBottleName" type="text" placeholder="Silk Velvet Cask Strength Bourbon" />
       </div>
 
       <div class="modal-field">
         <label class="modal-label" for="newBottleProof">Proof</label>
-        <input class="modal-input" id="newBottleProof" type="text" placeholder="100" />
+        <input class="modal-input" id="newBottleProof" type="text" placeholder="135.1" />
       </div>
 
       <div class="modal-field">
@@ -1534,7 +1490,7 @@ body.dark-ui .iq-tag:hover {
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v5";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v6";
 
     const categories = [
       {
@@ -1576,29 +1532,29 @@ body.dark-ui .iq-tag:hover {
           { min: 21, emoji: "🔥", text: "Outstanding" }
         ]
       },
-   {
-  key: "drinkAgain",
-  label: "Drink Again",
-  max: 5,
-  type: "choice",
-  question: "Would you drink this again?",
-  choices: [
-    { label: "Yes", value: 5, emoji: "🥃", note: "Yes" },
-    { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
-    { label: "No", value: 0, emoji: "🙅", note: "No" }
-  ]
-}
       {
-  key: "recommend",
-  label: "Recommend",
-  max: 5,
-  type: "choice",
-  question: "Would you recommend this?",
-  choices: [
-    { label: "Yes", value: 5, emoji: "💯", note: "Yes" },
-    { label: "No", value: 0, emoji: "👎", note: "No" }
-  ]
-}
+        key: "drinkAgain",
+        label: "Drink Again",
+        max: 5,
+        type: "choice",
+        question: "Would you drink this again?",
+        choices: [
+          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" },
+          { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
+          { label: "No", value: 0, emoji: "🙅", note: "No" }
+        ]
+      },
+      {
+        key: "recommend",
+        label: "Recommend",
+        max: 5,
+        type: "choice",
+        question: "Would you recommend this?",
+        choices: [
+          { label: "Yes", value: 5, emoji: "💯", note: "Yes" },
+          { label: "No", value: 0, emoji: "👎", note: "No" }
+        ]
+      },
       {
         key: "value",
         label: "Value",
@@ -1649,11 +1605,6 @@ body.dark-ui .iq-tag:hover {
         type,
         notes: "",
         tags: [],
-        statuses: {
-          wantToTry: false,
-          onShelf: false,
-          finished: false
-        },
         scores: {
           aroma: 0,
           flavor: 0,
@@ -1845,11 +1796,12 @@ body.dark-ui .iq-tag:hover {
       `;
     }
 
-    function renderBottomRow() {
+    function renderBottomRow(isLastStep = false) {
       return `
         <div class="iq-bottom-row">
-          <button class="iq-save-btn" type="button" data-nav="summary">Save</button>
-          <button class="iq-share-btn" type="button" id="shareBtn">↗</button>
+          <button class="iq-save-btn" type="button" data-nav="${isLastStep ? "summary" : "next"}">
+            ${isLastStep ? "Complete" : "Next"}
+          </button>
         </div>
       `;
     }
@@ -1890,7 +1842,7 @@ body.dark-ui .iq-tag:hover {
           </div>
 
           ${renderNotesBlock(bottle)}
-          ${renderBottomRow()}
+          ${renderBottomRow(index === categories.length - 1)}
         </section>
       `;
     }
@@ -1924,7 +1876,7 @@ body.dark-ui .iq-tag:hover {
           </div>
 
           ${renderNotesBlock(bottle)}
-          ${renderBottomRow()}
+          ${renderBottomRow(index === categories.length - 1)}
         </section>
       `;
     }
@@ -1961,15 +1913,6 @@ body.dark-ui .iq-tag:hover {
                 ${bottle.tags.length
                   ? bottle.tags.map(tag => `<span class="iq-summary-pill">${escapeHtml(tag)}</span>`).join("")
                   : `<span class="iq-summary-pill">No tags selected</span>`}
-              </div>
-            </div>
-
-            <div class="iq-summary-block">
-              <div class="iq-summary-title">Collection Status</div>
-              <div class="iq-status-row">
-                <button type="button" class="iq-status-pill ${bottle.statuses.wantToTry ? "active" : ""}" data-status="wantToTry">Want to Try</button>
-                <button type="button" class="iq-status-pill ${bottle.statuses.onShelf ? "active" : ""}" data-status="onShelf">On My Shelf</button>
-                <button type="button" class="iq-status-pill ${bottle.statuses.finished ? "active" : ""}" data-status="finished">Finished</button>
               </div>
             </div>
 
@@ -2133,7 +2076,15 @@ body.dark-ui .iq-tag:hover {
         });
       });
 
-      document.querySelectorAll("[data-nav='summary']").forEach(btn => {
+      document.querySelectorAll('[data-nav="next"]').forEach(btn => {
+        btn.addEventListener("click", () => {
+          bottle.activeStage = Math.min(bottle.activeStage + 1, categories.length);
+          saveBottles();
+          renderBottleScreen();
+        });
+      });
+
+      document.querySelectorAll('[data-nav="summary"]').forEach(btn => {
         btn.addEventListener("click", () => {
           bottle.activeStage = categories.length;
           saveBottles();
@@ -2141,18 +2092,9 @@ body.dark-ui .iq-tag:hover {
         });
       });
 
-      document.querySelectorAll("[data-nav='edit']").forEach(btn => {
+      document.querySelectorAll('[data-nav="edit"]').forEach(btn => {
         btn.addEventListener("click", () => {
           bottle.activeStage = 0;
-          saveBottles();
-          renderBottleScreen();
-        });
-      });
-
-      document.querySelectorAll("[data-status]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const key = btn.dataset.status;
-          bottle.statuses[key] = !bottle.statuses[key];
           saveBottles();
           renderBottleScreen();
         });
@@ -2178,25 +2120,6 @@ body.dark-ui .iq-tag:hover {
           saveBottles();
           currentBottleId = null;
           showHome();
-        });
-      }
-
-      const shareBtn = document.getElementById("shareBtn");
-      if (shareBtn) {
-        shareBtn.addEventListener("click", async () => {
-          const text = `${bottle.name} — Whiskey IQ Score: ${totalScore(bottle.scores)}/100`;
-          if (navigator.share) {
-            try {
-              await navigator.share({ title: "Whiskey IQ", text });
-            } catch (e) {}
-          } else {
-            try {
-              await navigator.clipboard.writeText(text);
-              alert("Score copied to clipboard");
-            } catch (e) {
-              alert(text);
-            }
-          }
         });
       }
     }
