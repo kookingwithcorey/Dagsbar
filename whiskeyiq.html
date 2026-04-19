@@ -624,6 +624,12 @@
       flex-direction: column;
       min-height: 100%;
       position: relative;
+      overflow: hidden;
+    }
+
+    .iq-stage.active {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .iq-theme-btn,
@@ -1494,12 +1500,15 @@
 
     @media (max-width: 720px) {
       html, body {
-        height: 100%;
-        overflow: hidden;
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       .page {
-        height: 100vh;
+        min-height: 100vh;
+        height: auto;
         padding: 4px;
       }
 
@@ -1523,7 +1532,8 @@
       }
 
       .app-shell {
-        height: calc(100vh - 70px);
+        min-height: calc(100vh - 70px);
+        height: auto;
         padding: 4px;
         border-radius: 12px;
       }
@@ -1531,12 +1541,13 @@
       .app-frame,
       .screen,
       .iq-rating-shell {
-        height: 100%;
         min-height: 100%;
+        height: auto;
       }
 
       .home-screen {
-        height: 100%;
+        min-height: 100%;
+        height: auto;
         padding: 12px 10px 64px;
         overflow-y: auto;
       }
@@ -1547,6 +1558,7 @@
 
       .iq-rating-shell {
         grid-template-columns: 82px minmax(0, 1fr);
+        align-items: start;
       }
 
       .iq-side-item {
@@ -1637,9 +1649,10 @@
       }
 
       .iq-stage {
-        padding: 8px 8px 10px;
-        height: 100%;
-        overflow: hidden;
+        padding: 8px 8px 14px;
+        min-height: 100%;
+        height: auto;
+        overflow: visible;
       }
 
       .iq-stage-head {
@@ -1970,7 +1983,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v13";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v14";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2341,8 +2354,9 @@
     function renderRangeStage(bottle, cat, index) {
       const value = Number(bottle.scores[cat.key] || 0);
       const meta = getRangeMeta(cat, value);
-      const trackHeight = 424;
-      const thumbSize = 40;
+      const isMobile = window.innerWidth <= 720;
+      const trackHeight = isMobile ? 154 : 424;
+      const thumbSize = isMobile ? 24 : 40;
       const usableHeight = trackHeight - thumbSize;
       const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
