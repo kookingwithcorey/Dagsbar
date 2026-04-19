@@ -9,7 +9,7 @@
       --bg: #050608;
       --bg-alt: #11141a;
       --accent: #0f8b6b;
-      --accent-soft: rgba(15, 139, 107, 0.25);
+      --accent-soft: rgba(15, 139, 107, 0.24);
       --text: #f7f7f7;
       --muted: #a3acb9;
       --border: rgba(255, 255, 255, 0.12);
@@ -152,47 +152,12 @@
     }
 
     .app-shell {
-      position: relative;
       background: rgba(10,12,18,0.92);
       border-radius: 24px;
       border: 1px solid var(--border);
       padding: 12px;
       box-shadow: 0 18px 80px rgba(0,0,0,0.55);
       overflow: hidden;
-    }
-
-    .theme-fab {
-      position: absolute;
-      left: 18px;
-      top: 18px;
-      z-index: 50;
-      width: 76px;
-      height: 76px;
-      border: none;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      color: #111;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-      backdrop-filter: blur(10px);
-    }
-
-    body.dark-ui .theme-fab {
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-    }
-
-    .theme-fab svg {
-      width: 34px;
-      height: 34px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
     }
 
     .app-frame {
@@ -213,7 +178,7 @@
       display: block;
     }
 
-    /* HOME SCREEN */
+    /* HOME */
     .home-screen {
       padding: 20px 18px 90px;
       position: relative;
@@ -226,7 +191,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 18px;
-      padding-left: 72px;
       gap: 12px;
     }
 
@@ -242,30 +206,11 @@
       margin-right: 6px;
     }
 
-    .home-icons {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .round-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid rgba(24,18,13,0.08);
-      background: rgba(255,255,255,0.65);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-dark);
-      font-size: 1rem;
-    }
-
     .search-wrap {
       display: grid;
       grid-template-columns: 1fr 58px;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .search-box {
@@ -303,29 +248,6 @@
       color: #fff;
       font-size: 1.35rem;
       cursor: pointer;
-    }
-
-    .filter-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .filter-pill {
-      min-height: 40px;
-      padding: 0 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(24,18,13,0.08);
-      background: transparent;
-      color: var(--muted-dark);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .filter-pill.active {
-      background: #120d09;
-      color: #fff;
     }
 
     .collection-head {
@@ -469,7 +391,7 @@
       box-shadow: 0 18px 34px rgba(0,0,0,0.2);
     }
 
-    /* RATING + RESULTS SCREEN */
+    /* RATING */
     .iq-rating-shell {
       display: grid;
       grid-template-columns: 205px minmax(0, 1fr);
@@ -578,6 +500,35 @@
       display: flex;
       flex-direction: column;
       min-height: 100%;
+      position: relative;
+    }
+
+    .iq-theme-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 30;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(24,18,13,0.08);
+      background: rgba(255,255,255,0.7);
+      color: var(--text-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+
+    .iq-theme-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .iq-topbar {
@@ -585,7 +536,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 16px 22px;
+      padding: 16px 60px 16px 22px;
       border-bottom: 1px solid rgba(24,18,13,0.08);
       background: rgba(255,255,255,0.16);
     }
@@ -930,7 +881,7 @@
       padding: 16px 18px;
       border: none;
       background: var(--black-btn);
-      color: white;
+      color: var(--cream);
       font-size: 1.15rem;
       font-weight: 800;
       cursor: pointer;
@@ -938,8 +889,8 @@
       min-height: 62px;
     }
 
-    .iq-save-btn:hover {
-      transform: translateY(-1px);
+    body.dark-ui .iq-save-btn {
+      color: #111;
     }
 
     .iq-share-btn {
@@ -956,7 +907,6 @@
       cursor: pointer;
     }
 
-    /* RESULTS */
     .iq-summary {
       max-width: 820px;
       margin: 0 auto;
@@ -1148,7 +1098,6 @@
       cursor: pointer;
     }
 
-    /* MODAL */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1237,8 +1186,12 @@
 
     .modal-primary {
       background: var(--black-btn);
-      color: white;
+      color: var(--cream);
       border: none;
+    }
+
+    body.dark-ui .modal-primary {
+      color: #111;
     }
 
     @media (max-width: 980px) {
@@ -1298,26 +1251,10 @@
         border-radius: 20px;
       }
 
-      .theme-fab {
-        width: 62px;
-        height: 62px;
-        left: 14px;
-        top: 14px;
-      }
-
-      .theme-fab svg {
-        width: 28px;
-        height: 28px;
-      }
-
       .app-frame,
       .iq-rating-shell {
         border-radius: 16px;
         min-height: auto;
-      }
-
-      .home-top {
-        padding-left: 58px;
       }
 
       .iq-left {
@@ -1339,7 +1276,19 @@
       }
 
       .iq-topbar {
-        padding: 12px 14px;
+        padding: 12px 54px 12px 14px;
+      }
+
+      .iq-theme-btn {
+        width: 36px;
+        height: 36px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .iq-theme-btn svg {
+        width: 18px;
+        height: 18px;
       }
 
       .iq-bottle-name {
@@ -1448,18 +1397,10 @@
     </header>
 
     <main class="app-shell">
-      <button class="theme-fab" id="themeToggle" type="button" aria-label="Toggle theme">
-        <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-      </button>
-
       <div class="app-frame">
         <section class="screen home-screen active" id="homeScreen">
           <div class="home-top">
             <div class="home-brand"><span class="small">the</span>BOURBON IQ</div>
-            <div class="home-icons">
-              <button class="round-icon" type="button">📊</button>
-              <button class="round-icon" type="button">🤠</button>
-            </div>
           </div>
 
           <div class="search-wrap">
@@ -1467,14 +1408,6 @@
               <input class="search-input" id="searchInput" type="text" placeholder="Search your collection..." />
             </div>
             <button class="search-go" type="button">→</button>
-          </div>
-
-          <div class="filter-row">
-            <button class="filter-pill active" data-filter="all">ALL</button>
-            <button class="filter-pill" data-filter="rated">RATED</button>
-            <button class="filter-pill" data-filter="unrated">UNRATED</button>
-            <button class="filter-pill" data-filter="want">🥃 WANT</button>
-            <button class="filter-pill" data-filter="shelf">🥃 SHELF</button>
           </div>
 
           <div class="collection-head">
@@ -1495,6 +1428,10 @@
             <aside class="iq-left" id="iqSidebar"></aside>
 
             <section class="iq-right">
+              <button class="iq-theme-btn" id="iqThemeToggle" type="button" aria-label="Toggle theme">
+                <svg id="iqThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+              </button>
+
               <div class="iq-topbar">
                 <button class="iq-back" type="button" id="backToHomeBtn" aria-label="Back">‹</button>
                 <div class="iq-bottle-name" id="bottleTitleDisplay">Your Bottle Name</div>
@@ -1537,7 +1474,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v3";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v4";
 
     const categories = [
       {
@@ -1601,19 +1538,6 @@
           { label: "No", value: 0, emoji: "👎", note: "No" },
           { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
         ]
-      },
-      {
-        key: "value",
-        label: "Value",
-        max: 10,
-        type: "range",
-        question: "Is it worth the price?",
-        emojiMap: [
-          { min: 0, emoji: "😞", text: "Poor value" },
-          { min: 3, emoji: "🙂", text: "Fair" },
-          { min: 6, emoji: "😍", text: "Great value" },
-          { min: 9, emoji: "🤑", text: "Steal" }
-        ]
       }
     ];
 
@@ -1632,11 +1556,10 @@
     const sidebarEl = document.getElementById("iqSidebar");
     const stagesEl = document.getElementById("iqStages");
     const bottleTitleDisplay = document.getElementById("bottleTitleDisplay");
-    const themeToggle = document.getElementById("themeToggle");
-    const themeIcon = document.getElementById("themeIcon");
+    const iqThemeToggle = document.getElementById("iqThemeToggle");
+    const iqThemeIcon = document.getElementById("iqThemeIcon");
     const addBottleModal = document.getElementById("addBottleModal");
 
-    let currentFilter = "all";
     let currentSort = "score";
     let currentBottleId = null;
 
@@ -1663,10 +1586,10 @@
           flavor: 0,
           finish: 0,
           drinkAgain: 0,
-          recommend: 0,
-          value: 0
+          recommend: 0
         },
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        activeStage: 0
       };
     }
 
@@ -1677,24 +1600,24 @@
           return [
             {
               ...defaultBottle("Buffalo Trace", "90", "Bourbon"),
-              scores: { aroma: 22, flavor: 27, finish: 22, drinkAgain: 5, recommend: 5, value: 8 },
-              statuses: { wantToTry: false, onShelf: true, finished: false },
-              tags: ["vanilla", "caramel", "oak"]
+              scores: { aroma: 22, flavor: 27, finish: 22, drinkAgain: 5, recommend: 5 },
+              tags: ["vanilla", "caramel", "oak"],
+              statuses: { wantToTry: false, onShelf: true, finished: false }
+            },
+            {
+              ...defaultBottle("Silk Velvet Cask Strength Bourbon", "135.1", "Bourbon"),
+              scores: { aroma: 20, flavor: 24, finish: 23, drinkAgain: 5, recommend: 5 },
+              tags: ["honey", "coffee", "oak"],
+              statuses: { wantToTry: false, onShelf: true, finished: false }
             },
             {
               ...defaultBottle("Wild Turkey 101", "101", "Bourbon"),
-              scores: { aroma: 18, flavor: 24, finish: 18, drinkAgain: 5, recommend: 2, value: 7 },
-              statuses: { wantToTry: false, onShelf: true, finished: false },
-              tags: ["spice", "oak", "citrus"]
+              scores: { aroma: 18, flavor: 24, finish: 22, drinkAgain: 5, recommend: 5 },
+              tags: ["spice", "oak", "citrus"],
+              statuses: { wantToTry: false, onShelf: true, finished: false }
             },
             {
-              ...defaultBottle("High West Bourye 2026", "101", "Bourbon"),
-              scores: { aroma: 19, flavor: 22, finish: 17, drinkAgain: 5, recommend: 2, value: 7 },
-              statuses: { wantToTry: true, onShelf: false, finished: false },
-              tags: ["honey", "fruit", "oak"]
-            },
-            {
-              ...defaultBottle("Silk Velvet Cask Strength Bourbon", "135.1", "Bourbon")
+              ...defaultBottle("High West Bourye 2026", "101", "Bourbon")
             }
           ];
         }
@@ -1752,11 +1675,9 @@
 
     function setThemeIcon() {
       if (appState.theme === "dark") {
-        themeIcon.innerHTML = `
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
-        `;
+        iqThemeIcon.innerHTML = `<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>`;
       } else {
-        themeIcon.innerHTML = `
+        iqThemeIcon.innerHTML = `
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M12 2v2"></path>
           <path d="M12 20v2"></path>
@@ -1788,16 +1709,6 @@
         );
       }
 
-      if (currentFilter === "rated") {
-        list = list.filter(b => totalScore(b.scores) > 0);
-      } else if (currentFilter === "unrated") {
-        list = list.filter(b => totalScore(b.scores) === 0);
-      } else if (currentFilter === "want") {
-        list = list.filter(b => b.statuses.wantToTry);
-      } else if (currentFilter === "shelf") {
-        list = list.filter(b => b.statuses.onShelf);
-      }
-
       if (currentSort === "score") {
         list.sort((a, b) => totalScore(b.scores) - totalScore(a.scores));
       } else {
@@ -1812,7 +1723,7 @@
           <div class="bottle-card" data-bottle-open="${bottle.id}">
             <div class="bottle-thumb">🥃</div>
             <div>
-              <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No Proof")} Proof</div>
+              <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No")} Proof</div>
               <div class="bottle-name">${escapeHtml(bottle.name)}</div>
             </div>
             <div class="bottle-score">
@@ -1837,10 +1748,9 @@
         html += `
           <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
             <div class="iq-side-label">${cat.label}</div>
-            ${
-              hasValue
-                ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-                : `<div class="iq-side-empty">–</div>`
+            ${hasValue
+              ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+              : `<div class="iq-side-empty">–</div>`
             }
           </div>
         `;
@@ -1873,11 +1783,7 @@
           <div class="iq-flavor-label">Flavor Notes</div>
           <div class="iq-tags">
             ${flavorTags.map(tag => `
-              <button
-                type="button"
-                class="iq-tag ${bottle.tags.includes(tag) ? "active" : ""}"
-                data-tag="${tag}"
-              >${tag}</button>
+              <button type="button" class="iq-tag ${bottle.tags.includes(tag) ? "active" : ""}" data-tag="${tag}">${tag}</button>
             `).join("")}
           </div>
         </div>
@@ -1951,12 +1857,7 @@
 
           <div class="iq-choice-wrap">
             ${cat.choices.map(choice => `
-              <button
-                type="button"
-                class="iq-choice-btn ${choice.value === value ? "active" : ""}"
-                data-choice-key="${cat.key}"
-                data-choice-value="${choice.value}"
-              >
+              <button type="button" class="iq-choice-btn ${choice.value === value ? "active" : ""}" data-choice-key="${cat.key}" data-choice-value="${choice.value}">
                 ${choice.emoji} ${choice.label}<span>${choice.value}/${cat.max}</span>
               </button>
             `).join("")}
@@ -2011,9 +1912,9 @@
             <div class="iq-summary-block">
               <div class="iq-summary-title">Collection Status</div>
               <div class="iq-status-row">
-                <button type="button" class="iq-status-pill ${bottle.statuses.wantToTry ? "active" : ""}" data-status="wantToTry">🥃 Want to Try</button>
-                <button type="button" class="iq-status-pill ${bottle.statuses.onShelf ? "active" : ""}" data-status="onShelf">🥃 On My Shelf</button>
-                <button type="button" class="iq-status-pill ${bottle.statuses.finished ? "active" : ""}" data-status="finished">✓ Finished</button>
+                <button type="button" class="iq-status-pill ${bottle.statuses.wantToTry ? "active" : ""}" data-status="wantToTry">Want to Try</button>
+                <button type="button" class="iq-status-pill ${bottle.statuses.onShelf ? "active" : ""}" data-status="onShelf">On My Shelf</button>
+                <button type="button" class="iq-status-pill ${bottle.statuses.finished ? "active" : ""}" data-status="finished">Finished</button>
               </div>
             </div>
 
@@ -2097,8 +1998,6 @@
       const stop = () => {
         clearTimeout(timer);
         clearInterval(interval);
-        timer = null;
-        interval = null;
       };
 
       btn.addEventListener("mousedown", start);
@@ -2274,21 +2173,11 @@
       }
 
       const bottle = defaultBottle(name, proof, type);
-      bottle.activeStage = 0;
-      appState.bottles.push(bottle);
+      appState.bottles.unshift(bottle);
       saveBottles();
       closeAddBottleModal();
       openBottle(bottle.id);
     }
-
-    document.querySelectorAll("[data-filter]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        currentFilter = btn.dataset.filter;
-        document.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderHome();
-      });
-    });
 
     searchInput.addEventListener("input", renderHome);
 
@@ -2307,7 +2196,7 @@
       if (e.target === addBottleModal) closeAddBottleModal();
     });
 
-    themeToggle.addEventListener("click", () => {
+    iqThemeToggle.addEventListener("click", () => {
       appState.theme = appState.theme === "dark" ? "light" : "dark";
       applyTheme();
     });
