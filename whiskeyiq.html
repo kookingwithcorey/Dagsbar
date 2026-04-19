@@ -17,8 +17,8 @@
       --cream: #efe5dc;
       --cream-2: #f7f1ea;
       --card: #ffffff;
-      --navy: #13264f;
-      --navy-2: #0d1d40;
+      --navy: #0f8b6b;          /* light mode left rail = DAGS green */
+      --navy-2: #0b6f58;
       --gold: #c18d5c;
       --gold-soft: rgba(193, 141, 92, 0.16);
       --line: #ddd1c4;
@@ -27,7 +27,6 @@
       --black-btn: #160d08;
       --danger: #d49a9a;
       --blue: #4a95de;
-      --shadow: 0 20px 60px rgba(0,0,0,0.18);
     }
 
     body.dark-ui {
@@ -44,7 +43,6 @@
       --black-btn: #ffffff;
       --danger: #e2a3a3;
       --blue: #6fb2f2;
-      --shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
 
     * {
@@ -178,7 +176,6 @@
       display: block;
     }
 
-    /* HOME */
     .home-screen {
       padding: 20px 18px 90px;
       position: relative;
@@ -250,6 +247,58 @@
       cursor: pointer;
     }
 
+    body.dark-ui .search-box,
+    body.dark-ui .sort-btn,
+    body.dark-ui .iq-choice-btn,
+    body.dark-ui .iq-share-btn,
+    body.dark-ui .iq-status-pill,
+    body.dark-ui .iq-edit-btn,
+    body.dark-ui .iq-summary-box,
+    body.dark-ui .iq-summary-card,
+    body.dark-ui .bottle-card,
+    body.dark-ui .iq-tag,
+    body.dark-ui .modal-input,
+    body.dark-ui .modal-secondary {
+      background: #171d28;
+      color: var(--text-dark);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    body.dark-ui .search-box::before,
+    body.dark-ui .collection-title,
+    body.dark-ui .collection-count,
+    body.dark-ui .bottle-meta-top,
+    body.dark-ui .iq-stage-kicker,
+    body.dark-ui .iq-summary-box-label,
+    body.dark-ui .iq-summary-title,
+    body.dark-ui .iq-flavor-label,
+    body.dark-ui .iq-notes-label,
+    body.dark-ui .modal-label {
+      color: var(--gold);
+    }
+
+    body.dark-ui .search-input,
+    body.dark-ui .modal-input,
+    body.dark-ui .iq-manual input,
+    body.dark-ui .iq-notes-textarea {
+      color: #f3f4f7;
+      -webkit-text-fill-color: #f3f4f7;
+      caret-color: #f3f4f7;
+    }
+
+    body.dark-ui .iq-notes-textarea,
+    body.dark-ui .iq-theme-btn,
+    body.dark-ui .iq-pm-btn {
+      background: #171d28;
+      color: #f3f4f7;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    body.dark-ui .iq-tag.active,
+    body.dark-ui .iq-tag:hover {
+      color: #111;
+    }
+
     .collection-head {
       display: flex;
       justify-content: space-between;
@@ -292,6 +341,16 @@
     .bottle-list {
       display: grid;
       gap: 12px;
+    }
+
+    .empty-state {
+      background: var(--card);
+      border: 1px solid rgba(24,18,13,0.08);
+      border-radius: 18px;
+      padding: 28px 20px;
+      color: var(--muted-dark);
+      text-align: center;
+      font-size: 1rem;
     }
 
     .bottle-card {
@@ -391,7 +450,6 @@
       box-shadow: 0 18px 34px rgba(0,0,0,0.2);
     }
 
-    /* RATING */
     .iq-rating-shell {
       display: grid;
       grid-template-columns: 205px minmax(0, 1fr);
@@ -408,8 +466,8 @@
 
     .iq-side-item {
       padding: 20px 16px;
-      min-height: 132px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      min-height: 118px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       position: relative;
       cursor: pointer;
       transition: background 0.12s linear;
@@ -419,12 +477,12 @@
     }
 
     .iq-side-item:hover {
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.05);
     }
 
     .iq-side-item.active {
-      background: linear-gradient(135deg, rgba(15,139,107,0.3), rgba(193,141,92,0.18));
-      box-shadow: inset 4px 0 0 var(--accent);
+      background: rgba(255,255,255,0.13);
+      box-shadow: inset 4px 0 0 #ffffff;
     }
 
     .iq-side-label {
@@ -432,13 +490,13 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       font-weight: 700;
-      color: rgba(255,255,255,0.78);
+      color: rgba(255,255,255,0.86);
       margin-bottom: 12px;
       line-height: 1.1;
     }
 
     .iq-side-score {
-      font-size: 2.55rem;
+      font-size: 2.4rem;
       line-height: 1;
       font-weight: 800;
     }
@@ -446,7 +504,7 @@
     .iq-side-score small {
       display: block;
       font-size: 0.34em;
-      color: rgba(255,255,255,0.48);
+      color: rgba(255,255,255,0.58);
       font-weight: 600;
       margin-top: 4px;
     }
@@ -462,13 +520,13 @@
     .iq-total {
       margin-top: auto;
       padding: 24px 18px;
-      background: #0d2844;
+      background: rgba(0,0,0,0.12);
       cursor: pointer;
     }
 
     .iq-total.active {
-      background: linear-gradient(135deg, rgba(15,139,107,0.3), rgba(193,141,92,0.18));
-      box-shadow: inset 4px 0 0 var(--accent);
+      background: rgba(255,255,255,0.13);
+      box-shadow: inset 4px 0 0 #ffffff;
     }
 
     .iq-total-label {
@@ -1474,7 +1532,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v4";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v5";
 
     const categories = [
       {
@@ -1538,6 +1596,19 @@
           { label: "No", value: 0, emoji: "👎", note: "No" },
           { label: "Yes", value: 5, emoji: "💯", note: "Yes" }
         ]
+      },
+      {
+        key: "value",
+        label: "Value",
+        max: 10,
+        type: "range",
+        question: "Is it worth the price?",
+        emojiMap: [
+          { min: 0, emoji: "😕", text: "Low" },
+          { min: 3, emoji: "🙂", text: "Fair" },
+          { min: 6, emoji: "😍", text: "Strong" },
+          { min: 9, emoji: "🔥", text: "Elite value" }
+        ]
       }
     ];
 
@@ -1586,7 +1657,8 @@
           flavor: 0,
           finish: 0,
           drinkAgain: 0,
-          recommend: 0
+          recommend: 0,
+          value: 0
         },
         createdAt: new Date().toISOString(),
         activeStage: 0
@@ -1596,31 +1668,7 @@
     function loadBottles() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          return [
-            {
-              ...defaultBottle("Buffalo Trace", "90", "Bourbon"),
-              scores: { aroma: 22, flavor: 27, finish: 22, drinkAgain: 5, recommend: 5 },
-              tags: ["vanilla", "caramel", "oak"],
-              statuses: { wantToTry: false, onShelf: true, finished: false }
-            },
-            {
-              ...defaultBottle("Silk Velvet Cask Strength Bourbon", "135.1", "Bourbon"),
-              scores: { aroma: 20, flavor: 24, finish: 23, drinkAgain: 5, recommend: 5 },
-              tags: ["honey", "coffee", "oak"],
-              statuses: { wantToTry: false, onShelf: true, finished: false }
-            },
-            {
-              ...defaultBottle("Wild Turkey 101", "101", "Bourbon"),
-              scores: { aroma: 18, flavor: 24, finish: 22, drinkAgain: 5, recommend: 5 },
-              tags: ["spice", "oak", "citrus"],
-              statuses: { wantToTry: false, onShelf: true, finished: false }
-            },
-            {
-              ...defaultBottle("High West Bourye 2026", "101", "Bourbon")
-            }
-          ];
-        }
+        if (!raw) return [];
         return JSON.parse(raw);
       } catch {
         return [];
@@ -1716,6 +1764,11 @@
       }
 
       collectionCountEl.textContent = `${list.length} bottle${list.length === 1 ? "" : "s"}`;
+
+      if (!list.length) {
+        bottleListEl.innerHTML = `<div class="empty-state">No bottles yet. Tap the + button to add your first bottle.</div>`;
+        return;
+      }
 
       bottleListEl.innerHTML = list.map(bottle => {
         const score = totalScore(bottle.scores);
@@ -1827,7 +1880,7 @@
 
               <div class="iq-manual">
                 <input type="number" min="0" max="${cat.max}" step="1" value="${value}" data-input-key="${cat.key}" />
-                <small>Type the score or use the slider / plus / minus</small>
+                <small>Type score, then press Enter</small>
               </div>
             </div>
 
@@ -1865,7 +1918,7 @@
 
           <div class="iq-manual">
             <input type="number" min="0" max="${cat.max}" step="1" value="${value}" data-input-key="${cat.key}" />
-            <small>Manual score input also works here</small>
+            <small>Type score, then press Enter</small>
           </div>
 
           ${renderNotesBlock(bottle)}
@@ -2008,6 +2061,16 @@
       btn.addEventListener("touchcancel", stop);
     }
 
+    function commitManualInput(input, bottle) {
+      const key = input.dataset.inputKey;
+      const cat = categories.find(c => c.key === key);
+      if (!cat) return;
+      const val = Number(input.value || 0);
+      bottle.scores[key] = clamp(isNaN(val) ? 0 : val, 0, cat.max);
+      saveBottles();
+      renderBottleScreen();
+    }
+
     function attachBottleEvents(bottle) {
       const notesInput = document.getElementById("notesInput");
       if (notesInput) {
@@ -2048,13 +2111,14 @@
       });
 
       document.querySelectorAll("[data-input-key]").forEach(input => {
-        input.addEventListener("input", () => {
-          const key = input.dataset.inputKey;
-          const cat = categories.find(c => c.key === key);
-          const val = Number(input.value || 0);
-          bottle.scores[key] = clamp(isNaN(val) ? 0 : val, 0, cat.max);
-          saveBottles();
-          renderBottleScreen();
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            commitManualInput(input, bottle);
+          }
+        });
+        input.addEventListener("blur", () => {
+          commitManualInput(input, bottle);
         });
       });
 
