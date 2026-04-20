@@ -623,7 +623,28 @@
       overscroll-behavior: contain;
       overflow-anchor: none;
     }
-
+.iq-theme-btn,
+.home-theme-btn {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(24,18,13,0.22) !important;
+  background: rgba(255,255,255,0.92) !important;
+  color: #18120d !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
+  aspect-ratio: 1 / 1 !important;
+}
    .iq-theme-btn svg,
 .home-theme-btn svg {
   width: 22px !important;
@@ -1556,20 +1577,24 @@ body.dark-ui .home-theme-btn {
         font-size: 1.95rem;
       }
 
-      .home-theme-btn,
-      .iq-theme-btn {
-        width: 36px !important;
-        height: 36px !important;
-        top: 10px !important;
-        right: 10px !important;
-      }
+ .home-theme-btn,
+.iq-theme-btn {
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+}
 
-      .home-theme-btn svg,
-      .iq-theme-btn svg {
-        width: 18px !important;
-        height: 18px !important;
-      }
-
+.home-theme-btn svg,
+.iq-theme-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+}
       .search-wrap {
         grid-template-columns: 1fr 58px;
         gap: 10px;
