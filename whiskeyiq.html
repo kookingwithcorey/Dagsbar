@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #050608;
       --accent-soft: rgba(15, 139, 107, 0.24);
       --text: #f7f7f7;
       --muted: #a3acb9;
@@ -1233,13 +1232,14 @@
     }
 
     .iq-stage.active[data-stage="summary"] {
-      padding-top: 0;
+      padding-top: 0 !important;
       padding-bottom: 8px;
       overflow-y: auto;
+      scroll-behavior: auto;
     }
 
     .iq-stage.active[data-stage="summary"] .iq-summary {
-      margin-top: 0;
+      margin-top: 0 !important;
     }
 
     .iq-stage.active[data-stage="summary"] .iq-summary-grid {
@@ -1730,7 +1730,7 @@
       }
 
       .iq-stage.active[data-stage="summary"] {
-        padding-top: 0;
+        padding-top: 0 !important;
         padding-bottom: 8px;
       }
 
@@ -1889,7 +1889,7 @@
         font-size: 2.1rem;
       }
 
-       .iq-summary-grid {
+      .iq-summary-grid {
         gap: 8px;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         margin-bottom: 2px;
@@ -2045,7 +2045,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v20";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v21";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2378,7 +2378,14 @@
 
       document.querySelectorAll("[data-side-stage]").forEach(el => {
         el.addEventListener("click", () => {
-          bottle.activeStage = Number(el.dataset.sideStage);
+          const stageIndex = Number(el.dataset.sideStage);
+
+          if (stageIndex === categories.length) {
+            openSummaryAtTop(bottle);
+            return;
+          }
+
+          bottle.activeStage = stageIndex;
           saveBottles();
           renderBottleScreen();
         });
@@ -2591,6 +2598,22 @@
       stagesEl.innerHTML = html;
 
       attachBottleEvents(bottle);
+
+      requestAnimationFrame(() => {
+        const activeStageEl = document.querySelector(".iq-stage.active");
+        const iqRight = document.querySelector(".iq-right");
+
+        if (activeStageEl) activeStageEl.scrollTop = 0;
+        if (iqRight) iqRight.scrollTop = 0;
+
+        window.scrollTo(0, 0);
+      });
+    }
+
+    function openSummaryAtTop(bottle) {
+      bottle.activeStage = categories.length;
+      saveBottles();
+      renderBottleScreen();
     }
 
     function showHome() {
@@ -2737,9 +2760,7 @@
 
       document.querySelectorAll('[data-nav="summary"]').forEach(btn => {
         btn.addEventListener("click", () => {
-          bottle.activeStage = categories.length;
-          saveBottles();
-          renderBottleScreen();
+          openSummaryAtTop(bottle);
         });
       });
 
