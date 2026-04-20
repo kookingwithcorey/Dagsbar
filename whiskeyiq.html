@@ -519,6 +519,7 @@
       color: #fff;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       min-height: 100%;
       min-width: 0;
     }
@@ -576,10 +577,11 @@
     }
 
     .iq-total {
-      margin-top: auto;
+      margin-top: 0;
       padding: 24px 18px;
       background: rgba(0,0,0,0.12);
       cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .iq-total.active {
@@ -619,6 +621,8 @@
       position: relative;
       overflow: hidden;
       min-width: 0;
+      overscroll-behavior: contain;
+      overflow-anchor: none;
     }
 
     .iq-theme-btn,
@@ -691,12 +695,14 @@
       display: none;
       padding: 24px 28px 24px;
       flex: 1;
+      overflow-anchor: none;
     }
 
     .iq-stage.active {
       display: block;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      overflow-anchor: none;
     }
 
     .iq-stage-head {
@@ -770,6 +776,7 @@
       transition: transform 0.03s linear;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       user-select: none;
+      touch-action: manipulation;
     }
 
     .iq-pm-btn:active {
@@ -833,6 +840,7 @@
       z-index: 3;
       cursor: pointer;
       margin: 0;
+      touch-action: none;
     }
 
     .iq-range::-webkit-slider-runnable-track {
@@ -1236,6 +1244,7 @@
       padding-bottom: 8px;
       overflow-y: auto;
       scroll-behavior: auto;
+      overflow-anchor: none;
     }
 
     .iq-stage.active[data-stage="summary"] .iq-summary {
@@ -1675,6 +1684,9 @@
 
       .iq-left {
         width: 96px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
       }
 
       .iq-side-item {
@@ -1697,6 +1709,7 @@
       }
 
       .iq-total {
+        margin-top: 0;
         padding: 12px 10px;
       }
 
@@ -1769,28 +1782,30 @@
       }
 
       .iq-track-shell {
-        height: 220px;
+        height: 200px;
       }
 
       .iq-line {
-        top: 10px;
-        bottom: 10px;
+        top: 14px;
+        bottom: 14px;
       }
 
       .iq-range {
-        width: 220px;
-        height: 42px;
+        width: 200px;
+        height: 28px;
+        transform: rotate(-90deg);
+        transform-origin: center;
       }
 
       .iq-range::-webkit-slider-thumb {
-        width: 28px;
-        height: 28px;
-        margin-top: -12px;
+        width: 26px;
+        height: 26px;
+        margin-top: -11px;
       }
 
       .iq-range::-moz-range-thumb {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
       }
 
       .iq-pm-btn {
@@ -2045,7 +2060,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskeyiq_bottles_v21";
+    const STORAGE_KEY = "dags_whiskeyiq_bottles_v24";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
 
     const categories = [
@@ -2349,50 +2364,7 @@
         });
       });
     }
-
-    function renderSidebar(bottle) {
-      let html = "";
-
-      categories.forEach((cat, index) => {
-        const score = Number(bottle.scores[cat.key] || 0);
-        const hasValue = score > 0;
-        html += `
-          <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
-            <div class="iq-side-label">${cat.label}</div>
-            ${hasValue
-              ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-              : `<div class="iq-side-empty">–</div>`
-            }
-          </div>
-        `;
-      });
-
-      html += `
-        <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
-          <div class="iq-total-label">Results</div>
-          <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
-        </div>
-      `;
-
-      sidebarEl.innerHTML = html;
-
-      document.querySelectorAll("[data-side-stage]").forEach(el => {
-        el.addEventListener("click", () => {
-          const stageIndex = Number(el.dataset.sideStage);
-
-          if (stageIndex === categories.length) {
-            openSummaryAtTop(bottle);
-            return;
-          }
-
-          bottle.activeStage = stageIndex;
-          saveBottles();
-          renderBottleScreen();
-        });
-      });
-    }
-
-    function renderNotesBlock(bottle) {
+        function renderNotesBlock(bottle) {
       return `
         <div class="iq-notes-block">
           <div class="iq-notes-label">Tasting Notes</div>
@@ -2423,7 +2395,7 @@
       const meta = getRangeMeta(cat, value);
       const isMobile = window.innerWidth <= 720;
       const trackHeight = isMobile ? 200 : 424;
-      const thumbSize = isMobile ? 28 : 40;
+      const thumbSize = isMobile ? 26 : 40;
       const usableHeight = trackHeight - thumbSize;
       const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
@@ -2579,7 +2551,125 @@
       `;
     }
 
-    function renderBottleScreen() {
+    function updateSidebarScoreOnly(bottle, key) {
+      const index = categories.findIndex(cat => cat.key === key);
+      if (index === -1) return;
+
+      const sideItem = document.querySelector(`[data-side-stage="${index}"]`);
+      const totalItem = document.querySelector(`[data-side-stage="${categories.length}"] .iq-total-score`);
+      const cat = categories[index];
+      const score = Number(bottle.scores[key] || 0);
+
+      if (sideItem) {
+        sideItem.innerHTML = `
+          <div class="iq-side-label">${cat.label}</div>
+          ${score > 0
+            ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+            : `<div class="iq-side-empty">–</div>`
+          }
+        `;
+      }
+
+      if (totalItem) {
+        totalItem.innerHTML = `${totalScore(bottle.scores)}<small>/100</small>`;
+      }
+    }
+
+    function updateRangeStageOnly(bottle, key) {
+      const cat = categories.find(c => c.key === key);
+      if (!cat) return;
+
+      const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
+      if (!stage) return;
+
+      const value = Number(bottle.scores[key] || 0);
+      const meta = getRangeMeta(cat, value);
+
+      const emojiEl = stage.querySelector(".iq-emoji");
+      const labelEl = stage.querySelector(".iq-current-score-label");
+      const fillEl = stage.querySelector(".iq-fill");
+      const lineEl = stage.querySelector(".iq-line");
+      const manualInput = stage.querySelector(`[data-input-key="${key}"]`);
+      const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
+
+      if (emojiEl) emojiEl.textContent = meta.emoji;
+      if (labelEl) labelEl.textContent = `${value}/${cat.max} ${meta.text}`;
+
+      if (manualInput && document.activeElement !== manualInput) {
+        manualInput.value = value;
+      }
+
+      if (rangeInput && document.activeElement !== rangeInput) {
+        rangeInput.value = value;
+      }
+
+      if (fillEl && lineEl) {
+        const usableHeight = lineEl.offsetHeight;
+        fillEl.style.height = value <= 0 ? "0px" : `${(value / cat.max) * usableHeight}px`;
+      }
+
+      updateSidebarScoreOnly(bottle, key);
+    }
+
+    function scrollCurrentStageToTop() {
+      requestAnimationFrame(() => {
+        const activeStageEl = document.querySelector(".iq-stage.active");
+        const iqRight = document.querySelector(".iq-right");
+
+        if (iqRight) iqRight.scrollTop = 0;
+        if (activeStageEl) activeStageEl.scrollTop = 0;
+      });
+    }
+
+    function openSummaryAtTop(bottle) {
+      bottle.activeStage = categories.length;
+      saveBottles();
+      renderBottleScreen(true);
+    }
+
+    function renderSidebar(bottle) {
+      let html = "";
+
+      categories.forEach((cat, index) => {
+        const score = Number(bottle.scores[cat.key] || 0);
+        const hasValue = score > 0;
+        html += `
+          <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
+            <div class="iq-side-label">${cat.label}</div>
+            ${hasValue
+              ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+              : `<div class="iq-side-empty">–</div>`
+            }
+          </div>
+        `;
+      });
+
+      html += `
+        <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
+          <div class="iq-total-label">Results</div>
+          <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
+        </div>
+      `;
+
+      sidebarEl.innerHTML = html;
+
+      document.querySelectorAll("[data-side-stage]").forEach(el => {
+        el.addEventListener("click", () => {
+          const stageIndex = Number(el.dataset.sideStage);
+
+          if (stageIndex === categories.length) {
+            openSummaryAtTop(bottle);
+            return;
+          }
+
+          bottle.activeStage = stageIndex;
+          saveBottles();
+          renderBottleScreen(false);
+        });
+      });
+    }
+
+    function renderBottleScreen(shouldResetScroll = false) {
       const bottle = getBottleById(currentBottleId);
       if (!bottle) return;
 
@@ -2599,21 +2689,9 @@
 
       attachBottleEvents(bottle);
 
-      requestAnimationFrame(() => {
-        const activeStageEl = document.querySelector(".iq-stage.active");
-        const iqRight = document.querySelector(".iq-right");
-
-        if (activeStageEl) activeStageEl.scrollTop = 0;
-        if (iqRight) iqRight.scrollTop = 0;
-
-        window.scrollTo(0, 0);
-      });
-    }
-
-    function openSummaryAtTop(bottle) {
-      bottle.activeStage = categories.length;
-      saveBottles();
-      renderBottleScreen();
+      if (shouldResetScroll) {
+        scrollCurrentStageToTop();
+      }
     }
 
     function showHome() {
@@ -2626,7 +2704,7 @@
       currentBottleId = id;
       homeScreen.classList.remove("active");
       ratingScreen.classList.add("active");
-      renderBottleScreen();
+      renderBottleScreen(true);
     }
 
     function setupHoldButton(btn, direction, key, bottle) {
@@ -2639,7 +2717,12 @@
         const delta = direction === "up" ? 1 : -1;
         bottle.scores[key] = clamp(Number(bottle.scores[key]) + delta, 0, cat.max);
         saveBottles();
-        renderBottleScreen();
+
+        if (cat.type === "range") {
+          updateRangeStageOnly(bottle, key);
+        } else {
+          renderBottleScreen(false);
+        }
       };
 
       const start = (e) => {
@@ -2667,10 +2750,16 @@
       const key = input.dataset.inputKey;
       const cat = categories.find(c => c.key === key);
       if (!cat) return;
+
       const val = Number(input.value || 0);
       bottle.scores[key] = clamp(isNaN(val) ? 0 : val, 0, cat.max);
       saveBottles();
-      renderBottleScreen();
+
+      if (cat.type === "range") {
+        updateRangeStageOnly(bottle, key);
+      } else {
+        renderBottleScreen(false);
+      }
     }
 
     function addBottleToLog(bottle) {
@@ -2708,7 +2797,7 @@
             bottle.tags.push(tag);
           }
           saveBottles();
-          renderBottleScreen();
+          renderBottleScreen(false);
         });
       });
 
@@ -2725,7 +2814,14 @@
           const key = input.dataset.rangeKey;
           bottle.scores[key] = Number(input.value);
           saveBottles();
-          renderBottleScreen();
+          updateRangeStageOnly(bottle, key);
+        });
+
+        input.addEventListener("change", () => {
+          const key = input.dataset.rangeKey;
+          bottle.scores[key] = Number(input.value);
+          saveBottles();
+          updateRangeStageOnly(bottle, key);
         });
       });
 
@@ -2736,6 +2832,7 @@
             commitManualInput(input, bottle);
           }
         });
+
         input.addEventListener("blur", () => {
           commitManualInput(input, bottle);
         });
@@ -2746,7 +2843,7 @@
           const key = btn.dataset.choiceKey;
           bottle.scores[key] = Number(btn.dataset.choiceValue);
           saveBottles();
-          renderBottleScreen();
+          renderBottleScreen(false);
         });
       });
 
@@ -2754,7 +2851,7 @@
         btn.addEventListener("click", () => {
           bottle.activeStage = Math.min(bottle.activeStage + 1, categories.length);
           saveBottles();
-          renderBottleScreen();
+          renderBottleScreen(true);
         });
       });
 
@@ -2768,7 +2865,7 @@
         btn.addEventListener("click", () => {
           bottle.activeStage = 0;
           saveBottles();
-          renderBottleScreen();
+          renderBottleScreen(true);
         });
       });
 
