@@ -645,11 +645,11 @@
   box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
   aspect-ratio: 1 / 1 !important;
 }
-   .iq-theme-btn svg,
+.iq-theme-btn svg,
 .home-theme-btn svg {
   width: 22px !important;
   height: 22px !important;
-  stroke: currentColor !important;
+  stroke: #111111 !important;
   fill: none !important;
   stroke-width: 2.2 !important;
   stroke-linecap: round !important;
@@ -997,6 +997,9 @@ body.dark-ui .home-theme-btn {
       font-weight: 700;
       cursor: pointer;
       transition: all 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
     }
 
     .iq-tag.active,
@@ -2854,18 +2857,25 @@ function attachBottleEvents(bottle) {
     });
   }
 
-  document.querySelectorAll("[data-tag]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const tag = btn.dataset.tag;
-      if (bottle.tags.includes(tag)) {
-        bottle.tags = bottle.tags.filter(t => t !== tag);
-      } else {
-        bottle.tags.push(tag);
-      }
-      saveBottles();
-      renderBottleScreen(true);
-    });
-  });
+        document.querySelectorAll("[data-tag]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const tag = btn.dataset.tag;
+          if (!tag) return;
+
+          if (bottle.tags.includes(tag)) {
+            bottle.tags = bottle.tags.filter(t => t !== tag);
+            btn.classList.remove("active");
+          } else {
+            bottle.tags.push(tag);
+            btn.classList.add("active");
+          }
+
+          saveBottles();
+        });
+      });
 
   document.querySelectorAll("[data-step='down']").forEach(btn => {
     setupHoldButton(btn, "down", btn.dataset.key, bottle);
