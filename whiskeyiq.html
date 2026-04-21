@@ -1209,7 +1209,7 @@ body.dark-ui .iq-tag:focus-visible {
     }
 
     .iq-summary-block {
-      margin-top: 2px;
+      margin-top: 0;
     }
 
     .iq-summary-title {
@@ -1218,13 +1218,13 @@ body.dark-ui .iq-tag:focus-visible {
       text-transform: uppercase;
       color: var(--muted-dark);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .iq-summary-card {
       background: rgba(255,255,255,0.62);
       border-radius: 18px;
-      padding: 12px 16px;
+      padding: 7px 10px;
       border: 1px solid rgba(24,18,13,0.06);
     }
 
@@ -1242,7 +1242,7 @@ body.dark-ui .iq-tag:focus-visible {
     .iq-summary-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     .iq-summary-pill {
@@ -1264,9 +1264,9 @@ body.dark-ui .iq-tag:focus-visible {
     .iq-summary-actions .iq-save-btn,
     .iq-summary-actions .iq-edit-btn {
       flex: 1 1 220px;
-      min-height: 58px;
+      min-height: 38px;
       border-radius: 16px;
-      padding: 14px 18px;
+      padding: 7px 8px;
       font-size: 1.05rem;
       font-weight: 800;
     }
@@ -1715,16 +1715,9 @@ body.dark-ui .iq-tag:focus-visible {
         font-size: 2.5rem;
       }
 
-     .iq-rating-shell {
+ .iq-rating-shell {
   grid-template-columns: 92px minmax(0, 1fr);
   align-items: start;
-}
-
-.iq-left,
-.iq-right {
-  min-height: auto !important;
-  height: auto !important;
-  align-self: start;
 }
 
 .iq-left {
@@ -1732,8 +1725,15 @@ body.dark-ui .iq-tag:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  min-height: 100%;
+  align-self: stretch;
 }
 
+.iq-right {
+  min-height: auto !important;
+  height: auto !important;
+  align-self: start;
+}
 .iq-side-item {
   min-height: 66px;
   padding: 8px 7px;
