@@ -476,7 +476,6 @@
       border-color: #0b6f58;
     }
 
-
     .fab-add {
       position: absolute;
       right: 22px;
@@ -562,13 +561,14 @@
       margin-top: 6px;
     }
 
-  .iq-total {
-  margin-top: auto;
-  padding: 24px 18px;
-  background: rgba(0,0,0,0.12);
-  cursor: pointer;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
+    .iq-total {
+      margin-top: auto;
+      padding: 24px 18px;
+      background: rgba(0,0,0,0.12);
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
     .iq-total.active {
       background: rgba(255,255,255,0.13);
       box-shadow: inset 4px 0 0 #ffffff;
@@ -609,48 +609,52 @@
       overscroll-behavior: contain;
       overflow-anchor: none;
     }
-.iq-theme-btn,
-.home-theme-btn {
-  position: absolute !important;
-  top: 14px !important;
-  right: 14px !important;
-  left: auto !important;
-  width: 44px !important;
-  height: 44px !important;
-  min-width: 44px !important;
-  min-height: 44px !important;
-  padding: 0 !important;
-  border-radius: 999px !important;
-  border: 1px solid rgba(24,18,13,0.22) !important;
-  background: rgba(255,255,255,0.92) !important;
-  color: #18120d !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
-  aspect-ratio: 1 / 1 !important;
-}
-.iq-theme-btn svg,
-.home-theme-btn svg {
-  width: 22px !important;
-  height: 22px !important;
-  stroke: #111111 !important;
-  fill: none !important;
-  stroke-width: 2.2 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-}
 
-body:not(.dark-ui) .iq-theme-btn,
-body:not(.dark-ui) .home-theme-btn {
-  color: #18120d !important;
-}
+    .iq-theme-btn,
+    .home-theme-btn {
+      position: absolute !important;
+      top: 14px !important;
+      right: 14px !important;
+      left: auto !important;
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      padding: 0 !important;
+      border-radius: 999px !important;
+      border: 1px solid rgba(24,18,13,0.22) !important;
+      background: rgba(255,255,255,0.92) !important;
+      color: #18120d !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
+      aspect-ratio: 1 / 1 !important;
+      z-index: 20;
+    }
 
-body.dark-ui .iq-theme-btn,
-body.dark-ui .home-theme-btn {
-  color: #f3f4f7 !important;
-}
+    .iq-theme-btn svg,
+    .home-theme-btn svg {
+      width: 22px !important;
+      height: 22px !important;
+      stroke: #111111 !important;
+      fill: none !important;
+      stroke-width: 2.2 !important;
+      stroke-linecap: round !important;
+      stroke-linejoin: round !important;
+    }
+
+    body:not(.dark-ui) .iq-theme-btn,
+    body:not(.dark-ui) .home-theme-btn {
+      color: #18120d !important;
+    }
+
+    body.dark-ui .iq-theme-btn,
+    body.dark-ui .home-theme-btn {
+      color: #f3f4f7 !important;
+    }
+
     .iq-topbar {
       display: flex;
       align-items: center;
@@ -1173,7 +1177,7 @@ body.dark-ui .home-theme-btn {
     }
 
     .iq-summary-block {
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .iq-summary-title {
@@ -1502,14 +1506,14 @@ body.dark-ui .home-theme-btn {
     @media (max-width: 720px) {
       html, body {
         height: auto;
-        min-height: 100%;
+        min-height: auto;
         overflow-x: hidden;
         overflow-y: auto;
       }
 
       .page {
-        min-height: 100vh;
-        height: auto;
+        min-height: auto !important;
+        height: auto !important;
         padding: 10px 8px 18px;
       }
 
@@ -1537,22 +1541,23 @@ body.dark-ui .home-theme-btn {
       }
 
       .app-shell {
-        min-height: calc(100vh - 88px);
-        height: auto;
+        min-height: auto !important;
+        height: auto !important;
         padding: 8px;
         border-radius: 18px;
       }
 
       .app-frame,
       .screen,
+      #ratingScreen,
       .iq-rating-shell {
-        min-height: 100%;
-        height: auto;
+        min-height: auto !important;
+        height: auto !important;
       }
 
       .home-screen {
-        min-height: 100%;
-        height: auto;
+        min-height: auto !important;
+        height: auto !important;
         padding: 18px 18px 110px;
         overflow-y: auto;
       }
@@ -1566,24 +1571,25 @@ body.dark-ui .home-theme-btn {
         font-size: 1.95rem;
       }
 
- .home-theme-btn,
-.iq-theme-btn {
-  top: 10px !important;
-  right: 10px !important;
-  left: auto !important;
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-  min-height: 36px !important;
-  padding: 0 !important;
-  border-radius: 999px !important;
-}
+      .home-theme-btn,
+      .iq-theme-btn {
+        top: 10px !important;
+        right: 10px !important;
+        left: auto !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        padding: 0 !important;
+        border-radius: 999px !important;
+      }
 
-.home-theme-btn svg,
-.iq-theme-btn svg {
-  width: 18px !important;
-  height: 18px !important;
-}
+      .home-theme-btn svg,
+      .iq-theme-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
       .search-wrap {
         grid-template-columns: 1fr 58px;
         gap: 10px;
@@ -1677,292 +1683,311 @@ body.dark-ui .home-theme-btn {
         font-size: 2.5rem;
       }
 
-    .iq-rating-shell {
-  grid-template-columns: 96px minmax(0, 1fr);
-  align-items: start;
-}
+      .iq-rating-shell {
+        grid-template-columns: 92px minmax(0, 1fr);
+        align-items: start;
+      }
 
-.iq-left {
-  width: 96px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
+      .iq-left,
+      .iq-right {
+        min-height: auto !important;
+        height: auto !important;
+        align-self: start;
+      }
 
-.iq-side-item {
-  min-height: 72px;
-  padding: 10px 8px;
-}
+      .iq-left {
+        width: 92px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
 
-.iq-side-label {
-  font-size: 0.64rem;
-  margin-bottom: 5px;
-  letter-spacing: 0.07em;
-}
+      .iq-side-item {
+        min-height: 66px;
+        padding: 8px 7px;
+      }
 
-.iq-side-score {
-  font-size: 1.45rem;
-}
+      .iq-side-label {
+        font-size: 0.6rem;
+        margin-bottom: 4px;
+        letter-spacing: 0.06em;
+      }
 
-.iq-side-empty {
-  font-size: 1.1rem;
-}
+      .iq-side-score {
+        font-size: 1.28rem;
+      }
 
-.iq-total {
-  margin-top: 0px !important;
-  padding: 12px 10px;
-  min-height: 72px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+      .iq-side-empty {
+        font-size: 1rem;
+      }
 
-.iq-total-label {
-  font-size: 0.66rem;
-  margin-bottom: 5px;
-}
+      .iq-total {
+        margin-top: 8px !important;
+        padding: 10px 8px;
+        min-height: 66px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
 
-.iq-total-score {
-  font-size: 1.6rem;
-}
+      .iq-total-label {
+        font-size: 0.62rem;
+        margin-bottom: 4px;
+      }
 
-.iq-topbar {
-  padding: 10px 44px 10px 10px;
-  min-height: 48px;
-}
+      .iq-total-score {
+        font-size: 1.45rem;
+      }
 
-.iq-bottle-name {
-  font-size: 1.05rem;
-}
+      .iq-topbar {
+        padding: 10px 42px 10px 10px;
+        min-height: 46px;
+      }
 
-.iq-back {
-  font-size: 1.35rem;
-}
+      .iq-bottle-name {
+        font-size: 1rem;
+      }
 
-.iq-stage {
-  padding: 14px 14px 18px;
-  min-height: 100%;
-  height: auto;
-  overflow: visible;
-}
+      .iq-back {
+        font-size: 1.25rem;
+      }
 
-.iq-stage.active[data-stage="summary"] {
-  padding-top: 0 !important;
-  padding-bottom: 8px;
-}
+      .iq-stage {
+        padding: 8px 10px 8px;
+        min-height: auto !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
 
-.iq-stage-kicker {
-  font-size: 0.62rem;
-  margin-bottom: 4px;
-}
+      .iq-stage.active {
+        overflow: visible !important;
+      }
 
-.iq-stage-title {
-  font-size: 1.9rem;
-  margin-bottom: 4px;
-}
+      .iq-stage.active[data-stage="summary"] {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
 
-.iq-stage-subtitle {
-  font-size: 0.95rem;
-}
+      .iq-summary {
+        max-width: 100%;
+        padding-bottom: 0;
+      }
 
-.iq-emoji {
-  font-size: 2.8rem;
-  min-height: 48px;
-  margin: 8px 0 4px;
-}
+      .iq-stage-kicker {
+        font-size: 0.6rem;
+        margin-bottom: 2px;
+      }
 
-.iq-current-score-label {
-  font-size: 0.9rem;
-  min-height: 22px;
-  margin-bottom: 6px;
-}
+      .iq-stage-title {
+        font-size: 1.6rem;
+        margin-bottom: 2px;
+      }
 
-.iq-slider-wrap {
-  grid-template-columns: 46px minmax(0, 1fr) 46px;
-  gap: 8px;
-  min-height: 230px;
-  margin: 6px auto 8px;
-  max-width: 100%;
-}
+      .iq-stage-subtitle {
+        font-size: 0.86rem;
+      }
 
-.iq-track-shell {
-  height: 190px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+      .iq-emoji {
+        font-size: 2.4rem;
+        min-height: 40px;
+        margin: 6px 0 2px;
+      }
 
-.iq-line {
-  top: 13px;
-  bottom: 13px;
-}
+      .iq-current-score-label {
+        font-size: 0.84rem;
+        min-height: 18px;
+        margin-bottom: 4px;
+      }
 
-.iq-fill {
-  bottom: 13px;
-}
+      .iq-slider-wrap {
+        grid-template-columns: 42px minmax(0, 1fr) 42px;
+        gap: 6px;
+        min-height: 210px;
+        margin: 4px auto 6px;
+        max-width: 100%;
+      }
 
-.iq-range {
-  width: 164px; /* 190 - 13 - 13 */
-  height: 26px;
-  transform: rotate(-90deg);
-  transform-origin: center;
-}
+      .iq-track-shell {
+        height: 170px;
+      }
 
-.iq-range::-webkit-slider-thumb {
-  width: 26px;
-  height: 26px;
-  margin-top: -11px;
-}
+      .iq-line {
+        top: 12px;
+        bottom: 12px;
+      }
 
-.iq-range::-moz-range-thumb {
-  width: 26px;
-  height: 26px;
-}
+      .iq-fill {
+        bottom: 12px;
+      }
 
-.iq-pm-btn {
-  width: 40px;
-  height: 40px;
-  font-size: 1.45rem;
-}
+      .iq-range {
+        width: 146px;
+        height: 24px;
+        transform: rotate(-90deg);
+        transform-origin: center;
+      }
 
-.iq-manual {
-  max-width: 96px;
-  margin: 0 auto 6px;
-}
+      .iq-range::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+        margin-top: -10px;
+      }
 
-.iq-manual input {
-  font-size: 2.25rem;
-}
+      .iq-range::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+      }
 
-.iq-manual small {
-  font-size: 0.64rem;
-}
+      .iq-pm-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.35rem;
+      }
 
-.iq-choice-wrap {
-  gap: 8px;
-  margin: 10px auto 8px;
-}
+      .iq-manual {
+        max-width: 86px;
+        margin: 0 auto 4px;
+      }
 
-.iq-choice-btn {
-  padding: 11px 12px;
-  font-size: 0.9rem;
-  border-radius: 14px;
-}
+      .iq-manual input {
+        font-size: 2rem;
+      }
 
-.iq-notes-block {
-  margin-top: 6px;
-  padding-top: 10px;
-}
+      .iq-manual small {
+        font-size: 0.58rem;
+      }
 
-.iq-notes-label,
-.iq-flavor-label,
-.iq-summary-title {
-  font-size: 0.68rem;
-  margin-bottom: 7px;
-}
+      .iq-choice-wrap {
+        gap: 6px;
+        margin: 8px auto 6px;
+      }
 
-.iq-notes-textarea {
-  min-height: 68px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-  font-size: 0.88rem;
-  border-radius: 14px;
-}
+      .iq-choice-btn {
+        padding: 10px 10px;
+        font-size: 0.84rem;
+        border-radius: 12px;
+      }
 
-.iq-tags {
-  gap: 7px;
-}
+      .iq-notes-block {
+        margin-top: 4px;
+        padding-top: 8px;
+      }
 
-.iq-tag,
-.iq-summary-pill {
-  padding: 7px 10px;
-  font-size: 0.76rem;
-}
+      .iq-notes-label,
+      .iq-flavor-label,
+      .iq-summary-title {
+        font-size: 0.64rem;
+        margin-bottom: 6px;
+      }
 
-.iq-bottom-row {
-  margin-top: 10px;
-}
+      .iq-notes-textarea {
+        min-height: 56px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        font-size: 0.82rem;
+        border-radius: 12px;
+      }
 
-.iq-save-btn,
-.iq-edit-btn,
-.iq-delete-btn {
-  min-height: 46px;
-  padding: 10px 12px;
-  font-size: 0.92rem;
-  border-radius: 12px;
-}
+      .iq-tags {
+        gap: 6px;
+      }
 
-.iq-summary {
-  max-width: 100%;
-}
+      .iq-tag,
+      .iq-summary-pill {
+        padding: 6px 9px;
+        font-size: 0.72rem;
+      }
 
-.iq-summary-hero {
-  padding: 12px 14px;
-  border-radius: 16px;
-  margin-bottom: 6px;
-}
+      .iq-bottom-row {
+        margin-top: 8px;
+      }
 
-.iq-summary-hero-label {
-  font-size: 0.62rem;
-  margin-bottom: 4px;
-}
+      .iq-save-btn,
+      .iq-edit-btn,
+      .iq-delete-btn {
+        min-height: 40px;
+        padding: 8px 10px;
+        font-size: 0.86rem;
+        border-radius: 11px;
+      }
 
-.iq-summary-hero-score {
-  font-size: 2.4rem;
-}
+      .iq-delete-btn {
+        display: none !important;
+      }
 
-.iq-summary-hero-emoji {
-  font-size: 2.1rem;
-}
+      .iq-summary-hero {
+        padding: 9px 10px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
 
-.iq-summary-grid {
-  gap: 8px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 2px;
-}
+      .iq-summary-hero-label {
+        font-size: 0.58rem;
+        margin-bottom: 3px;
+      }
 
-.iq-summary-box {
-  padding: 10px 12px;
-  border-radius: 14px;
-}
+      .iq-summary-hero-score {
+        font-size: 2.1rem;
+      }
 
-.iq-summary-box-top {
-  margin-bottom: 7px;
-}
+      .iq-summary-hero-emoji {
+        font-size: 1.9rem;
+      }
 
-.iq-summary-box-label {
-  font-size: 0.66rem;
-  margin-bottom: 6px;
-}
+      .iq-summary-grid {
+        gap: 6px;
+        margin-bottom: 0;
+      }
 
-.iq-summary-box-score {
-  font-size: 1.5rem;
-}
+      .iq-summary-box {
+        padding: 8px 9px;
+        border-radius: 12px;
+      }
 
-.iq-summary-box-emoji {
-  font-size: 1.3rem;
-}
+      .iq-summary-box-top {
+        margin-bottom: 6px;
+      }
 
-.iq-summary-card {
-  padding: 10px 12px;
-  border-radius: 14px;
-}
+      .iq-summary-box-label {
+        font-size: 0.6rem;
+        margin-bottom: 4px;
+      }
 
-.iq-summary-text {
-  font-size: 0.88rem;
-}
+      .iq-summary-box-score {
+        font-size: 1.3rem;
+      }
 
-.iq-summary-actions {
-  gap: 8px;
-}
+      .iq-summary-box-emoji {
+        font-size: 1.15rem;
+      }
 
-.iq-summary-actions .iq-save-btn,
-.iq-summary-actions .iq-edit-btn {
-  min-height: 46px;
-  padding: 10px 12px;
-  font-size: 0.9rem;
-  flex: 1 1 calc(50% - 8px);
-}
+      .iq-summary-block {
+        margin-top: 2px;
+      }
+
+      .iq-summary-card {
+        padding: 8px 10px;
+        border-radius: 12px;
+      }
+
+      .iq-summary-text {
+        font-size: 0.82rem;
+      }
+
+      .iq-summary-actions {
+        gap: 6px;
+      }
+
+      .iq-summary-actions .iq-save-btn,
+      .iq-summary-actions .iq-edit-btn {
+        min-height: 38px;
+        padding: 7px 8px;
+        font-size: 0.82rem;
+        flex: 1 1 calc(50% - 6px);
+      }
     }
   </style>
 </head>
@@ -2335,20 +2360,20 @@ body.dark-ui .home-theme-btn {
         const score = totalScore(bottle.scores);
         return `
           <div class="bottle-card">
-  <div class="bottle-thumb" data-bottle-open="${bottle.id}">🥃</div>
-  <div class="bottle-main" data-bottle-open="${bottle.id}">
-    <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No")} Proof</div>
-    <div class="bottle-name">${escapeHtml(bottle.name)}</div>
-  </div>
-  <div class="bottle-score">
-    <div class="bottle-score-top">${score}<small>/100</small></div>
-    <div class="bottle-score-line"><span style="width:${score}%"></span></div>
-  </div>
-  <div class="bottle-actions">
-    <button type="button" class="bottle-action-btn" data-print-bottle="${bottle.id}">Print</button>
-    <button type="button" class="bottle-action-btn" data-share-bottle="${bottle.id}">Share</button>
-  </div>
-</div>
+            <div class="bottle-thumb" data-bottle-open="${bottle.id}">🥃</div>
+            <div class="bottle-main" data-bottle-open="${bottle.id}">
+              <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No")} Proof</div>
+              <div class="bottle-name">${escapeHtml(bottle.name)}</div>
+            </div>
+            <div class="bottle-score">
+              <div class="bottle-score-top">${score}<small>/100</small></div>
+              <div class="bottle-score-line"><span style="width:${score}%"></span></div>
+            </div>
+            <div class="bottle-actions">
+              <button type="button" class="bottle-action-btn" data-print-bottle="${bottle.id}">Print</button>
+              <button type="button" class="bottle-action-btn" data-share-bottle="${bottle.id}">Share</button>
+            </div>
+          </div>
         `;
       }).join("");
 
@@ -2363,15 +2388,16 @@ body.dark-ui .home-theme-btn {
           setTimeout(() => window.print(), 150);
         });
       });
-document.querySelectorAll("[data-share-bottle]").forEach(el => {
-  el.addEventListener("click", async (e) => {
-    e.stopPropagation();
 
-    const bottle = getBottleById(el.dataset.shareBottle);
-    if (!bottle) return;
+      document.querySelectorAll("[data-share-bottle]").forEach(el => {
+        el.addEventListener("click", async (e) => {
+          e.stopPropagation();
 
-    const total = totalScore(bottle.scores);
-    const shareText = `${bottle.name}
+          const bottle = getBottleById(el.dataset.shareBottle);
+          if (!bottle) return;
+
+          const total = totalScore(bottle.scores);
+          const shareText = `${bottle.name}
 Type: ${bottle.type || "N/A"}
 Proof: ${bottle.proof || "N/A"}
 Whiskey IQ: ${total}/100
@@ -2386,29 +2412,30 @@ Value: ${bottle.scores.value}/10
 Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
 Tasting Notes: ${bottle.notes || "None"}`;
 
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: `${bottle.name} — Whiskey IQ`,
-          text: shareText
+          try {
+            if (navigator.share) {
+              await navigator.share({
+                title: `${bottle.name} — Whiskey IQ`,
+                text: shareText
+              });
+            } else if (navigator.clipboard) {
+              await navigator.clipboard.writeText(shareText);
+              alert("Review copied to clipboard.");
+            } else {
+              alert(shareText);
+            }
+          } catch (err) {
+            console.log(err);
+          }
         });
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareText);
-        alert("Review copied to clipboard.");
-      } else {
-        alert(shareText);
-      }
-    } catch (err) {
-      console.log(err);
+      });
     }
-  });
-});
-    }
-        function renderNotesBlock(bottle) {
+
+    function renderNotesBlock(bottle) {
       return `
         <div class="iq-notes-block">
           <div class="iq-notes-label">Tasting Notes</div>
-         <textarea class="iq-notes-textarea" data-notes-input="true" placeholder="Add your tasting notes...">${escapeHtml(bottle.notes)}</textarea>
+          <textarea class="iq-notes-textarea" data-notes-input="true" placeholder="Add your tasting notes...">${escapeHtml(bottle.notes)}</textarea>
           <div class="iq-flavor-label">Flavor Notes</div>
           <div class="iq-tags">
             ${flavorTags.map(tag => `
@@ -2432,9 +2459,9 @@ Tasting Notes: ${bottle.notes || "None"}`;
     function renderRangeStage(bottle, cat, index) {
       const value = Number(bottle.scores[cat.key] || 0);
       const meta = getRangeMeta(cat, value);
-const isMobile = window.innerWidth <= 720;
-const usableHeight = isMobile ? 164 : 388;
-const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
+      const isMobile = window.innerWidth <= 720;
+      const usableHeight = isMobile ? 146 : 388;
+      const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
       return `
         <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
@@ -2589,170 +2616,171 @@ const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight
     }
 
     function updateSidebarScoreOnly(bottle, key) {
-  const index = categories.findIndex(cat => cat.key === key);
-  if (index === -1) return;
+      const index = categories.findIndex(cat => cat.key === key);
+      if (index === -1) return;
 
-  const sideItem = document.querySelector(`[data-side-stage="${index}"]`);
-  const totalItem = document.querySelector(`[data-side-stage="${categories.length}"] .iq-total-score`);
-  const cat = categories[index];
-  const score = Number(bottle.scores[key] || 0);
+      const sideItem = document.querySelector(`[data-side-stage="${index}"]`);
+      const totalItem = document.querySelector(`[data-side-stage="${categories.length}"] .iq-total-score`);
+      const cat = categories[index];
+      const score = Number(bottle.scores[key] || 0);
 
-  if (sideItem) {
-    sideItem.innerHTML = `
-      <div class="iq-side-label">${cat.label}</div>
-      ${score > 0
-        ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-        : `<div class="iq-side-empty">–</div>`
-      }
-    `;
-  }
-
-  if (totalItem) {
-    totalItem.innerHTML = `${totalScore(bottle.scores)}<small>/100</small>`;
-  }
-}
-
-function updateRangeStageOnly(bottle, key) {
-  const cat = categories.find(c => c.key === key);
-  if (!cat) return;
-
-  const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
-  if (!stage) return;
-
-  const value = Number(bottle.scores[key] || 0);
-  const meta = getRangeMeta(cat, value);
-
-  const emojiEl = stage.querySelector(".iq-emoji");
-  const labelEl = stage.querySelector(".iq-current-score-label");
-  const fillEl = stage.querySelector(".iq-fill");
-  const lineEl = stage.querySelector(".iq-line");
-  const manualInput = stage.querySelector(`[data-input-key="${key}"]`);
-  const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
-
-  if (emojiEl) emojiEl.textContent = meta.emoji;
-  if (labelEl) labelEl.textContent = `${value}/${cat.max} ${meta.text}`;
-
-  if (manualInput && document.activeElement !== manualInput) {
-    manualInput.value = value;
-  }
-
-  if (rangeInput && document.activeElement !== rangeInput) {
-    rangeInput.value = value;
-  }
-
-  if (fillEl && lineEl) {
-    const usableHeight = lineEl.offsetHeight;
-    fillEl.style.height = value <= 0 ? "0px" : `${(value / cat.max) * usableHeight}px`;
-  }
-
-  updateSidebarScoreOnly(bottle, key);
-}
-
-function scrollCurrentStageToTop() {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const activeStageEl = document.querySelector(".iq-stage.active");
-      const iqRight = document.querySelector(".iq-right");
-      const iqStages = document.getElementById("iqStages");
-
-      if (document.activeElement && typeof document.activeElement.blur === "function") {
-        document.activeElement.blur();
+      if (sideItem) {
+        sideItem.innerHTML = `
+          <div class="iq-side-label">${cat.label}</div>
+          ${score > 0
+            ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+            : `<div class="iq-side-empty">–</div>`
+          }
+        `;
       }
 
-      if (iqRight) {
-        iqRight.scrollTop = 0;
-        iqRight.scrollTo({ top: 0, behavior: "auto" });
+      if (totalItem) {
+        totalItem.innerHTML = `${totalScore(bottle.scores)}<small>/100</small>`;
+      }
+    }
+
+    function updateRangeStageOnly(bottle, key) {
+      const cat = categories.find(c => c.key === key);
+      if (!cat) return;
+
+      const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
+      if (!stage) return;
+
+      const value = Number(bottle.scores[key] || 0);
+      const meta = getRangeMeta(cat, value);
+
+      const emojiEl = stage.querySelector(".iq-emoji");
+      const labelEl = stage.querySelector(".iq-current-score-label");
+      const fillEl = stage.querySelector(".iq-fill");
+      const lineEl = stage.querySelector(".iq-line");
+      const manualInput = stage.querySelector(`[data-input-key="${key}"]`);
+      const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
+
+      if (emojiEl) emojiEl.textContent = meta.emoji;
+      if (labelEl) labelEl.textContent = `${value}/${cat.max} ${meta.text}`;
+
+      if (manualInput && document.activeElement !== manualInput) {
+        manualInput.value = value;
       }
 
-      if (iqStages) {
-        iqStages.scrollTop = 0;
-        iqStages.scrollTo({ top: 0, behavior: "auto" });
+      if (rangeInput && document.activeElement !== rangeInput) {
+        rangeInput.value = value;
       }
 
-      if (activeStageEl) {
-        activeStageEl.scrollTop = 0;
-        activeStageEl.scrollTo({ top: 0, behavior: "auto" });
+      if (fillEl && lineEl) {
+        const usableHeight = lineEl.offsetHeight;
+        fillEl.style.height = value <= 0 ? "0px" : `${(value / cat.max) * usableHeight}px`;
       }
 
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    });
-  });
-}
+      updateSidebarScoreOnly(bottle, key);
+    }
 
-function openSummaryAtTop(bottle) {
-  bottle.activeStage = categories.length;
-  saveBottles();
-  renderBottleScreen(true);
-}
+    function scrollCurrentStageToTop() {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const activeStageEl = document.querySelector(".iq-stage.active");
+          const iqRight = document.querySelector(".iq-right");
+          const iqStages = document.getElementById("iqStages");
 
-function renderSidebar(bottle) {
-  let html = "";
+          if (document.activeElement && typeof document.activeElement.blur === "function") {
+            document.activeElement.blur();
+          }
 
-  categories.forEach((cat, index) => {
-    const score = Number(bottle.scores[cat.key] || 0);
-    const hasValue = score > 0;
-    html += `
-      <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
-        <div class="iq-side-label">${cat.label}</div>
-        ${hasValue
-          ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-          : `<div class="iq-side-empty">–</div>`
-        }
-      </div>
-    `;
-  });
+          if (iqRight) {
+            iqRight.scrollTop = 0;
+            iqRight.scrollTo({ top: 0, behavior: "auto" });
+          }
 
-  html += `
-    <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
-      <div class="iq-total-label">Results</div>
-      <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
-    </div>
-  `;
+          if (iqStages) {
+            iqStages.scrollTop = 0;
+            iqStages.scrollTo({ top: 0, behavior: "auto" });
+          }
 
-  sidebarEl.innerHTML = html;
+          if (activeStageEl) {
+            activeStageEl.scrollTop = 0;
+            activeStageEl.scrollTo({ top: 0, behavior: "auto" });
+          }
 
-  document.querySelectorAll("[data-side-stage]").forEach(el => {
-    el.addEventListener("click", () => {
-      const stageIndex = Number(el.dataset.sideStage);
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        });
+      });
+    }
 
-      if (stageIndex === categories.length) {
-        openSummaryAtTop(bottle);
-        return;
-      }
-
-      bottle.activeStage = stageIndex;
+    function openSummaryAtTop(bottle) {
+      bottle.activeStage = categories.length;
       saveBottles();
       renderBottleScreen(true);
-    });
-  });
-}
+    }
 
-function renderBottleScreen(shouldResetScroll = false) {
-  const bottle = getBottleById(currentBottleId);
-  if (!bottle) return;
+    function renderSidebar(bottle) {
+      let html = "";
 
-  bottle.activeStage = bottle.activeStage ?? 0;
-  bottleTitleDisplay.textContent = bottle.name || "Your Bottle Name";
+      categories.forEach((cat, index) => {
+        const score = Number(bottle.scores[cat.key] || 0);
+        const hasValue = score > 0;
+        html += `
+          <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
+            <div class="iq-side-label">${cat.label}</div>
+            ${hasValue
+              ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+              : `<div class="iq-side-empty">–</div>`
+            }
+          </div>
+        `;
+      });
 
-  renderSidebar(bottle);
+      html += `
+        <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
+          <div class="iq-total-label">Results</div>
+          <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
+        </div>
+      `;
 
-  let html = "";
-  categories.forEach((cat, index) => {
-    html += cat.type === "range"
-      ? renderRangeStage(bottle, cat, index)
-      : renderChoiceStage(bottle, cat, index);
-  });
-  html += renderSummaryStage(bottle);
-  stagesEl.innerHTML = html;
+      sidebarEl.innerHTML = html;
 
-  attachBottleEvents(bottle);
+      document.querySelectorAll("[data-side-stage]").forEach(el => {
+        el.addEventListener("click", () => {
+          const stageIndex = Number(el.dataset.sideStage);
 
-  if (shouldResetScroll) {
-    scrollCurrentStageToTop();
-  }
-}
+          if (stageIndex === categories.length) {
+            openSummaryAtTop(bottle);
+            return;
+          }
+
+          bottle.activeStage = stageIndex;
+          saveBottles();
+          renderBottleScreen(true);
+        });
+      });
+    }
+
+    function renderBottleScreen(shouldResetScroll = false) {
+      const bottle = getBottleById(currentBottleId);
+      if (!bottle) return;
+
+      bottle.activeStage = bottle.activeStage ?? 0;
+      bottleTitleDisplay.textContent = bottle.name || "Your Bottle Name";
+
+      renderSidebar(bottle);
+
+      let html = "";
+      categories.forEach((cat, index) => {
+        html += cat.type === "range"
+          ? renderRangeStage(bottle, cat, index)
+          : renderChoiceStage(bottle, cat, index);
+      });
+      html += renderSummaryStage(bottle);
+      stagesEl.innerHTML = html;
+
+      attachBottleEvents(bottle);
+
+      if (shouldResetScroll) {
+        scrollCurrentStageToTop();
+      }
+    }
+
     function showHome() {
       homeScreen.classList.add("active");
       ratingScreen.classList.remove("active");
@@ -2838,28 +2866,28 @@ function renderBottleScreen(shouldResetScroll = false) {
       saveHistory(history);
     }
 
-function attachBottleEvents(bottle) {
-  const activeStage = document.querySelector(".iq-stage.active");
-  const notesInput = activeStage ? activeStage.querySelector("[data-notes-input]") : null;
+    function attachBottleEvents(bottle) {
+      const activeStage = document.querySelector(".iq-stage.active");
+      const notesInput = activeStage ? activeStage.querySelector("[data-notes-input]") : null;
 
-  if (notesInput) {
-    notesInput.addEventListener("input", (e) => {
-      bottle.notes = e.target.value;
-      saveBottles();
-    });
+      if (notesInput) {
+        notesInput.addEventListener("input", (e) => {
+          bottle.notes = e.target.value;
+          saveBottles();
+        });
 
-    notesInput.addEventListener("change", (e) => {
-      bottle.notes = e.target.value;
-      saveBottles();
-    });
+        notesInput.addEventListener("change", (e) => {
+          bottle.notes = e.target.value;
+          saveBottles();
+        });
 
-    notesInput.addEventListener("blur", (e) => {
-      bottle.notes = e.target.value;
-      saveBottles();
-    });
-  }
+        notesInput.addEventListener("blur", (e) => {
+          bottle.notes = e.target.value;
+          saveBottles();
+        });
+      }
 
-        document.querySelectorAll("[data-tag]").forEach(btn => {
+      document.querySelectorAll("[data-tag]").forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -2879,113 +2907,113 @@ function attachBottleEvents(bottle) {
         });
       });
 
-  document.querySelectorAll("[data-step='down']").forEach(btn => {
-    setupHoldButton(btn, "down", btn.dataset.key, bottle);
-  });
+      document.querySelectorAll("[data-step='down']").forEach(btn => {
+        setupHoldButton(btn, "down", btn.dataset.key, bottle);
+      });
 
-  document.querySelectorAll("[data-step='up']").forEach(btn => {
-    setupHoldButton(btn, "up", btn.dataset.key, bottle);
-  });
+      document.querySelectorAll("[data-step='up']").forEach(btn => {
+        setupHoldButton(btn, "up", btn.dataset.key, bottle);
+      });
 
-  document.querySelectorAll("[data-range-key]").forEach(input => {
-    input.addEventListener("input", () => {
-      const key = input.dataset.rangeKey;
-      bottle.scores[key] = Number(input.value);
-      saveBottles();
-      updateRangeStageOnly(bottle, key);
-    });
+      document.querySelectorAll("[data-range-key]").forEach(input => {
+        input.addEventListener("input", () => {
+          const key = input.dataset.rangeKey;
+          bottle.scores[key] = Number(input.value);
+          saveBottles();
+          updateRangeStageOnly(bottle, key);
+        });
 
-    input.addEventListener("change", () => {
-      const key = input.dataset.rangeKey;
-      bottle.scores[key] = Number(input.value);
-      saveBottles();
-      updateRangeStageOnly(bottle, key);
-    });
-  });
+        input.addEventListener("change", () => {
+          const key = input.dataset.rangeKey;
+          bottle.scores[key] = Number(input.value);
+          saveBottles();
+          updateRangeStageOnly(bottle, key);
+        });
+      });
 
-  document.querySelectorAll("[data-input-key]").forEach(input => {
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        commitManualInput(input, bottle);
+      document.querySelectorAll("[data-input-key]").forEach(input => {
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            commitManualInput(input, bottle);
+          }
+        });
+
+        input.addEventListener("blur", () => {
+          commitManualInput(input, bottle);
+        });
+      });
+
+      document.querySelectorAll("[data-choice-key]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.choiceKey;
+          bottle.scores[key] = Number(btn.dataset.choiceValue);
+          saveBottles();
+          renderBottleScreen(true);
+        });
+      });
+
+      document.querySelectorAll('[data-nav="next"]').forEach(btn => {
+        btn.addEventListener("click", () => {
+          bottle.activeStage = Math.min(bottle.activeStage + 1, categories.length);
+          saveBottles();
+          renderBottleScreen(true);
+        });
+      });
+
+      document.querySelectorAll('[data-nav="summary"]').forEach(btn => {
+        btn.addEventListener("click", () => {
+          openSummaryAtTop(bottle);
+        });
+      });
+
+      document.querySelectorAll('[data-nav="edit"]').forEach(btn => {
+        btn.addEventListener("click", () => {
+          bottle.activeStage = 0;
+          saveBottles();
+          renderBottleScreen(true);
+        });
+      });
+
+      const editBottleBtn = document.getElementById("editBottleBtn");
+      if (editBottleBtn) {
+        editBottleBtn.addEventListener("click", () => {
+          document.getElementById("newBottleName").value = bottle.name || "";
+          document.getElementById("newBottleProof").value = bottle.proof || "";
+          document.getElementById("newBottleType").value = bottle.type || "";
+          addBottleModal.classList.add("active");
+          addBottleModal.dataset.editId = bottle.id;
+        });
       }
-    });
 
-    input.addEventListener("blur", () => {
-      commitManualInput(input, bottle);
-    });
-  });
+      const addToLogBtn = document.getElementById("addToLogBtn");
+      if (addToLogBtn) {
+        addToLogBtn.addEventListener("click", () => {
+          addBottleToLog(bottle);
+          alert("Added to Whiskey Log.");
+        });
+      }
 
-  document.querySelectorAll("[data-choice-key]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.choiceKey;
-      bottle.scores[key] = Number(btn.dataset.choiceValue);
-      saveBottles();
-      renderBottleScreen(true);
-    });
-  });
+      const printBottleBtn = document.getElementById("printBottleBtn");
+      if (printBottleBtn) {
+        printBottleBtn.addEventListener("click", () => {
+          window.print();
+        });
+      }
 
-  document.querySelectorAll('[data-nav="next"]').forEach(btn => {
-    btn.addEventListener("click", () => {
-      bottle.activeStage = Math.min(bottle.activeStage + 1, categories.length);
-      saveBottles();
-      renderBottleScreen(true);
-    });
-  });
+      const saveBottleBtn = document.getElementById("saveBottleBtn");
+      if (saveBottleBtn) {
+        saveBottleBtn.addEventListener("click", () => {
+          saveBottles();
+          alert("Bottle saved.");
+        });
+      }
 
-  document.querySelectorAll('[data-nav="summary"]').forEach(btn => {
-  btn.addEventListener("click", () => {
-    openSummaryAtTop(bottle);
-  });
-});
-
-  document.querySelectorAll('[data-nav="edit"]').forEach(btn => {
-    btn.addEventListener("click", () => {
-      bottle.activeStage = 0;
-      saveBottles();
-      renderBottleScreen(true);
-    });
-  });
-
-  const editBottleBtn = document.getElementById("editBottleBtn");
-  if (editBottleBtn) {
-    editBottleBtn.addEventListener("click", () => {
-      document.getElementById("newBottleName").value = bottle.name || "";
-      document.getElementById("newBottleProof").value = bottle.proof || "";
-      document.getElementById("newBottleType").value = bottle.type || "";
-      addBottleModal.classList.add("active");
-      addBottleModal.dataset.editId = bottle.id;
-    });
-  }
-
-  const addToLogBtn = document.getElementById("addToLogBtn");
-  if (addToLogBtn) {
-    addToLogBtn.addEventListener("click", () => {
-      addBottleToLog(bottle);
-      alert("Added to Whiskey Log.");
-    });
-  }
-
-  const printBottleBtn = document.getElementById("printBottleBtn");
-  if (printBottleBtn) {
-    printBottleBtn.addEventListener("click", () => {
-      window.print();
-    });
-  }
-
-  const saveBottleBtn = document.getElementById("saveBottleBtn");
-  if (saveBottleBtn) {
-    saveBottleBtn.addEventListener("click", () => {
-      saveBottles();
-      alert("Bottle saved.");
-    });
-  }
-
-  const shareBottleBtn = document.getElementById("shareBottleBtn");
-  if (shareBottleBtn) {
-    shareBottleBtn.addEventListener("click", async () => {
-      const total = totalScore(bottle.scores);
-      const shareText = `${bottle.name}
+      const shareBottleBtn = document.getElementById("shareBottleBtn");
+      if (shareBottleBtn) {
+        shareBottleBtn.addEventListener("click", async () => {
+          const total = totalScore(bottle.scores);
+          const shareText = `${bottle.name}
 Type: ${bottle.type || "N/A"}
 Proof: ${bottle.proof || "N/A"}
 Whiskey IQ: ${total}/100
@@ -3000,35 +3028,35 @@ Value: ${bottle.scores.value}/10
 Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
 Tasting Notes: ${bottle.notes || "None"}`;
 
-      try {
-        if (navigator.share) {
-          await navigator.share({
-            title: `${bottle.name} — Whiskey IQ`,
-            text: shareText
-          });
-        } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(shareText);
-          alert("Review copied to clipboard.");
-        } else {
-          alert(shareText);
-        }
-      } catch (err) {
-        console.log(err);
+          try {
+            if (navigator.share) {
+              await navigator.share({
+                title: `${bottle.name} — Whiskey IQ`,
+                text: shareText
+              });
+            } else if (navigator.clipboard) {
+              await navigator.clipboard.writeText(shareText);
+              alert("Review copied to clipboard.");
+            } else {
+              alert(shareText);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        });
       }
-    });
-  }
 
-  const deleteBottleBtn = document.getElementById("deleteBottleBtn");
-  if (deleteBottleBtn) {
-    deleteBottleBtn.addEventListener("click", () => {
-      if (!confirm("Delete this bottle?")) return;
-      appState.bottles = appState.bottles.filter(b => b.id !== bottle.id);
-      saveBottles();
-      currentBottleId = null;
-      showHome();
-    });
-  }
-}
+      const deleteBottleBtn = document.getElementById("deleteBottleBtn");
+      if (deleteBottleBtn) {
+        deleteBottleBtn.addEventListener("click", () => {
+          if (!confirm("Delete this bottle?")) return;
+          appState.bottles = appState.bottles.filter(b => b.id !== bottle.id);
+          saveBottles();
+          currentBottleId = null;
+          showHome();
+        });
+      }
+    }
 
     function openAddBottleModal() {
       addBottleModal.dataset.editId = "";
