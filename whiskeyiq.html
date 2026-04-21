@@ -208,6 +208,20 @@
       gap: 10px;
       margin-bottom: 18px;
     }
+    .search-add {
+  border: none;
+  border-radius: 999px;
+  background: #120d09;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
 
     .search-box {
       position: relative;
@@ -1715,9 +1729,9 @@ body.dark-ui .iq-tag:focus-visible {
         font-size: 2.5rem;
       }
 
- .iq-rating-shell {
+.iq-rating-shell {
   grid-template-columns: 92px minmax(0, 1fr);
-  align-items: start;
+  align-items: stretch;
 }
 
 .iq-left {
@@ -1732,7 +1746,6 @@ body.dark-ui .iq-tag:focus-visible {
 .iq-right {
   min-height: auto !important;
   height: auto !important;
-  align-self: start;
 }
 .iq-side-item {
   min-height: 66px;
@@ -2057,12 +2070,12 @@ body.dark-ui .iq-tag:focus-visible {
             <div class="home-brand">Whiskey IQ</div>
           </div>
 
-          <div class="search-wrap">
-            <div class="search-box">
-              <input class="search-input" id="searchInput" type="text" placeholder="Search your collection..." />
-            </div>
-            <button class="search-go" id="searchGoBtn" type="button" aria-label="Search">→</button>
-          </div>
+         <div class="search-wrap">
+  <div class="search-box">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search your collection..." />
+  </div>
+  <button class="search-add" id="addBottleInlineBtn" type="button" aria-label="Add bottle">+</button>
+</div>
 
           <div class="collection-head">
             <div class="collection-title">Your Collection</div>
@@ -2074,7 +2087,6 @@ body.dark-ui .iq-tag:focus-visible {
 
           <div class="bottle-list" id="bottleList"></div>
 
-          <button class="fab-add" type="button" id="addBottleFab" aria-label="Add bottle">+</button>
         </section>
 
         <section class="screen" id="ratingScreen">
@@ -2107,7 +2119,7 @@ body.dark-ui .iq-tag:focus-visible {
 
       <div class="modal-field">
         <label class="modal-label" for="newBottleName">Bottle Name</label>
-        <input class="modal-input" id="newBottleName" type="text" placeholder="Silk Velvet Cask Strength Bourbon" />
+        <input class="modal-input" id="newBottleName" type="text" placeholder="Fill in Whiskey Name" />
       </div>
 
       <div class="modal-field">
@@ -2178,9 +2190,9 @@ body.dark-ui .iq-tag:focus-visible {
         type: "choice",
         question: "Would you drink this again?",
         choices: [
-          { label: "Yes", value: 5, emoji: "🥃", note: "Yes" },
+          { label: "Yes", value: 5, emoji: "✅", note: "Yes" },
           { label: "Maybe", value: 2, emoji: "🤔", note: "Maybe" },
-          { label: "No", value: 0, emoji: "🙅", note: "No" }
+          { label: "No", value: 0, emoji: "❌", note: "No" }
         ]
       },
       {
@@ -2313,9 +2325,9 @@ body.dark-ui .iq-tag:focus-visible {
     function overallEmoji(score) {
       if (score >= 90) return "🏆";
       if (score >= 80) return "🤩";
-      if (score >= 70) return "🥃";
-      if (score >= 60) return "🙂";
-      if (score >= 45) return "😐";
+      if (score >= 70) return "😎";
+      if (score >= 60) return "🤔";
+      if (score >= 45) return "🫢";
       return "😬";
     }
 
@@ -2659,10 +2671,10 @@ Tasting Notes: ${bottle.notes || "None"}`;
       if (sideItem) {
         sideItem.innerHTML = `
           <div class="iq-side-label">${cat.label}</div>
-          ${score > 0
-            ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-            : `<div class="iq-side-empty">–</div>`
-          }
+        ${score > 0
+  ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+  : `<div class="iq-side-score">Zero<small>/${cat.max}</small></div>`
+}
         `;
       }
 
@@ -2753,14 +2765,14 @@ Tasting Notes: ${bottle.notes || "None"}`;
         const score = Number(bottle.scores[cat.key] || 0);
         const hasValue = score > 0;
         html += `
-          <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
-            <div class="iq-side-label">${cat.label}</div>
-            ${hasValue
-              ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-              : `<div class="iq-side-empty">–</div>`
-            }
-          </div>
-        `;
+  <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
+    <div class="iq-side-label">${cat.label}</div>
+    ${hasValue
+      ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+      : `<div class="iq-side-score">Zero<small>/${cat.max}</small></div>`
+    }
+  </div>
+`;
       });
 
       html += `
@@ -3141,23 +3153,21 @@ Tasting Notes: ${bottle.notes || "None"}`;
       searchInput.focus();
     }
 
-    searchInput.addEventListener("input", renderHome);
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleSearchAction();
-      }
-    });
+searchInput.addEventListener("input", renderHome);
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    handleSearchAction();
+  }
+});
 
-    searchGoBtn.addEventListener("click", handleSearchAction);
+document.getElementById("addBottleInlineBtn").addEventListener("click", openAddBottleModal);
 
-    sortBtn.addEventListener("click", () => {
-      currentSort = currentSort === "score" ? "name" : "score";
-      sortBtn.textContent = currentSort === "score" ? "Score ↓" : "Name ↓";
-      renderHome();
-    });
-
-    document.getElementById("addBottleFab").addEventListener("click", openAddBottleModal);
+sortBtn.addEventListener("click", () => {
+  currentSort = currentSort === "score" ? "name" : "score";
+  sortBtn.textContent = currentSort === "score" ? "Score ↓" : "Name ↓";
+  renderHome();
+});
     document.getElementById("cancelAddBottle").addEventListener("click", closeAddBottleModal);
     document.getElementById("confirmAddBottle").addEventListener("click", confirmAddOrEditBottle);
     document.getElementById("backToHomeBtn").addEventListener("click", showHome);
