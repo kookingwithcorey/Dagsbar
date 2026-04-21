@@ -2905,25 +2905,26 @@ Tasting Notes: ${bottle.notes || "None"}`;
         });
       }
 
-      document.querySelectorAll("[data-tag]").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+   document.querySelectorAll("[data-tag]").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-          const tag = btn.dataset.tag;
-          if (!tag) return;
+    const tag = btn.dataset.tag;
+    if (!tag) return;
 
-          if (bottle.tags.includes(tag)) {
-            bottle.tags = bottle.tags.filter(t => t !== tag);
-            btn.classList.remove("active");
-          } else {
-            bottle.tags.push(tag);
-            btn.classList.add("active");
-          }
-          btn.blur();
-          saveBottles();
-        });
-      });
+    if (bottle.tags.includes(tag)) {
+      bottle.tags = bottle.tags.filter(t => t !== tag);
+      btn.classList.remove("active");
+    } else {
+      bottle.tags.push(tag);
+      btn.classList.add("active");
+    }
+
+    btn.blur();
+    saveBottles();
+  });
+});
 
       document.querySelectorAll("[data-step='down']").forEach(btn => {
         setupHoldButton(btn, "down", btn.dataset.key, bottle);
