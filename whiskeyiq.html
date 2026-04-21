@@ -976,42 +976,61 @@
       gap: 10px;
     }
 
-    .iq-tag {
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid #0f8b6b !important;
-      background: #ffffff !important;
-      color: #0f8b6b !important;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.18s ease;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-    }
+   .iq-tag {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #0f8b6b !important;
+  background: #ffffff !important;
+  color: #0f8b6b !important;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  outline: none;
+}
 
-    .iq-tag.active,
-    .iq-tag:hover,
-    .iq-tag:focus {
-      background: #0f8b6b !important;
-      color: #ffffff !important;
-      border-color: #0f8b6b !important;
-    }
+.iq-tag.active,
+.iq-tag:hover {
+  background: #0f8b6b !important;
+  color: #ffffff !important;
+  border-color: #0f8b6b !important;
+}
 
-    body.dark-ui .iq-tag {
-      border-color: #0f8b6b !important;
-      color: #f3f4f7 !important;
-      background: #171d28 !important;
-    }
+.iq-tag:focus {
+  outline: none;
+}
 
-    body.dark-ui .iq-tag.active,
-    body.dark-ui .iq-tag:hover,
-    body.dark-ui .iq-tag:focus {
-      background: #0f8b6b !important;
-      color: #ffffff !important;
-      border-color: #0f8b6b !important;
-    }
+.iq-tag:focus-visible {
+  background: #0f8b6b !important;
+  color: #ffffff !important;
+  border-color: #0f8b6b !important;
+}
+
+body.dark-ui .iq-tag {
+  border-color: #0f8b6b !important;
+  color: #f3f4f7 !important;
+  background: #171d28 !important;
+}
+
+body.dark-ui .iq-tag.active,
+body.dark-ui .iq-tag:hover {
+  background: #0f8b6b !important;
+  color: #ffffff !important;
+  border-color: #0f8b6b !important;
+}
+
+body.dark-ui .iq-tag:focus {
+  outline: none;
+}
+
+body.dark-ui .iq-tag:focus-visible {
+  background: #0f8b6b !important;
+  color: #ffffff !important;
+  border-color: #0f8b6b !important;
+}
 
     .iq-bottom-row {
       max-width: 760px;
@@ -2901,7 +2920,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
             bottle.tags.push(tag);
             btn.classList.add("active");
           }
-
+          btn.blur();
           saveBottles();
         });
       });
