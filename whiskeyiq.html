@@ -2531,9 +2531,9 @@ Tasting Notes: ${bottle.notes || "None"}`;
           try {
             if (navigator.share) {
               await navigator.share({
-                title: `${bottle.name} — Whiskey IQ`,
-                text: shareText
-              });
+  title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`,
+  text: shareText
+});
             } else if (navigator.clipboard) {
               await navigator.clipboard.writeText(shareText);
               alert("Review copied to clipboard.");
