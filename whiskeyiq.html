@@ -1808,18 +1808,21 @@ body.dark-ui .iq-tag:focus-visible {
         overflow: visible !important;
       }
 
-      .iq-stage.active[data-stage="summary"] {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        min-height: auto !important;
-        height: auto !important;
-        overflow: visible !important;
-      }
+    .iq-stage.active[data-stage="summary"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  flex: 0 0 auto !important;
+}
 
-      .iq-summary {
-        max-width: 100%;
-        padding-bottom: 0;
-      }
+.iq-summary {
+  max-width: 100%;
+  padding-bottom: 0;
+  min-height: auto !important;
+  height: auto !important;
+}
 
       .iq-stage-kicker {
         font-size: 0.6rem;
@@ -2232,7 +2235,6 @@ body.dark-ui .iq-tag:focus-visible {
     const bottleListEl = document.getElementById("bottleList");
     const collectionCountEl = document.getElementById("collectionCount");
     const searchInput = document.getElementById("searchInput");
-    const searchGoBtn = document.getElementById("searchGoBtn");
     const sortBtn = document.getElementById("sortBtn");
     const sidebarEl = document.getElementById("iqSidebar");
     const stagesEl = document.getElementById("iqStages");
@@ -2251,26 +2253,26 @@ body.dark-ui .iq-tag:focus-visible {
       bottles: loadBottles()
     };
 
-    function defaultBottle(name = "New Bottle", proof = "", type = "Bourbon") {
-      return {
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-        name,
-        proof,
-        type,
-        notes: "",
-        tags: [],
-        scores: {
-  aroma: null,
-  flavor: null,
-  finish: null,
-  drinkAgain: null,
-  recommend: null,
-  value: null
+function defaultBottle(name = "New Bottle", proof = "", type = "Bourbon") {
+  return {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    name,
+    proof,
+    type,
+    notes: "",
+    tags: [],
+    scores: {
+      aroma: null,
+      flavor: null,
+      finish: null,
+      drinkAgain: null,
+      recommend: null,
+      value: null
+    },
+    createdAt: new Date().toISOString(),
+    activeStage: 0
+  };
 }
-        createdAt: new Date().toISOString(),
-        activeStage: 0
-      };
-    }
 
     function loadBottles() {
       try {
@@ -2501,7 +2503,9 @@ Tasting Notes: ${bottle.notes || "None"}`;
     }
 
     function renderRangeStage(bottle, cat, index) {
-      const value = Number(bottle.scores[cat.key] || 0);
+     const rawValue = bottle.scores[cat.key];
+const hasValue = rawValue !== null && rawValue !== undefined;
+const value = hasValue ? Number(rawValue) : 0;
       const meta = getRangeMeta(cat, value);
       const isMobile = window.innerWidth <= 720;
       const usableHeight = isMobile ? 146 : 388;
@@ -2516,7 +2520,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
           </div>
 
           <div class="iq-emoji">${meta.emoji}</div>
-          <div class="iq-current-score-label">${value}/${cat.max} ${meta.text}</div>
+          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.note}` : `–/${cat.max} Not rated yet`}</div>
 
           <div class="iq-slider-wrap">
             <button class="iq-pm-btn" type="button" data-step="down" data-key="${cat.key}">−</button>
@@ -2544,7 +2548,10 @@ Tasting Notes: ${bottle.notes || "None"}`;
     }
 
     function renderChoiceStage(bottle, cat, index) {
-      const value = Number(bottle.scores[cat.key] || 0);
+      const rawValue = bottle.scores[cat.key];
+const hasValue = rawValue !== null && rawValue !== undefined;
+const value = hasValue ? Number(rawValue) : null;
+const meta = hasValue ? getChoiceMeta(cat, value) : { emoji: "•", note: "Not rated yet" };
       const meta = getChoiceMeta(cat, value);
 
       return `
@@ -2556,7 +2563,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
           </div>
 
           <div class="iq-emoji">${meta.emoji}</div>
-          <div class="iq-current-score-label">${value}/${cat.max} ${meta.note}</div>
+          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.note}` : `–/${cat.max} Not rated yet`}</div>
 
           <div class="iq-choice-wrap">
             ${cat.choices.map(choice => `
@@ -2594,20 +2601,26 @@ Tasting Notes: ${bottle.notes || "None"}`;
             </div>
 
             <div class="iq-summary-grid">
-              ${categories.map(cat => `
-                <div class="iq-summary-box">
-                  <div class="iq-summary-box-top">
-                    <div>
-                      <div class="iq-summary-box-label">${cat.label}</div>
-                      <div class="iq-summary-box-score">${bottle.scores[cat.key]}<small>/${cat.max}</small></div>
-                    </div>
-                    <div class="iq-summary-box-emoji">${scoreEmoji(cat, bottle.scores[cat.key])}</div>
-                  </div>
-                  <div class="iq-summary-line">
-                    <span style="width:${(bottle.scores[cat.key] / cat.max) * 100}%"></span>
-                  </div>
-                </div>
-              `).join("")}
+           ${categories.map(cat => {
+  const rawScore = bottle.scores[cat.key];
+  const hasValue = rawScore !== null && rawScore !== undefined;
+  const score = hasValue ? Number(rawScore) : null;
+
+  return `
+    <div class="iq-summary-box">
+      <div class="iq-summary-box-top">
+        <div>
+          <div class="iq-summary-box-label">${cat.label}</div>
+          <div class="iq-summary-box-score">${hasValue ? score : "–"}<small>/${cat.max}</small></div>
+        </div>
+        <div class="iq-summary-box-emoji">${hasValue ? scoreEmoji(cat, score) : "•"}</div>
+      </div>
+      <div class="iq-summary-line">
+        <span style="width:${hasValue ? ((score / cat.max) * 100) : 0}%"></span>
+      </div>
+    </div>
+  `;
+}).join("")}
             </div>
 
             <div class="iq-summary-block">
@@ -2754,79 +2767,126 @@ const score = hasValue ? Number(rawScore) : null;
       });
     }
 
-    function openSummaryAtTop(bottle) {
-      bottle.activeStage = categories.length;
+function openSummaryAtTop(bottle) {
+  bottle.activeStage = categories.length;
+  saveBottles();
+  renderBottleScreen(false);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const shell = document.querySelector(".iq-rating-shell");
+      const left = document.querySelector(".iq-left");
+      const right = document.querySelector(".iq-right");
+      const stages = document.getElementById("iqStages");
+      const summaryStage = document.querySelector('.iq-stage.active[data-stage="summary"]');
+      const summary = document.querySelector(".iq-summary");
+
+      if (shell) {
+        shell.style.minHeight = "auto";
+        shell.style.height = "auto";
+      }
+
+      if (left) {
+        left.style.minHeight = "100%";
+        left.style.height = "auto";
+      }
+
+      if (right) {
+        right.style.minHeight = "auto";
+        right.style.height = "auto";
+        right.scrollTop = 0;
+      }
+
+      if (stages) {
+        stages.style.minHeight = "auto";
+        stages.style.height = "auto";
+        stages.scrollTop = 0;
+      }
+
+      if (summaryStage) {
+        summaryStage.style.minHeight = "auto";
+        summaryStage.style.height = "auto";
+        summaryStage.style.overflow = "visible";
+        summaryStage.scrollTop = 0;
+      }
+
+      if (summary) {
+        summary.style.minHeight = "auto";
+        summary.style.height = "auto";
+      }
+
+      window.scrollTo(0, 0);
+    });
+  });
+}
+
+function renderSidebar(bottle) {
+  let html = "";
+
+  categories.forEach((cat, index) => {
+    const rawScore = bottle.scores[cat.key];
+    const hasValue = rawScore !== null && rawScore !== undefined;
+    const score = hasValue ? Number(rawScore) : null;
+
+    html += `
+      <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
+        <div class="iq-side-label">${cat.label}</div>
+        ${hasValue
+          ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+          : `<div class="iq-side-empty">–</div>`
+        }
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
+      <div class="iq-total-label">Results</div>
+      <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
+    </div>
+  `;
+
+  sidebarEl.innerHTML = html;
+
+  document.querySelectorAll("[data-side-stage]").forEach(el => {
+    el.addEventListener("click", () => {
+      const stageIndex = Number(el.dataset.sideStage);
+
+      if (stageIndex === categories.length) {
+        openSummaryAtTop(bottle);
+        return;
+      }
+
+      bottle.activeStage = stageIndex;
       saveBottles();
       renderBottleScreen(true);
-    }
+    });
+  });
+}
+     function renderBottleScreen(shouldResetScroll = false) {
+  const bottle = getBottleById(currentBottleId);
+  if (!bottle) return;
 
-    function renderSidebar(bottle) {
-      let html = "";
+  bottle.activeStage = bottle.activeStage ?? 0;
+  bottleTitleDisplay.textContent = bottle.name || "Your Bottle Name";
 
-      categories.forEach((cat, index) => {
-      const rawScore = bottle.scores[cat.key];
-const hasValue = rawScore !== null && rawScore !== undefined;
-const score = hasValue ? Number(rawScore) : null;
-        html += `
-  <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
-    <div class="iq-side-label">${cat.label}</div>
-    ${hasValue
-      ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-      : `<div class="iq-side-score">Zero<small>/${cat.max}</small></div>`
-    }
-  </div>
-`;
-      });
+  renderSidebar(bottle);
 
-      html += `
-        <div class="iq-total ${bottle.activeStage === categories.length ? "active" : ""}" data-side-stage="${categories.length}">
-          <div class="iq-total-label">Results</div>
-          <div class="iq-total-score">${totalScore(bottle.scores)}<small>/100</small></div>
-        </div>
-      `;
+  let html = "";
+  categories.forEach((cat, index) => {
+    html += cat.type === "range"
+      ? renderRangeStage(bottle, cat, index)
+      : renderChoiceStage(bottle, cat, index);
+  });
+  html += renderSummaryStage(bottle);
+  stagesEl.innerHTML = html;
 
-      sidebarEl.innerHTML = html;
+  attachBottleEvents(bottle);
 
-      document.querySelectorAll("[data-side-stage]").forEach(el => {
-        el.addEventListener("click", () => {
-          const stageIndex = Number(el.dataset.sideStage);
-
-          if (stageIndex === categories.length) {
-            openSummaryAtTop(bottle);
-            return;
-          }
-
-          bottle.activeStage = stageIndex;
-          saveBottles();
-          renderBottleScreen(true);
-        });
-      });
-    }
-
-    function renderBottleScreen(shouldResetScroll = false) {
-      const bottle = getBottleById(currentBottleId);
-      if (!bottle) return;
-
-      bottle.activeStage = bottle.activeStage ?? 0;
-      bottleTitleDisplay.textContent = bottle.name || "Your Bottle Name";
-
-      renderSidebar(bottle);
-
-      let html = "";
-      categories.forEach((cat, index) => {
-        html += cat.type === "range"
-          ? renderRangeStage(bottle, cat, index)
-          : renderChoiceStage(bottle, cat, index);
-      });
-      html += renderSummaryStage(bottle);
-      stagesEl.innerHTML = html;
-
-      attachBottleEvents(bottle);
-
-      if (shouldResetScroll) {
-        scrollCurrentStageToTop();
-      }
-    }
+  if (shouldResetScroll) {
+    scrollCurrentStageToTop();
+  }
+}
 
     function showHome() {
       homeScreen.classList.add("active");
