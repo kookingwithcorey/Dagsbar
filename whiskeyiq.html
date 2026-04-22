@@ -2502,85 +2502,86 @@ Tasting Notes: ${bottle.notes || "None"}`;
       `;
     }
 
-    function renderRangeStage(bottle, cat, index) {
-     const rawValue = bottle.scores[cat.key];
-const hasValue = rawValue !== null && rawValue !== undefined;
-const value = hasValue ? Number(rawValue) : 0;
-      const meta = getRangeMeta(cat, value);
-      const isMobile = window.innerWidth <= 720;
-      const usableHeight = isMobile ? 146 : 388;
-      const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
+   function renderRangeStage(bottle, cat, index) {
+  const rawValue = bottle.scores[cat.key];
+  const hasValue = rawValue !== null && rawValue !== undefined;
+  const value = hasValue ? Number(rawValue) : 0;
+  const meta = getRangeMeta(cat, value);
+  const isMobile = window.innerWidth <= 720;
+  const usableHeight = isMobile ? 146 : 388;
+  const fillHeight = value <= 0 ? 0 : Math.max(0, (value / cat.max) * usableHeight);
 
-      return `
-        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
-          <div class="iq-stage-head">
-            <div class="iq-stage-kicker">${cat.label}</div>
-            <div class="iq-stage-title">${cat.label}</div>
-            <div class="iq-stage-subtitle">${cat.question}</div>
-          </div>
+  return `
+    <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
+      <div class="iq-stage-head">
+        <div class="iq-stage-kicker">${cat.label}</div>
+        <div class="iq-stage-title">${cat.label}</div>
+        <div class="iq-stage-subtitle">${cat.question}</div>
+      </div>
 
-          <div class="iq-emoji">${meta.emoji}</div>
-          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.text}` : `–/${cat.max} Not rated yet`}</div>
+      <div class="iq-emoji">${meta.emoji}</div>
+      <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.text}` : `–/${cat.max} Not rated yet`}</div>
 
-          <div class="iq-slider-wrap">
-            <button class="iq-pm-btn" type="button" data-step="down" data-key="${cat.key}">−</button>
+      <div class="iq-slider-wrap">
+        <button class="iq-pm-btn" type="button" data-step="down" data-key="${cat.key}">−</button>
 
-            <div>
-              <div class="iq-track-shell">
-                <div class="iq-line"></div>
-                <div class="iq-fill" style="height:${fillHeight}px"></div>
-                <input class="iq-range" type="range" min="0" max="${cat.max}" step="1" value="${value}" data-range-key="${cat.key}" />
-              </div>
-
-              <div class="iq-manual">
-                <input type="number" min="0" max="${cat.max}" step="1" value="${value}" data-input-key="${cat.key}" />
-                <small>Type score, then press Enter</small>
-              </div>
-            </div>
-
-            <button class="iq-pm-btn" type="button" data-step="up" data-key="${cat.key}">+</button>
-          </div>
-
-          ${renderNotesBlock(bottle)}
-          ${renderBottomRow(index === categories.length - 1)}
-        </section>
-      `;
-    }
-
-   const rawValue = bottle.scores[cat.key];
-const hasValue = rawValue !== null && rawValue !== undefined;
-const value = hasValue ? Number(rawValue) : null;
-const meta = hasValue ? getChoiceMeta(cat, value) : { emoji: "•", note: "Not rated yet" };
-
-      return `
-        <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
-          <div class="iq-stage-head">
-            <div class="iq-stage-kicker">${cat.label}</div>
-            <div class="iq-stage-title">${cat.label}</div>
-            <div class="iq-stage-subtitle">${cat.question}</div>
-          </div>
-
-          <div class="iq-emoji">${meta.emoji}</div>
-          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.note}` : `–/${cat.max} Not rated yet`}</div>
-
-          <div class="iq-choice-wrap">
-            ${cat.choices.map(choice => `
-              <button type="button" class="iq-choice-btn ${choice.value === value ? "active" : ""}" data-choice-key="${cat.key}" data-choice-value="${choice.value}">
-                ${choice.emoji} ${choice.label}<span>${choice.value}/${cat.max}</span>
-              </button>
-            `).join("")}
+        <div>
+          <div class="iq-track-shell">
+            <div class="iq-line"></div>
+            <div class="iq-fill" style="height:${fillHeight}px"></div>
+            <input class="iq-range" type="range" min="0" max="${cat.max}" step="1" value="${value}" data-range-key="${cat.key}" />
           </div>
 
           <div class="iq-manual">
             <input type="number" min="0" max="${cat.max}" step="1" value="${value}" data-input-key="${cat.key}" />
             <small>Type score, then press Enter</small>
           </div>
+        </div>
 
-          ${renderNotesBlock(bottle)}
-          ${renderBottomRow(index === categories.length - 1)}
-        </section>
-      `;
-    }
+        <button class="iq-pm-btn" type="button" data-step="up" data-key="${cat.key}">+</button>
+      </div>
+
+      ${renderNotesBlock(bottle)}
+      ${renderBottomRow(index === categories.length - 1)}
+    </section>
+  `;
+}
+
+function renderChoiceStage(bottle, cat, index) {
+  const rawValue = bottle.scores[cat.key];
+  const hasValue = rawValue !== null && rawValue !== undefined;
+  const value = hasValue ? Number(rawValue) : null;
+  const meta = hasValue ? getChoiceMeta(cat, value) : { emoji: "•", note: "Not rated yet" };
+
+  return `
+    <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
+      <div class="iq-stage-head">
+        <div class="iq-stage-kicker">${cat.label}</div>
+        <div class="iq-stage-title">${cat.label}</div>
+        <div class="iq-stage-subtitle">${cat.question}</div>
+      </div>
+
+      <div class="iq-emoji">${meta.emoji}</div>
+      <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.note}` : `–/${cat.max} Not rated yet`}</div>
+
+      <div class="iq-choice-wrap">
+        ${cat.choices.map(choice => `
+          <button type="button" class="iq-choice-btn ${choice.value === value ? "active" : ""}" data-choice-key="${cat.key}" data-choice-value="${choice.value}">
+            ${choice.emoji} ${choice.label}<span>${choice.value}/${cat.max}</span>
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="iq-manual">
+        <input type="number" min="0" max="${cat.max}" step="1" value="${hasValue ? value : 0}" data-input-key="${cat.key}" />
+        <small>Type score, then press Enter</small>
+      </div>
+
+      ${renderNotesBlock(bottle)}
+      ${renderBottomRow(index === categories.length - 1)}
+    </section>
+  `;
+}
 
     function renderSummaryStage(bottle) {
       const total = totalScore(bottle.scores);
@@ -2697,46 +2698,46 @@ const score = hasValue ? Number(rawScore) : null;
     }
 
     function updateRangeStageOnly(bottle, key) {
-      const cat = categories.find(c => c.key === key);
-      if (!cat) return;
+  const cat = categories.find(c => c.key === key);
+  if (!cat) return;
 
-      const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
-      if (!stage) return;
+  const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
+  if (!stage) return;
 
-     const rawValue = bottle.scores[key];
-const hasValue = rawValue !== null && rawValue !== undefined;
-const value = hasValue ? Number(rawValue) : 0;
-const meta = getRangeMeta(cat, value);
-      const meta = getRangeMeta(cat, value);
+  const rawValue = bottle.scores[key];
+  const hasValue = rawValue !== null && rawValue !== undefined;
+  const value = hasValue ? Number(rawValue) : 0;
+  const meta = getRangeMeta(cat, value);
 
-      const emojiEl = stage.querySelector(".iq-emoji");
-      const labelEl = stage.querySelector(".iq-current-score-label");
-      const fillEl = stage.querySelector(".iq-fill");
-      const lineEl = stage.querySelector(".iq-line");
-      const manualInput = stage.querySelector(`[data-input-key="${key}"]`);
-      const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
+  const emojiEl = stage.querySelector(".iq-emoji");
+  const labelEl = stage.querySelector(".iq-current-score-label");
+  const fillEl = stage.querySelector(".iq-fill");
+  const lineEl = stage.querySelector(".iq-line");
+  const manualInput = stage.querySelector(`[data-input-key="${key}"]`);
+  const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
 
-      if (emojiEl) emojiEl.textContent = meta.emoji;
-      if (labelEl) {
-  labelEl.textContent = hasValue
-    ? `${value}/${cat.max} ${meta.text}`
-    : `–/${cat.max} Not rated yet`;
+  if (emojiEl) emojiEl.textContent = meta.emoji;
+  if (labelEl) {
+    labelEl.textContent = hasValue
+      ? `${value}/${cat.max} ${meta.text}`
+      : `–/${cat.max} Not rated yet`;
+  }
+
+  if (manualInput && document.activeElement !== manualInput) {
+    manualInput.value = value;
+  }
+
+  if (rangeInput && document.activeElement !== rangeInput) {
+    rangeInput.value = value;
+  }
+
+  if (fillEl && lineEl) {
+    const usableHeight = lineEl.offsetHeight;
+    fillEl.style.height = hasValue && value > 0 ? `${(value / cat.max) * usableHeight}px` : "0px";
+  }
+
+  updateSidebarScoreOnly(bottle, key);
 }
-      if (manualInput && document.activeElement !== manualInput) {
-        manualInput.value = value;
-      }
-
-      if (rangeInput && document.activeElement !== rangeInput) {
-        rangeInput.value = value;
-      }
-
-      if (fillEl && lineEl) {
-        const usableHeight = lineEl.offsetHeight;
-        fillEl.style.height = value <= 0 ? "0px" : `${(value / cat.max) * usableHeight}px`;
-      }
-
-      updateSidebarScoreOnly(bottle, key);
-    }
 
     function scrollCurrentStageToTop() {
       requestAnimationFrame(() => {
