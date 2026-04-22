@@ -2808,11 +2808,11 @@ const score = hasValue ? Number(rawScore) : null;
   }
 
   if (fillEl && lineEl) {
-    const usableHeight = lineEl.offsetHeight;
-   fillEl.style.height = hasValue && value > 0
-  ? `${Math.max(0, (value / cat.max) * usableHeight)}px`
-  : "0px";
-  }
+  const usableHeight = lineEl.offsetHeight;
+  fillEl.style.height = hasValue && value > 0
+    ? `${Math.max(0, (value / cat.max) * usableHeight)}px`
+    : "0px";
+}
 
   updateSidebarScoreOnly(bottle, key);
 }
@@ -2861,7 +2861,6 @@ function openSummaryAtTop(bottle) {
     });
   }, 0);
 }
-
 function renderSidebar(bottle) {
   let html = "";
 
