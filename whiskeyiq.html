@@ -3115,14 +3115,14 @@ function renderSidebar(bottle) {
         });
       }
 
-      const saveBottleBtn = document.getElementById("saveBottleBtn");
-      if (saveBottleBtn) {
-        saveBottleBtn.addEventListener("click", () => {
-          saveBottles();
-          alert("Bottle saved.");
-        });
-      }
-
+     const saveBottleBtn = document.getElementById("saveBottleBtn");
+if (saveBottleBtn) {
+  saveBottleBtn.addEventListener("click", () => {
+    saveBottles();
+    currentBottleId = null;
+    showHome();
+  });
+}
       const shareBottleBtn = document.getElementById("shareBottleBtn");
       if (shareBottleBtn) {
         shareBottleBtn.addEventListener("click", async () => {
