@@ -2520,7 +2520,7 @@ const value = hasValue ? Number(rawValue) : 0;
           </div>
 
           <div class="iq-emoji">${meta.emoji}</div>
-          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.note}` : `–/${cat.max} Not rated yet`}</div>
+          <div class="iq-current-score-label">${hasValue ? `${value}/${cat.max} ${meta.text}` : `–/${cat.max} Not rated yet`}</div>
 
           <div class="iq-slider-wrap">
             <button class="iq-pm-btn" type="button" data-step="down" data-key="${cat.key}">−</button>
@@ -2547,12 +2547,10 @@ const value = hasValue ? Number(rawValue) : 0;
       `;
     }
 
-    function renderChoiceStage(bottle, cat, index) {
-      const rawValue = bottle.scores[cat.key];
+   const rawValue = bottle.scores[cat.key];
 const hasValue = rawValue !== null && rawValue !== undefined;
 const value = hasValue ? Number(rawValue) : null;
 const meta = hasValue ? getChoiceMeta(cat, value) : { emoji: "•", note: "Not rated yet" };
-      const meta = getChoiceMeta(cat, value);
 
       return `
         <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
@@ -2705,7 +2703,10 @@ const score = hasValue ? Number(rawScore) : null;
       const stage = document.querySelector(`.iq-stage[data-stage="${key}"]`);
       if (!stage) return;
 
-      const value = Number(bottle.scores[key] || 0);
+     const rawValue = bottle.scores[key];
+const hasValue = rawValue !== null && rawValue !== undefined;
+const value = hasValue ? Number(rawValue) : 0;
+const meta = getRangeMeta(cat, value);
       const meta = getRangeMeta(cat, value);
 
       const emojiEl = stage.querySelector(".iq-emoji");
@@ -2716,8 +2717,11 @@ const score = hasValue ? Number(rawScore) : null;
       const rangeInput = stage.querySelector(`[data-range-key="${key}"]`);
 
       if (emojiEl) emojiEl.textContent = meta.emoji;
-      if (labelEl) labelEl.textContent = `${value}/${cat.max} ${meta.text}`;
-
+      if (labelEl) {
+  labelEl.textContent = hasValue
+    ? `${value}/${cat.max} ${meta.text}`
+    : `–/${cat.max} Not rated yet`;
+}
       if (manualInput && document.activeElement !== manualInput) {
         manualInput.value = value;
       }
