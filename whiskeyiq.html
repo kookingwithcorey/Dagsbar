@@ -2260,13 +2260,13 @@ body.dark-ui .iq-tag:focus-visible {
         notes: "",
         tags: [],
         scores: {
-          aroma: 0,
-          flavor: 0,
-          finish: 0,
-          drinkAgain: 0,
-          recommend: 0,
-          value: 0
-        },
+  aroma: null,
+  flavor: null,
+  finish: null,
+  drinkAgain: null,
+  recommend: null,
+  value: null
+}
         createdAt: new Date().toISOString(),
         activeStage: 0
       };
@@ -2306,9 +2306,9 @@ body.dark-ui .iq-tag:focus-visible {
       return appState.bottles.find(b => b.id === id);
     }
 
-    function totalScore(scores) {
-      return Object.values(scores).reduce((a, b) => a + Number(b || 0), 0);
-    }
+  function totalScore(scores) {
+  return Object.values(scores).reduce((a, b) => a + Number(b ?? 0), 0);
+}
 
     function getRangeMeta(cat, value) {
       let meta = cat.emojiMap[0];
@@ -2666,17 +2666,19 @@ Tasting Notes: ${bottle.notes || "None"}`;
       const sideItem = document.querySelector(`[data-side-stage="${index}"]`);
       const totalItem = document.querySelector(`[data-side-stage="${categories.length}"] .iq-total-score`);
       const cat = categories[index];
-      const score = Number(bottle.scores[key] || 0);
+      const rawScore = bottle.scores[key];
+const hasValue = rawScore !== null && rawScore !== undefined;
+const score = hasValue ? Number(rawScore) : null;
 
-      if (sideItem) {
-        sideItem.innerHTML = `
-          <div class="iq-side-label">${cat.label}</div>
-        ${score > 0
-  ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
-  : `<div class="iq-side-score">Zero<small>/${cat.max}</small></div>`
+    if (sideItem) {
+  sideItem.innerHTML = `
+    <div class="iq-side-label">${cat.label}</div>
+    ${hasValue
+      ? `<div class="iq-side-score">${score}<small>/${cat.max}</small></div>`
+      : `<div class="iq-side-empty">–</div>`
+    }
+  `;
 }
-        `;
-      }
 
       if (totalItem) {
         totalItem.innerHTML = `${totalScore(bottle.scores)}<small>/100</small>`;
@@ -2762,8 +2764,9 @@ Tasting Notes: ${bottle.notes || "None"}`;
       let html = "";
 
       categories.forEach((cat, index) => {
-        const score = Number(bottle.scores[cat.key] || 0);
-        const hasValue = score > 0;
+      const rawScore = bottle.scores[cat.key];
+const hasValue = rawScore !== null && rawScore !== undefined;
+const score = hasValue ? Number(rawScore) : null;
         html += `
   <div class="iq-side-item ${bottle.activeStage === index ? "active" : ""}" data-side-stage="${index}">
     <div class="iq-side-label">${cat.label}</div>
