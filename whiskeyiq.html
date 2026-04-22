@@ -2816,6 +2816,32 @@ const score = hasValue ? Number(rawScore) : null;
 
   updateSidebarScoreOnly(bottle, key);
 }
+function scrollCurrentStageToTop() {
+  requestAnimationFrame(() => {
+    const right = document.querySelector(".iq-right");
+    const stages = document.getElementById("iqStages");
+    const activeStage = document.querySelector(".iq-stage.active");
+
+    if (right) {
+      right.scrollTop = 0;
+      right.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    if (stages) {
+      stages.scrollTop = 0;
+      stages.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    if (activeStage) {
+      activeStage.scrollTop = 0;
+      activeStage.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+}
 
 function openSummaryAtTop(bottle) {
   bottle.activeStage = categories.length;
