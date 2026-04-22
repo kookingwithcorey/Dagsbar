@@ -3158,7 +3158,7 @@ if (saveBottleBtn) {
     showHome();
   });
 }
-      const shareBottleBtn = document.getElementById("shareBottleBtn");
+     const shareBottleBtn = document.getElementById("shareBottleBtn");
 if (shareBottleBtn) {
   shareBottleBtn.addEventListener("click", async () => {
     const total = totalScore(bottle.scores);
@@ -3184,7 +3184,7 @@ Insight: ${insight}`;
     try {
       if (navigator.share) {
         await navigator.share({
-         title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`
+          title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`,
           text: shareText
         });
       } else if (navigator.clipboard) {
