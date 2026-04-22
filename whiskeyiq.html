@@ -2776,55 +2776,11 @@ const score = hasValue ? Number(rawScore) : null;
 function openSummaryAtTop(bottle) {
   bottle.activeStage = categories.length;
   saveBottles();
-  renderBottleScreen(false);
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const shell = document.querySelector(".iq-rating-shell");
-      const left = document.querySelector(".iq-left");
-      const right = document.querySelector(".iq-right");
-      const stages = document.getElementById("iqStages");
-      const summaryStage = document.querySelector('.iq-stage.active[data-stage="summary"]');
-      const summary = document.querySelector(".iq-summary");
-
-      if (shell) {
-        shell.style.minHeight = "auto";
-        shell.style.height = "auto";
-      }
-
-      if (left) {
-        left.style.minHeight = "100%";
-        left.style.height = "auto";
-      }
-
-      if (right) {
-        right.style.minHeight = "auto";
-        right.style.height = "auto";
-        right.scrollTop = 0;
-      }
-
-      if (stages) {
-        stages.style.minHeight = "auto";
-        stages.style.height = "auto";
-        stages.scrollTop = 0;
-      }
-
-      if (summaryStage) {
-        summaryStage.style.minHeight = "auto";
-        summaryStage.style.height = "auto";
-        summaryStage.style.overflow = "visible";
-        summaryStage.scrollTop = 0;
-      }
-
-      if (summary) {
-        summary.style.minHeight = "auto";
-        summary.style.height = "auto";
-      }
-
-      window.scrollTo(0, 0);
-    });
-  });
+  renderBottleScreen(true);
+  scrollCurrentStageToTop();
 }
+
+
 
 function renderSidebar(bottle) {
   let html = "";
