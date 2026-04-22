@@ -828,16 +828,16 @@
     .iq-line::after { bottom: 0; }
 
     .iq-fill {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      width: 4px;
-      background: linear-gradient(180deg, #0f8b6b, #0b6f58);
-      border-radius: 999px;
-      opacity: 0.95;
-      transition: none;
-    }
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: 4px;
+  background: linear-gradient(180deg, #0f8b6b, #0b6f58);
+  border-radius: 999px;
+  opacity: 0.95;
+  transition: height 180ms ease;
+}
 
     .iq-range {
       -webkit-appearance: none;
@@ -1101,7 +1101,44 @@ body.dark-ui .iq-tag:focus-visible {
       max-width: 820px;
       margin: 0 auto;
     }
+.iq-summary.is-entering {
+  opacity: 0;
+  transform: translateY(14px);
+}
 
+.iq-summary.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+    .iq-summary-hero-score.pop-in {
+  animation: popIn 260ms ease;
+}
+
+.iq-summary-insight {
+  margin-top: 10px;
+}
+
+.iq-summary-insight .iq-summary-card {
+  padding: 10px 12px;
+}
+
+.iq-summary-insight-text {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  line-height: 1.45;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
     .iq-summary-hero {
       background: var(--navy);
       color: #fff;
@@ -1969,7 +2006,7 @@ body.dark-ui .iq-tag:focus-visible {
       .iq-summary-hero {
         padding: 9px 10px;
         border-radius: 12px;
-        margin-bottom: 4px;
+        margin-bottom: 8px;
       }
 
       .iq-summary-hero-label {
@@ -1987,7 +2024,7 @@ body.dark-ui .iq-tag:focus-visible {
 
       .iq-summary-grid {
         gap: 6px;
-        margin-bottom: 0;
+        margin-bottom: 4px;
       }
 
       .iq-summary-box {
@@ -2341,7 +2378,40 @@ function defaultBottle(name = "New Bottle", proof = "", type = "Bourbon") {
   const meta = getRangeMeta(cat, value);
   return meta ? meta.emoji : "•";
 }
+function buildInsightText(bottle) {
+  const total = totalScore(bottle.scores);
+  const tags = bottle.tags || [];
+  const topTags = tags.slice(0, 3).join(", ");
 
+  let tier = "a rough pour";
+  if (total >= 90) tier = "an elite pour";
+  else if (total >= 80) tier = "a standout pour";
+  else if (total >= 70) tier = "a strong pour";
+  else if (total >= 60) tier = "a solid pour";
+  else if (total >= 45) tier = "a mixed bag";
+
+  const bestCategory = [...categories]
+    .map(cat => ({
+      label: cat.label,
+      score: Number(bottle.scores[cat.key] ?? 0),
+      max: cat.max
+    }))
+    .sort((a, b) => (b.score / b.max) - (a.score / a.max))[0];
+
+  const weakestCategory = [...categories]
+    .map(cat => ({
+      label: cat.label,
+      score: Number(bottle.scores[cat.key] ?? 0),
+      max: cat.max
+    }))
+    .sort((a, b) => (a.score / a.max) - (b.score / b.max))[0];
+
+  const flavorLine = topTags
+    ? `Notes lean ${topTags}.`
+    : `No flavor notes were tagged yet.`;
+
+  return `${bottle.name} comes across as ${tier}. ${flavorLine} Best showing: ${bestCategory.label}. Biggest opportunity: ${weakestCategory.label}.`;
+}
     function escapeHtml(str) {
       return String(str || "")
         .replaceAll("&", "&amp;")
@@ -2590,10 +2660,10 @@ function renderChoiceStage(bottle, cat, index) {
       return `
         <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}" data-stage="summary">
           <div class="iq-summary">
-            <div class="iq-summary-hero">
+          <div class="iq-summary-hero" id="summaryHero">
               <div class="iq-summary-hero-left">
                 <div class="iq-summary-hero-label">Total Score</div>
-                <div class="iq-summary-hero-score">${total}<small>/100</small></div>
+                <div class="iq-summary-hero-score" id="summaryScore">${total}<small>/100</small></div>
               </div>
               <div class="iq-summary-hero-right">
                 <div class="iq-summary-hero-emoji">${overallEmoji(total)}</div>
@@ -2631,7 +2701,12 @@ function renderChoiceStage(bottle, cat, index) {
                   : `<span class="iq-summary-pill">No tags selected</span>`}
               </div>
             </div>
-
+<div class="iq-summary-block iq-summary-insight">
+  <div class="iq-summary-title">Whiskey IQ Insight</div>
+  <div class="iq-summary-card">
+    <div class="iq-summary-insight-text">${escapeHtml(buildInsightText(bottle))}</div>
+  </div>
+</div>
             <div class="iq-summary-block">
               <div class="iq-summary-title">Tasting Notes</div>
               <div class="iq-summary-card">
@@ -2734,53 +2809,58 @@ const score = hasValue ? Number(rawScore) : null;
 
   if (fillEl && lineEl) {
     const usableHeight = lineEl.offsetHeight;
-    fillEl.style.height = hasValue && value > 0 ? `${(value / cat.max) * usableHeight}px` : "0px";
+   fillEl.style.height = hasValue && value > 0
+  ? `${Math.max(0, (value / cat.max) * usableHeight)}px`
+  : "0px";
   }
 
   updateSidebarScoreOnly(bottle, key);
 }
 
-    function scrollCurrentStageToTop() {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const activeStageEl = document.querySelector(".iq-stage.active");
-          const iqRight = document.querySelector(".iq-right");
-          const iqStages = document.getElementById("iqStages");
-
-          if (document.activeElement && typeof document.activeElement.blur === "function") {
-            document.activeElement.blur();
-          }
-
-          if (iqRight) {
-            iqRight.scrollTop = 0;
-            iqRight.scrollTo({ top: 0, behavior: "auto" });
-          }
-
-          if (iqStages) {
-            iqStages.scrollTop = 0;
-            iqStages.scrollTo({ top: 0, behavior: "auto" });
-          }
-
-          if (activeStageEl) {
-            activeStageEl.scrollTop = 0;
-            activeStageEl.scrollTo({ top: 0, behavior: "auto" });
-          }
-
-          window.scrollTo(0, 0);
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-        });
-      });
-    }
-
 function openSummaryAtTop(bottle) {
   bottle.activeStage = categories.length;
   saveBottles();
-  renderBottleScreen(true);
-  scrollCurrentStageToTop();
+  renderBottleScreen(false);
+
+  setTimeout(() => {
+    requestAnimationFrame(() => {
+      const right = document.querySelector(".iq-right");
+      const stages = document.getElementById("iqStages");
+      const activeStage = document.querySelector(".iq-stage.active");
+      const summary = document.querySelector(".iq-summary");
+      const hero = document.getElementById("summaryHero");
+
+      if (right) right.scrollTop = 0;
+      if (stages) stages.scrollTop = 0;
+      if (activeStage) activeStage.scrollTop = 0;
+
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      if (hero) {
+        hero.scrollIntoView({ block: "start", behavior: "auto" });
+      }
+
+      if (summary) {
+        summary.classList.remove("is-visible");
+        summary.classList.add("is-entering");
+
+        requestAnimationFrame(() => {
+          summary.classList.add("is-visible");
+          summary.classList.remove("is-entering");
+
+          const scoreEl = document.getElementById("summaryScore");
+          if (scoreEl) {
+            scoreEl.classList.remove("pop-in");
+            void scoreEl.offsetWidth;
+            scoreEl.classList.add("pop-in");
+          }
+        });
+      }
+    });
+  }, 0);
 }
-
-
 
 function renderSidebar(bottle) {
   let html = "";
@@ -3080,10 +3160,12 @@ if (saveBottleBtn) {
   });
 }
       const shareBottleBtn = document.getElementById("shareBottleBtn");
-      if (shareBottleBtn) {
-        shareBottleBtn.addEventListener("click", async () => {
-          const total = totalScore(bottle.scores);
-          const shareText = `${bottle.name}
+if (shareBottleBtn) {
+  shareBottleBtn.addEventListener("click", async () => {
+    const total = totalScore(bottle.scores);
+    const insight = buildInsightText(bottle);
+
+    const shareText = `${bottle.name}
 Type: ${bottle.type || "N/A"}
 Proof: ${bottle.proof || "N/A"}
 Whiskey IQ: ${total}/100
@@ -3096,26 +3178,27 @@ Recommend: ${bottle.scores.recommend}/5
 Value: ${bottle.scores.value}/10
 
 Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
-Tasting Notes: ${bottle.notes || "None"}`;
+Tasting Notes: ${bottle.notes || "None"}
 
-          try {
-            if (navigator.share) {
-              await navigator.share({
-                title: `${bottle.name} — Whiskey IQ`,
-                text: shareText
-              });
-            } else if (navigator.clipboard) {
-              await navigator.clipboard.writeText(shareText);
-              alert("Review copied to clipboard.");
-            } else {
-              alert(shareText);
-            }
-          } catch (err) {
-            console.log(err);
-          }
+Insight: ${insight}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+         title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`
+          text: shareText
         });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareText);
+        alert("Review copied to clipboard.");
+      } else {
+        alert(shareText);
       }
-
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
       const deleteBottleBtn = document.getElementById("deleteBottleBtn");
       if (deleteBottleBtn) {
         deleteBottleBtn.addEventListener("click", () => {
