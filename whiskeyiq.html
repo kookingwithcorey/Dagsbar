@@ -2333,14 +2333,14 @@ function defaultBottle(name = "New Bottle", proof = "", type = "Bourbon") {
       return "😬";
     }
 
-    function scoreEmoji(cat, value) {
-      if (cat.type === "choice") {
-        const meta = getChoiceMeta(cat, value);
-        return meta ? meta.emoji : "•";
-      }
-      const meta = getRangeMeta(cat, value);
-      return meta ? meta.emoji : "•";
-    }
+   function scoreEmoji(cat, value) {
+  if (cat.type === "choice") {
+    const meta = getChoiceMeta(cat, value);
+    return meta ? meta.emoji : "•";
+  }
+  const meta = getRangeMeta(cat, value);
+  return meta ? meta.emoji : "•";
+}
 
     function escapeHtml(str) {
       return String(str || "")
@@ -2502,7 +2502,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
       `;
     }
 
-   function renderRangeStage(bottle, cat, index) {
+function renderRangeStage(bottle, cat, index) {
   const rawValue = bottle.scores[cat.key];
   const hasValue = rawValue !== null && rawValue !== undefined;
   const value = hasValue ? Number(rawValue) : 0;
@@ -2533,7 +2533,7 @@ Tasting Notes: ${bottle.notes || "None"}`;
           </div>
 
           <div class="iq-manual">
-            <input type="number" min="0" max="${cat.max}" step="1" value="${value}" data-input-key="${cat.key}" />
+            <input type="number" min="0" max="${cat.max}" step="1" value="${hasValue ? value : ""}" data-input-key="${cat.key}" />
             <small>Type score, then press Enter</small>
           </div>
         </div>
@@ -2551,7 +2551,9 @@ function renderChoiceStage(bottle, cat, index) {
   const rawValue = bottle.scores[cat.key];
   const hasValue = rawValue !== null && rawValue !== undefined;
   const value = hasValue ? Number(rawValue) : null;
-  const meta = hasValue ? getChoiceMeta(cat, value) : { emoji: "•", note: "Not rated yet" };
+  const meta = hasValue
+    ? getChoiceMeta(cat, value)
+    : { emoji: "•", note: "Not rated yet" };
 
   return `
     <section class="iq-stage ${bottle.activeStage === index ? "active" : ""}" data-stage="${cat.key}">
@@ -2573,7 +2575,7 @@ function renderChoiceStage(bottle, cat, index) {
       </div>
 
       <div class="iq-manual">
-        <input type="number" min="0" max="${cat.max}" step="1" value="${hasValue ? value : 0}" data-input-key="${cat.key}" />
+        <input type="number" min="0" max="${cat.max}" step="1" value="${hasValue ? value : ""}" data-input-key="${cat.key}" />
         <small>Type score, then press Enter</small>
       </div>
 
@@ -2582,7 +2584,6 @@ function renderChoiceStage(bottle, cat, index) {
     </section>
   `;
 }
-
     function renderSummaryStage(bottle) {
       const total = totalScore(bottle.scores);
 
@@ -2724,7 +2725,7 @@ const score = hasValue ? Number(rawScore) : null;
   }
 
   if (manualInput && document.activeElement !== manualInput) {
-    manualInput.value = value;
+  manualInput.value = hasValue ? value : "";
   }
 
   if (rangeInput && document.activeElement !== rangeInput) {
