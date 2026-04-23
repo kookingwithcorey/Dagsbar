@@ -2074,6 +2074,48 @@ body.dark-ui .iq-tag:focus-visible {
         flex: 1 1 calc(50% - 6px);
       }
     }
+.bottle-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.summary-image-card {
+  margin-bottom:12px;
+}
+
+.summary-bottle-image {
+  width:100%;
+  height:180px;
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:10px;
+}
+
+.summary-image-actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.image-pill-btn {
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:0.8rem;
+  font-weight:700;
+  cursor:pointer;
+  border:1px solid #0f8b6b;
+  background:#0f8b6b;
+  color:#fff;
+}
+.share-bottle-photo {
+  width:100%;
+  height:280px;
+  object-fit:cover;
+  border-radius:28px;
+  margin-bottom:20px;
+}
   </style>
 </head>
 <body>
@@ -2461,12 +2503,34 @@ body.dark-ui .iq-tag:focus-visible {
             font-weight:700;
           ">Drink Smarter</div>
         </div>
-
         <div style="flex:1; height:2px; background:linear-gradient(90deg, rgba(24,161,124,0), rgba(24,161,124,0.9)); border-radius:999px;"></div>
       </div>
     </div>
   </div>
 </div>
+<div class="modal-backdrop" id="imagePickerModal">
+  <div class="modal">
+    <div class="modal-title">Bottle Image</div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="modal-primary" id="uploadImageBtn">Upload</button>
+      <button class="modal-secondary" id="cameraImageBtn">Camera</button>
+      <button class="modal-secondary" id="scanBottleBtn">Scan Bottle</button>
+      <button class="modal-secondary" id="autoSearchBtn">Auto Image</button>
+    </div>
+
+    <input type="file" id="imageFileInput" accept="image/*" style="display:none" />
+    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" />
+
+    <img id="imagePreview" style="width:100%; margin-top:12px; border-radius:16px; display:none;" />
+
+    <div class="modal-actions">
+      <button class="modal-secondary" id="cancelImagePicker">Cancel</button>
+      <button class="modal-primary" id="saveImagePicker">Save</button>
+    </div>
+  </div>
+</div>
+    
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const STORAGE_KEY = "dags_whiskeyiq_bottles_v24";
@@ -2555,7 +2619,61 @@ body.dark-ui .iq-tag:focus-visible {
       "fruit", "floral", "cherry", "leather", "corn", "rye",
       "citrus", "pepper", "chocolate", "butter", "coffee", "mint"
     ];
+// IMAGE + CLOUD READY MODEL
+function defaultBottle(name="", proof="", type="Bourbon") {
+  return {
+   id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    name,
+    proof,
+    type,
+    image: "",
 
+    // 🔥 CLOUD READY
+    imageSource: "local",
+    cloudImageUrl: "",
+    cloudImageId: "",
+
+    notes: "",
+    tags: [],
+    scores: {
+      aroma:null, flavor:null, finish:null,
+      drinkAgain:null, recommend:null, value:null
+    },
+    createdAt:new Date().toISOString(),
+    activeStage:0
+  };
+}
+
+// 🔍 AUTO IMAGE SEARCH HOOK
+async function searchBottleImage(query) {
+  console.log("Auto image search for:", query);
+
+  // 🔥 FUTURE: connect API
+  // return fetch(`/api/search-image?q=${query}`)
+
+  return null;
+}
+
+// 🧠 LABEL RECOGNITION HOOK
+async function recognizeBottleLabel(file) {
+  console.log("Running label recognition...");
+
+  // 🔥 FUTURE: OpenAI Vision / Google Visiob
+
+  return {
+    name: null,
+    proof: null,
+    type: null
+  };
+}
+
+async function scanBottle(file) {
+  const result = await recognizeBottleLabel(file);
+
+  if(result.name){
+    document.getElementById("newBottleName").value = result.name;
+  }
+}
     const homeScreen = document.getElementById("homeScreen");
     const ratingScreen = document.getElementById("ratingScreen");
     const bottleListEl = document.getElementById("bottleList");
@@ -2578,27 +2696,6 @@ body.dark-ui .iq-tag:focus-visible {
       theme: localStorage.getItem("dags_whiskeyiq_theme") || "light",
       bottles: loadBottles()
     };
-
-function defaultBottle(name = "New Bottle", proof = "", type = "Bourbon") {
-  return {
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    name,
-    proof,
-    type,
-    notes: "",
-    tags: [],
-    scores: {
-      aroma: null,
-      flavor: null,
-      finish: null,
-      drinkAgain: null,
-      recommend: null,
-      value: null
-    },
-    createdAt: new Date().toISOString(),
-    activeStage: 0
-  };
-}
 
     function loadBottles() {
       try {
@@ -2765,7 +2862,7 @@ function buildInsightText(bottle) {
         const score = totalScore(bottle.scores);
         return `
           <div class="bottle-card">
-            <div class="bottle-thumb" data-bottle-open="${bottle.id}">🥃</div>
+     <div class="bottle-thumb" data-bottle-image="${bottle.id}">${renderBottleImage(bottle)}</div>
             <div class="bottle-main" data-bottle-open="${bottle.id}">
               <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No")} Proof</div>
               <div class="bottle-name">${escapeHtml(bottle.name)}</div>
@@ -2938,6 +3035,22 @@ function renderChoiceStage(bottle, cat, index) {
       return `
         <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}" data-stage="summary">
           <div class="iq-summary">
+          ${bottle.image ? `
+  <div class="iq-summary-block summary-image-card">
+    <div class="summary-bottle-image">
+      <img src="${bottle.image}" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div class="summary-image-actions">
+      <button class="image-pill-btn" type="button" id="changeBottleImageBtn">Change Image</button>
+    </div>
+  </div>
+` : `
+  <div class="iq-summary-block summary-image-card">
+    <div class="summary-image-actions">
+      <button class="image-pill-btn" type="button" id="changeBottleImageBtn">Add Bottle Image</button>
+    </div>
+  </div>
+`}
           <div class="iq-summary-hero" id="summaryHero">
               <div class="iq-summary-hero-left">
                 <div class="iq-summary-hero-label">Total Score</div>
@@ -3228,7 +3341,12 @@ function renderSidebar(bottle) {
 
 
   attachBottleEvents(bottle);
-
+  const changeBottleImageBtn = document.getElementById("changeBottleImageBtn");
+if (changeBottleImageBtn) {
+  changeBottleImageBtn.addEventListener("click", () => {
+    openImagePicker(bottle);
+  });
+}
   if (shouldResetScroll) {
     scrollCurrentStageToTop();
   }
@@ -3437,6 +3555,7 @@ tagsWrap.innerHTML = (bottle.tags && bottle.tags.length)
 
 async function shareBottleAsImage(bottle) {
   fillShareCard(bottle);
+  addImageToShare(bottle);
 
   const card = document.getElementById("shareCardInner");
   const canvas = await html2canvas(card, {
@@ -3729,7 +3848,125 @@ sortBtn.addEventListener("click", () => {
       appState.theme = appState.theme === "dark" ? "light" : "dark";
       applyTheme();
     });
+// IMAGE STATE
+const imagePickerModal = document.getElementById("imagePickerModal");
+const imagePreview = document.getElementById("imagePreview");
+let tempImageData = "";
 
+// OPEN IMAGE PICKER
+function openImagePicker(bottle){
+  imagePickerModal.classList.add("active");
+  imagePickerModal.dataset.id = bottle.id;
+
+  tempImageData = bottle.image || "";
+
+  if(tempImageData){
+    imagePreview.src = tempImageData;
+    imagePreview.style.display = "block";
+  } else {
+    imagePreview.style.display = "none";
+  }
+}
+
+// FILE HANDLER
+function handleImage(file){
+  const reader = new FileReader();
+  reader.onload = e=>{
+    tempImageData = e.target.result;
+    imagePreview.src = tempImageData;
+    imagePreview.style.display="block";
+  };
+  reader.readAsDataURL(file);
+}
+
+// BUTTONS
+const imageFileInput = document.getElementById("imageFileInput");
+const cameraInput = document.getElementById("cameraInput");
+
+document.getElementById("uploadImageBtn").onclick = () => imageFileInput.click();
+document.getElementById("cameraImageBtn").onclick = () => cameraInput.click();
+document.getElementById("scanBottleBtn").onclick = () => cameraInput.click();
+
+imageFileInput.onchange = e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  handleImage(file);
+};
+
+cameraInput.onchange = e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  handleImage(file);
+  scanBottle(file);
+};
+
+// AUTO IMAGE
+document.getElementById("autoSearchBtn").onclick = async ()=>{
+  const bottle = getBottleById(imagePickerModal.dataset.id);
+  const result = await searchBottleImage(bottle.name);
+
+  if(result){
+    tempImageData = result;
+    imagePreview.src = result;
+    imagePreview.style.display="block";
+  } else {
+    alert("No image found yet (hook ready)");
+  }
+};
+
+// SAVE IMAGE
+document.getElementById("saveImagePicker").onclick = () => {
+  const bottle = getBottleById(imagePickerModal.dataset.id);
+  bottle.image = tempImageData;
+  saveBottles();
+  imagePickerModal.classList.remove("active");
+
+  if (currentBottleId === bottle.id) {
+    renderBottleScreen(false);
+  } else {
+    renderHome();
+  }
+};
+
+// CANCEL
+document.getElementById("cancelImagePicker").onclick = ()=>{
+  imagePickerModal.classList.remove("active");
+};
+
+imagePickerModal.addEventListener("click", (e) => {
+  if (e.target === imagePickerModal) {
+    imagePickerModal.classList.remove("active");
+  }
+});
+
+// CLICK IMAGE IN LIST
+document.addEventListener("click", e=>{
+  if(e.target.closest("[data-bottle-image]")){
+    const id = e.target.closest("[data-bottle-image]").dataset.bottleImage;
+    openImagePicker(getBottleById(id));
+  }
+});
+
+// UPDATE LIST RENDER
+function renderBottleImage(bottle){
+  return bottle.image
+    ? `<img src="${bottle.image}">`
+    : "🥃";
+}
+
+// SHARE IMAGE ADD
+function addImageToShare(bottle){
+  const titleEl = document.getElementById("shareCardBottleName");
+
+  if(bottle.image){
+    titleEl.innerHTML = `
+      <img src="${bottle.image}" class="share-bottle-photo">
+      <div>${escapeHtml(bottle.name)}</div>
+    `;
+  } else {
+    titleEl.textContent = bottle.name || "Bottle Name";
+  }
+}
        applyTheme();
     renderHome();
   </script>
