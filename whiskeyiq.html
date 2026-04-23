@@ -1445,7 +1445,29 @@ body.dark-ui .iq-tag:focus-visible {
       outline: none;
       padding: 0 14px;
     }
+.image-picker-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
 
+.image-picker-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.image-picker-actions .modal-secondary,
+.image-picker-actions .modal-primary {
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .image-picker-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
     .modal-actions {
       display: flex;
       gap: 10px;
@@ -2221,10 +2243,10 @@ body.dark-ui .iq-tag:focus-visible {
         <input class="modal-input" id="newBottleType" type="text" placeholder="Bourbon" />
       </div>
 
-      <div class="modal-actions">
-        <button class="modal-secondary" type="button" id="cancelAddBottle">Cancel</button>
-        <button class="modal-primary" type="button" id="confirmAddBottle">Start Rating</button>
-      </div>
+    <div class="modal-actions image-picker-actions">
+  <button type="button" class="modal-secondary" id="cancelImagePicker">Cancel</button>
+  <button type="button" class="modal-primary" id="saveImagePicker">Save</button>
+</div>
     </div>
   </div>
 <div id="shareCardCapture" style="position:fixed; left:-9999px; top:0; width:1080px; pointer-events:none; z-index:-1;">
@@ -2519,25 +2541,22 @@ body.dark-ui .iq-tag:focus-visible {
   <div class="modal">
     <div class="modal-title">Bottle Image</div>
 
-  <div style="display:flex; gap:10px; flex-wrap:wrap;">
-  <button type="button" class="modal-secondary" id="uploadImageBtn">Upload</button>
-  <button type="button" class="modal-secondary" id="cameraImageBtn">Camera</button>
-  <button type="button" class="modal-secondary" id="scanBottleBtn">Scan Bottle</button>
-  <button type="button" class="modal-secondary" id="autoSearchBtn">Auto Image</button>
-</div>
-    <input type="file" id="imageFileInput" accept="image/*" style="display:none" />
-    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" />
+    <div class="image-picker-buttons">
+      <button type="button" class="modal-secondary" id="uploadImageBtn">Upload</button>
+      <button type="button" class="modal-secondary" id="scanBottleBtn">Scan Bottle</button>
+      <button type="button" class="modal-secondary" id="autoSearchBtn">Auto Image</button>
+    </div>
 
-   <img id="imagePreview" style="width:100%; max-height:320px; object-fit:contain; margin-top:12px; border-radius:16px; display:none;" />
+    <input type="file" id="imageFileInput" accept="image/*" capture="environment" style="display:none" />
 
-    <div class="modal-actions">
-      <div class="modal-actions">
+    <img id="imagePreview" style="width:100%; max-height:320px; object-fit:contain; margin-top:12px; border-radius:16px; display:none;" />
+
+    <div class="modal-actions image-picker-actions">
   <button type="button" class="modal-secondary" id="cancelImagePicker">Cancel</button>
   <button type="button" class="modal-primary" id="saveImagePicker">Save</button>
 </div>
   </div>
 </div>
-    
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const STORAGE_KEY = "dags_whiskeyiq_bottles_v24";
@@ -2869,7 +2888,7 @@ function buildInsightText(bottle) {
         const score = totalScore(bottle.scores);
         return `
           <div class="bottle-card">
-     <div class="bottle-thumb" data-bottle-image="${bottle.id}">${renderBottleImage(bottle)}</div>
+     <div class="bottle-thumb" data-bottle-open="${bottle.id}" data-bottle-image="${bottle.id}">${renderBottleImage(bottle)}</div>
             <div class="bottle-main" data-bottle-open="${bottle.id}">
               <div class="bottle-meta-top">${escapeHtml(bottle.type || "Bourbon")} · ${escapeHtml(bottle.proof || "No")} Proof</div>
               <div class="bottle-name">${escapeHtml(bottle.name)}</div>
@@ -3888,40 +3907,42 @@ function handleImage(file){
 
 // BUTTONS
 const imageFileInput = document.getElementById("imageFileInput");
-const cameraInput = document.getElementById("cameraInput");
 
-document.getElementById("uploadImageBtn").onclick = () => imageFileInput.click();
-document.getElementById("cameraImageBtn").onclick = () => cameraInput.click();
-document.getElementById("scanBottleBtn").onclick = () => cameraInput.click();
+document.getElementById("uploadImageBtn").onclick = () => {
+  imageFileInput.removeAttribute("capture");
+  imageFileInput.click();
+};
+
+document.getElementById("scanBottleBtn").onclick = () => {
+  imageFileInput.setAttribute("capture", "environment");
+  imageFileInput.click();
+};
 
 imageFileInput.onchange = e => {
   const file = e.target.files[0];
   if (!file) return;
-  handleImage(file);
-};
 
-cameraInput.onchange = e => {
-  const file = e.target.files[0];
-  if (!file) return;
   handleImage(file);
   scanBottle(file);
+
+  e.target.value = "";
 };
 
-// AUTO IMAGE
-document.getElementById("autoSearchBtn").onclick = async ()=>{
+document.getElementById("autoSearchBtn").onclick = async () => {
   const bottle = getBottleById(imagePickerModal.dataset.id);
+  if (!bottle) return;
+
   const result = await searchBottleImage(bottle.name);
 
-  if(result){
+  if (result) {
     tempImageData = result;
     imagePreview.src = result;
-    imagePreview.style.display="block";
+    imagePreview.style.display = "block";
   } else {
-    alert("No image found yet (hook ready)");
+    alert("No image found yet.");
   }
 };
 
-// SAVE IMAGE
 document.getElementById("saveImagePicker").onclick = () => {
   const bottleId = imagePickerModal.dataset.id;
   const bottle = getBottleById(bottleId);
@@ -3938,7 +3959,10 @@ document.getElementById("saveImagePicker").onclick = () => {
 
   bottle.image = tempImageData;
   saveBottles();
+
   imagePickerModal.classList.remove("active");
+  imagePickerModal.dataset.id = "";
+  tempImageData = "";
 
   if (currentBottleId === bottle.id) {
     renderBottleScreen(false);
