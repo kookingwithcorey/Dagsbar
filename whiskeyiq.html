@@ -2179,115 +2179,223 @@ body.dark-ui .iq-tag:focus-visible {
     </div>
   </div>
   <div id="shareCardCapture" style="position:fixed; left:-9999px; top:0; width:1080px; pointer-events:none; z-index:-1;">
-<div id="shareCardInner" style="
-  width:1080px;
-  background: radial-gradient(circle at top, #202735 0%, #050608 55%);
-  padding:48px;
-  color:#f7f7f7;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-">
-  <div style="
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:28px;
-    padding:32px;
-    background: rgba(10,12,18,0.92);
-    box-shadow: 0 18px 80px rgba(0,0,0,0.45);
+  <div id="shareCardInner" style="
+    width:1080px;
+    min-height:1920px;
+    background:
+      radial-gradient(circle at top, rgba(46,72,112,0.45) 0%, rgba(5,6,8,0) 28%),
+      linear-gradient(180deg, #09111c 0%, #050608 38%, #020304 100%);
+    padding:72px 58px;
+    color:#f7f7f7;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display:flex;
+    align-items:stretch;
   ">
-    <div style="font-size:18px; letter-spacing:.22em; text-transform:uppercase; color:#a3acb9; margin-bottom:10px;">
-      DAGS · Whiskey IQ
-    </div>
-
-    <div id="shareCardBottleName" style="
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size:56px;
-      line-height:1.05;
-      font-weight:700;
-      margin-bottom:8px;
-    ">Bottle Name</div>
-
-    <div id="shareCardMeta" style="
-      font-size:24px;
-      color:#c18d5c;
-      margin-bottom:24px;
-    ">Bourbon · 100 Proof</div>
-
     <div style="
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:20px;
-      align-items:stretch;
+      width:100%;
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:40px;
+      padding:42px;
+      background:
+        linear-gradient(180deg, rgba(7,10,16,0.94) 0%, rgba(4,6,10,0.96) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 30px 120px rgba(0,0,0,0.6);
+      display:flex;
+      flex-direction:column;
     ">
       <div style="
-        background: linear-gradient(135deg, #0f8b6b, #0b6f58);
-        border-radius:24px;
-        padding:22px;
+        font-size:18px;
+        letter-spacing:.32em;
+        text-transform:uppercase;
+        color:#9ea8ba;
+        margin-bottom:20px;
+      ">
+        DAGS · WHISKEY IQ
+      </div>
+
+      <div id="shareCardBottleName" style="
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size:82px;
+        line-height:1;
+        font-weight:700;
+        margin-bottom:14px;
+        color:#f5f3ef;
+        word-break:break-word;
+      ">Bottle Name</div>
+
+      <div id="shareCardMeta" style="
+        font-size:34px;
+        color:#cfa06c;
+        margin-bottom:34px;
+      ">Bourbon · 100 Proof</div>
+
+      <div style="
+        background:
+          radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 30%),
+          linear-gradient(135deg, #169a78 0%, #0f8b6b 50%, #0b6f58 100%);
+        border-radius:34px;
+        padding:36px 34px;
         display:flex;
         justify-content:space-between;
         align-items:center;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        gap:24px;
+        box-shadow:
+          0 0 40px rgba(15,139,107,0.28),
+          0 26px 70px rgba(0,0,0,0.55);
+        margin-bottom:24px;
       ">
         <div>
-          <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:rgba(255,255,255,.72); margin-bottom:10px;">
+          <div style="
+            font-size:20px;
+            text-transform:uppercase;
+            letter-spacing:.18em;
+            color:rgba(255,255,255,0.76);
+            margin-bottom:14px;
+          ">
             Total Score
           </div>
-          <div id="shareCardScore" style="font-size:88px; font-weight:800; line-height:1;">
-            0<span style="font-size:.34em; color:rgba(255,255,255,.72);">/100</span>
+
+          <div id="shareCardScore" style="
+            font-size:120px;
+            font-weight:800;
+            line-height:.95;
+            color:#f7f7f7;
+          ">
+            0<span style="font-size:.34em; color:rgba(255,255,255,.74);">/100</span>
           </div>
         </div>
-        <div id="shareCardEmoji" style="font-size:88px; line-height:1;">🥃</div>
+
+        <div id="shareCardEmoji" style="
+          font-size:118px;
+          line-height:1;
+          flex-shrink:0;
+          filter: drop-shadow(0 10px 18px rgba(0,0,0,0.28));
+        ">🥃</div>
       </div>
 
       <div style="
-        background: rgba(255,255,255,0.10);
-        border:1px solid rgba(255,255,255,0.12);
-        border-radius:24px;
-        padding:24px;
+        background:rgba(255,255,255,0.08);
+        border:1px solid rgba(255,255,255,0.1);
+        border-radius:28px;
+        padding:28px 28px 30px;
+        margin-bottom:22px;
       ">
-        <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:#a3acb9; margin-bottom:14px;">
+        <div style="
+          font-size:18px;
+          text-transform:uppercase;
+          letter-spacing:.18em;
+          color:#aeb7c6;
+          margin-bottom:16px;
+        ">
           Whiskey IQ Insight
         </div>
-        <div id="shareCardInsight" style="font-size:24px; line-height:1.45; color:#f7f7f7;">
+
+       <div id="shareCardInsight" style="
+  font-size:34px;
+  line-height:1.38;
+  color:#f7f7f7;
+  font-weight:500;
+">
           Insight goes here
         </div>
       </div>
-    </div>
 
-    <div id="shareCardTags" style="
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:22px;
-    "></div>
+      <div id="shareCardTags" style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:14px;
+        margin-bottom:26px;
+      "></div>
 
-    <div style="
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap:14px;
-      margin-top:22px;
-    ">
-      <div id="shareCardAroma" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-      <div id="shareCardFlavor" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-      <div id="shareCardFinish" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-      <div id="shareCardDrinkAgain" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-      <div id="shareCardRecommend" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-      <div id="shareCardValue" style="background:rgba(255,255,255,.08); border-radius:18px; padding:20px;"></div>
-    </div>
+      <div style="
+        display:grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap:18px;
+        margin-bottom:26px;
+      ">
+        <div id="shareCardAroma" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
 
-    <div style="
-      margin-top:24px;
-      background: rgba(255,255,255,0.08);
-      border-radius:18px;
-      padding:18px 20px;
-    ">
-      <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:#a3acb9; margin-bottom:10px;">
-        Tasting Notes
+        <div id="shareCardFlavor" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
+
+        <div id="shareCardFinish" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
+
+        <div id="shareCardDrinkAgain" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
+
+        <div id="shareCardRecommend" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
+
+        <div id="shareCardValue" style="
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,0.08);
+          border-radius:24px;
+          padding:24px;
+        "></div>
       </div>
-      <div id="shareCardNotes" style="font-size:22px; line-height:1.5; color:#f7f7f7; white-space:pre-wrap;">
-        No tasting notes added.
+
+      <div style="
+        margin-top:auto;
+        background:rgba(255,255,255,0.08);
+        border:1px solid rgba(255,255,255,0.08);
+        border-radius:28px;
+        padding:24px 26px 28px;
+      ">
+        <div style="
+          font-size:18px;
+          text-transform:uppercase;
+          letter-spacing:.18em;
+          color:#aeb7c6;
+          margin-bottom:14px;
+        ">
+          Tasting Notes
+        </div>
+
+        <div id="shareCardNotes" style="
+          font-size:30px;
+          line-height:1.44;
+          color:#f7f7f7;
+          white-space:pre-wrap;
+        ">
+          No tasting notes added.
+        </div>
+      </div>
+
+      <div style="
+        text-align:center;
+        margin-top:28px;
+        font-size:18px;
+        letter-spacing:.34em;
+        text-transform:uppercase;
+        color:#8d97aa;
+      ">
+        DAGS · BOURBON & WHISKEY LOUNGE
       </div>
     </div>
   </div>
-</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
@@ -3145,11 +3253,11 @@ function renderShareMetric(label, value, max, emoji) {
 
   return `
     <div style="
-      font-size:13px;
+      font-size:18px;
       text-transform:uppercase;
-      letter-spacing:.14em;
-      color:#a3acb9;
-      margin-bottom:10px;
+      letter-spacing:.18em;
+      color:#aeb7c6;
+      margin-bottom:14px;
     ">
       ${label}
     </div>
@@ -3158,11 +3266,11 @@ function renderShareMetric(label, value, max, emoji) {
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:12px;
-      margin-bottom:12px;
+      gap:16px;
+      margin-bottom:16px;
     ">
       <div style="
-        font-size:46px;
+        font-size:64px;
         font-weight:800;
         line-height:1;
         color:#f7f7f7;
@@ -3171,25 +3279,28 @@ function renderShareMetric(label, value, max, emoji) {
       </div>
 
       <div style="
-        font-size:28px;
+        font-size:42px;
         line-height:1;
-        min-width:28px;
+        min-width:42px;
         text-align:center;
+        filter: drop-shadow(0 8px 14px rgba(0,0,0,0.22));
       ">${emoji}</div>
     </div>
 
     <div style="
-      height:6px;
+      height:10px;
       background:rgba(255,255,255,0.12);
       border-radius:999px;
       overflow:hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.18);
     ">
       <span style="
         display:block;
         width:${percent}%;
         height:100%;
         border-radius:999px;
-        background:linear-gradient(90deg, #0f8b6b, #0b6f58);
+        background:linear-gradient(90deg, #18a17c, #0f8b6b 55%, #0b6f58 100%);
+        box-shadow: 0 0 16px rgba(15,139,107,0.28);
       "></span>
     </div>
   `;
@@ -3205,29 +3316,28 @@ function fillShareCard(bottle) {
   document.getElementById("shareCardInsight").textContent = buildInsightText(bottle);
   document.getElementById("shareCardNotes").textContent = bottle.notes || "No tasting notes added.";
 
-  const tagsWrap = document.getElementById("shareCardTags");
-  tagsWrap.innerHTML = (bottle.tags && bottle.tags.length)
+ const tagsWrap = document.getElementById("shareCardTags");
+tagsWrap.innerHTML = (bottle.tags && bottle.tags.length)
   ? bottle.tags.map(tag => `
       <span style="
-        padding:9px 15px;
+        padding:12px 18px;
         border-radius:999px;
-        background:#ffffff;
+        background:rgba(255,255,255,0.96);
         color:#0f8b6b;
-        border:1px solid #0f8b6b;
-        font-size:17px;
-        font-weight:700;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.16);
+        border:1px solid rgba(15,139,107,0.38);
+        font-size:24px;
+        font-weight:800;
+        box-shadow:0 8px 18px rgba(0,0,0,0.18);
       ">${escapeHtml(tag)}</span>
     `).join("")
   : `<span style="
-        padding:9px 15px;
+        padding:12px 18px;
         border-radius:999px;
-        background:#ffffff;
-        color:#0f8b6b;
-        border:1px solid #0f8b6b;
-        font-size:17px;
+        background:rgba(255,255,255,0.14);
+        color:#dbe4ef;
+        border:1px solid rgba(255,255,255,0.12);
+        font-size:24px;
         font-weight:700;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.16);
       ">No tags selected</span>`;
 
   const getMetric = (key) => {
