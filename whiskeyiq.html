@@ -2178,7 +2178,7 @@ body.dark-ui .iq-tag:focus-visible {
       </div>
     </div>
   </div>
-  <div id="shareCardCapture" style="position:fixed; left:-9999px; top:0; width:1080px; pointer-events:none; z-index:-1;">
+<div id="shareCardCapture" style="position:fixed; left:-9999px; top:0; width:1080px; pointer-events:none; z-index:-1;">
   <div id="shareCardInner" style="
     width:1080px;
     min-height:1920px;
@@ -2233,57 +2233,67 @@ body.dark-ui .iq-tag:focus-visible {
 
       <div style="
         display:grid;
-        grid-template-columns: 1.12fr .88fr;
-        gap:16px;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap:24px;
         align-items:stretch;
-        margin-bottom:18px;
+        margin-bottom:22px;
       ">
         <div style="
-          min-height:248px;
           background:
-            radial-gradient(circle at 70% 18%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 22%),
-            linear-gradient(135deg, #0d5c49 0%, #0d7b61 42%, #0f8b6b 62%, #0a4338 100%);
-          border-radius:28px;
-          padding:28px 28px;
+            radial-gradient(circle at 50% 18%, rgba(140,255,220,0.18) 0%, rgba(140,255,220,0) 36%),
+            linear-gradient(180deg, #2ed3a3 0%, #13a57d 38%, #0c6a54 100%);
+          border:1px solid rgba(110,255,212,0.22);
+          border-radius:30px;
+          padding:38px 34px;
           display:flex;
           justify-content:space-between;
           align-items:center;
-          gap:18px;
+          gap:24px;
+          min-height:270px;
           box-shadow:
-            inset 0 0 0 1px rgba(125,255,225,0.16),
-            0 0 28px rgba(15,139,107,0.18);
+            inset 0 1px 0 rgba(255,255,255,0.12),
+            0 0 24px rgba(33,214,163,0.20),
+            0 0 70px rgba(15,139,107,0.16),
+            0 26px 70px rgba(0,0,0,0.46);
         ">
-          <div>
+          <div style="
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            height:100%;
+          ">
             <div style="
-              font-size:18px;
+              font-size:22px;
               text-transform:uppercase;
               letter-spacing:.18em;
-              color:rgba(255,255,255,0.76);
+              color:rgba(255,255,255,0.82);
               margin-bottom:18px;
             ">
               Total Score
             </div>
 
             <div id="shareCardScore" style="
-              font-size:112px;
-              font-weight:800;
-              line-height:.92;
+              font-size:138px;
+              font-weight:900;
+              line-height:.88;
               color:#f7f7f7;
+              text-shadow:0 3px 14px rgba(0,0,0,0.16);
             ">
-              0<span style="font-size:.34em; color:rgba(255,255,255,.72);">/100</span>
+              0<span style="font-size:.34em; color:rgba(255,255,255,.78);">/100</span>
             </div>
           </div>
 
           <div id="shareCardEmoji" style="
-            font-size:108px;
+            font-size:132px;
             line-height:1;
             flex-shrink:0;
-            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.28));
+            margin-left:18px;
+            filter: drop-shadow(0 12px 22px rgba(0,0,0,0.22));
           ">🥃</div>
         </div>
 
         <div style="
-          min-height:248px;
+          min-height:270px;
           background:linear-gradient(180deg, rgba(26,30,40,0.88) 0%, rgba(10,13,20,0.95) 100%);
           border:1px solid rgba(255,255,255,0.08);
           border-radius:28px;
@@ -2316,61 +2326,85 @@ body.dark-ui .iq-tag:focus-visible {
         display:flex;
         flex-wrap:wrap;
         gap:12px;
-        margin-bottom:20px;
+        margin-bottom:24px;
       "></div>
 
       <div style="
         display:grid;
         grid-template-columns: repeat(2, minmax(0,1fr));
-        gap:18px;
-        margin-bottom:18px;
+        gap:24px;
+        margin-bottom:28px;
       ">
         <div id="shareCardAroma" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
 
         <div id="shareCardFlavor" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
 
         <div id="shareCardFinish" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
 
         <div id="shareCardDrinkAgain" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
 
         <div id="shareCardRecommend" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
 
         <div id="shareCardValue" style="
-          background:linear-gradient(180deg, rgba(25,29,38,0.9) 0%, rgba(14,18,24,0.96) 100%);
-          border:1px solid rgba(255,255,255,0.05);
-          border-radius:24px;
-          padding:22px 20px;
-          min-height:196px;
+          background:linear-gradient(180deg, rgba(28,31,40,0.96) 0%, rgba(20,23,31,0.96) 100%);
+          border:1px solid rgba(255,255,255,0.06);
+          border-radius:30px;
+          padding:34px;
+          min-height:238px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         "></div>
       </div>
 
@@ -3289,11 +3323,11 @@ function renderShareMetric(label, value, max, emoji) {
 
   return `
     <div style="
-      font-size:16px;
+      font-size:18px;
       text-transform:uppercase;
-      letter-spacing:.16em;
+      letter-spacing:.18em;
       color:#aeb7c6;
-      margin-bottom:14px;
+      margin-bottom:16px;
     ">
       ${label}
     </div>
@@ -3301,39 +3335,44 @@ function renderShareMetric(label, value, max, emoji) {
     <div style="
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      margin-bottom:18px;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:22px;
     ">
       <div style="
-        font-size:60px;
-        font-weight:800;
-        line-height:1;
+        font-size:70px;
+        font-weight:900;
+        line-height:.95;
         color:#f7f7f7;
       ">
-        ${value}<span style="font-size:.38em; color:#a3acb9;">/${max}</span>
+        ${value}<span style="font-size:.34em; color:#a3acb9;">/${max}</span>
       </div>
 
       <div style="
-        font-size:40px;
+        font-size:42px;
         line-height:1;
-        min-width:40px;
+        min-width:42px;
         text-align:center;
+        margin-top:6px;
+        filter: drop-shadow(0 8px 14px rgba(0,0,0,0.22));
       ">${emoji}</div>
     </div>
 
     <div style="
+      margin-top:auto;
       height:10px;
-      background:rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.10);
       border-radius:999px;
       overflow:hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.18);
     ">
       <span style="
         display:block;
         width:${percent}%;
         height:100%;
         border-radius:999px;
-        background:linear-gradient(90deg, #18c6a0 0%, #16b98f 55%, #12a67d 100%);
+        background:linear-gradient(90deg, #39f0c3 0%, #1fd3a6 45%, #0f8b6b 100%);
+        box-shadow: 0 0 20px rgba(57,240,195,0.28);
       "></span>
     </div>
   `;
