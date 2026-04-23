@@ -2178,7 +2178,7 @@ body.dark-ui .iq-tag:focus-visible {
       </div>
     </div>
   </div>
-
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const STORAGE_KEY = "dags_whiskeyiq_bottles_v24";
     const HISTORY_KEY = "dags_whiskey_log_entries_v1";
@@ -2492,61 +2492,50 @@ function buildInsightText(bottle) {
           </div>
         `;
       }).join("");
+document.querySelectorAll("[data-bottle-open]").forEach(el => {
+  el.addEventListener("click", () => openBottle(el.dataset.bottleOpen));
+});
 
-      document.querySelectorAll("[data-bottle-open]").forEach(el => {
-        el.addEventListener("click", () => openBottle(el.dataset.bottleOpen));
-      });
+document.querySelectorAll("[data-print-bottle]").forEach(el => {
+  el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openBottle(el.dataset.printBottle);
+    setTimeout(() => window.print(), 150);
+  });
+});
+    document.querySelectorAll("[data-share-bottle]").forEach(el => {
+  el.addEventListener("click", async (e) => {
+    e.stopPropagation();
 
-      document.querySelectorAll("[data-print-bottle]").forEach(el => {
-        el.addEventListener("click", (e) => {
-          e.stopPropagation();
-          openBottle(el.dataset.printBottle);
-          setTimeout(() => window.print(), 150);
-        });
-      });
+    const bottle = getBottleById(el.dataset.shareBottle);
+    if (!bottle) return;
 
-      document.querySelectorAll("[data-share-bottle]").forEach(el => {
-        el.addEventListener("click", async (e) => {
-          e.stopPropagation();
+    try {
+      await shareBottleAsImage(bottle);
+    } catch (err) {
+      console.log(err);
 
-          const bottle = getBottleById(el.dataset.shareBottle);
-          if (!bottle) return;
-
-          const total = totalScore(bottle.scores);
-          const shareText = `${bottle.name}
+      const total = totalScore(bottle.scores);
+      const shareText = `${bottle.name}
 Type: ${bottle.type || "N/A"}
 Proof: ${bottle.proof || "N/A"}
-Whiskey IQ: ${total}/100
+Whiskey IQ: ${total}/100`;
 
-Aroma: ${bottle.scores.aroma}/25
-Flavor: ${bottle.scores.flavor}/30
-Finish: ${bottle.scores.finish}/25
-Drink Again: ${bottle.scores.drinkAgain}/5
-Recommend: ${bottle.scores.recommend}/5
-Value: ${bottle.scores.value}/10
-
-Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
-Tasting Notes: ${bottle.notes || "None"}`;
-
-          try {
-            if (navigator.share) {
-              await navigator.share({
-  title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`,
-  text: shareText
-});
-            } else if (navigator.clipboard) {
-              await navigator.clipboard.writeText(shareText);
-              alert("Review copied to clipboard.");
-            } else {
-              alert(shareText);
-            }
-          } catch (err) {
-            console.log(err);
-          }
+      if (navigator.share) {
+        await navigator.share({
+          title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`,
+          text: shareText
         });
-      });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareText);
+        alert("Review copied to clipboard.");
+      } else {
+        alert(shareText);
+      }
     }
-
+  });
+});
+}
     function renderNotesBlock(bottle) {
       return `
         <div class="iq-notes-block">
@@ -2948,6 +2937,7 @@ function renderSidebar(bottle) {
   html += renderSummaryStage(bottle);
   stagesEl.innerHTML = html;
 
+
   attachBottleEvents(bottle);
 
   if (shouldResetScroll) {
@@ -3039,7 +3029,111 @@ function renderSidebar(bottle) {
       });
       saveHistory(history);
     }
+function renderShareMetric(label, value, max, emoji) {
+  return `
+    <div style="font-size:14px; text-transform:uppercase; letter-spacing:.14em; color:#a3acb9; margin-bottom:8px;">
+      ${label}
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="font-size:42px; font-weight:800; line-height:1; color:#f7f7f7;">
+        ${value}<span style="font-size:.38em; color:#a3acb9;">/${max}</span>
+      </div>
+      <div style="font-size:32px; line-height:1;">${emoji}</div>
+    </div>
+  `;
+}
 
+function fillShareCard(bottle) {
+  const total = totalScore(bottle.scores);
+
+  document.getElementById("shareCardBottleName").textContent = bottle.name || "Bottle Name";
+  document.getElementById("shareCardMeta").textContent = `${bottle.type || "Bourbon"} · ${bottle.proof || "N/A"} Proof`;
+  document.getElementById("shareCardScore").innerHTML = `${total}<span style="font-size:.34em; color:rgba(255,255,255,.72);">/100</span>`;
+  document.getElementById("shareCardEmoji").textContent = overallEmoji(total);
+  document.getElementById("shareCardInsight").textContent = buildInsightText(bottle);
+  document.getElementById("shareCardNotes").textContent = bottle.notes || "No tasting notes added.";
+
+  const tagsWrap = document.getElementById("shareCardTags");
+  tagsWrap.innerHTML = (bottle.tags && bottle.tags.length)
+    ? bottle.tags.map(tag => `
+        <span style="
+          padding:8px 14px;
+          border-radius:999px;
+          background:#ffffff;
+          color:#0f8b6b;
+          border:1px solid #0f8b6b;
+          font-size:18px;
+          font-weight:700;
+        ">${escapeHtml(tag)}</span>
+      `).join("")
+    : `<span style="
+          padding:8px 14px;
+          border-radius:999px;
+          background:#ffffff;
+          color:#0f8b6b;
+          border:1px solid #0f8b6b;
+          font-size:18px;
+          font-weight:700;
+        ">No tags selected</span>`;
+
+  const getMetric = (key) => {
+    const cat = categories.find(c => c.key === key);
+    const raw = bottle.scores[key];
+    const hasValue = raw !== null && raw !== undefined;
+    const score = hasValue ? Number(raw) : 0;
+    return { cat, score, emoji: hasValue ? scoreEmoji(cat, score) : "•" };
+  };
+
+  const aroma = getMetric("aroma");
+  const flavor = getMetric("flavor");
+  const finish = getMetric("finish");
+  const drinkAgain = getMetric("drinkAgain");
+  const recommend = getMetric("recommend");
+  const value = getMetric("value");
+
+  document.getElementById("shareCardAroma").innerHTML = renderShareMetric("Aroma", aroma.score, aroma.cat.max, aroma.emoji);
+  document.getElementById("shareCardFlavor").innerHTML = renderShareMetric("Flavor", flavor.score, flavor.cat.max, flavor.emoji);
+  document.getElementById("shareCardFinish").innerHTML = renderShareMetric("Finish", finish.score, finish.cat.max, finish.emoji);
+  document.getElementById("shareCardDrinkAgain").innerHTML = renderShareMetric("Drink Again", drinkAgain.score, drinkAgain.cat.max, drinkAgain.emoji);
+  document.getElementById("shareCardRecommend").innerHTML = renderShareMetric("Recommend", recommend.score, recommend.cat.max, recommend.emoji);
+  document.getElementById("shareCardValue").innerHTML = renderShareMetric("Value", value.score, value.cat.max, value.emoji);
+}
+
+async function shareBottleAsImage(bottle) {
+  fillShareCard(bottle);
+
+  const card = document.getElementById("shareCardInner");
+  const canvas = await html2canvas(card, {
+    backgroundColor: null,
+    scale: 2,
+    useCORS: true
+  });
+
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+  if (!blob) throw new Error("Could not create share image.");
+
+  const file = new File([blob], `${(bottle.name || "whiskey-iq").replace(/[^\w\-]+/g, "_")}.png`, {
+    type: "image/png"
+  });
+
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    await navigator.share({
+      files: [file],
+      title: `🥃 ${bottle.name} — Whiskey IQ`,
+      text: `${bottle.name} scored ${totalScore(bottle.scores)}/100 on Whiskey IQ`
+    });
+    return;
+  }
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${(bottle.name || "whiskey-iq").replace(/[^\w\-]+/g, "_")}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
     function attachBottleEvents(bottle) {
       const activeStage = document.querySelector(".iq-stage.active");
       const notesInput = activeStage ? activeStage.querySelector("[data-notes-input]") : null;
@@ -3184,43 +3278,14 @@ if (saveBottleBtn) {
     showHome();
   });
 }
-    const shareBottleBtn = document.getElementById("shareBottleBtn");
+  const shareBottleBtn = document.getElementById("shareBottleBtn");
 if (shareBottleBtn) {
   shareBottleBtn.addEventListener("click", async () => {
-    const total = totalScore(bottle.scores);
-    const insight = buildInsightText(bottle);
-
-    const shareText = `${bottle.name}
-Type: ${bottle.type || "N/A"}
-Proof: ${bottle.proof || "N/A"}
-Whiskey IQ: ${total}/100
-
-Aroma: ${bottle.scores.aroma}/25
-Flavor: ${bottle.scores.flavor}/30
-Finish: ${bottle.scores.finish}/25
-Drink Again: ${bottle.scores.drinkAgain}/5
-Recommend: ${bottle.scores.recommend}/5
-Value: ${bottle.scores.value}/10
-
-Flavor Notes: ${bottle.tags.length ? bottle.tags.join(", ") : "None"}
-Tasting Notes: ${bottle.notes || "None"}
-
-Insight: ${insight}`;
-
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: `🥃 ${bottle.name} — Whiskey IQ ${total}/100`,
-          text: shareText
-        });
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareText);
-        alert("Review copied to clipboard.");
-      } else {
-        alert(shareText);
-      }
+      await shareBottleAsImage(bottle);
     } catch (err) {
       console.log(err);
+      alert("Could not create share image.");
     }
   });
 }
@@ -3329,8 +3394,119 @@ sortBtn.addEventListener("click", () => {
       applyTheme();
     });
 
-    applyTheme();
+       applyTheme();
     renderHome();
   </script>
+
+  <div id="shareCardCapture" style="position:fixed; left:-9999px; top:0; width:1080px; pointer-events:none; z-index:-1;">
+    <div id="shareCardInner" style="
+      width:1080px;
+      background: radial-gradient(circle at top, #202735 0%, #050608 55%);
+      padding:48px;
+      color:#f7f7f7;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    ">
+      <div style="
+        border:1px solid rgba(255,255,255,0.12);
+        border-radius:28px;
+        padding:32px;
+        background: rgba(10,12,18,0.92);
+        box-shadow: 0 18px 80px rgba(0,0,0,0.45);
+      ">
+        <div style="font-size:18px; letter-spacing:.22em; text-transform:uppercase; color:#a3acb9; margin-bottom:10px;">
+          DAGS · Whiskey IQ
+        </div>
+
+        <div id="shareCardBottleName" style="
+          font-family: Georgia, 'Times New Roman', serif;
+          font-size:56px;
+          line-height:1.05;
+          font-weight:700;
+          margin-bottom:8px;
+        ">Bottle Name</div>
+
+        <div id="shareCardMeta" style="
+          font-size:24px;
+          color:#c18d5c;
+          margin-bottom:24px;
+        ">Bourbon · 100 Proof</div>
+
+        <div style="
+          display:grid;
+          grid-template-columns: 1.1fr .9fr;
+          gap:20px;
+          align-items:stretch;
+        ">
+          <div style="
+            background:#0f8b6b;
+            border-radius:24px;
+            padding:28px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+          ">
+            <div>
+              <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:rgba(255,255,255,.72); margin-bottom:10px;">
+                Total Score
+              </div>
+              <div id="shareCardScore" style="font-size:88px; font-weight:800; line-height:1;">
+                0<span style="font-size:.34em; color:rgba(255,255,255,.72);">/100</span>
+              </div>
+            </div>
+            <div id="shareCardEmoji" style="font-size:88px; line-height:1;">🥃</div>
+          </div>
+
+          <div style="
+            background: rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.08);
+            border-radius:24px;
+            padding:24px;
+          ">
+            <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:#a3acb9; margin-bottom:14px;">
+              Whiskey IQ Insight
+            </div>
+            <div id="shareCardInsight" style="font-size:24px; line-height:1.45; color:#f7f7f7;">
+              Insight goes here
+            </div>
+          </div>
+        </div>
+
+        <div id="shareCardTags" style="
+          display:flex;
+          flex-wrap:wrap;
+          gap:10px;
+          margin-top:22px;
+        "></div>
+
+        <div style="
+          display:grid;
+          grid-template-columns: repeat(3, minmax(0,1fr));
+          gap:14px;
+          margin-top:22px;
+        ">
+          <div id="shareCardAroma" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+          <div id="shareCardFlavor" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+          <div id="shareCardFinish" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+          <div id="shareCardDrinkAgain" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+          <div id="shareCardRecommend" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+          <div id="shareCardValue" style="background:rgba(255,255,255,.08); border-radius:18px; padding:18px;"></div>
+        </div>
+
+        <div style="
+          margin-top:24px;
+          background: rgba(255,255,255,0.08);
+          border-radius:18px;
+          padding:18px 20px;
+        ">
+          <div style="font-size:16px; text-transform:uppercase; letter-spacing:.16em; color:#a3acb9; margin-bottom:10px;">
+            Tasting Notes
+          </div>
+          <div id="shareCardNotes" style="font-size:22px; line-height:1.5; color:#f7f7f7; white-space:pre-wrap;">
+            No tasting notes added.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
