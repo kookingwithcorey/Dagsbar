@@ -1468,14 +1468,19 @@ body.dark-ui .iq-tag:focus-visible {
       color: var(--text-dark);
     }
 
-    .modal-primary {
-      background: var(--black-btn);
-      color: var(--cream);
-      border: none;
-    }
+  .modal-primary {
+  background: #0f8b6b;
+  color: #ffffff;
+  border: 1px solid #0f8b6b;
+}
+
+.modal-primary:hover {
+  background: #0b6f58;
+  border-color: #0b6f58;
+}
 
     body.dark-ui .modal-primary {
-      color: #111;
+      color: #ffffff;
     }
 
     @media print {
@@ -2514,22 +2519,22 @@ body.dark-ui .iq-tag:focus-visible {
   <div class="modal">
     <div class="modal-title">Bottle Image</div>
 
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="modal-primary" id="uploadImageBtn">Upload</button>
-      <button class="modal-secondary" id="cameraImageBtn">Camera</button>
-      <button class="modal-secondary" id="scanBottleBtn">Scan Bottle</button>
-      <button class="modal-secondary" id="autoSearchBtn">Auto Image</button>
-    </div>
-
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+  <button type="button" class="modal-secondary" id="uploadImageBtn">Upload</button>
+  <button type="button" class="modal-secondary" id="cameraImageBtn">Camera</button>
+  <button type="button" class="modal-secondary" id="scanBottleBtn">Scan Bottle</button>
+  <button type="button" class="modal-secondary" id="autoSearchBtn">Auto Image</button>
+</div>
     <input type="file" id="imageFileInput" accept="image/*" style="display:none" />
     <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" />
 
    <img id="imagePreview" style="width:100%; max-height:320px; object-fit:contain; margin-top:12px; border-radius:16px; display:none;" />
 
     <div class="modal-actions">
-      <button class="modal-secondary" id="cancelImagePicker">Cancel</button>
-      <button class="modal-primary" id="saveImagePicker">Save</button>
-    </div>
+      <div class="modal-actions">
+  <button type="button" class="modal-secondary" id="cancelImagePicker">Cancel</button>
+  <button type="button" class="modal-primary" id="saveImagePicker">Save</button>
+</div>
   </div>
 </div>
     
@@ -3918,7 +3923,19 @@ document.getElementById("autoSearchBtn").onclick = async ()=>{
 
 // SAVE IMAGE
 document.getElementById("saveImagePicker").onclick = () => {
-  const bottle = getBottleById(imagePickerModal.dataset.id);
+  const bottleId = imagePickerModal.dataset.id;
+  const bottle = getBottleById(bottleId);
+
+  if (!bottle) {
+    alert("Bottle not found.");
+    return;
+  }
+
+  if (!tempImageData) {
+    alert("Please choose an image first.");
+    return;
+  }
+
   bottle.image = tempImageData;
   saveBottles();
   imagePickerModal.classList.remove("active");
