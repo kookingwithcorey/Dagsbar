@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DAGS | Whiskey IQ Upgrade</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-2: #10141a;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-2: rgba(255, 255, 255, 0.105);
+      --text: #f6f1eb;
+      --muted: #aeb6c2;
+      --soft: rgba(246, 241, 235, 0.72);
+      --line: rgba(255, 255, 255, 0.14);
+      --green: #0f8b6b;
+      --green-2: #18b98f;
+      --gold: #c18d5c;
+      --gold-2: #e3b87b;
+      --danger: #ef4444;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+      --radius: 24px;
+      --radius-sm: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(15, 139, 107, 0.32), transparent 34%),
+        radial-gradient(circle at top right, rgba(193, 141, 92, 0.22), transparent 28%),
+        linear-gradient(145deg, #050608 0%, #10141a 50%, #050608 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.22);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 185, 143, 0.6);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18), transparent 25%),
+        linear-gradient(145deg, rgba(15, 139, 107, 0.95), rgba(5, 6, 8, 0.9));
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-family: Georgia, serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 30px rgba(15, 139, 107, 0.24);
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--green-2);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-pill,
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.07);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      transition: 0.2s ease;
+    }
+
+    .nav-pill:hover,
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(24, 185, 143, 0.55);
+      background: rgba(15, 139, 107, 0.16);
+    }
+
+    .btn-primary {
+      border-color: rgba(24, 185, 143, 0.75);
+      background: linear-gradient(135deg, var(--green), #08614d);
+      color: #fff;
+      box-shadow: 0 16px 34px rgba(15, 139, 107, 0.24);
+    }
+
+    .btn-gold {
+      border-color: rgba(227, 184, 123, 0.72);
+      background: linear-gradient(135deg, rgba(193, 141, 92, 0.96), rgba(111, 67, 36, 0.9));
+      color: #fff;
+      box-shadow: 0 16px 34px rgba(193, 141, 92, 0.18);
+    }
+
+    .btn-danger {
+      border-color: rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.12);
+      color: #fecaca;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero-card,
+    .panel,
+    .score-card,
+    .result-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-card {
+      padding: clamp(24px, 4vw, 44px);
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -120px auto auto -120px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(15, 139, 107, 0.24);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .hero-kicker {
+      position: relative;
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(24, 185, 143, 0.45);
+      border-radius: 999px;
+      color: var(--green-2);
+      background: rgba(15, 139, 107, 0.12);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      position: relative;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--green-2);
+      text-shadow: 0 0 34px rgba(24, 185, 143, 0.18);
+    }
+
+    .hero-copy {
+      position: relative;
+      color: var(--soft);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 660px;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      position: relative;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mini-card {
+      min-height: 196px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at top, rgba(15, 139, 107, 0.18), transparent 50%),
+        rgba(255, 255, 255, 0.07);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 900;
+    }
+
+    .mini-value {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      line-height: 1;
+      margin-top: 12px;
+    }
+
+    .mini-note {
+      margin-top: 12px;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 32px 0 16px;
+    }
+
+    .section-kicker {
+      color: var(--green-2);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: Georgia, serif;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .dashboard-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .search-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1 1 260px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.18);
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: rgba(24, 185, 143, 0.7);
+      box-shadow: 0 0 0 4px rgba(15, 139, 107, 0.15);
+    }
+
+    .bottle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .empty-state {
+      border: 1px dashed rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      padding: 34px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      font-family: Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .bottle-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+      padding: 14px;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bottle-card:hover {
+      border-color: rgba(24, 185, 143, 0.42);
+      transform: translateY(-1px);
+      transition: 0.2s ease;
+    }
+
+    .bottle-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top, rgba(193, 141, 92, 0.18), transparent 45%),
+        rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 900;
+    }
+
+    .bottle-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+        .bottle-card.no-image .bottle-image {
+      display: none;
+    }
+
+    .bottle-main {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .bottle-name {
+      font-size: 18px;
+      font-weight: 950;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .bottle-meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .bottle-score {
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 185, 143, 0.48);
+      background: rgba(15, 139, 107, 0.15);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      flex: 0 0 auto;
+      color: var(--green-2);
+      font-weight: 1000;
+      font-size: 20px;
+    }
+
+    .bottle-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .small-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .small-btn:hover {
+      border-color: rgba(24, 185, 143, 0.5);
+      background: rgba(15, 139, 107, 0.14);
+    }
+
+    .small-btn.danger {
+      color: #fecaca;
+      border-color: rgba(239, 68, 68, 0.32);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.76);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      width: min(1000px, 100%);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at top left, rgba(15, 139, 107, 0.22), transparent 35%),
+        linear-gradient(145deg, rgba(16, 20, 26, 0.98), rgba(5, 6, 8, 0.98));
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.72);
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 6, 8, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .modal-title {
+      font-family: Georgia, serif;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .modal-sub {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .modal-body {
+      padding: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 900;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.24);
+      color: var(--text);
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: rgba(24, 185, 143, 0.66);
+      box-shadow: 0 0 0 4px rgba(15, 139, 107, 0.13);
+    }
+
+    .stage-wrap {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .stage-rail {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.045);
+      position: sticky;
+      top: 92px;
+    }
+
+    .rail-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px;
+      text-align: left;
+      font-weight: 900;
+      margin-bottom: 8px;
+      transition: 0.2s ease;
+    }
+
+    .rail-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .rail-item.active {
+      color: var(--text);
+      border-color: rgba(24, 185, 143, 0.45);
+      background: rgba(15, 139, 107, 0.15);
+    }
+
+    .rail-mini-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(24, 185, 143, 0.4);
+      color: var(--green-2);
+      flex: 0 0 auto;
+    }
+
+    .rail-mini-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stage-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+      padding: 24px;
+      min-height: 520px;
+      display: none;
+    }
+
+    .stage-card.active {
+      display: block;
+    }
+
+    .stage-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stage-kicker {
+      color: var(--green-2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 950;
+      margin-bottom: 6px;
+    }
+
+    .stage-title {
+      font-family: Georgia, serif;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .stage-question {
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 620px;
+    }
+
+    .iq-icon-circle {
+      width: 72px;
+      height: 72px;
+      border: 2px solid rgba(15, 139, 107, 0.9);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #18b98f;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18), transparent 30%),
+        rgba(239, 229, 220, 0.065);
+      flex: 0 0 auto;
+      box-shadow: 0 0 34px rgba(15, 139, 107, 0.18);
+    }
+
+    .iq-icon-circle svg {
+      width: 42px;
+      height: 42px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .iq-icon-circle.gold {
+      color: var(--gold-2);
+      border-color: rgba(227, 184, 123, 0.95);
+      box-shadow: 0 0 34px rgba(193, 141, 92, 0.18);
+    }
+
+    .score-control {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 20px;
+      align-items: center;
+      margin: 26px 0 16px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .range-wrap {
+      position: relative;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green-2);
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .score-bubble {
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 185, 143, 0.5);
+      background: rgba(15, 139, 107, 0.14);
+      display: grid;
+      place-items: center;
+      color: var(--green-2);
+      font-size: 42px;
+      font-weight: 1000;
+      box-shadow: inset 0 0 28px rgba(15, 139, 107, 0.12);
+    }
+
+    .score-note {
+      margin-top: 14px;
+    }
+
+    .score-note textarea {
+      min-height: 116px;
+    }
+
+    .stage-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .result-grid.no-photo {
+      grid-template-columns: 1fr;
+    }
+
+    .final-photo-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.055);
+      overflow: hidden;
+    }
+
+    .final-photo-card.hidden {
+      display: none;
+    }
+
+    .final-photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 22px;
+      object-fit: cover;
+      display: block;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .final-summary {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.055);
+      padding: 22px;
+    }
+
+    .final-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .final-name {
+      font-family: Georgia, serif;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+    }
+
+    .final-meta {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .final-score {
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 185, 143, 0.6);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.16), transparent 28%),
+        rgba(15, 139, 107, 0.16);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--green-2);
+      font-size: 42px;
+      font-weight: 1000;
+      flex: 0 0 auto;
+    }
+
+    .score-breakdown {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .break-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.16);
+      padding: 12px;
+      min-height: 112px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .break-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .break-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(24, 185, 143, 0.42);
+      display: grid;
+      place-items: center;
+      color: var(--green-2);
+    }
+
+    .break-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .break-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 950;
+    }
+
+    .break-score {
+      font-size: 26px;
+      color: var(--text);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .notes-box {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.14);
+      padding: 14px;
+      color: var(--soft);
+      line-height: 1.55;
+      white-space: pre-wrap;
+      margin-top: 12px;
+    }
+
+    .notes-box:empty {
+      display: none;
+    }
+        @media print {
+      body {
+        background: #fff;
+        color: #111;
+      }
+
+      .top-nav,
+      .hero,
+      .section-head,
+      .dashboard-top,
+      .bottle-actions,
+      .modal-header,
+      .stage-actions,
+      .no-print {
+        display: none !important;
+      }
+
+      .page-shell {
+        width: 100%;
+        padding: 0;
+      }
+
+      .panel,
+      .result-card,
+      .final-summary,
+      .final-photo-card {
+        box-shadow: none;
+        border-color: #ddd;
+        background: #fff;
+        color: #111;
+      }
+
+      .modal-backdrop.active {
+        position: static;
+        display: block;
+        background: #fff;
+        padding: 0;
+      }
+
+      .modal {
+        max-height: none;
+        border: none;
+        box-shadow: none;
+        background: #fff;
+      }
+
+      .modal-body {
+        padding: 0;
+      }
+
+      .result-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .result-grid.no-photo {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .bottle-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stage-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-rail {
+        position: relative;
+        top: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .rail-item {
+        margin-bottom: 0;
+      }
+
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .final-photo {
+        aspect-ratio: 16 / 10;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell {
+        width: min(100% - 18px, 1180px);
+        padding-top: 10px;
+      }
+
+      .top-nav {
+        position: relative;
+        top: auto;
+        border-radius: 22px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand-title {
+        font-size: 17px;
+      }
+
+      .brand-sub {
+        font-size: 10px;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .nav-pill,
+      .btn {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      .hero-card {
+        min-height: auto;
+        padding: 24px;
+      }
+
+      .mini-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mini-card {
+        min-height: 140px;
+        padding: 16px;
+      }
+
+      .mini-value {
+        font-size: 34px;
+      }
+
+      .dashboard-top {
+        grid-template-columns: 1fr;
+      }
+
+      .bottle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-rail {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stage-card {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .stage-top {
+        align-items: flex-start;
+      }
+
+      .iq-icon-circle {
+        width: 58px;
+        height: 58px;
+      }
+
+      .iq-icon-circle svg {
+        width: 34px;
+        height: 34px;
+      }
+
+      .score-control {
+        grid-template-columns: 1fr;
+      }
+
+      .score-bubble {
+        width: 92px;
+        height: 92px;
+        font-size: 34px;
+        margin: 0 auto;
+      }
+
+      .final-topline {
+        align-items: center;
+      }
+
+      .final-score {
+        width: 92px;
+        height: 92px;
+        font-size: 32px;
+      }
+
+      .score-breakdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 430px) {
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .score-breakdown {
+        grid-template-columns: 1fr;
+      }
+
+      .final-topline {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .final-score {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="top-nav">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">D</div>
+        <div class="brand-copy">
+          <div class="brand-title">Whiskey IQ</div>
+          <div class="brand-sub">Drink Smarter</div>
+        </div>
+      </a>
+
+      <nav class="nav-actions">
+        <a class="nav-pill" href="index.html">Home</a>
+        <a class="nav-pill" href="menu.html">Whiskey Menu</a>
+        <a class="nav-pill" href="tasting.html">Tasting Sheet</a>
+        <a class="nav-pill" href="blind-tasting.html">Blind Tasting</a>
+        <a class="nav-pill" href="history.html">Log Book</a>
+        <a class="nav-pill" href="https://dramhub.lovable.app" target="_blank" rel="noopener">Dramscan</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-kicker">DAGS Bottle Rating System</div>
+        <h1>Rate every pour with <span>Whiskey IQ.</span></h1>
+        <p class="hero-copy">
+          Score aroma, flavors, finish, recommend, value, and whether you would drink it again.
+          Save each bottle to your local dashboard and create a clean final scorecard.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
+          <a class="btn" href="#dashboard">View Dashboard</a>
+        </div>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini-card">
+          <div>
+            <div class="mini-label">Saved Bottles</div>
+            <div class="mini-value" id="statTotal">0</div>
+          </div>
+          <div class="mini-note">Your Whiskey IQ history is saved in this browser.</div>
+        </div>
+
+        <div class="mini-card">
+          <div>
+            <div class="mini-label">Best Score</div>
+            <div class="mini-value" id="statBest">—</div>
+          </div>
+          <div class="mini-note">Your highest-rated bottle appears here.</div>
+        </div>
+
+        <div class="mini-card">
+          <div>
+            <div class="mini-label">Average</div>
+            <div class="mini-value" id="statAverage">—</div>
+          </div>
+          <div class="mini-note">Average rating across saved bottles.</div>
+        </div>
+
+        <div class="mini-card">
+          <div>
+            <div class="mini-label">Top Bottle</div>
+            <div class="mini-note" id="statTopBottle">Add your first bottle to begin.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Dashboard</div>
+          <h2 class="section-title">Your Whiskey IQ Log</h2>
+        </div>
+        <p class="section-copy">
+          Add bottles, view final scorecards, delete old entries, or search your saved pours.
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="dashboard-top">
+          <div class="search-wrap">
+            <input id="searchInput" class="search-input" type="search" placeholder="Search bottles, distillery, notes..." oninput="renderDashboard()" />
+          </div>
+          <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
+        </div>
+
+        <div id="bottleGrid" class="bottle-grid"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitle">Add Bottle</div>
+          <div class="modal-sub" id="modalSub">Enter bottle info, score each section, then save.</div>
+        </div>
+        <button class="btn" onclick="closeModal()">Close</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="formView">
+          <div class="form-grid">
+            <div class="field">
+              <label>Bottle Name</label>
+              <input id="bottleName" type="text" placeholder="Example: Eagle Rare 10 Year" />
+            </div>
+
+            <div class="field">
+              <label>Distillery / Brand</label>
+              <input id="bottleBrand" type="text" placeholder="Example: Buffalo Trace" />
+            </div>
+
+            <div class="field">
+              <label>Proof</label>
+              <input id="bottleProof" type="text" placeholder="Example: 90 proof" />
+            </div>
+
+            <div class="field">
+              <label>Price</label>
+              <input id="bottlePrice" type="text" placeholder="Example: $45" />
+            </div>
+
+            <div class="field full">
+              <label>Optional Bottle Image</label>
+              <input id="bottleImage" type="file" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="stage-wrap">
+            <aside class="stage-rail" id="stageRail"></aside>
+            <main id="stageCards"></main>
+          </div>
+        </div>
+
+        <div id="resultView" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "dags_whiskey_iq_upgrade_v1";
+
+    const categories = [
+      {
+        key: "aroma",
+        label: "Aroma",
+        iconType: "aroma",
+        question: "How strong, clean, and enjoyable is the nose?",
+        low: "Muted",
+        high: "Excellent"
+      },
+      {
+        key: "flavors",
+        label: "Flavors",
+        iconType: "flavors",
+        question: "How layered and enjoyable is the palate?",
+        low: "Flat",
+        high: "Complex"
+      },
+      {
+        key: "finish",
+        label: "Finish",
+        iconType: "finish",
+        question: "How long and balanced is the finish?",
+        low: "Short",
+        high: "Long"
+      },
+      {
+        key: "recommend",
+        label: "Recommend",
+        iconType: "recommend",
+        question: "How strongly would you recommend this bottle to someone else?",
+        low: "No",
+        high: "Absolutely"
+      },
+      {
+        key: "value",
+        label: "Value",
+        iconType: "value",
+        question: "How good is the bottle for the price?",
+        low: "Poor",
+        high: "Great"
+      },
+      {
+        key: "drinkAgain",
+        label: "Drink Again",
+        iconType: "drinkAgain",
+        question: "How likely are you to drink this bottle again?",
+        low: "No",
+        high: "Yes"
+      }
+    ];
+
+    let bottles = [];
+    let currentBottle = null;
+    let activeStage = 0;
+    let editingId = null;
+
+    function getWhiskeyIqIcon(type, mini = false) {
+      const wrapClass = mini ? "rail-mini-icon" : "iq-icon-circle";
+
+      const paths = {
+        aroma: `
+          <path d="M26 10 C24 19 20 27 17 36 C14 45 19 54 30 54 C38 54 43 50 44 43" />
+          <path d="M34 10 C36 20 40 28 43 37 C45 44 42 50 36 53" />
+          <path d="M24 42 C27 46 33 46 36 42" />
+        `,
+        flavors: `
+          <path d="M20 17 C20 30 20 42 32 42 C44 42 44 30 44 17" />
+          <path d="M26 17 L26 36" />
+          <path d="M32 17 L32 39" />
+          <path d="M38 17 L38 36" />
+          <path d="M22 42 C25 51 39 51 42 42" />
+        `,
+        finish: `
+          <path d="M24 12 H40 L37 38 H27 Z" />
+          <path d="M27 38 C27 45 37 45 37 38" />
+          <path d="M32 45 V53" />
+          <path d="M24 53 H40" />
+          <path d="M25 28 H39" />
+        `,
+        recommend: `
+          <path d="M22 34 L30 42 C32 44 35 44 37 42 L51 28" />
+          <path d="M13 35 L22 26 L32 36" />
+          <path d="M32 36 L42 26 L51 35" />
+          <path d="M18 40 L24 46" />
+          <path d="M26 45 L31 50" />
+          <path d="M36 45 L41 40" />
+        `,
+        value: `
+          <path d="M32 10 V54" />
+          <path d="M44 20 C40 16 34 15 29 17 C24 19 22 24 25 28 C27 31 31 32 36 33 C42 35 45 38 43 43 C41 49 31 50 22 45" />
+        `,
+        drinkAgain: `
+          <path d="M48 26 C46 18 39 13 31 14 C21 15 14 23 14 33 C14 44 23 52 34 50 C41 49 46 45 49 39" />
+          <path d="M48 14 V26 H36" />
+        `
+      };
+
+      const gold = type === "finish" ? " gold" : "";
+
+      return `
+        <div class="${wrapClass}${gold}">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            ${paths[type] || paths.aroma}
+          </svg>
+        </div>
+      `;
+    }
+
+    function loadBottles() {
+      try {
+        bottles = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch {
+        bottles = [];
+      }
+    }
+
+    function saveBottles() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bottles));
+    }
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+
+    function blankScores() {
+      const scores = {};
+      const notes = {};
+      categories.forEach(cat => {
+        scores[cat.key] = 5;
+        notes[cat.key] = "";
+      });
+      return { scores, notes };
+    }
+
+    function averageScore(scores) {
+      const vals = categories.map(cat => Number(scores?.[cat.key] || 0));
+      const avg = vals.reduce((sum, val) => sum + val, 0) / vals.length;
+      return Math.round(avg * 10) / 10;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function openBottleModal(id = null) {
+      editingId = id;
+      activeStage = 0;
+
+      if (id) {
+        const found = bottles.find(b => b.id === id);
+        currentBottle = JSON.parse(JSON.stringify(found));
+      } else {
+        const starter = blankScores();
+        currentBottle = {
+          id: uid(),
+          name: "",
+          brand: "",
+          proof: "",
+          price: "",
+          image: "",
+          scores: starter.scores,
+          notes: starter.notes,
+          createdAt: new Date().toISOString()
+        };
+      }
+
+      document.getElementById("modalTitle").textContent = id ? "Edit Bottle" : "Add Bottle";
+      document.getElementById("modalSub").textContent = "Score each section, then save your final Whiskey IQ card.";
+      document.getElementById("formView").style.display = "block";
+      document.getElementById("resultView").style.display = "none";
+
+      document.getElementById("bottleName").value = currentBottle.name || "";
+      document.getElementById("bottleBrand").value = currentBottle.brand || "";
+      document.getElementById("bottleProof").value = currentBottle.proof || "";
+      document.getElementById("bottlePrice").value = currentBottle.price || "";
+      document.getElementById("bottleImage").value = "";
+
+      renderStages();
+
+      document.getElementById("modalBackdrop").classList.add("active");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").classList.remove("active");
+      document.body.classList.remove("modal-open");
+      currentBottle = null;
+      editingId = null;
+    }
+
+    function syncFormFields() {
+      if (!currentBottle) return;
+      currentBottle.name = document.getElementById("bottleName").value.trim();
+      currentBottle.brand = document.getElementById("bottleBrand").value.trim();
+      currentBottle.proof = document.getElementById("bottleProof").value.trim();
+      currentBottle.price = document.getElementById("bottlePrice").value.trim();
+    }
+
+    function renderStages() {
+      const rail = document.getElementById("stageRail");
+      const cards = document.getElementById("stageCards");
+
+      rail.innerHTML = categories.map((cat, index) => `
+        <button class="rail-item ${index === activeStage ? "active" : ""}" onclick="setStage(${index})">
+          ${getWhiskeyIqIcon(cat.iconType, true)}
+          <span>${cat.label}</span>
+        </button>
+      `).join("");
+
+      cards.innerHTML = categories.map((cat, index) => {
+        const value = Number(currentBottle.scores[cat.key] || 0);
+        const note = currentBottle.notes[cat.key] || "";
+
+        return `
+          <section class="stage-card ${index === activeStage ? "active" : ""}">
+            <div class="stage-top">
+              <div>
+                <div class="stage-kicker">Step ${index + 1} of ${categories.length}</div>
+                <div class="stage-title">${cat.label}</div>
+                <p class="stage-question">${cat.question}</p>
+              </div>
+              ${getWhiskeyIqIcon(cat.iconType)}
+            </div>
+
+            <div class="score-control">
+              <div class="range-wrap">
+                <input
+                  type="range"
+                  min="0"
+                  max="10"
+                  step="0.5"
+                  value="${value}"
+                  oninput="updateScore('${cat.key}', this.value)"
+                />
+                <div class="range-labels">
+                  <span>${cat.low}</span>
+                  <span>5</span>
+                  <span>${cat.high}</span>
+                </div>
+              </div>
+
+              <div class="score-bubble" id="bubble-${cat.key}">${value}</div>
+            </div>
+
+            <div class="field score-note">
+              <label>${cat.label} Notes</label>
+              <textarea
+                placeholder="Add notes for ${cat.label.toLowerCase()}..."
+                oninput="updateNote('${cat.key}', this.value)"
+              >${escapeHtml(note)}</textarea>
+            </div>
+
+            <div class="stage-actions">
+              <button class="btn" onclick="prevStage()" ${index === 0 ? "disabled" : ""}>Back</button>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" onclick="saveDraftOnly()">Save Draft</button>
+                ${
+                  index === categories.length - 1
+                    ? `<button class="btn btn-primary" onclick="finishBottle()">View Final Score</button>`
+                    : `<button class="btn btn-primary" onclick="nextStage()">Next</button>`
+                }
+              </div>
+            </div>
+          </section>
+        `;
+      }).join("");
+    }
+
+    function setStage(index) {
+      syncFormFields();
+      activeStage = index;
+      renderStages();
+    }
+
+    function nextStage() {
+      syncFormFields();
+      activeStage = Math.min(categories.length - 1, activeStage + 1);
+      renderStages();
+    }
+
+    function prevStage() {
+      syncFormFields();
+      activeStage = Math.max(0, activeStage - 1);
+      renderStages();
+    }
+
+    function updateScore(key, value) {
+      if (!currentBottle) return;
+      currentBottle.scores[key] = Number(value);
+      const bubble = document.getElementById(`bubble-${key}`);
+      if (bubble) bubble.textContent = value;
+    }
+
+    function updateNote(key, value) {
+      if (!currentBottle) return;
+      currentBottle.notes[key] = value;
+    }
+        function readImageFile() {
+      return new Promise(resolve => {
+        const input = document.getElementById("bottleImage");
+        const file = input.files && input.files[0];
+
+        if (!file) {
+          resolve(currentBottle.image || "");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = () => resolve(currentBottle.image || "");
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function buildBottleFromForm() {
+      syncFormFields();
+      currentBottle.image = await readImageFile();
+
+      if (!currentBottle.name) {
+        currentBottle.name = "Untitled Bottle";
+      }
+
+      currentBottle.updatedAt = new Date().toISOString();
+      currentBottle.totalScore = averageScore(currentBottle.scores);
+
+      return currentBottle;
+    }
+
+    async function saveDraftOnly() {
+      const bottle = await buildBottleFromForm();
+      upsertBottle(bottle);
+      renderDashboard();
+      alert("Saved.");
+    }
+
+    function upsertBottle(bottle) {
+      const index = bottles.findIndex(b => b.id === bottle.id);
+      if (index >= 0) {
+        bottles[index] = JSON.parse(JSON.stringify(bottle));
+      } else {
+        bottles.unshift(JSON.parse(JSON.stringify(bottle)));
+      }
+      saveBottles();
+    }
+
+    async function finishBottle() {
+      const bottle = await buildBottleFromForm();
+      upsertBottle(bottle);
+      renderDashboard();
+      renderFinalResult(bottle);
+    }
+
+    function renderFinalResult(bottle) {
+      document.getElementById("formView").style.display = "none";
+      document.getElementById("resultView").style.display = "block";
+      document.getElementById("modalTitle").textContent = "Final Whiskey IQ Score";
+      document.getElementById("modalSub").textContent = "Clean final card. If there is no image, the image box is removed.";
+
+      const hasImage = !!bottle.image;
+      const meta = [bottle.brand, bottle.proof, bottle.price].filter(Boolean).join(" • ");
+      const allNotes = categories
+        .map(cat => {
+          const note = bottle.notes?.[cat.key]?.trim();
+          return note ? `${cat.label}: ${note}` : "";
+        })
+        .filter(Boolean)
+        .join("\n\n");
+
+      document.getElementById("resultView").innerHTML = `
+        <div class="result-card" style="padding:18px;">
+          <div class="result-grid ${hasImage ? "" : "no-photo"}">
+            <div class="final-photo-card ${hasImage ? "" : "hidden"}">
+              ${hasImage ? `<img class="final-photo" src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : ""}
+            </div>
+
+            <div class="final-summary">
+              <div class="final-topline">
+                <div>
+                  <div class="section-kicker">DAGS Whiskey IQ</div>
+                  <div class="final-name">${escapeHtml(bottle.name)}</div>
+                  <div class="final-meta">${escapeHtml(meta || "No bottle details added")}</div>
+                </div>
+                <div class="final-score">${bottle.totalScore}</div>
+              </div>
+
+              <div class="score-breakdown">
+                ${categories.map(cat => `
+                  <div class="break-card">
+                    <div class="break-head">
+                      <div class="break-icon">
+                        ${getWhiskeyIqIcon(cat.iconType, true).replace("rail-mini-icon", "break-icon-inner")}
+                      </div>
+                      <div class="break-score">${Number(bottle.scores?.[cat.key] || 0)}</div>
+                    </div>
+                    <div class="break-label">${cat.label}</div>
+                  </div>
+                `).join("")}
+              </div>
+
+              <div class="notes-box">${escapeHtml(allNotes)}</div>
+
+              <div class="stage-actions no-print">
+                <button class="btn" onclick="backToForm()">Back to Edit</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="btn" onclick="window.print()">Print</button>
+                  <button class="btn btn-primary" onclick="closeModal()">Done</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function backToForm() {
+      document.getElementById("formView").style.display = "block";
+      document.getElementById("resultView").style.display = "none";
+      document.getElementById("modalTitle").textContent = editingId ? "Edit Bottle" : "Add Bottle";
+      document.getElementById("modalSub").textContent = "Score each section, then save your final Whiskey IQ card.";
+      renderStages();
+    }
+
+    function viewBottle(id) {
+      const bottle = bottles.find(b => b.id === id);
+      if (!bottle) return;
+
+      currentBottle = JSON.parse(JSON.stringify(bottle));
+      editingId = id;
+
+      document.getElementById("modalBackdrop").classList.add("active");
+      document.body.classList.add("modal-open");
+
+      renderFinalResult(currentBottle);
+    }
+
+    function editBottle(id) {
+      openBottleModal(id);
+    }
+
+    function deleteBottle(id) {
+      const bottle = bottles.find(b => b.id === id);
+      if (!bottle) return;
+
+      const ok = confirm(`Delete "${bottle.name}"?`);
+      if (!ok) return;
+
+      bottles = bottles.filter(b => b.id !== id);
+      saveBottles();
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const grid = document.getElementById("bottleGrid");
+      const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
+
+      const filtered = bottles.filter(b => {
+        const text = [
+          b.name,
+          b.brand,
+          b.proof,
+          b.price,
+          Object.values(b.notes || {}).join(" ")
+        ].join(" ").toLowerCase();
+
+        return !query || text.includes(query);
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1 / -1;">
+            <h3>${bottles.length ? "No matching bottles" : "No bottles yet"}</h3>
+            <p>${bottles.length ? "Try a different search." : "Add your first bottle to start your Whiskey IQ log."}</p>
+            <br />
+            <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
+          </div>
+        `;
+      } else {
+        grid.innerHTML = filtered.map(bottle => {
+          const hasImage = !!bottle.image;
+          const meta = [bottle.brand, bottle.proof, bottle.price].filter(Boolean).join(" • ");
+          const score = bottle.totalScore ?? averageScore(bottle.scores);
+
+          return `
+            <article class="bottle-card ${hasImage ? "" : "no-image"}">
+              <div class="bottle-image">
+                ${hasImage ? `<img src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : `No Image`}
+              </div>
+
+              <div class="bottle-main">
+                <div>
+                  <div class="bottle-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+                  <div class="bottle-meta">${escapeHtml(meta || "No details added")}</div>
+                </div>
+                <div class="bottle-score">${score}</div>
+              </div>
+
+              <div class="bottle-actions">
+                <button class="small-btn" onclick="viewBottle('${bottle.id}')">View</button>
+                <button class="small-btn" onclick="editBottle('${bottle.id}')">Edit</button>
+                <button class="small-btn danger" onclick="deleteBottle('${bottle.id}')">Delete</button>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      renderStats();
+    }
+
+    function renderStats() {
+      const total = bottles.length;
+      document.getElementById("statTotal").textContent = total;
+
+      if (!total) {
+        document.getElementById("statBest").textContent = "—";
+        document.getElementById("statAverage").textContent = "—";
+        document.getElementById("statTopBottle").textContent = "Add your first bottle to begin.";
+        return;
+      }
+
+      const withScores = bottles.map(b => ({
+        ...b,
+        totalScore: b.totalScore ?? averageScore(b.scores)
+      }));
+
+      const best = [...withScores].sort((a, b) => b.totalScore - a.totalScore)[0];
+      const avg = withScores.reduce((sum, b) => sum + Number(b.totalScore || 0), 0) / withScores.length;
+
+      document.getElementById("statBest").textContent = best.totalScore;
+      document.getElementById("statAverage").textContent = Math.round(avg * 10) / 10;
+      document.getElementById("statTopBottle").textContent = best.name || "Untitled Bottle";
+    }
+
+    document.getElementById("modalBackdrop").addEventListener("click", event => {
+      if (event.target.id === "modalBackdrop") {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
+
+    loadBottles();
+    renderDashboard();
+  </script>
+</body>
+</html>
