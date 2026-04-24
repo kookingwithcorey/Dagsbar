@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <title>DAGS | Whiskey IQ Upgrade</title>
@@ -7,22 +7,38 @@
 
   <style>
     :root {
+      --bg: #f6efe3;
+      --bg2: #fffaf1;
+      --card: rgba(255, 250, 241, 0.92);
+      --card2: rgba(255, 255, 255, 0.84);
+      --text: #111714;
+      --muted: #5f675f;
+      --line: rgba(12, 76, 55, 0.18);
+      --green: #064c35;
+      --green2: #0f8b6b;
+      --gold: #b98a3f;
+      --gold2: #d8b56e;
+      --cream: #fff7e8;
+      --danger: #b4232a;
+      --shadow: 0 18px 55px rgba(38, 25, 8, 0.16);
+      --radius: 24px;
+    }
+
+    html[data-theme="dark"] {
       --bg: #050608;
-      --bg-2: #10141a;
+      --bg2: #10141a;
       --card: rgba(255, 255, 255, 0.075);
-      --card-2: rgba(255, 255, 255, 0.105);
+      --card2: rgba(255, 255, 255, 0.105);
       --text: #f6f1eb;
       --muted: #aeb6c2;
-      --soft: rgba(246, 241, 235, 0.72);
       --line: rgba(255, 255, 255, 0.14);
       --green: #0f8b6b;
-      --green-2: #18b98f;
+      --green2: #18b98f;
       --gold: #c18d5c;
-      --gold-2: #e3b87b;
+      --gold2: #e3b87b;
+      --cream: #11161c;
       --danger: #ef4444;
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-      --radius: 24px;
-      --radius-sm: 16px;
     }
 
     * {
@@ -31,28 +47,19 @@
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(15, 139, 107, 0.32), transparent 34%),
-        radial-gradient(circle at top right, rgba(193, 141, 92, 0.22), transparent 28%),
-        linear-gradient(145deg, #050608 0%, #10141a 50%, #050608 100%);
+        radial-gradient(circle at top left, rgba(15, 139, 107, 0.24), transparent 34%),
+        radial-gradient(circle at top right, rgba(193, 141, 92, 0.18), transparent 28%),
+        linear-gradient(145deg, var(--bg) 0%, var(--bg2) 52%, var(--bg) 100%);
       color: var(--text);
       overflow-x: hidden;
     }
 
     body.modal-open {
       overflow: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     button,
@@ -66,27 +73,32 @@
       cursor: pointer;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     .page-shell {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1220px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 28px 0 48px;
+      padding: 26px 0 48px;
     }
 
     .top-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-bottom: 24px;
       padding: 14px 16px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.22);
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
       position: sticky;
       top: 12px;
-      z-index: 20;
+      z-index: 30;
     }
 
     .brand {
@@ -100,22 +112,17 @@
       width: 42px;
       height: 42px;
       border-radius: 999px;
-      border: 1px solid rgba(24, 185, 143, 0.6);
+      border: 1px solid rgba(15, 139, 107, 0.6);
       background:
-        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18), transparent 25%),
-        linear-gradient(145deg, rgba(15, 139, 107, 0.95), rgba(5, 6, 8, 0.9));
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.22), transparent 25%),
+        linear-gradient(145deg, var(--green), #032d21);
+      color: #ffffff;
       display: grid;
       place-items: center;
-      color: #ffffff;
       font-family: Georgia, serif;
-      font-weight: 700;
+      font-weight: 900;
       letter-spacing: 0.08em;
-      box-shadow: 0 0 30px rgba(15, 139, 107, 0.24);
       flex: 0 0 auto;
-    }
-
-    .brand-copy {
-      min-width: 0;
     }
 
     .brand-title {
@@ -129,60 +136,83 @@
 
     .brand-sub {
       margin-top: 4px;
+      color: var(--green2);
       font-size: 11px;
-      color: var(--green-2);
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.26em;
-      font-weight: 800;
+      letter-spacing: 0.28em;
       white-space: nowrap;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 10px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
-    .nav-pill,
-    .btn {
+    .btn,
+    .nav-pill {
       border: 1px solid var(--line);
       border-radius: 999px;
+      background: var(--card2);
       color: var(--text);
-      background: rgba(255, 255, 255, 0.07);
       padding: 10px 14px;
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      transition: 0.2s ease;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      transition: 0.18s ease;
     }
 
-    .nav-pill:hover,
-    .btn:hover {
+    .btn:hover,
+    .nav-pill:hover {
       transform: translateY(-1px);
-      border-color: rgba(24, 185, 143, 0.55);
-      background: rgba(15, 139, 107, 0.16);
+      border-color: rgba(15, 139, 107, 0.55);
+      background: rgba(15, 139, 107, 0.12);
     }
 
     .btn-primary {
-      border-color: rgba(24, 185, 143, 0.75);
-      background: linear-gradient(135deg, var(--green), #08614d);
       color: #fff;
-      box-shadow: 0 16px 34px rgba(15, 139, 107, 0.24);
+      border-color: rgba(15, 139, 107, 0.75);
+      background: linear-gradient(135deg, var(--green), #043826);
+      box-shadow: 0 14px 34px rgba(15, 139, 107, 0.22);
     }
 
     .btn-gold {
-      border-color: rgba(227, 184, 123, 0.72);
-      background: linear-gradient(135deg, rgba(193, 141, 92, 0.96), rgba(111, 67, 36, 0.9));
       color: #fff;
-      box-shadow: 0 16px 34px rgba(193, 141, 92, 0.18);
+      border-color: rgba(216, 181, 110, 0.8);
+      background: linear-gradient(135deg, var(--gold), #6f4324);
     }
 
     .btn-danger {
-      border-color: rgba(239, 68, 68, 0.45);
-      background: rgba(239, 68, 68, 0.12);
-      color: #fecaca;
+      color: #fff;
+      border-color: rgba(180, 35, 42, 0.5);
+      background: rgba(180, 35, 42, 0.8);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card2);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .toggle-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: #fff;
+      line-height: 1;
     }
 
     .hero {
@@ -190,81 +220,76 @@
       grid-template-columns: 1.05fr 0.95fr;
       gap: 24px;
       align-items: stretch;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
 
     .hero-card,
     .panel,
-    .score-card,
-    .result-card {
+    .mini-card,
+    .bottle-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+      background: var(--card);
       box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
     }
 
     .hero-card {
-      padding: clamp(24px, 4vw, 44px);
-      position: relative;
-      overflow: hidden;
-      min-height: 420px;
+      min-height: 380px;
+      padding: clamp(24px, 4vw, 46px);
       display: flex;
       flex-direction: column;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
 
     .hero-card::before {
       content: "";
       position: absolute;
-      inset: -120px auto auto -120px;
-      width: 320px;
-      height: 320px;
+      width: 360px;
+      height: 360px;
       border-radius: 50%;
-      background: rgba(15, 139, 107, 0.24);
-      filter: blur(30px);
+      left: -140px;
+      top: -140px;
+      background: rgba(15, 139, 107, 0.22);
+      filter: blur(32px);
       pointer-events: none;
+    }
+
+    .hero-kicker,
+    .section-kicker {
+      color: var(--green2);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
     }
 
     .hero-kicker {
       position: relative;
-      display: inline-flex;
-      width: fit-content;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid rgba(24, 185, 143, 0.45);
-      border-radius: 999px;
-      color: var(--green-2);
-      background: rgba(15, 139, 107, 0.12);
-      font-size: 12px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     .hero h1 {
       position: relative;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(42px, 7vw, 84px);
+      font-size: clamp(44px, 7vw, 88px);
       line-height: 0.9;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.055em;
       margin-bottom: 20px;
     }
 
     .hero h1 span {
-      color: var(--green-2);
-      text-shadow: 0 0 34px rgba(24, 185, 143, 0.18);
+      color: var(--green2);
     }
 
     .hero-copy {
       position: relative;
-      color: var(--soft);
+      color: var(--muted);
       font-size: 17px;
-      line-height: 1.65;
-      max-width: 660px;
+      line-height: 1.62;
+      max-width: 680px;
       margin-bottom: 24px;
     }
 
@@ -282,68 +307,56 @@
     }
 
     .mini-card {
-      min-height: 196px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background:
-        radial-gradient(circle at top, rgba(15, 139, 107, 0.18), transparent 50%),
-        rgba(255, 255, 255, 0.07);
+      min-height: 178px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow: hidden;
     }
 
     .mini-label {
       color: var(--muted);
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-weight: 900;
+      letter-spacing: 0.15em;
+      font-weight: 1000;
     }
 
     .mini-value {
+      margin-top: 10px;
       font-family: Georgia, serif;
       font-size: 42px;
       line-height: 1;
-      margin-top: 12px;
+      color: var(--text);
     }
 
     .mini-note {
       margin-top: 12px;
-      color: var(--soft);
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
     }
 
     .section-head {
       display: flex;
-      align-items: end;
       justify-content: space-between;
-      gap: 16px;
-      margin: 32px 0 16px;
-    }
-
-    .section-kicker {
-      color: var(--green-2);
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      font-weight: 900;
-      font-size: 12px;
-      margin-bottom: 6px;
+      align-items: end;
+      gap: 18px;
+      margin: 28px 0 16px;
     }
 
     .section-title {
+      margin-top: 6px;
       font-family: Georgia, serif;
-      font-size: clamp(28px, 4vw, 44px);
-      letter-spacing: -0.03em;
+      font-size: clamp(32px, 4.4vw, 56px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
     }
 
     .section-copy {
       color: var(--muted);
-      max-width: 680px;
       line-height: 1.55;
+      max-width: 570px;
       font-size: 14px;
     }
 
@@ -361,24 +374,46 @@
 
     .search-wrap {
       display: flex;
-      gap: 10px;
       align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .search-input {
-      flex: 1 1 260px;
+      flex: 1 1 280px;
+      width: 100%;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 12px 14px;
-      background: rgba(0, 0, 0, 0.18);
+      padding: 13px 15px;
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text);
       outline: none;
     }
 
-    .search-input:focus {
-      border-color: rgba(24, 185, 143, 0.7);
-      box-shadow: 0 0 0 4px rgba(15, 139, 107, 0.15);
+    html[data-theme="light"] .search-input {
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--card2);
+    }
+
+    .view-toggle button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 13px;
+      font-size: 12px;
+      font-weight: 1000;
+    }
+
+    .view-toggle button.active {
+      background: var(--green);
+      color: #fff;
     }
 
     .bottle-grid {
@@ -387,103 +422,158 @@
       gap: 14px;
     }
 
+    .bottle-grid.single {
+      grid-template-columns: 1fr;
+    }
+
     .empty-state {
-      border: 1px dashed rgba(255, 255, 255, 0.22);
-      border-radius: var(--radius);
-      padding: 34px;
+      grid-column: 1 / -1;
+      padding: 36px;
       text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.035);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .empty-state h3 {
       color: var(--text);
       font-family: Georgia, serif;
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
     .bottle-card {
-      position: relative;
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
       padding: 14px;
-      min-height: 240px;
-      display: flex;
-      flex-direction: column;
+      display: grid;
       gap: 12px;
+      min-height: 280px;
     }
 
-    .bottle-card:hover {
-      border-color: rgba(24, 185, 143, 0.42);
-      transform: translateY(-1px);
-      transition: 0.2s ease;
+    .bottle-grid.single .bottle-card {
+      grid-template-columns: 180px 1fr auto;
+      min-height: 0;
+      align-items: center;
     }
 
-    .bottle-image {
+    .bottle-photo {
       width: 100%;
       aspect-ratio: 16 / 10;
       border-radius: 18px;
+      border: 1px solid var(--line);
       overflow: hidden;
       background:
-        radial-gradient(circle at top, rgba(193, 141, 92, 0.18), transparent 45%),
-        rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+        radial-gradient(circle at top, rgba(193, 141, 92, 0.18), transparent 50%),
+        rgba(0, 0, 0, 0.1);
       display: grid;
       place-items: center;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 12px;
+      color: var(--muted);
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      font-weight: 900;
+      font-weight: 1000;
     }
 
-    .bottle-image img {
+    .bottle-grid.single .bottle-photo {
+      aspect-ratio: 1 / 1;
+    }
+
+    .bottle-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-        .bottle-card.no-image .bottle-image {
+        .bottle-card.no-image .bottle-photo {
       display: none;
+    }
+
+    .bottle-grid.single .bottle-card.no-image {
+      grid-template-columns: 1fr auto;
     }
 
     .bottle-main {
       display: flex;
-      gap: 12px;
+      align-items: start;
       justify-content: space-between;
-      align-items: flex-start;
+      gap: 12px;
     }
 
-    .bottle-name {
-      font-size: 18px;
-      font-weight: 950;
-      line-height: 1.15;
-      margin-bottom: 6px;
+    .bottle-title {
+      font-size: 20px;
+      font-weight: 1000;
+      line-height: 1.12;
+      margin-bottom: 4px;
     }
 
     .bottle-meta {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
-    .bottle-score {
-      width: 62px;
-      height: 62px;
-      border-radius: 999px;
-      border: 1px solid rgba(24, 185, 143, 0.48);
-      background: rgba(15, 139, 107, 0.15);
+    .large-score {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 1px solid rgba(15, 139, 107, 0.55);
       display: grid;
       place-items: center;
-      text-align: center;
-      flex: 0 0 auto;
-      color: var(--green-2);
+      color: var(--green2);
+      background: rgba(15, 139, 107, 0.12);
+      font-size: 24px;
       font-weight: 1000;
-      font-size: 20px;
+      flex: 0 0 auto;
+    }
+
+    .mini-scores {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .mini-score {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 8px 6px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .mini-score-icon {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(15, 139, 107, 0.5);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 5px;
+      color: var(--green);
+    }
+
+    .mini-score-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mini-score-label {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .mini-score-value {
+      font-size: 13px;
+      font-weight: 1000;
     }
 
     .bottle-actions {
@@ -496,28 +586,24 @@
     .small-btn {
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--card2);
       color: var(--text);
       padding: 8px 10px;
       font-size: 12px;
-      font-weight: 900;
-    }
-
-    .small-btn:hover {
-      border-color: rgba(24, 185, 143, 0.5);
-      background: rgba(15, 139, 107, 0.14);
+      font-weight: 1000;
     }
 
     .small-btn.danger {
-      color: #fecaca;
-      border-color: rgba(239, 68, 68, 0.32);
+      color: #fff;
+      border-color: rgba(180, 35, 42, 0.42);
+      background: rgba(180, 35, 42, 0.72);
     }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.76);
-      backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(16px);
       z-index: 100;
       display: none;
       align-items: center;
@@ -530,52 +616,83 @@
     }
 
     .modal {
-      width: min(1000px, 100%);
+      width: min(1060px, 100%);
       max-height: calc(100vh - 36px);
       overflow: auto;
       border: 1px solid var(--line);
       border-radius: 30px;
-      background:
-        radial-gradient(circle at top left, rgba(15, 139, 107, 0.22), transparent 35%),
-        linear-gradient(145deg, rgba(16, 20, 26, 0.98), rgba(5, 6, 8, 0.98));
-      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.72);
+      background: var(--bg);
+      color: var(--text);
+      box-shadow: 0 30px 120px rgba(0, 0, 0, 0.68);
     }
 
     .modal-header {
       position: sticky;
       top: 0;
-      z-index: 3;
+      z-index: 4;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 18px;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
       border-bottom: 1px solid var(--line);
-      background: rgba(5, 6, 8, 0.82);
+      background: var(--card);
       backdrop-filter: blur(18px);
     }
 
     .modal-title {
       font-family: Georgia, serif;
-      font-size: 26px;
-      line-height: 1.1;
+      font-size: 28px;
+      line-height: 1.05;
     }
 
     .modal-sub {
-      margin-top: 3px;
       color: var(--muted);
       font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .modal-body {
       padding: 18px;
     }
 
+    .step-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .step-tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card2);
+      color: var(--muted);
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .step-tab.active {
+      background: var(--green);
+      color: #fff;
+      border-color: rgba(15, 139, 107, 0.75);
+    }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-bottom: 18px;
     }
 
     .field {
@@ -591,9 +708,9 @@
     .field label {
       color: var(--muted);
       font-size: 12px;
+      font-weight: 1000;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-weight: 900;
+      letter-spacing: 0.12em;
     }
 
     .field input,
@@ -602,36 +719,87 @@
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: rgba(0, 0, 0, 0.24);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text);
       padding: 12px 13px;
       outline: none;
     }
 
+    html[data-theme="light"] .field input,
+    html[data-theme="light"] .field textarea,
+    html[data-theme="light"] .field select {
+      background: rgba(255, 255, 255, 0.68);
+    }
+
     .field textarea {
-      min-height: 90px;
+      min-height: 96px;
       resize: vertical;
     }
 
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: rgba(24, 185, 143, 0.66);
-      box-shadow: 0 0 0 4px rgba(15, 139, 107, 0.13);
-    }
-
-    .stage-wrap {
+    .info-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 1fr 340px;
       gap: 16px;
       align-items: start;
     }
 
-    .stage-rail {
+    .preview-card {
       border: 1px solid var(--line);
       border-radius: 24px;
+      padding: 14px;
+      background: var(--card);
+      position: sticky;
+      top: 92px;
+    }
+
+    .preview-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .preview-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-name {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .preview-meta {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .score-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .score-rail {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
       padding: 12px;
-      background: rgba(255, 255, 255, 0.045);
       position: sticky;
       top: 92px;
     }
@@ -647,9 +815,8 @@
       color: var(--muted);
       padding: 10px;
       text-align: left;
-      font-weight: 900;
+      font-weight: 1000;
       margin-bottom: 8px;
-      transition: 0.2s ease;
     }
 
     .rail-item:last-child {
@@ -658,18 +825,18 @@
 
     .rail-item.active {
       color: var(--text);
-      border-color: rgba(24, 185, 143, 0.45);
-      background: rgba(15, 139, 107, 0.15);
+      border-color: rgba(15, 139, 107, 0.48);
+      background: rgba(15, 139, 107, 0.13);
     }
 
     .rail-mini-icon {
       width: 34px;
       height: 34px;
-      border-radius: 999px;
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(24, 185, 143, 0.4);
-      color: var(--green-2);
+      border: 1px solid rgba(15, 139, 107, 0.48);
+      color: var(--green);
       flex: 0 0 auto;
     }
 
@@ -678,70 +845,66 @@
       height: 20px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2.25;
+      stroke-width: 2.35;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .stage-card {
+    .score-stage {
+      display: none;
       border: 1px solid var(--line);
       border-radius: 28px;
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
-      padding: 24px;
-      min-height: 520px;
-      display: none;
+      background: var(--card);
+      padding: 22px;
+      min-height: 560px;
     }
 
-    .stage-card.active {
+    .score-stage.active {
       display: block;
     }
 
     .stage-top {
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .stage-kicker {
-      color: var(--green-2);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      font-weight: 950;
-      margin-bottom: 6px;
+      gap: 18px;
+      margin-bottom: 18px;
     }
 
     .stage-title {
       font-family: Georgia, serif;
-      font-size: clamp(30px, 5vw, 52px);
-      line-height: 1;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 0.96;
       letter-spacing: -0.04em;
+      margin-top: 5px;
     }
 
     .stage-question {
-      margin-top: 10px;
       color: var(--muted);
       line-height: 1.55;
-      max-width: 620px;
+      margin-top: 10px;
+      max-width: 650px;
     }
 
     .iq-icon-circle {
-      width: 72px;
-      height: 72px;
-      border: 2px solid rgba(15, 139, 107, 0.9);
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #18b98f;
+      width: 74px;
+      height: 74px;
+      border: 2px solid rgba(15, 139, 107, 0.82);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--green);
       background:
-        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18), transparent 30%),
-        rgba(239, 229, 220, 0.065);
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18), transparent 34%),
+        rgba(15, 139, 107, 0.06);
       flex: 0 0 auto;
-      box-shadow: 0 0 34px rgba(15, 139, 107, 0.18);
+    }
+
+    .iq-icon-circle.gold,
+    .rail-mini-icon.gold,
+    .mini-score-icon.gold {
+      color: var(--gold);
+      border-color: rgba(184, 138, 63, 0.85);
     }
 
     .iq-icon-circle svg {
@@ -754,321 +917,401 @@
       stroke-linejoin: round;
     }
 
-    .iq-icon-circle.gold {
-      color: var(--gold-2);
-      border-color: rgba(227, 184, 123, 0.95);
-      box-shadow: 0 0 34px rgba(193, 141, 92, 0.18);
-    }
-
     .score-control {
       display: grid;
       grid-template-columns: 1fr 120px;
       gap: 20px;
       align-items: center;
-      margin: 26px 0 16px;
-      padding: 20px;
       border: 1px solid var(--line);
       border-radius: 24px;
-      background: rgba(0, 0, 0, 0.16);
-    }
-
-    .range-wrap {
-      position: relative;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.045);
+      margin: 18px 0;
     }
 
     input[type="range"] {
       width: 100%;
-      accent-color: var(--green-2);
+      accent-color: var(--green2);
     }
 
     .range-labels {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       margin-top: 10px;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .score-bubble {
-      width: 112px;
-      height: 112px;
-      border-radius: 999px;
-      border: 1px solid rgba(24, 185, 143, 0.5);
-      background: rgba(15, 139, 107, 0.14);
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      border: 1px solid rgba(15, 139, 107, 0.55);
       display: grid;
       place-items: center;
-      color: var(--green-2);
-      font-size: 42px;
+      color: var(--green2);
+      background: rgba(15, 139, 107, 0.13);
+      font-size: 40px;
       font-weight: 1000;
-      box-shadow: inset 0 0 28px rgba(15, 139, 107, 0.12);
     }
 
-    .score-note {
-      margin-top: 14px;
+    .flavor-bank {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
 
-    .score-note textarea {
-      min-height: 116px;
+    .flavor-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card2);
+      color: var(--muted);
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .flavor-chip.active {
+      color: #fff;
+      background: var(--green);
+      border-color: rgba(15, 139, 107, 0.75);
     }
 
     .stage-actions {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 12px;
-      margin-top: 18px;
       flex-wrap: wrap;
+      margin-top: 18px;
     }
 
-    .result-grid {
+    .share-card-wrap {
       display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
+      grid-template-columns: 1fr 360px;
       gap: 16px;
       align-items: start;
     }
 
-    .result-grid.no-photo {
-      grid-template-columns: 1fr;
-    }
-
-    .final-photo-card {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.055);
+    .share-card {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
       overflow: hidden;
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at top, rgba(216, 181, 110, 0.14), transparent 44%),
+        #fff8ea;
+      color: #111714;
+      box-shadow: var(--shadow);
     }
 
-    .final-photo-card.hidden {
+    .share-inner {
+      padding: 20px 28px 0;
+    }
+
+    .share-logo {
+      text-align: center;
+      color: var(--green);
+      font-weight: 1000;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .share-line {
+      height: 1px;
+      width: 84px;
+      background: var(--gold);
+    }
+
+    .share-logo-main {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      line-height: 0.86;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .share-image {
+      width: 100%;
+      aspect-ratio: 1 / 0.9;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #efe3cf;
+      display: grid;
+      place-items: center;
+      color: rgba(6, 76, 53, 0.55);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+
+    .share-image.no-image {
       display: none;
     }
 
-    .final-photo {
+    .share-image img {
       width: 100%;
-      aspect-ratio: 4 / 5;
-      border-radius: 22px;
+      height: 100%;
       object-fit: cover;
-      display: block;
-      background: rgba(0, 0, 0, 0.2);
     }
 
-    .final-summary {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.055);
-      padding: 22px;
+    .share-name {
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 42px;
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      margin-bottom: 4px;
     }
 
-    .final-topline {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: start;
+    .share-subtitle {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .share-divider {
+      width: 160px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 10px;
+      position: relative;
+    }
+
+    .share-divider::after {
+      content: "◆";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -55%);
+      color: var(--gold);
+      background: #fff8ea;
+      padding: 0 6px;
+      font-size: 11px;
+    }
+
+    .share-score-label {
+      text-align: center;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+    }
+
+    .share-big-score {
+      text-align: center;
+      color: var(--green);
+      font-size: 70px;
+      font-weight: 1000;
+      line-height: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .share-big-score span {
+      color: #111714;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .share-scores {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
       margin-bottom: 18px;
     }
 
-    .final-name {
-      font-family: Georgia, serif;
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-      margin-bottom: 8px;
+    .share-score-item {
+      text-align: center;
     }
 
-    .final-meta {
-      color: var(--muted);
-      line-height: 1.45;
+    .share-score-item .mini-score-icon {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 6px;
+      color: var(--green);
+    }
+
+    .share-score-item .mini-score-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .share-score-name {
+      font-weight: 800;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .share-score-num {
+      font-weight: 1000;
+      font-size: 15px;
+    }
+
+    .share-details {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      border-top: 1px solid rgba(6, 76, 53, 0.18);
+      padding: 14px 0 16px;
+      gap: 8px 18px;
       font-size: 14px;
     }
 
-    .final-score {
-      width: 126px;
-      height: 126px;
-      border-radius: 999px;
-      border: 1px solid rgba(24, 185, 143, 0.6);
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.16), transparent 28%),
-        rgba(15, 139, 107, 0.16);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      color: var(--green-2);
-      font-size: 42px;
+    .share-detail-label {
+      color: #876b23;
       font-weight: 1000;
-      flex: 0 0 auto;
-    }
-
-    .score-breakdown {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 18px 0;
-    }
-
-    .break-card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.16);
-      padding: 12px;
-      min-height: 112px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .break-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .break-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid rgba(24, 185, 143, 0.42);
-      display: grid;
-      place-items: center;
-      color: var(--green-2);
-    }
-
-    .break-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.25;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .break-label {
-      color: var(--muted);
-      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 950;
+      letter-spacing: 0.08em;
     }
 
-    .break-score {
-      font-size: 26px;
-      color: var(--text);
-      font-weight: 1000;
-      line-height: 1;
+    .share-detail-value {
+      text-align: right;
     }
 
-    .notes-box {
+    .share-footer {
+      background: var(--green);
+      color: #fff8ea;
+      text-align: center;
+      padding: 13px 16px;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .share-footer small {
+      display: block;
+      letter-spacing: 0;
+      text-transform: none;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    .summary-panel {
       border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(0, 0, 0, 0.14);
-      padding: 14px;
-      color: var(--soft);
-      line-height: 1.55;
-      white-space: pre-wrap;
-      margin-top: 12px;
+      border-radius: 24px;
+      background: var(--card);
+      padding: 18px;
     }
 
-    .notes-box:empty {
-      display: none;
+    .summary-panel h3 {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 8px;
     }
-        @media print {
+
+    .summary-panel p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .bubble-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+
+    .bubble {
+      border: 1px solid rgba(15, 139, 107, 0.35);
+      background: rgba(15, 139, 107, 0.1);
+      color: var(--green);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 1000;
+    }
+
+    @media print {
       body {
         background: #fff;
-        color: #111;
       }
 
       .top-nav,
       .hero,
       .section-head,
       .dashboard-top,
-      .bottle-actions,
       .modal-header,
+      .step-tabs,
+      .summary-panel,
       .stage-actions,
       .no-print {
         display: none !important;
       }
 
-      .page-shell {
+      .page-shell,
+      .modal,
+      .modal-body {
         width: 100%;
         padding: 0;
-      }
-
-      .panel,
-      .result-card,
-      .final-summary,
-      .final-photo-card {
+        margin: 0;
+        max-height: none;
+        overflow: visible;
+        border: 0;
         box-shadow: none;
-        border-color: #ddd;
-        background: #fff;
-        color: #111;
       }
 
       .modal-backdrop.active {
         position: static;
         display: block;
-        background: #fff;
         padding: 0;
+        background: #fff;
       }
 
-      .modal {
-        max-height: none;
-        border: none;
+      .share-card-wrap {
+        display: block;
+      }
+
+      .share-card {
+        max-width: 680px;
         box-shadow: none;
-        background: #fff;
-      }
-
-      .modal-body {
-        padding: 0;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .result-grid.no-photo {
-        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 980px) {
-      .hero {
+    @media (max-width: 1000px) {
+      .hero,
+      .info-layout,
+      .score-layout,
+      .share-card-wrap {
         grid-template-columns: 1fr;
+      }
+
+      .preview-card,
+      .score-rail {
+        position: relative;
+        top: auto;
+      }
+
+      .score-rail {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .rail-item {
+        margin: 0;
       }
 
       .bottle-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .stage-wrap {
-        grid-template-columns: 1fr;
-      }
-
-      .stage-rail {
-        position: relative;
-        top: auto;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .rail-item {
-        margin-bottom: 0;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .final-photo {
-        aspect-ratio: 16 / 10;
+      .bottle-grid.single .bottle-card {
+        grid-template-columns: 140px 1fr;
       }
     }
 
     @media (max-width: 720px) {
       .page-shell {
-        width: min(100% - 18px, 1180px);
+        width: min(100% - 18px, 1220px);
         padding-top: 10px;
       }
 
@@ -1076,27 +1319,16 @@
         position: relative;
         top: auto;
         border-radius: 22px;
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-actions {
+        justify-content: flex-start;
       }
 
       .brand-title {
         font-size: 17px;
-      }
-
-      .brand-sub {
-        font-size: 10px;
-      }
-
-      .nav-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .nav-pill,
-      .btn {
-        padding: 9px 11px;
-        font-size: 12px;
       }
 
       .hero-card {
@@ -1104,52 +1336,22 @@
         padding: 24px;
       }
 
-      .mini-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .mini-card {
-        min-height: 140px;
-        padding: 16px;
-      }
-
-      .mini-value {
-        font-size: 34px;
+      .mini-grid,
+      .bottle-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
       }
 
       .dashboard-top {
         grid-template-columns: 1fr;
       }
 
-      .bottle-grid {
+      .bottle-grid.single .bottle-card {
         grid-template-columns: 1fr;
       }
 
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stage-rail {
+      .score-rail {
         grid-template-columns: 1fr 1fr;
-      }
-
-      .stage-card {
-        min-height: auto;
-        padding: 18px;
-      }
-
-      .stage-top {
-        align-items: flex-start;
-      }
-
-      .iq-icon-circle {
-        width: 58px;
-        height: 58px;
-      }
-
-      .iq-icon-circle svg {
-        width: 34px;
-        height: 34px;
       }
 
       .score-control {
@@ -1157,61 +1359,45 @@
       }
 
       .score-bubble {
-        width: 92px;
-        height: 92px;
-        font-size: 34px;
         margin: 0 auto;
       }
 
-      .final-topline {
-        align-items: center;
+      .mini-scores {
+        grid-template-columns: repeat(3, 1fr);
       }
 
-      .final-score {
-        width: 92px;
-        height: 92px;
-        font-size: 32px;
+      .share-inner {
+        padding: 18px 16px 0;
       }
 
-      .score-breakdown {
-        grid-template-columns: repeat(2, 1fr);
+      .share-scores {
+        grid-template-columns: repeat(3, 1fr);
       }
-    }
 
-    @media (max-width: 430px) {
-      .mini-grid {
+      .share-name {
+        font-size: 34px;
+      }
+
+      .share-subtitle {
+        font-size: 17px;
+      }
+
+      .share-details {
         grid-template-columns: 1fr;
       }
 
-      .stage-rail {
-        grid-template-columns: 1fr;
-      }
-
-      .score-breakdown {
-        grid-template-columns: 1fr;
-      }
-
-      .final-topline {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .final-score {
-        width: 100%;
-        height: auto;
-        border-radius: 20px;
-        padding: 18px;
+      .share-detail-value {
+        text-align: left;
       }
     }
   </style>
 </head>
-
 <body>
   <div class="page-shell">
     <header class="top-nav">
       <a class="brand" href="index.html">
         <div class="brand-mark">D</div>
-        <div class="brand-copy">
+        <div>
           <div class="brand-title">Whiskey IQ</div>
           <div class="brand-sub">Drink Smarter</div>
         </div>
@@ -1224,6 +1410,10 @@
         <a class="nav-pill" href="blind-tasting.html">Blind Tasting</a>
         <a class="nav-pill" href="history.html">Log Book</a>
         <a class="nav-pill" href="https://dramhub.lovable.app" target="_blank" rel="noopener">Dramscan</a>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <span class="toggle-dot" id="themeIcon">☾</span>
+          <span id="themeText">Dark</span>
+        </button>
       </nav>
     </header>
 
@@ -1232,8 +1422,8 @@
         <div class="hero-kicker">DAGS Bottle Rating System</div>
         <h1>Rate every pour with <span>Whiskey IQ.</span></h1>
         <p class="hero-copy">
-          Score aroma, flavors, finish, recommend, value, and whether you would drink it again.
-          Save each bottle to your local dashboard and create a clean final scorecard.
+          Add bottle details first, then score the six Whiskey IQ categories. Your final card is built for sharing,
+          downloading, printing, and logging.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
@@ -1247,7 +1437,7 @@
             <div class="mini-label">Saved Bottles</div>
             <div class="mini-value" id="statTotal">0</div>
           </div>
-          <div class="mini-note">Your Whiskey IQ history is saved in this browser.</div>
+          <div class="mini-note">Saved locally in this browser.</div>
         </div>
 
         <div class="mini-card">
@@ -1255,7 +1445,7 @@
             <div class="mini-label">Best Score</div>
             <div class="mini-value" id="statBest">—</div>
           </div>
-          <div class="mini-note">Your highest-rated bottle appears here.</div>
+          <div class="mini-note">Your highest Whiskey IQ score.</div>
         </div>
 
         <div class="mini-card">
@@ -1263,7 +1453,7 @@
             <div class="mini-label">Average</div>
             <div class="mini-value" id="statAverage">—</div>
           </div>
-          <div class="mini-note">Average rating across saved bottles.</div>
+          <div class="mini-note">Average across all saved bottles.</div>
         </div>
 
         <div class="mini-card">
@@ -1282,15 +1472,21 @@
           <h2 class="section-title">Your Whiskey IQ Log</h2>
         </div>
         <p class="section-copy">
-          Add bottles, view final scorecards, delete old entries, or search your saved pours.
+          Toggle between grid and single view. Cards show the bottle photo, six category scores, and the final larger score.
         </p>
       </div>
 
       <div class="panel">
         <div class="dashboard-top">
           <div class="search-wrap">
-            <input id="searchInput" class="search-input" type="search" placeholder="Search bottles, distillery, notes..." oninput="renderDashboard()" />
+            <input id="searchInput" class="search-input" type="search" placeholder="Search bottles, distillery, notes, flavors..." oninput="renderDashboard()" />
+
+            <div class="view-toggle" aria-label="Dashboard view toggle">
+              <button id="gridBtn" class="active" onclick="setViewMode('grid')">Grid</button>
+              <button id="singleBtn" onclick="setViewMode('single')">Single</button>
+            </div>
           </div>
+
           <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
         </div>
 
@@ -1304,68 +1500,125 @@
       <div class="modal-header">
         <div>
           <div class="modal-title" id="modalTitle">Add Bottle</div>
-          <div class="modal-sub" id="modalSub">Enter bottle info, score each section, then save.</div>
+          <div class="modal-sub" id="modalSub">Start with bottle details, then score each Whiskey IQ category.</div>
         </div>
-        <button class="btn" onclick="closeModal()">Close</button>
+
+        <div class="modal-actions">
+          <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="toggle-dot" id="themeIconModal">☾</span>
+            <span id="themeTextModal">Dark</span>
+          </button>
+          <button class="btn" onclick="closeModal()">Close</button>
+        </div>
       </div>
 
       <div class="modal-body">
-        <div id="formView">
-          <div class="form-grid">
-            <div class="field">
-              <label>Bottle Name</label>
-              <input id="bottleName" type="text" placeholder="Example: Eagle Rare 10 Year" />
+        <div class="step-tabs no-print">
+          <button id="tabInfo" class="step-tab active" onclick="showInfoStep()">1. Bottle Info</button>
+          <button id="tabScore" class="step-tab" onclick="showScoreStep()">2. Rankings</button>
+          <button id="tabShare" class="step-tab" onclick="finishBottle()">3. Share Card</button>
+        </div>
+
+        <div id="infoView">
+          <div class="info-layout">
+            <div class="panel" style="box-shadow:none;">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Bottle Name</label>
+                  <input id="bottleName" type="text" placeholder="Example: Blanton’s" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Subtitle / Expression</label>
+                  <input id="bottleSubtitle" type="text" placeholder="Example: Original Single Barrel Bourbon" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Type</label>
+                  <input id="bottleType" type="text" placeholder="Example: Bourbon" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Proof</label>
+                  <input id="bottleProof" type="text" placeholder="Example: 93" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Age Statement</label>
+                  <input id="bottleAge" type="text" placeholder="Example: NAS / 10 Year" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Tasted Date</label>
+                  <input id="bottleTasted" type="date" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Price</label>
+                  <input id="bottlePrice" type="text" placeholder="Example: $75" oninput="updatePreview()" />
+                </div>
+
+                <div class="field">
+                  <label>Distillery / Brand</label>
+                  <input id="bottleBrand" type="text" placeholder="Example: Buffalo Trace" oninput="updatePreview()" />
+                </div>
+
+                <div class="field full">
+                  <label>Bottle Image</label>
+                  <input id="bottleImage" type="file" accept="image/*" onchange="handleImageUpload()" />
+                </div>
+
+                <div class="field full">
+                  <label>General Notes</label>
+                  <textarea id="bottleNotes" placeholder="Example: Rich caramel and vanilla up front with oak and spice on the finish." oninput="updatePreview()"></textarea>
+                </div>
+              </div>
+
+              <div class="stage-actions">
+                <span></span>
+                <button class="btn btn-primary" onclick="showScoreStep()">Next: Rankings</button>
+              </div>
             </div>
 
-            <div class="field">
-              <label>Distillery / Brand</label>
-              <input id="bottleBrand" type="text" placeholder="Example: Buffalo Trace" />
-            </div>
-
-            <div class="field">
-              <label>Proof</label>
-              <input id="bottleProof" type="text" placeholder="Example: 90 proof" />
-            </div>
-
-            <div class="field">
-              <label>Price</label>
-              <input id="bottlePrice" type="text" placeholder="Example: $45" />
-            </div>
-
-            <div class="field full">
-              <label>Optional Bottle Image</label>
-              <input id="bottleImage" type="file" accept="image/*" />
-            </div>
-          </div>
-
-          <div class="stage-wrap">
-            <aside class="stage-rail" id="stageRail"></aside>
-            <main id="stageCards"></main>
+            <aside class="preview-card">
+              <div class="preview-image" id="previewImage">Image Preview</div>
+              <div class="preview-name" id="previewName">Bottle Name</div>
+              <div class="preview-meta" id="previewMeta">Subtitle • Type • Proof</div>
+            </aside>
           </div>
         </div>
 
-        <div id="resultView" style="display:none;"></div>
+        <div id="scoreView" style="display:none;">
+          <div class="score-layout">
+            <aside class="score-rail" id="scoreRail"></aside>
+            <main id="scoreStages"></main>
+          </div>
+        </div>
+
+        <div id="shareView" style="display:none;"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "dags_whiskey_iq_upgrade_v1";
+    const STORAGE_KEY = "dags_whiskey_iq_upgrade_v3";
+    const THEME_KEY = "dags_whiskey_iq_theme";
+    const VIEW_KEY = "dags_whiskey_iq_view";
 
     const categories = [
       {
-        key: "aroma",
-        label: "Aroma",
-        iconType: "aroma",
-        question: "How strong, clean, and enjoyable is the nose?",
+        key: "nose",
+        label: "Nose",
+        iconType: "nose",
+        question: "How strong, clean, and enjoyable is the aroma?",
         low: "Muted",
         high: "Excellent"
       },
       {
-        key: "flavors",
-        label: "Flavors",
-        iconType: "flavors",
-        question: "How layered and enjoyable is the palate?",
+        key: "palate",
+        label: "Palate",
+        iconType: "palate",
+        question: "How rich, balanced, and layered are the flavors?",
         low: "Flat",
         high: "Complex"
       },
@@ -1373,51 +1626,59 @@
         key: "finish",
         label: "Finish",
         iconType: "finish",
-        question: "How long and balanced is the finish?",
+        question: "How long, warm, and enjoyable is the finish?",
         low: "Short",
         high: "Long"
       },
       {
-        key: "recommend",
-        label: "Recommend",
-        iconType: "recommend",
-        question: "How strongly would you recommend this bottle to someone else?",
-        low: "No",
-        high: "Absolutely"
+        key: "balance",
+        label: "Balance",
+        iconType: "balance",
+        question: "How well do proof, sweetness, oak, spice, and finish work together?",
+        low: "Uneven",
+        high: "Balanced"
       },
       {
         key: "value",
         label: "Value",
         iconType: "value",
-        question: "How good is the bottle for the price?",
+        question: "How good is this bottle for the price?",
         low: "Poor",
         high: "Great"
       },
       {
-        key: "drinkAgain",
-        label: "Drink Again",
-        iconType: "drinkAgain",
-        question: "How likely are you to drink this bottle again?",
+        key: "again",
+        label: "Again",
+        iconType: "again",
+        question: "How likely are you to drink or buy this again?",
         low: "No",
-        high: "Yes"
+        high: "Absolutely"
       }
+    ];
+
+    const flavorOptions = [
+      "Caramel", "Vanilla", "Oak", "Brown Sugar", "Cherry", "Cinnamon",
+      "Honey", "Butterscotch", "Leather", "Tobacco", "Nutty", "Dark Fruit",
+      "Maple", "Pepper", "Baking Spice", "Chocolate", "Orange", "Smoke"
     ];
 
     let bottles = [];
     let currentBottle = null;
     let activeStage = 0;
     let editingId = null;
+    let viewMode = localStorage.getItem(VIEW_KEY) || "grid";
 
-    function getWhiskeyIqIcon(type, mini = false) {
-      const wrapClass = mini ? "rail-mini-icon" : "iq-icon-circle";
+    function icon(type, mini = false) {
+      const cls = mini ? "rail-mini-icon" : "iq-icon-circle";
+      const gold = type === "finish" ? " gold" : "";
 
       const paths = {
-        aroma: `
+        nose: `
           <path d="M26 10 C24 19 20 27 17 36 C14 45 19 54 30 54 C38 54 43 50 44 43" />
           <path d="M34 10 C36 20 40 28 43 37 C45 44 42 50 36 53" />
           <path d="M24 42 C27 46 33 46 36 42" />
         `,
-        flavors: `
+        palate: `
           <path d="M20 17 C20 30 20 42 32 42 C44 42 44 30 44 17" />
           <path d="M26 17 L26 36" />
           <path d="M32 17 L32 39" />
@@ -1431,33 +1692,111 @@
           <path d="M24 53 H40" />
           <path d="M25 28 H39" />
         `,
-        recommend: `
-          <path d="M22 34 L30 42 C32 44 35 44 37 42 L51 28" />
-          <path d="M13 35 L22 26 L32 36" />
-          <path d="M32 36 L42 26 L51 35" />
-          <path d="M18 40 L24 46" />
-          <path d="M26 45 L31 50" />
-          <path d="M36 45 L41 40" />
+        balance: `
+          <path d="M32 13 V48" />
+          <path d="M18 22 H46" />
+          <path d="M22 22 L14 38 H30 Z" />
+          <path d="M42 22 L34 38 H50 Z" />
+          <path d="M24 52 H40" />
         `,
         value: `
           <path d="M32 10 V54" />
           <path d="M44 20 C40 16 34 15 29 17 C24 19 22 24 25 28 C27 31 31 32 36 33 C42 35 45 38 43 43 C41 49 31 50 22 45" />
         `,
-        drinkAgain: `
+        again: `
           <path d="M48 26 C46 18 39 13 31 14 C21 15 14 23 14 33 C14 44 23 52 34 50 C41 49 46 45 49 39" />
           <path d="M48 14 V26 H36" />
         `
       };
 
-      const gold = type === "finish" ? " gold" : "";
-
       return `
-        <div class="${wrapClass}${gold}">
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            ${paths[type] || paths.aroma}
-          </svg>
+        <div class="${cls}${gold}">
+          <svg viewBox="0 0 64 64" aria-hidden="true">${paths[type] || paths.nose}</svg>
         </div>
       `;
+    }
+
+    function miniScoreIcon(type) {
+      return `<div class="mini-score-icon ${type === "finish" ? "gold" : ""}">
+        <svg viewBox="0 0 64 64">${icon(type, true).match(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/)[1]}</svg>
+      </div>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value + "T12:00:00");
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+    }
+
+    function loadTheme() {
+      const theme = localStorage.getItem(THEME_KEY) || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      updateThemeButtons();
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem(THEME_KEY, next);
+      updateThemeButtons();
+    }
+
+    function updateThemeButtons() {
+      const theme = document.documentElement.getAttribute("data-theme") || "dark";
+      const iconText = theme === "dark" ? "☾" : "☀";
+      const labelText = theme === "dark" ? "Dark" : "Light";
+
+      ["themeIcon", "themeIconModal"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = iconText;
+      });
+
+      ["themeText", "themeTextModal"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = labelText;
+      });
+    }
+
+    function blankBottle() {
+      const scores = {};
+      const notes = {};
+      categories.forEach(cat => {
+        scores[cat.key] = 15;
+        notes[cat.key] = "";
+      });
+
+      return {
+        id: uid(),
+        name: "",
+        subtitle: "",
+        type: "",
+        proof: "",
+        age: "",
+        tasted: "",
+        price: "",
+        brand: "",
+        notes: "",
+        image: "",
+        scores,
+        scoreNotes: notes,
+        flavors: [],
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
 
     function loadBottles() {
@@ -1472,69 +1811,44 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bottles));
     }
 
-    function uid() {
-      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    function totalScore(bottle) {
+      const vals = categories.map(cat => Number(bottle?.scores?.[cat.key] || 0));
+      return vals.reduce((sum, val) => sum + val, 0);
+    }
+        function aiSummary(bottle) {
+      const score = totalScore(bottle);
+      const flavors = bottle.flavors && bottle.flavors.length ? bottle.flavors.join(", ") : "classic bourbon notes";
+      const notes = (bottle.notes || "").trim();
+      const topCats = [...categories]
+        .sort((a, b) => Number(bottle.scores[b.key] || 0) - Number(bottle.scores[a.key] || 0))
+        .slice(0, 2)
+        .map(c => c.label.toLowerCase())
+        .join(" and ");
+
+      let ratingLine = "This is a solid pour with a balanced profile.";
+      if (score >= 90) ratingLine = "This is an excellent pour with standout character and strong replay value.";
+      else if (score >= 80) ratingLine = "This is a very good pour with strong highlights and good balance.";
+      else if (score >= 70) ratingLine = "This is a good pour, though a few areas may hold it back.";
+      else if (score < 60) ratingLine = "This bottle may be more situational, with some noticeable gaps in the profile.";
+
+      return `${ratingLine} The profile leans into ${flavors}, with the strongest marks coming from ${topCats}. ${notes ? notes : "Add more notes to make this summary more detailed."}`;
     }
 
-    function blankScores() {
-      const scores = {};
-      const notes = {};
-      categories.forEach(cat => {
-        scores[cat.key] = 5;
-        notes[cat.key] = "";
-      });
-      return { scores, notes };
-    }
-
-    function averageScore(scores) {
-      const vals = categories.map(cat => Number(scores?.[cat.key] || 0));
-      const avg = vals.reduce((sum, val) => sum + val, 0) / vals.length;
-      return Math.round(avg * 10) / 10;
-    }
-
-    function escapeHtml(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function setViewMode(mode) {
+      viewMode = mode;
+      localStorage.setItem(VIEW_KEY, mode);
+      renderDashboard();
     }
 
     function openBottleModal(id = null) {
       editingId = id;
       activeStage = 0;
+      currentBottle = id
+        ? JSON.parse(JSON.stringify(bottles.find(b => b.id === id)))
+        : blankBottle();
 
-      if (id) {
-        const found = bottles.find(b => b.id === id);
-        currentBottle = JSON.parse(JSON.stringify(found));
-      } else {
-        const starter = blankScores();
-        currentBottle = {
-          id: uid(),
-          name: "",
-          brand: "",
-          proof: "",
-          price: "",
-          image: "",
-          scores: starter.scores,
-          notes: starter.notes,
-          createdAt: new Date().toISOString()
-        };
-      }
-
-      document.getElementById("modalTitle").textContent = id ? "Edit Bottle" : "Add Bottle";
-      document.getElementById("modalSub").textContent = "Score each section, then save your final Whiskey IQ card.";
-      document.getElementById("formView").style.display = "block";
-      document.getElementById("resultView").style.display = "none";
-
-      document.getElementById("bottleName").value = currentBottle.name || "";
-      document.getElementById("bottleBrand").value = currentBottle.brand || "";
-      document.getElementById("bottleProof").value = currentBottle.proof || "";
-      document.getElementById("bottlePrice").value = currentBottle.price || "";
-      document.getElementById("bottleImage").value = "";
-
-      renderStages();
+      fillInfoFields();
+      showInfoStep();
 
       document.getElementById("modalBackdrop").classList.add("active");
       document.body.classList.add("modal-open");
@@ -1547,75 +1861,165 @@
       editingId = null;
     }
 
-    function syncFormFields() {
-      if (!currentBottle) return;
-      currentBottle.name = document.getElementById("bottleName").value.trim();
-      currentBottle.brand = document.getElementById("bottleBrand").value.trim();
-      currentBottle.proof = document.getElementById("bottleProof").value.trim();
-      currentBottle.price = document.getElementById("bottlePrice").value.trim();
+    function fillInfoFields() {
+      document.getElementById("bottleName").value = currentBottle.name || "";
+      document.getElementById("bottleSubtitle").value = currentBottle.subtitle || "";
+      document.getElementById("bottleType").value = currentBottle.type || "";
+      document.getElementById("bottleProof").value = currentBottle.proof || "";
+      document.getElementById("bottleAge").value = currentBottle.age || "";
+      document.getElementById("bottleTasted").value = currentBottle.tasted || "";
+      document.getElementById("bottlePrice").value = currentBottle.price || "";
+      document.getElementById("bottleBrand").value = currentBottle.brand || "";
+      document.getElementById("bottleNotes").value = currentBottle.notes || "";
+      document.getElementById("bottleImage").value = "";
+      updatePreview();
     }
 
-    function renderStages() {
-      const rail = document.getElementById("stageRail");
-      const cards = document.getElementById("stageCards");
+    function syncInfoFields() {
+      if (!currentBottle) return;
+
+      currentBottle.name = document.getElementById("bottleName").value.trim();
+      currentBottle.subtitle = document.getElementById("bottleSubtitle").value.trim();
+      currentBottle.type = document.getElementById("bottleType").value.trim();
+      currentBottle.proof = document.getElementById("bottleProof").value.trim();
+      currentBottle.age = document.getElementById("bottleAge").value.trim();
+      currentBottle.tasted = document.getElementById("bottleTasted").value;
+      currentBottle.price = document.getElementById("bottlePrice").value.trim();
+      currentBottle.brand = document.getElementById("bottleBrand").value.trim();
+      currentBottle.notes = document.getElementById("bottleNotes").value.trim();
+    }
+
+    function updatePreview() {
+      if (!currentBottle) return;
+      syncInfoFields();
+
+      const imageBox = document.getElementById("previewImage");
+      imageBox.innerHTML = currentBottle.image
+        ? `<img src="${currentBottle.image}" alt="${escapeHtml(currentBottle.name || "Bottle")}" />`
+        : "Image Preview";
+
+      document.getElementById("previewName").textContent = currentBottle.name || "Bottle Name";
+
+      const meta = [
+        currentBottle.subtitle,
+        currentBottle.type,
+        currentBottle.proof ? `${currentBottle.proof} Proof` : ""
+      ].filter(Boolean).join(" • ");
+
+      document.getElementById("previewMeta").textContent = meta || "Subtitle • Type • Proof";
+    }
+
+    function handleImageUpload() {
+      const file = document.getElementById("bottleImage").files?.[0];
+      if (!file || !currentBottle) return;
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        currentBottle.image = event.target.result;
+        updatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showInfoStep() {
+      document.getElementById("infoView").style.display = "block";
+      document.getElementById("scoreView").style.display = "none";
+      document.getElementById("shareView").style.display = "none";
+
+      document.getElementById("tabInfo").classList.add("active");
+      document.getElementById("tabScore").classList.remove("active");
+      document.getElementById("tabShare").classList.remove("active");
+
+      document.getElementById("modalTitle").textContent = editingId ? "Edit Bottle Info" : "Add Bottle Info";
+      document.getElementById("modalSub").textContent = "Enter the bottle details first. Rankings come next.";
+    }
+
+    function showScoreStep() {
+      syncInfoFields();
+      if (!currentBottle.name) currentBottle.name = "Untitled Bottle";
+
+      document.getElementById("infoView").style.display = "none";
+      document.getElementById("scoreView").style.display = "block";
+      document.getElementById("shareView").style.display = "none";
+
+      document.getElementById("tabInfo").classList.remove("active");
+      document.getElementById("tabScore").classList.add("active");
+      document.getElementById("tabShare").classList.remove("active");
+
+      document.getElementById("modalTitle").textContent = "Whiskey IQ Rankings";
+      document.getElementById("modalSub").textContent = "Score each category out of 20. The final score totals to 100.";
+      renderScoreStages();
+    }
+
+    function renderScoreStages() {
+      const rail = document.getElementById("scoreRail");
+      const stages = document.getElementById("scoreStages");
 
       rail.innerHTML = categories.map((cat, index) => `
         <button class="rail-item ${index === activeStage ? "active" : ""}" onclick="setStage(${index})">
-          ${getWhiskeyIqIcon(cat.iconType, true)}
+          ${icon(cat.iconType, true)}
           <span>${cat.label}</span>
         </button>
       `).join("");
 
-      cards.innerHTML = categories.map((cat, index) => {
+      stages.innerHTML = categories.map((cat, index) => {
         const value = Number(currentBottle.scores[cat.key] || 0);
-        const note = currentBottle.notes[cat.key] || "";
+        const note = currentBottle.scoreNotes[cat.key] || "";
 
         return `
-          <section class="stage-card ${index === activeStage ? "active" : ""}">
+          <section class="score-stage ${index === activeStage ? "active" : ""}">
             <div class="stage-top">
               <div>
-                <div class="stage-kicker">Step ${index + 1} of ${categories.length}</div>
+                <div class="section-kicker">Step ${index + 1} of ${categories.length}</div>
                 <div class="stage-title">${cat.label}</div>
                 <p class="stage-question">${cat.question}</p>
               </div>
-              ${getWhiskeyIqIcon(cat.iconType)}
+              ${icon(cat.iconType)}
             </div>
 
             <div class="score-control">
-              <div class="range-wrap">
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  step="0.5"
-                  value="${value}"
-                  oninput="updateScore('${cat.key}', this.value)"
-                />
+              <div>
+                <input type="range" min="0" max="20" step="1" value="${value}" oninput="updateScore('${cat.key}', this.value)" />
                 <div class="range-labels">
                   <span>${cat.low}</span>
-                  <span>5</span>
+                  <span>10</span>
                   <span>${cat.high}</span>
                 </div>
               </div>
-
               <div class="score-bubble" id="bubble-${cat.key}">${value}</div>
             </div>
 
-            <div class="field score-note">
+            ${
+              cat.key === "palate"
+                ? `
+                  <div class="field full">
+                    <label>Flavor Bubbles</label>
+                    <div class="flavor-bank">
+                      ${flavorOptions.map(flavor => `
+                        <button class="flavor-chip ${currentBottle.flavors.includes(flavor) ? "active" : ""}" onclick="toggleFlavor('${flavor}')">${flavor}</button>
+                      `).join("")}
+                    </div>
+                  </div>
+                `
+                : ""
+            }
+
+            <div class="field full" style="margin-top:14px;">
               <label>${cat.label} Notes</label>
-              <textarea
-                placeholder="Add notes for ${cat.label.toLowerCase()}..."
-                oninput="updateNote('${cat.key}', this.value)"
-              >${escapeHtml(note)}</textarea>
+              <textarea placeholder="Add ${cat.label.toLowerCase()} notes..." oninput="updateScoreNote('${cat.key}', this.value)">${escapeHtml(note)}</textarea>
             </div>
 
             <div class="stage-actions">
-              <button class="btn" onclick="prevStage()" ${index === 0 ? "disabled" : ""}>Back</button>
+              <div>
+                <button class="btn" onclick="showInfoStep()">Bottle Info</button>
+                <button class="btn" onclick="prevStage()" ${index === 0 ? "disabled" : ""}>Back</button>
+              </div>
+
               <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <button class="btn" onclick="saveDraftOnly()">Save Draft</button>
                 ${
                   index === categories.length - 1
-                    ? `<button class="btn btn-primary" onclick="finishBottle()">View Final Score</button>`
+                    ? `<button class="btn btn-primary" onclick="finishBottle()">Build Share Card</button>`
                     : `<button class="btn btn-primary" onclick="nextStage()">Next</button>`
                 }
               </div>
@@ -1626,157 +2030,156 @@
     }
 
     function setStage(index) {
-      syncFormFields();
       activeStage = index;
-      renderStages();
+      renderScoreStages();
     }
 
     function nextStage() {
-      syncFormFields();
       activeStage = Math.min(categories.length - 1, activeStage + 1);
-      renderStages();
+      renderScoreStages();
     }
 
     function prevStage() {
-      syncFormFields();
       activeStage = Math.max(0, activeStage - 1);
-      renderStages();
+      renderScoreStages();
     }
 
     function updateScore(key, value) {
-      if (!currentBottle) return;
       currentBottle.scores[key] = Number(value);
       const bubble = document.getElementById(`bubble-${key}`);
       if (bubble) bubble.textContent = value;
     }
 
-    function updateNote(key, value) {
-      if (!currentBottle) return;
-      currentBottle.notes[key] = value;
-    }
-        function readImageFile() {
-      return new Promise(resolve => {
-        const input = document.getElementById("bottleImage");
-        const file = input.files && input.files[0];
-
-        if (!file) {
-          resolve(currentBottle.image || "");
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.onerror = () => resolve(currentBottle.image || "");
-        reader.readAsDataURL(file);
-      });
+    function updateScoreNote(key, value) {
+      currentBottle.scoreNotes[key] = value;
     }
 
-    async function buildBottleFromForm() {
-      syncFormFields();
-      currentBottle.image = await readImageFile();
-
-      if (!currentBottle.name) {
-        currentBottle.name = "Untitled Bottle";
+    function toggleFlavor(flavor) {
+      if (!currentBottle.flavors) currentBottle.flavors = [];
+      if (currentBottle.flavors.includes(flavor)) {
+        currentBottle.flavors = currentBottle.flavors.filter(f => f !== flavor);
+      } else {
+        currentBottle.flavors.push(flavor);
       }
-
-      currentBottle.updatedAt = new Date().toISOString();
-      currentBottle.totalScore = averageScore(currentBottle.scores);
-
-      return currentBottle;
+      renderScoreStages();
     }
 
-    async function saveDraftOnly() {
-      const bottle = await buildBottleFromForm();
-      upsertBottle(bottle);
+    function upsertBottle() {
+      syncInfoFields();
+      if (!currentBottle.name) currentBottle.name = "Untitled Bottle";
+      currentBottle.updatedAt = new Date().toISOString();
+      currentBottle.totalScore = totalScore(currentBottle);
+      currentBottle.aiSummary = aiSummary(currentBottle);
+
+      const index = bottles.findIndex(b => b.id === currentBottle.id);
+      if (index >= 0) bottles[index] = JSON.parse(JSON.stringify(currentBottle));
+      else bottles.unshift(JSON.parse(JSON.stringify(currentBottle)));
+
+      saveBottles();
       renderDashboard();
+    }
+
+    function saveDraftOnly() {
+      upsertBottle();
       alert("Saved.");
     }
 
-    function upsertBottle(bottle) {
-      const index = bottles.findIndex(b => b.id === bottle.id);
-      if (index >= 0) {
-        bottles[index] = JSON.parse(JSON.stringify(bottle));
-      } else {
-        bottles.unshift(JSON.parse(JSON.stringify(bottle)));
-      }
-      saveBottles();
+    function finishBottle() {
+      if (!currentBottle) return;
+      upsertBottle();
+
+      document.getElementById("infoView").style.display = "none";
+      document.getElementById("scoreView").style.display = "none";
+      document.getElementById("shareView").style.display = "block";
+
+      document.getElementById("tabInfo").classList.remove("active");
+      document.getElementById("tabScore").classList.remove("active");
+      document.getElementById("tabShare").classList.add("active");
+
+      document.getElementById("modalTitle").textContent = "Review Results";
+      document.getElementById("modalSub").textContent = "This is the card layout for sharing, downloading, and printing.";
+
+      renderShareCard(currentBottle);
     }
 
-    async function finishBottle() {
-      const bottle = await buildBottleFromForm();
-      upsertBottle(bottle);
-      renderDashboard();
-      renderFinalResult(bottle);
-    }
+    function renderShareCard(bottle) {
+      const score = totalScore(bottle);
+      const scoreHtml = categories.map(cat => `
+        <div class="share-score-item">
+          ${miniScoreIcon(cat.iconType)}
+          <div class="share-score-name">${cat.label}</div>
+          <div class="share-score-num">${Number(bottle.scores[cat.key] || 0)}/20</div>
+        </div>
+      `).join("");
 
-    function renderFinalResult(bottle) {
-      document.getElementById("formView").style.display = "none";
-      document.getElementById("resultView").style.display = "block";
-      document.getElementById("modalTitle").textContent = "Final Whiskey IQ Score";
-      document.getElementById("modalSub").textContent = "Clean final card. If there is no image, the image box is removed.";
+      const flavors = bottle.flavors && bottle.flavors.length ? bottle.flavors : ["No flavor bubbles selected"];
+      const summary = bottle.aiSummary || aiSummary(bottle);
 
-      const hasImage = !!bottle.image;
-      const meta = [bottle.brand, bottle.proof, bottle.price].filter(Boolean).join(" • ");
-      const allNotes = categories
-        .map(cat => {
-          const note = bottle.notes?.[cat.key]?.trim();
-          return note ? `${cat.label}: ${note}` : "";
-        })
-        .filter(Boolean)
-        .join("\n\n");
+      document.getElementById("shareView").innerHTML = `
+        <div class="share-card-wrap">
+          <div class="share-card" id="shareCard">
+            <div class="share-inner">
+              <div class="share-logo">
+                <div class="share-line"></div>
+                <div class="share-logo-main">Whiskey<br>IQ</div>
+                <div class="share-line"></div>
+              </div>
 
-      document.getElementById("resultView").innerHTML = `
-        <div class="result-card" style="padding:18px;">
-          <div class="result-grid ${hasImage ? "" : "no-photo"}">
-            <div class="final-photo-card ${hasImage ? "" : "hidden"}">
-              ${hasImage ? `<img class="final-photo" src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : ""}
+              <div class="share-image ${bottle.image ? "" : "no-image"}">
+                ${bottle.image ? `<img src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : ""}
+              </div>
+
+              <div class="share-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+              <div class="share-subtitle">${escapeHtml(bottle.subtitle || bottle.brand || "")}</div>
+
+              <div class="share-divider"></div>
+              <div class="share-score-label">Whiskey IQ Score</div>
+              <div class="share-big-score">${score}<span>/100</span></div>
+
+              <div class="share-scores">${scoreHtml}</div>
+
+              <div class="share-details">
+                <div class="share-detail-label">Type</div>
+                <div class="share-detail-value">${escapeHtml(bottle.type || "—")}</div>
+
+                <div class="share-detail-label">Proof</div>
+                <div class="share-detail-value">${escapeHtml(bottle.proof || "—")}</div>
+
+                <div class="share-detail-label">Age Statement</div>
+                <div class="share-detail-value">${escapeHtml(bottle.age || "—")}</div>
+
+                <div class="share-detail-label">Tasted</div>
+                <div class="share-detail-value">${escapeHtml(formatDate(bottle.tasted) || "—")}</div>
+
+                <div class="share-detail-label">Notes</div>
+                <div class="share-detail-value">${escapeHtml(bottle.notes || "—")}</div>
+              </div>
             </div>
 
-            <div class="final-summary">
-              <div class="final-topline">
-                <div>
-                  <div class="section-kicker">DAGS Whiskey IQ</div>
-                  <div class="final-name">${escapeHtml(bottle.name)}</div>
-                  <div class="final-meta">${escapeHtml(meta || "No bottle details added")}</div>
-                </div>
-                <div class="final-score">${bottle.totalScore}</div>
-              </div>
-
-              <div class="score-breakdown">
-                ${categories.map(cat => `
-                  <div class="break-card">
-                    <div class="break-head">
-                      <div class="break-icon">
-                        ${getWhiskeyIqIcon(cat.iconType, true).replace("rail-mini-icon", "break-icon-inner")}
-                      </div>
-                      <div class="break-score">${Number(bottle.scores?.[cat.key] || 0)}</div>
-                    </div>
-                    <div class="break-label">${cat.label}</div>
-                  </div>
-                `).join("")}
-              </div>
-
-              <div class="notes-box">${escapeHtml(allNotes)}</div>
-
-              <div class="stage-actions no-print">
-                <button class="btn" onclick="backToForm()">Back to Edit</button>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                  <button class="btn" onclick="window.print()">Print</button>
-                  <button class="btn btn-primary" onclick="closeModal()">Done</button>
-                </div>
-              </div>
+            <div class="share-footer">
+              Rate • Learn • Enjoy
+              <small>kookingwithcorey.github.io/Dagsbar</small>
             </div>
           </div>
+
+          <aside class="summary-panel no-print">
+            <h3>Flavor Bubbles</h3>
+            <div class="bubble-row">
+              ${flavors.map(f => `<span class="bubble">${escapeHtml(f)}</span>`).join("")}
+            </div>
+
+            <h3>AI Summary</h3>
+            <p>${escapeHtml(summary)}</p>
+
+            <div class="stage-actions">
+              <button class="btn" onclick="showScoreStep()">Edit Rankings</button>
+              <button class="btn" onclick="showInfoStep()">Edit Details</button>
+              <button class="btn btn-gold" onclick="window.print()">Save / Print</button>
+              <button class="btn btn-primary" onclick="closeModal()">Done</button>
+            </div>
+          </aside>
         </div>
       `;
-    }
-
-    function backToForm() {
-      document.getElementById("formView").style.display = "block";
-      document.getElementById("resultView").style.display = "none";
-      document.getElementById("modalTitle").textContent = editingId ? "Edit Bottle" : "Add Bottle";
-      document.getElementById("modalSub").textContent = "Score each section, then save your final Whiskey IQ card.";
-      renderStages();
     }
 
     function viewBottle(id) {
@@ -1789,7 +2192,7 @@
       document.getElementById("modalBackdrop").classList.add("active");
       document.body.classList.add("modal-open");
 
-      renderFinalResult(currentBottle);
+      finishBottle();
     }
 
     function editBottle(id) {
@@ -1800,8 +2203,7 @@
       const bottle = bottles.find(b => b.id === id);
       if (!bottle) return;
 
-      const ok = confirm(`Delete "${bottle.name}"?`);
-      if (!ok) return;
+      if (!confirm(`Delete "${bottle.name}"?`)) return;
 
       bottles = bottles.filter(b => b.id !== id);
       saveBottles();
@@ -1812,13 +2214,22 @@
       const grid = document.getElementById("bottleGrid");
       const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
 
+      document.getElementById("gridBtn").classList.toggle("active", viewMode === "grid");
+      document.getElementById("singleBtn").classList.toggle("active", viewMode === "single");
+      grid.className = `bottle-grid ${viewMode === "single" ? "single" : ""}`;
+
       const filtered = bottles.filter(b => {
         const text = [
           b.name,
-          b.brand,
+          b.subtitle,
+          b.type,
           b.proof,
+          b.age,
+          b.brand,
           b.price,
-          Object.values(b.notes || {}).join(" ")
+          b.notes,
+          (b.flavors || []).join(" "),
+          Object.values(b.scoreNotes || {}).join(" ")
         ].join(" ").toLowerCase();
 
         return !query || text.includes(query);
@@ -1826,42 +2237,59 @@
 
       if (!filtered.length) {
         grid.innerHTML = `
-          <div class="empty-state" style="grid-column:1 / -1;">
+          <div class="empty-state">
             <h3>${bottles.length ? "No matching bottles" : "No bottles yet"}</h3>
-            <p>${bottles.length ? "Try a different search." : "Add your first bottle to start your Whiskey IQ log."}</p>
-            <br />
+            <p>${bottles.length ? "Try another search." : "Add your first bottle to start your Whiskey IQ log."}</p>
+            <br>
             <button class="btn btn-primary" onclick="openBottleModal()">Add Bottle</button>
           </div>
         `;
-      } else {
-        grid.innerHTML = filtered.map(bottle => {
-          const hasImage = !!bottle.image;
-          const meta = [bottle.brand, bottle.proof, bottle.price].filter(Boolean).join(" • ");
-          const score = bottle.totalScore ?? averageScore(bottle.scores);
+        renderStats();
+        return;
+      }
 
-          return `
-            <article class="bottle-card ${hasImage ? "" : "no-image"}">
-              <div class="bottle-image">
-                ${hasImage ? `<img src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : `No Image`}
-              </div>
+      grid.innerHTML = filtered.map(bottle => {
+        const score = totalScore(bottle);
+        const meta = [
+          bottle.subtitle,
+          bottle.type,
+          bottle.proof ? `${bottle.proof} Proof` : ""
+        ].filter(Boolean).join(" • ");
 
+        return `
+          <article class="bottle-card ${bottle.image ? "" : "no-image"}">
+            <div class="bottle-photo">
+              ${bottle.image ? `<img src="${bottle.image}" alt="${escapeHtml(bottle.name)}" />` : "No Image"}
+            </div>
+
+            <div>
               <div class="bottle-main">
                 <div>
-                  <div class="bottle-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+                  <div class="bottle-title">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
                   <div class="bottle-meta">${escapeHtml(meta || "No details added")}</div>
                 </div>
-                <div class="bottle-score">${score}</div>
+                <div class="large-score">${score}</div>
               </div>
 
-              <div class="bottle-actions">
-                <button class="small-btn" onclick="viewBottle('${bottle.id}')">View</button>
-                <button class="small-btn" onclick="editBottle('${bottle.id}')">Edit</button>
-                <button class="small-btn danger" onclick="deleteBottle('${bottle.id}')">Delete</button>
+              <div class="mini-scores" style="margin-top:12px;">
+                ${categories.map(cat => `
+                  <div class="mini-score">
+                    ${miniScoreIcon(cat.iconType)}
+                    <div class="mini-score-label">${cat.label}</div>
+                    <div class="mini-score-value">${Number(bottle.scores?.[cat.key] || 0)}/20</div>
+                  </div>
+                `).join("")}
               </div>
-            </article>
-          `;
-        }).join("");
-      }
+            </div>
+
+            <div class="bottle-actions">
+              <button class="small-btn" onclick="viewBottle('${bottle.id}')">View</button>
+              <button class="small-btn" onclick="editBottle('${bottle.id}')">Edit</button>
+              <button class="small-btn danger" onclick="deleteBottle('${bottle.id}')">Delete</button>
+            </div>
+          </article>
+        `;
+      }).join("");
 
       renderStats();
     }
@@ -1877,31 +2305,24 @@
         return;
       }
 
-      const withScores = bottles.map(b => ({
-        ...b,
-        totalScore: b.totalScore ?? averageScore(b.scores)
-      }));
+      const sorted = [...bottles].sort((a, b) => totalScore(b) - totalScore(a));
+      const best = sorted[0];
+      const avg = bottles.reduce((sum, b) => sum + totalScore(b), 0) / bottles.length;
 
-      const best = [...withScores].sort((a, b) => b.totalScore - a.totalScore)[0];
-      const avg = withScores.reduce((sum, b) => sum + Number(b.totalScore || 0), 0) / withScores.length;
-
-      document.getElementById("statBest").textContent = best.totalScore;
-      document.getElementById("statAverage").textContent = Math.round(avg * 10) / 10;
+      document.getElementById("statBest").textContent = totalScore(best);
+      document.getElementById("statAverage").textContent = Math.round(avg);
       document.getElementById("statTopBottle").textContent = best.name || "Untitled Bottle";
     }
 
     document.getElementById("modalBackdrop").addEventListener("click", event => {
-      if (event.target.id === "modalBackdrop") {
-        closeModal();
-      }
+      if (event.target.id === "modalBackdrop") closeModal();
     });
 
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
+      if (event.key === "Escape") closeModal();
     });
 
+    loadTheme();
     loadBottles();
     renderDashboard();
   </script>
