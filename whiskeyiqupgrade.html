@@ -1776,6 +1776,125 @@
     align-items: center !important;
   }
 }
+/* Final grid + line view polish */
+
+/* Bigger grid icon when grid mode is active */
+.view-circle-btn {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  line-height: 1 !important;
+}
+
+/* Grid view: keep buttons in one clean bottom row */
+@media (max-width: 720px) {
+  .log-grid:not(.line-view) .log-card.has-bottle-image {
+    grid-template-columns: 120px minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .log-actions {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .small-btn {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .small-btn.danger {
+    padding: 8px 16px !important;
+  }
+}
+
+/* Line view: bring back small image thumbnail if bottle has image */
+.log-grid.line-view .log-card.has-bottle-image {
+  grid-template-columns: 58px minmax(0, 1fr) !important;
+  align-items: center !important;
+}
+
+.log-grid.line-view .log-card.no-bottle-image {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.log-grid.line-view .log-image {
+  display: block !important;
+  width: 58px !important;
+  height: 58px !important;
+  min-height: 58px !important;
+  border-radius: 16px !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+.log-grid.line-view .log-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.log-grid.line-view .log-content {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+}
+
+.log-grid.line-view .log-card.no-bottle-image .log-content {
+  grid-column: 1 !important;
+}
+
+/* Line view: force score to the far right */
+.log-grid.line-view .log-top {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 66px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+.log-grid.line-view .log-title-wrap {
+  min-width: 0 !important;
+}
+
+.log-grid.line-view .score-pill {
+  justify-self: end !important;
+  align-self: center !important;
+  margin-left: auto !important;
+}
+
+.log-grid.line-view .line-score-bar {
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+.log-grid.line-view .log-actions {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+
+/* Mobile line view: slightly smaller thumbnail and score */
+@media (max-width: 720px) {
+  .log-grid.line-view .log-card.has-bottle-image {
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+  }
+
+  .log-grid.line-view .log-image {
+    width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    border-radius: 14px !important;
+  }
+
+  .log-grid.line-view .log-top {
+    grid-template-columns: minmax(0, 1fr) 64px !important;
+  }
+}
   </style>
 </head>
 
@@ -2662,15 +2781,24 @@
       });
     }
 
-    function setView(mode) {
-      viewMode = mode;
-      localStorage.setItem(VIEW_KEY, mode);
-      renderLog();
-    }
-    function toggleDashboardView() {
-  setView(viewMode === "grid" ? "line" : "grid");
+    function updateViewToggleIcon() {
+  const btn = document.getElementById("viewToggleBtn");
+  if (!btn) return;
+
+  // Grid view shows 4-square grid icon. Line view shows 3-line icon.
+  btn.textContent = viewMode === "grid" ? "▦" : "☰";
 }
 
+function setView(mode) {
+  viewMode = mode;
+  localStorage.setItem(VIEW_KEY, mode);
+  updateViewToggleIcon();
+  renderLog();
+}
+
+function toggleDashboardView() {
+  setView(viewMode === "grid" ? "line" : "grid");
+}
     function getSortedFilteredBottles() {
       const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
       const sort = document.getElementById("sortSelect")?.value || "dateDesc";
@@ -2694,6 +2822,8 @@
   const grid = document.getElementById("logGrid");
   const filtered = getSortedFilteredBottles();
 
+  updateViewToggleIcon();
+
   grid.className = `log-grid ${viewMode === "line" ? "line-view" : ""}`;
 
   if (!filtered.length) {
@@ -2712,6 +2842,7 @@
   grid.innerHTML = filtered.map(bottle => {
     const score = totalScore(bottle);
     const hasImage = Boolean(bottle.image);
+
     const mini = categories.map(cat => `
       <div class="mini-score">
         ${svgIcon(cat.icon)}
@@ -2721,7 +2852,7 @@
     `).join("");
 
     return `
-      <article class="log-card ${hasImage ? "" : "no-bottle-image"}">
+      <article class="log-card ${hasImage ? "has-bottle-image" : "no-bottle-image"}">
         ${
           hasImage
             ? `<div class="log-image"><img src="${bottle.image}" alt="${escapeHtml(bottle.name)}" /></div>`
@@ -2730,7 +2861,7 @@
 
         <div class="log-content">
           <div class="log-top">
-            <div>
+            <div class="log-title-wrap">
               <div class="log-title">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
               <div class="log-meta">${escapeHtml([bottle.type, bottle.proof ? bottle.proof + " Proof" : ""].filter(Boolean).join(" • ") || "No details added")}</div>
             </div>
