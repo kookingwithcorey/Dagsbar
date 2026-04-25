@@ -2800,19 +2800,29 @@
       });
     }
 
-    function updateViewToggleIcon() {
+   function updateViewToggleIcon() {
   const btn = document.getElementById("viewToggleBtn");
   if (!btn) return;
 
   // Grid view shows 4-square grid icon. Line view shows 3-line icon.
   btn.innerHTML = viewMode === "grid"
-  ? `<span class="grid-icon-4" aria-hidden="true">
-      <span></span><span></span>
-      <span></span><span></span>
-    </span>`
-  : "☰";
+    ? `<span class="grid-icon-4" aria-hidden="true">
+        <span></span><span></span>
+        <span></span><span></span>
+      </span>`
+    : "☰";
+}
 
 function setView(mode) {
+  viewMode = mode;
+  localStorage.setItem(VIEW_KEY, mode);
+  updateViewToggleIcon();
+  renderLog();
+}
+
+function toggleDashboardView() {
+  setView(viewMode === "grid" ? "line" : "grid");
+}
   viewMode = mode;
   localStorage.setItem(VIEW_KEY, mode);
   updateViewToggleIcon();
