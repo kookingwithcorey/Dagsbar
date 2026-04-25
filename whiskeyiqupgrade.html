@@ -2294,6 +2294,45 @@
     font-size: 24px !important;
   }
 }
+/* ================================
+   TOP BOTTLES SCORE STYLE
+   ================================ */
+
+.top-bottle-score-list {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.top-bottle-score-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.top-bottle-score-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.top-bottle-score-row strong {
+  min-width: 42px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(15,139,107,.12);
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 1000;
+}
   </style>
 </head>
 
@@ -3439,6 +3478,137 @@
   });
 
   window.runDashboardEnhancements = runDashboardEnhancements;
+})();
+/* ================================
+   TOP BOTTLES SCORE UPGRADE
+   Adds score beside top bottle names
+   ================================ */
+
+(function () {
+  function cleanScore(raw) {
+    return Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(Number(String(raw || "0").replace(/[^0-9.]/g, "")) || 0)
+      )
+    );
+  }
+
+  function scoreFromBottle(bottle) {
+    const direct =
+      bottle.finalScore ??
+      bottle.totalScore ??
+      bottle.overallScore ??
+      bottle.overall ??
+      bottle.score ??
+      bottle.rating;
+
+    if (direct !== undefined && direct !== null && direct !== "") {
+      return cleanScore(direct);
+    }
+
+    if (bottle.scores && typeof bottle.scores === "object") {
+      const nums = Object.values(bottle.scores)
+        .map(Number)
+        .filter((n) => !Number.isNaN(n));
+
+      if (nums.length) {
+        return cleanScore(nums.reduce((a, b) => a + b, 0) / nums.length);
+      }
+    }
+
+    return 0;
+  }
+
+  function nameFromBottle(bottle) {
+    return bottle.name || bottle.bottleName || bottle.title || bottle.whiskeyName || "Untitled Bottle";
+  }
+
+  function findBottleStorage() {
+    let best = [];
+
+    Object.keys(localStorage).forEach((key) => {
+      try {
+        const value = JSON.parse(localStorage.getItem(key));
+        if (!Array.isArray(value)) return;
+
+        const looksLikeBottles = value.some((item) => {
+          if (!item || typeof item !== "object") return false;
+          return item.name || item.bottleName || item.title || item.score || item.finalScore || item.scores;
+        });
+
+        if (looksLikeBottles && value.length > best.length) {
+          best = value;
+        }
+      } catch (e) {}
+    });
+
+    return best;
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function upgradeTopBottlesScore() {
+    const statCards = Array.from(document.querySelectorAll(".stat-card"));
+    if (!statCards.length) return;
+
+    const topCard =
+      statCards.find((card) => card.textContent.toLowerCase().includes("top bottle")) ||
+      statCards.find((card) => card.textContent.toLowerCase().includes("top")) ||
+      statCards[1];
+
+    if (!topCard) return;
+
+    const bottles = findBottleStorage()
+      .slice()
+      .sort((a, b) => scoreFromBottle(b) - scoreFromBottle(a))
+      .slice(0, 3);
+
+    let existing = topCard.querySelector(".top-bottle-score-list");
+    if (!existing) {
+      existing = document.createElement("div");
+      existing.className = "top-bottle-score-list";
+      topCard.appendChild(existing);
+    }
+
+    if (!bottles.length) {
+      existing.innerHTML = `
+        <div class="top-bottle-score-row">
+          <span>No bottles yet</span>
+          <strong>—</strong>
+        </div>
+      `;
+      return;
+    }
+
+    existing.innerHTML = bottles.map((bottle) => `
+      <div class="top-bottle-score-row">
+        <span>${escapeHtml(nameFromBottle(bottle))}</span>
+        <strong>${scoreFromBottle(bottle)}</strong>
+      </div>
+    `).join("");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    upgradeTopBottlesScore();
+    setTimeout(upgradeTopBottlesScore, 300);
+    setTimeout(upgradeTopBottlesScore, 900);
+  });
+
+  document.addEventListener("click", function () {
+    setTimeout(upgradeTopBottlesScore, 300);
+    setTimeout(upgradeTopBottlesScore, 900);
+  });
+
+  window.upgradeTopBottlesScore = upgradeTopBottlesScore;
 })();
   </script>
 </body>
