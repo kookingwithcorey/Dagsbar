@@ -1807,6 +1807,313 @@
     font-size: 23px;
   }
 }
+/* ================================
+   FIXED DASHBOARD TOOLBAR - USE OLD WORKING BUTTONS
+   ================================ */
+
+/* Logo fix */
+.brand-logo-mark {
+  background: #078965 !important;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.brand-logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hide any accidental duplicate toolbar created by the newer block */
+.toolbar + .toolbar {
+  display: none !important;
+}
+
+/* Main old toolbar converted to one clean row */
+.panel > .toolbar:first-of-type {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 54px 54px 54px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  margin-bottom: 18px !important;
+}
+
+.panel > .toolbar:first-of-type .search {
+  min-width: 0 !important;
+  height: 54px !important;
+  border-radius: 999px !important;
+  padding: 0 22px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+/* Filter becomes circular bubble */
+.panel > .toolbar:first-of-type .select {
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px !important;
+  border-radius: 999px !important;
+  padding: 0 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background:
+    linear-gradient(rgba(255,255,255,.42), rgba(255,255,255,.42)),
+    var(--panel) !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+/* Funnel icon on filter bubble */
+.panel > .toolbar:first-of-type .select {
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='%23064c35' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 5h16l-6.5 7.5V19l-3 1v-7.5L4 5z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 26px 26px !important;
+}
+
+/* Old grid/line toggle becomes one circular bubble */
+.panel > .toolbar:first-of-type .view-toggle {
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  display: block !important;
+  background: rgba(255,255,255,.42) !important;
+}
+
+/* Hide both words */
+.panel > .toolbar:first-of-type .view-toggle button {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 54px !important;
+  height: 54px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Show active button as the visible circle */
+.panel > .toolbar:first-of-type .view-toggle button.active {
+  opacity: 1 !important;
+  background: var(--green) !important;
+  color: #fff !important;
+  display: grid !important;
+  place-items: center !important;
+  z-index: 2 !important;
+}
+
+/* Grid icon */
+.panel > .toolbar:first-of-type .view-toggle button:first-child.active::before {
+  content: "▦";
+  color: #fff;
+  font-size: 23px;
+  line-height: 1;
+}
+
+/* Line icon */
+.panel > .toolbar:first-of-type .view-toggle button:last-child.active::before {
+  content: "☰";
+  color: #fff;
+  font-size: 25px;
+  line-height: 1;
+}
+
+/* Add bottle becomes a plus circle */
+.panel > .toolbar:first-of-type .btn-primary {
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
+  border-radius: 999px !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.panel > .toolbar:first-of-type .btn-primary::before {
+  content: "+";
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 900;
+  color: #fff;
+  margin-top: -3px;
+}
+
+/* Score ring */
+.score-pill {
+  --scorePct: 0%;
+  width: 74px !important;
+  height: 74px !important;
+  border: 0 !important;
+  background:
+    conic-gradient(var(--green-2) var(--scorePct), rgba(6,76,53,.12) 0) !important;
+  padding: 5px !important;
+  color: var(--green) !important;
+}
+
+.score-pill::before {
+  content: attr(data-score);
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--panel);
+  font-size: 24px;
+  font-weight: 1000;
+}
+
+/* Remove no-image boxes */
+.log-card.no-bottle-image {
+  grid-template-columns: 1fr !important;
+}
+
+.log-card.no-bottle-image .log-image {
+  display: none !important;
+}
+
+/* Cleaner line view */
+.log-grid.line-view {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.line-view .log-card {
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) 92px !important;
+  align-items: center !important;
+  min-height: 102px !important;
+  padding: 14px !important;
+  border-radius: 24px !important;
+}
+
+.line-view .log-card.no-bottle-image {
+  grid-template-columns: minmax(0, 1fr) 92px !important;
+}
+
+.line-view .log-image {
+  width: 64px !important;
+  height: 64px !important;
+  min-height: 64px !important;
+  border-radius: 18px !important;
+}
+
+.line-view .log-title {
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+}
+
+.line-view .log-meta {
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--gold) !important;
+  font-weight: 1000;
+}
+
+.line-view .score-pill {
+  width: 72px !important;
+  height: 72px !important;
+  justify-self: end;
+}
+
+.line-view .mini-row {
+  display: none !important;
+}
+
+.line-score-bar {
+  grid-column: 1 / -1;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(6,76,53,.10);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.line-score-fill {
+  height: 100%;
+  width: var(--scorePct);
+  background: linear-gradient(90deg, var(--green-2), var(--green));
+  border-radius: inherit;
+}
+
+/* Remove Edit button visually if it exists */
+.log-actions .small-btn[data-action="edit"],
+.log-actions .edit-btn,
+.log-actions button[onclick*="edit"] {
+  display: none !important;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .panel > .toolbar:first-of-type {
+    grid-template-columns: minmax(0, 1fr) 48px 48px 48px !important;
+    gap: 8px !important;
+  }
+
+  .panel > .toolbar:first-of-type .search {
+    height: 48px !important;
+    font-size: 14px !important;
+    padding: 0 16px !important;
+  }
+
+  .panel > .toolbar:first-of-type .select,
+  .panel > .toolbar:first-of-type .view-toggle,
+  .panel > .toolbar:first-of-type .btn-primary {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+  }
+
+  .panel > .toolbar:first-of-type .view-toggle button {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .panel > .toolbar:first-of-type .btn-primary::before {
+    font-size: 31px;
+  }
+
+  .log-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .line-view .log-card {
+    grid-template-columns: 52px minmax(0, 1fr) 74px !important;
+    padding: 12px !important;
+  }
+
+  .line-view .log-card.no-bottle-image {
+    grid-template-columns: minmax(0, 1fr) 74px !important;
+  }
+
+  .line-view .log-image {
+    width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+  }
+
+  .line-view .score-pill {
+    width: 66px !important;
+    height: 66px !important;
+  }
+
+  .line-view .score-pill::before {
+    font-size: 23px;
+  }
+}
   </style>
 </head>
 
@@ -1892,30 +2199,6 @@
       </div>
 
       <div class="panel">
-        <div class="toolbar">
-  <input
-    id="searchInput"
-    class="search"
-    type="search"
-    placeholder="Search bottle, type, flavor, notes..."
-    autocomplete="off"
-  />
-
-  <select id="sortSelect" class="select" aria-label="Filter bottles">
-    <option value="newest">Newest First</option>
-    <option value="oldest">Oldest First</option>
-    <option value="highest">Highest Score</option>
-    <option value="lowest">Lowest Score</option>
-    <option value="name">Bottle Name</option>
-  </select>
-
-  <div class="view-toggle" aria-label="Toggle dashboard view">
-    <button id="gridViewBtn" type="button" class="active" data-view="grid">Grid</button>
-    <button id="lineViewBtn" type="button" data-view="line">Line</button>
-  </div>
-
-  <button id="addBottleBtn" class="btn btn-primary" type="button">Add Bottle</button>
-</div>
           <input id="searchInput" class="search" type="search" placeholder="Search bottle, type, flavor, notes..." oninput="renderLog()" />
 
           <select id="sortSelect" class="select" onchange="renderLog()">
@@ -2854,419 +3137,123 @@
     loadBottles();
     renderLog();
     /* ================================
-   DAGS DASHBOARD UPGRADE SCRIPT
+   SAFE OLD DASHBOARD ENHANCEMENTS
+   Does not replace existing View/Delete/Add logic
    ================================ */
 
 (function () {
-  const DAGS_LOGO = "dags-new-logo.png";
+  function getScoreFromCard(card) {
+    const scoreEl = card.querySelector(".score-pill");
+    if (!scoreEl) return 0;
 
-  function getAllStorageBottles() {
-    let best = {
-      key: null,
-      bottles: []
-    };
+    const raw =
+      scoreEl.getAttribute("data-score") ||
+      scoreEl.textContent ||
+      scoreEl.innerText ||
+      "0";
 
-    Object.keys(localStorage).forEach((key) => {
-      try {
-        const value = JSON.parse(localStorage.getItem(key));
-        if (!Array.isArray(value)) return;
-
-        const looksLikeBottles = value.some((item) => {
-          if (!item || typeof item !== "object") return false;
-          return item.name || item.bottleName || item.title || item.proof || item.scores || item.score || item.finalScore;
-        });
-
-        if (looksLikeBottles && value.length >= best.bottles.length) {
-          best = {
-            key,
-            bottles: value
-          };
-        }
-      } catch (e) {}
-    });
-
-    return best;
+    const score = Math.max(0, Math.min(100, Math.round(Number(String(raw).replace(/[^0-9.]/g, "")) || 0)));
+    return score;
   }
 
-  function saveAllStorageBottles(key, bottles) {
-    if (!key) return;
-    localStorage.setItem(key, JSON.stringify(bottles));
+  function cardHasRealImage(card) {
+    const img = card.querySelector(".log-image img");
+    if (!img) return false;
+
+    const src = img.getAttribute("src") || "";
+    return src.trim() && !src.toLowerCase().includes("undefined") && !src.toLowerCase().includes("null");
   }
 
-  function bottleName(bottle) {
-    return bottle.name || bottle.bottleName || bottle.title || bottle.whiskeyName || "Untitled Bottle";
-  }
-
-  function bottleType(bottle) {
-    return bottle.type || bottle.category || bottle.style || bottle.spiritType || "Whiskey";
-  }
-
-  function bottleProof(bottle) {
-    const proof = bottle.proof || bottle.abvProof || bottle.bottleProof || "";
-    return proof ? `${proof} Proof` : "";
-  }
-
-  function bottleImage(bottle) {
-    return bottle.image || bottle.imageUrl || bottle.photo || bottle.photoUrl || bottle.labelImage || "";
-  }
-
-  function bottleNotes(bottle) {
-    return [
-      bottle.notes,
-      bottle.nose,
-      bottle.palate,
-      bottle.finish,
-      Array.isArray(bottle.flavors) ? bottle.flavors.join(" ") : ""
-    ].filter(Boolean).join(" ");
-  }
-
-  function bottleScore(bottle) {
-    const direct =
-      bottle.finalScore ??
-      bottle.totalScore ??
-      bottle.overallScore ??
-      bottle.overall ??
-      bottle.score ??
-      bottle.rating;
-
-    if (direct !== undefined && direct !== null && direct !== "") {
-      return Math.max(0, Math.min(100, Math.round(Number(direct))));
-    }
-
-    if (bottle.scores && typeof bottle.scores === "object") {
-      const nums = Object.values(bottle.scores)
-        .map(Number)
-        .filter((n) => !Number.isNaN(n));
-
-      if (nums.length) {
-        const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
-        return Math.max(0, Math.min(100, Math.round(avg)));
-      }
-    }
-
-    return 0;
-  }
-
-  function bottleDate(bottle) {
-    return new Date(
-      bottle.createdAt ||
-      bottle.dateAdded ||
-      bottle.updatedAt ||
-      bottle.savedAt ||
-      bottle.date ||
-      0
-    ).getTime();
-  }
-
-  function bottleId(bottle, index) {
-    return bottle.id || bottle.uuid || bottle.createdAt || `${bottleName(bottle)}-${index}`;
-  }
-
-  function escapeHtml(value) {
-    return String(value || "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function currentView() {
-    return localStorage.getItem("dagsWhiskeyIqView") || "grid";
-  }
-
-  function setCurrentView(view) {
-    localStorage.setItem("dagsWhiskeyIqView", view);
-  }
-
-  function getDashboardGrid() {
-    return document.querySelector(".log-grid");
-  }
-
-  function filterAndSortBottles(bottles) {
-    const searchInput = document.getElementById("searchInput") || document.querySelector(".search");
-    const sortSelect = document.getElementById("sortSelect") || document.querySelector(".select");
-
-    const search = (searchInput?.value || "").toLowerCase().trim();
-    const sort = sortSelect?.value || "newest";
-
-    let filtered = bottles.map((bottle, index) => ({ bottle, index }));
-
-    if (search) {
-      filtered = filtered.filter(({ bottle }) => {
-        const haystack = [
-          bottleName(bottle),
-          bottleType(bottle),
-          bottleProof(bottle),
-          bottleNotes(bottle)
-        ].join(" ").toLowerCase();
-
-        return haystack.includes(search);
-      });
-    }
-
-    filtered.sort((a, b) => {
-      if (sort === "highest") return bottleScore(b.bottle) - bottleScore(a.bottle);
-      if (sort === "lowest") return bottleScore(a.bottle) - bottleScore(b.bottle);
-      if (sort === "oldest") return bottleDate(a.bottle) - bottleDate(b.bottle);
-      if (sort === "name") return bottleName(a.bottle).localeCompare(bottleName(b.bottle));
-      return bottleDate(b.bottle) - bottleDate(a.bottle);
-    });
-
-    return filtered;
-  }
-
-  function renderTopBottles(bottles) {
-    const statCards = Array.from(document.querySelectorAll(".stat-card"));
-    if (!statCards.length) return;
-
-    let target = statCards.find((card) => card.textContent.toLowerCase().includes("top"));
-    if (!target) target = statCards[1] || statCards[0];
-
-    const oldList = target.querySelector(".top-bottle-list");
-    if (oldList) oldList.remove();
-
-    const top = [...bottles]
-      .sort((a, b) => bottleScore(b) - bottleScore(a))
-      .slice(0, 3);
-
-    const list = document.createElement("div");
-    list.className = "top-bottle-list";
-
-    if (!top.length) {
-      list.innerHTML = `
-        <div class="top-bottle-row">
-          <div class="top-bottle-name">No bottles yet</div>
-          <div class="top-bottle-score">—</div>
-        </div>
-      `;
-    } else {
-      list.innerHTML = top.map((bottle) => `
-        <div class="top-bottle-row">
-          <div class="top-bottle-name">${escapeHtml(bottleName(bottle))}</div>
-          <div class="top-bottle-score">${bottleScore(bottle)}</div>
-        </div>
-      `).join("");
-    }
-
-    target.appendChild(list);
-  }
-
-  function renderDashboardUpgrade() {
-    const grid = getDashboardGrid();
-    if (!grid) return;
-
-    const source = getAllStorageBottles();
-    const bottles = source.bottles || [];
-    const view = currentView();
-
-    grid.classList.toggle("line-view", view === "line");
-
-    const gridBtn = document.getElementById("gridViewBtn") || document.querySelector('.view-toggle button[data-view="grid"]') || document.querySelector(".view-toggle button:first-child");
-    const lineBtn = document.getElementById("lineViewBtn") || document.querySelector('.view-toggle button[data-view="line"]') || document.querySelector(".view-toggle button:last-child");
-
-    if (gridBtn) gridBtn.classList.toggle("active", view === "grid");
-    if (lineBtn) lineBtn.classList.toggle("active", view === "line");
-
-    renderTopBottles(bottles);
-
-    const filtered = filterAndSortBottles(bottles);
-
-    if (!filtered.length) {
-      grid.innerHTML = `
-        <div class="empty">
-          <h3>No bottles found</h3>
-          <p>Add a bottle or adjust your search/filter.</p>
-        </div>
-      `;
-      return;
-    }
-
-    grid.innerHTML = filtered.map(({ bottle, index }) => {
-      const name = bottleName(bottle);
-      const type = bottleType(bottle);
-      const proof = bottleProof(bottle);
-      const score = bottleScore(bottle);
-      const image = bottleImage(bottle);
-      const hasImage = Boolean(image);
+  function enhanceDashboardCards() {
+    document.querySelectorAll(".log-card").forEach((card) => {
+      const score = getScoreFromCard(card);
       const pct = `${score}%`;
-      const id = bottleId(bottle, index);
 
-      return `
-        <article class="log-card ${hasImage ? "" : "no-bottle-image"}" data-bottle-index="${index}" data-bottle-id="${escapeHtml(id)}">
-          ${hasImage ? `
-            <div class="log-image">
-              <img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" />
-            </div>
-          ` : ""}
-
-          <div class="log-content">
-            <div class="log-top">
-              <div>
-                <div class="log-meta">${escapeHtml(type)}${proof ? " · " + escapeHtml(proof) : ""}</div>
-                <div class="log-title">${escapeHtml(name)}</div>
-              </div>
-            </div>
-
-            <div class="mini-row">
-              ${["Aroma", "Flavor", "Finish", "Value", "Again", "Score"].map((label) => `
-                <div class="mini-score">
-                  <div class="mini-label">${label}</div>
-                  <div class="mini-value">${label === "Score" ? score : "—"}</div>
-                </div>
-              `).join("")}
-            </div>
-
-            <div class="line-score-bar" style="--scorePct:${pct}">
-              <div class="line-score-fill"></div>
-            </div>
-
-            <div class="log-actions">
-              <button class="small-btn" type="button" data-action="view" data-index="${index}">View</button>
-              <button class="small-btn" type="button" data-action="share" data-index="${index}">Share</button>
-              <button class="small-btn danger" type="button" data-action="delete" data-index="${index}">Delete</button>
-            </div>
-          </div>
-
-          <div class="score-pill" data-score="${score}" style="--scorePct:${pct}"></div>
-        </article>
-      `;
-    }).join("");
-  }
-
-  function deleteBottleUpgrade(index) {
-    const source = getAllStorageBottles();
-    const bottles = source.bottles || [];
-
-    if (!bottles[index]) return;
-
-    const name = bottleName(bottles[index]);
-    const confirmed = confirm(`Delete ${name} from your Whiskey IQ Log?`);
-
-    if (!confirmed) return;
-
-    bottles.splice(index, 1);
-    saveAllStorageBottles(source.key, bottles);
-    renderDashboardUpgrade();
-  }
-
-  function viewBottleUpgrade(index) {
-    const functionNames = [
-      "viewBottle",
-      "openBottle",
-      "openBottleModal",
-      "editBottle",
-      "openEditBottle",
-      "showBottle"
-    ];
-
-    for (const fn of functionNames) {
-      if (typeof window[fn] === "function") {
-        window[fn](index);
-        return;
+      const scoreEl = card.querySelector(".score-pill");
+      if (scoreEl) {
+        scoreEl.setAttribute("data-score", score);
+        scoreEl.style.setProperty("--scorePct", pct);
       }
-    }
 
-    const source = getAllStorageBottles();
-    const bottle = source.bottles[index];
-    if (!bottle) return;
-
-    alert(`${bottleName(bottle)}\nScore: ${bottleScore(bottle)}\n${bottleProof(bottle)}`);
-  }
-
-  function shareBottleUpgrade(index) {
-    const functionNames = [
-      "shareBottle",
-      "openShare",
-      "shareBottleCard",
-      "downloadShareCard"
-    ];
-
-    for (const fn of functionNames) {
-      if (typeof window[fn] === "function") {
-        window[fn](index);
-        return;
+      if (!cardHasRealImage(card)) {
+        card.classList.add("no-bottle-image");
+      } else {
+        card.classList.remove("no-bottle-image");
       }
-    }
 
-    const source = getAllStorageBottles();
-    const bottle = source.bottles[index];
-    if (!bottle) return;
+      if (!card.querySelector(".line-score-bar")) {
+        const content = card.querySelector(".log-content");
+        const actions = card.querySelector(".log-actions");
 
-    const text = `${bottleName(bottle)} — Whiskey IQ Score: ${bottleScore(bottle)}/100`;
-
-    if (navigator.share) {
-      navigator.share({
-        title: "Whiskey IQ",
-        text
-      });
-    } else {
-      navigator.clipboard?.writeText(text);
-      alert("Bottle score copied to clipboard.");
-    }
-  }
-
-  function wireDashboardUpgrade() {
-    const searchInput = document.getElementById("searchInput") || document.querySelector(".search");
-    const sortSelect = document.getElementById("sortSelect") || document.querySelector(".select");
-    const gridBtn = document.getElementById("gridViewBtn") || document.querySelector(".view-toggle button:first-child");
-    const lineBtn = document.getElementById("lineViewBtn") || document.querySelector(".view-toggle button:last-child");
-    const addBtn = document.getElementById("addBottleBtn");
-
-    searchInput?.addEventListener("input", renderDashboardUpgrade);
-    sortSelect?.addEventListener("change", renderDashboardUpgrade);
-
-    gridBtn?.addEventListener("click", function () {
-      setCurrentView("grid");
-      renderDashboardUpgrade();
-    });
-
-    lineBtn?.addEventListener("click", function () {
-      setCurrentView("line");
-      renderDashboardUpgrade();
-    });
-
-    addBtn?.addEventListener("click", function () {
-      const functionNames = [
-        "openAddBottle",
-        "addBottle",
-        "startBottle",
-        "openModal",
-        "openRankModal"
-      ];
-
-      for (const fn of functionNames) {
-        if (typeof window[fn] === "function") {
-          window[fn]();
-          return;
+        if (content && actions) {
+          const bar = document.createElement("div");
+          bar.className = "line-score-bar";
+          bar.style.setProperty("--scorePct", pct);
+          bar.innerHTML = `<div class="line-score-fill"></div>`;
+          content.insertBefore(bar, actions);
         }
+      } else {
+        card.querySelector(".line-score-bar").style.setProperty("--scorePct", pct);
       }
     });
-
-    document.addEventListener("click", function (event) {
-      const btn = event.target.closest("[data-action]");
-      if (!btn) return;
-
-      const index = Number(btn.dataset.index);
-      const action = btn.dataset.action;
-
-      if (Number.isNaN(index)) return;
-
-      if (action === "delete") deleteBottleUpgrade(index);
-      if (action === "view") viewBottleUpgrade(index);
-      if (action === "share") shareBottleUpgrade(index);
-    });
-
-    renderDashboardUpgrade();
   }
 
-  window.renderDashboardUpgrade = renderDashboardUpgrade;
+  function makeViewToggleOneButton() {
+    const toggle = document.querySelector(".panel > .toolbar:first-of-type .view-toggle");
+    if (!toggle || toggle.dataset.safeToggleReady === "true") return;
+
+    toggle.dataset.safeToggleReady = "true";
+
+    toggle.addEventListener("click", function (event) {
+      const buttons = Array.from(toggle.querySelectorAll("button"));
+      if (buttons.length < 2) return;
+
+      const active = toggle.querySelector("button.active");
+      const next = active === buttons[0] ? buttons[1] : buttons[0];
+
+      if (event.target === active || event.target === toggle) {
+        event.preventDefault();
+        event.stopPropagation();
+        next.click();
+
+        setTimeout(enhanceDashboardCards, 60);
+        setTimeout(enhanceDashboardCards, 250);
+      }
+    });
+  }
+
+  function watchDashboard() {
+    const grid = document.querySelector(".log-grid");
+    if (!grid || grid.dataset.safeWatchReady === "true") return;
+
+    grid.dataset.safeWatchReady = "true";
+
+    const observer = new MutationObserver(function () {
+      enhanceDashboardCards();
+    });
+
+    observer.observe(grid, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function runSafeEnhancements() {
+    makeViewToggleOneButton();
+    watchDashboard();
+    enhanceDashboardCards();
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
-    wireDashboardUpgrade();
+    runSafeEnhancements();
+    setTimeout(runSafeEnhancements, 150);
+    setTimeout(runSafeEnhancements, 500);
+    setTimeout(runSafeEnhancements, 1000);
+  });
 
-    setTimeout(renderDashboardUpgrade, 250);
-    setTimeout(renderDashboardUpgrade, 750);
+  document.addEventListener("click", function () {
+    setTimeout(enhanceDashboardCards, 120);
+    setTimeout(enhanceDashboardCards, 400);
   });
 })();
   </script>
