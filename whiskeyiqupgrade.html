@@ -2678,7 +2678,7 @@
       return "😬";
     }
 
-    function aiSummary(bottle) {
+    function IQInsight(bottle) {
       const score = totalScore(bottle);
       const flavor = bottle.flavorProfile || "the listed flavor profile";
       const notes = bottle.notes || "No tasting notes were added.";
@@ -2701,7 +2701,7 @@
       syncBottle();
       if (!current.name) current.name = "Untitled Bottle";
       current.totalScore = totalScore(current);
-      current.aiSummary = aiSummary(current);
+      current.iqInsight = iqInsight(current);
       current.updatedAt = new Date().toISOString();
 
       const index = bottles.findIndex(b => b.id === current.id);
@@ -2714,7 +2714,7 @@
 
     function renderShare() {
       const score = totalScore(current);
-      const summary = aiSummary(current);
+      const summary = iqInsight(current);
       const flavorProfile = current.flavorProfile || "No flavor profile added.";
       const notes = current.notes || "No tasting notes added.";
 
@@ -2775,7 +2775,7 @@
                 <div class="detail-label">Tasting Notes</div>
                 <div class="detail-value summary-text">${escapeHtml(notes)}</div>
 
-                <div class="detail-label">AI Summary</div>
+                <div class="detail-label">IQ Insight</div>
                 <div class="detail-value summary-text">${escapeHtml(summary)}</div>
               </div>
             </div>
@@ -2943,7 +2943,7 @@ function saveProgressAndClose() {
         drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 58;
         drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 78;
         drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 94;
-        drawDetail(ctx, "AI SUMMARY", aiSummary(card), y);
+        drawDetail(ctx, "IQ INSIGHT", iqSummary(card), y);
 
         ctx.fillStyle = "#064c35";
         ctx.fillRect(40, h - 148, w - 80, 112);
@@ -3088,7 +3088,7 @@ function toggleDashboardView() {
       const sort = document.getElementById("sortSelect")?.value || "dateDesc";
 
       let filtered = bottles.filter(b => {
-        const text = [b.name, b.type, b.proof, b.flavorProfile, b.notes, b.aiSummary].join(" ").toLowerCase();
+        const text = [b.name, b.type, b.proof, b.flavorProfile, b.notes, b.iqInsight].join(" ").toLowerCase();
         return !query || text.includes(query);
       });
 
