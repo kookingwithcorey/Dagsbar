@@ -2857,25 +2857,32 @@ function saveProgressAndClose() {
         ctx.fillText("/100", w / 2 + 88, y - 5);
         y += 88;
 
-        categories.forEach((cat, i) => {
-          const x = 112 + i * 135;
-          const pct = pctFor(cat, card) / 100;
-          ctx.strokeStyle = "rgba(6,76,53,.18)";
-          ctx.lineWidth = 6;
-          ctx.beginPath();
-          ctx.arc(x, y, 30, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.strokeStyle = "#064c35";
-          ctx.beginPath();
-          ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
-          ctx.stroke();
+      categories.forEach((cat, i) => {
+  const x = 112 + i * 135;
+  const pct = pctFor(cat, card) / 100;
 
-          ctx.fillStyle = "#101511";
-          ctx.font = "bold 14px Arial";
-          ctx.fillText(cat.label, x, y + 55);
-          ctx.font = "bold 18px Arial";
-          ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
-        });
+  ctx.strokeStyle = "rgba(6,76,53,.18)";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.arc(x, y, 30, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#064c35";
+  ctx.lineWidth = 7;
+  ctx.beginPath();
+  ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
+  ctx.stroke();
+
+  drawCanvasScoreIcon(ctx, cat.icon, x, y);
+
+  ctx.fillStyle = "#101511";
+  ctx.textAlign = "center";
+  ctx.font = "bold 14px Arial";
+  ctx.fillText(cat.label, x, y + 55);
+
+  ctx.font = "bold 18px Arial";
+  ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
+});
 
         y += 130;
         drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 58;
@@ -2884,11 +2891,16 @@ function saveProgressAndClose() {
         drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 94;
         drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
-        ctx.fillStyle = "#064c35";
-        ctx.fillRect(40, h - 148, w - 80, 112);
-        ctx.fillStyle = "#fffaf1";
-        ctx.font = "bold 26px Arial";
-        ctx.fillText("R A T E  •  L E A R N  •  E N J O Y", w / 2, h - 88);
+      ctx.fillStyle = "#064c35";
+ctx.fillRect(40, h - 148, w - 80, 112);
+
+ctx.fillStyle = "#fffaf1";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.font = "bold 28px Arial";
+ctx.fillText("RATE • LEARN • ENJOY", w / 2, h - 92);
+
+ctx.textBaseline = "alphabetic";
 
         callback(c);
       }
@@ -2904,7 +2916,138 @@ function saveProgressAndClose() {
         drawRest();
       }
     }
+function drawCanvasScoreIcon(ctx, type, x, y) {
+  ctx.save();
 
+  ctx.strokeStyle = "#064c35";
+  ctx.fillStyle = "#064c35";
+  ctx.lineWidth = 4.2;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  if (type === "aroma") {
+    ctx.beginPath();
+    ctx.moveTo(x - 5, y - 18);
+    ctx.bezierCurveTo(x - 8, y - 8, x - 14, y - 1, x - 13, y + 8);
+    ctx.bezierCurveTo(x - 12, y + 16, x - 4, y + 18, x + 1, y + 11);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x + 6, y - 18);
+    ctx.bezierCurveTo(x + 4, y - 7, x + 10, y - 1, x + 12, y + 7);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y + 7);
+    ctx.bezierCurveTo(x - 5, y + 13, x + 5, y + 13, x + 10, y + 7);
+    ctx.stroke();
+
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.moveTo(x - 18, y + 18);
+    ctx.bezierCurveTo(x - 22, y + 23, x - 22, y + 28, x - 18, y + 32);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y + 17);
+    ctx.bezierCurveTo(x - 5, y + 24, x - 5, y + 30, x, y + 35);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x + 18, y + 18);
+    ctx.bezierCurveTo(x + 22, y + 23, x + 22, y + 28, x + 18, y + 32);
+    ctx.stroke();
+  }
+
+  if (type === "flavor") {
+    ctx.lineWidth = 3.8;
+
+    ctx.beginPath();
+    ctx.moveTo(x - 18, y - 10);
+    ctx.bezierCurveTo(x - 10, y - 20, x + 10, y - 20, x + 18, y - 10);
+    ctx.bezierCurveTo(x + 12, y - 2, x - 12, y - 2, x - 18, y - 10);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y - 3);
+    ctx.bezierCurveTo(x - 8, y + 18, x - 4, y + 24, x, y + 24);
+    ctx.bezierCurveTo(x + 4, y + 24, x + 8, y + 18, x + 10, y - 3);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + 19);
+    ctx.stroke();
+  }
+
+  if (type === "finish") {
+    ctx.lineWidth = 3.8;
+
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y - 18);
+    ctx.lineTo(x + 10, y - 18);
+    ctx.lineTo(x + 8, y + 2);
+    ctx.bezierCurveTo(x + 5, y + 9, x - 5, y + 9, x - 8, y + 2);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y - 13);
+    ctx.bezierCurveTo(x - 22, y - 12, x - 20, y + 2, x - 9, y + 1);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x + 10, y - 13);
+    ctx.bezierCurveTo(x + 22, y - 12, x + 20, y + 2, x + 9, y + 1);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y + 8);
+    ctx.lineTo(x, y + 18);
+    ctx.moveTo(x - 8, y + 20);
+    ctx.lineTo(x + 8, y + 20);
+    ctx.moveTo(x - 12, y + 25);
+    ctx.lineTo(x + 12, y + 25);
+    ctx.stroke();
+  }
+
+  if (type === "again") {
+    ctx.lineWidth = 5;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 17, 0.35 * Math.PI, 1.8 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x + 16, y - 19);
+    ctx.lineTo(x + 23, y - 18);
+    ctx.lineTo(x + 21, y - 10);
+    ctx.stroke();
+  }
+
+  if (type === "recommend") {
+    ctx.lineWidth = 6;
+
+    ctx.beginPath();
+    ctx.moveTo(x - 17, y + 2);
+    ctx.lineTo(x - 5, y + 14);
+    ctx.lineTo(x + 18, y - 13);
+    ctx.stroke();
+  }
+
+  if (type === "value") {
+  ctx.fillStyle = "#064c35";
+  ctx.strokeStyle = "transparent";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "900 58px Arial Black, Impact, Helvetica, sans-serif";
+  ctx.fillText("$", x, y + 1);
+}
+
+  ctx.restore();
+}
     function drawDetail(ctx, label, value, y) {
       ctx.strokeStyle = "rgba(6,76,53,.16)";
       ctx.beginPath();
