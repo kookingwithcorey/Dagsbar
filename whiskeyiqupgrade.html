@@ -2928,43 +2928,43 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.textBaseline = "middle";
 
   if (type === "aroma") {
-  ctx.lineWidth = 3.1;
+  ctx.lineWidth = 3.2;
 
-  /* aroma lines */
+  /* small steam lines */
   ctx.beginPath();
-  ctx.moveTo(x - 8, y - 13);
-  ctx.bezierCurveTo(x - 11, y - 17, x - 11, y - 20, x - 8, y - 23);
+  ctx.moveTo(x - 8, y - 16);
+  ctx.bezierCurveTo(x - 11, y - 19, x - 10, y - 23, x - 7, y - 25);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x, y - 15);
-  ctx.bezierCurveTo(x - 3, y - 19, x - 3, y - 22, x, y - 25);
+  ctx.moveTo(x, y - 17);
+  ctx.bezierCurveTo(x - 3, y - 20, x - 2, y - 24, x + 1, y - 26);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x + 8, y - 13);
-  ctx.bezierCurveTo(x + 5, y - 17, x + 5, y - 20, x + 8, y - 23);
+  ctx.moveTo(x + 8, y - 16);
+  ctx.bezierCurveTo(x + 5, y - 19, x + 6, y - 23, x + 9, y - 25);
   ctx.stroke();
 
-  /* glass */
-  ctx.lineWidth = 3.3;
+  /* small nosing glass */
+  ctx.lineWidth = 3.5;
 
   ctx.beginPath();
-  ctx.moveTo(x - 7, y - 4);
-  ctx.bezierCurveTo(x - 7, y + 3, x - 4, y + 8, x, y + 10);
-  ctx.bezierCurveTo(x + 4, y + 8, x + 7, y + 3, x + 7, y - 4);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(x - 4, y - 7);
-  ctx.bezierCurveTo(x - 2, y - 9, x + 2, y - 9, x + 4, y - 7);
+  ctx.moveTo(x - 8, y - 5);
+  ctx.bezierCurveTo(x - 8, y + 4, x - 4, y + 10, x, y + 12);
+  ctx.bezierCurveTo(x + 4, y + 10, x + 8, y + 4, x + 8, y - 5);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x, y + 10);
-  ctx.lineTo(x, y + 15);
-  ctx.moveTo(x - 7, y + 18);
-  ctx.lineTo(x + 7, y + 18);
+  ctx.moveTo(x - 5, y - 7);
+  ctx.bezierCurveTo(x - 2, y - 9, x + 2, y - 9, x + 5, y - 7);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x, y + 12);
+  ctx.lineTo(x, y + 17);
+  ctx.moveTo(x - 7, y + 20);
+  ctx.lineTo(x + 7, y + 20);
   ctx.stroke();
 }
 
