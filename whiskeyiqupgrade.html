@@ -2297,11 +2297,18 @@ function iconPath(type) {
       <path d="M14 33l11 11 25-26" stroke-width="6" />
     `,
 
-    value: `
-      <path d="M32 7v50" stroke-width="6.8" />
-      <path d="M44 16C40 12 34 10 28 11C21 12 17 16 17 22C17 29 23 32 32 34C41 36 47 40 47 47C47 55 40 60 30 60C22 60 16 57 11 52" stroke-width="6.8" />
-      <path d="M15 22C20 15 28 12 36 13C43 14 48 18 52 24" stroke-width="6.8" />
-    `
+       value: `
+      <text
+        x="32"
+        y="52"
+        text-anchor="middle"
+        font-family="Arial Black, Impact, system-ui, sans-serif"
+        font-size="58"
+        font-weight="900"
+        fill="currentColor"
+        stroke="none"
+      >$</text>
+    `,
   };
 return paths[type] || paths.aroma;
 }
