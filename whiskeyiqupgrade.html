@@ -3020,19 +3020,7 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
     ctx.stroke();
   }
 
-  if (type === "again") {
-  ctx.lineWidth = 4.2;
-
-  ctx.beginPath();
-  ctx.arc(x, y, 14, 0.35 * Math.PI, 1.85 * Math.PI);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(x + 10, y - 15);
-  ctx.lineTo(x + 18, y - 15);
-  ctx.lineTo(x + 15, y - 7);
-  ctx.stroke();
-}
+  f (type === "again") 
 
   if (type === "recommend") {
     ctx.lineWidth = 6;
