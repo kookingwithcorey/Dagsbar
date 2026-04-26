@@ -2678,7 +2678,7 @@
       return "😬";
     }
 
-    function IQInsight(bottle) {
+    function iqInsight(bottle) {
       const score = totalScore(bottle);
       const flavor = bottle.flavorProfile || "the listed flavor profile";
       const notes = bottle.notes || "No tasting notes were added.";
@@ -2943,7 +2943,7 @@ function saveProgressAndClose() {
         drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 58;
         drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 78;
         drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 94;
-        drawDetail(ctx, "IQ INSIGHT", iqSummary(card), y);
+        drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
         ctx.fillStyle = "#064c35";
         ctx.fillRect(40, h - 148, w - 80, 112);
