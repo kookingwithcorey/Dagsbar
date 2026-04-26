@@ -2094,6 +2094,34 @@
     font-size: 12px !important;
   }
 }
+/* Final Card Actions mobile fit */
+.action-panel .action-btn {
+  font-size: 13px !important;
+  line-height: 1.1 !important;
+}
+
+@media (max-width: 520px) {
+  .action-panel {
+    width: calc(100% - 10px) !important;
+    padding: 14px !important;
+  }
+
+  .action-panel .action-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .action-panel .action-btn {
+    min-height: 86px !important;
+    font-size: 11px !important;
+    padding: 7px 4px !important;
+  }
+
+  .action-panel .action-btn svg {
+    width: 25px !important;
+    height: 25px !important;
+  }
+}
   </style>
 </head>
 
