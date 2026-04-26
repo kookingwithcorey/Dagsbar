@@ -2274,13 +2274,16 @@ svg .money-text {
 function iconPath(type) {
   const paths = {
     aroma: `
-      <path d="M22 10c0 9-1.5 17-5 24-2.2 4.4-4.8 7.2-5.8 10.8-.9 3.2 1.2 6.2 4.8 6.2" />
-      <path d="M42 10c0 9 1.5 17 5 24 2.2 4.4 4.8 7.2 5.8 10.8.9 3.2-1.2 6.2-4.8 6.2" />
-      <path d="M16 45c3.5-5 9-3.5 12.5 1.5 2 2.8 5 2.8 7 0C39 41.5 44.5 40 48 45" />
-      <path d="M24 55c-2 2.2-2 5.8 0 8" />
-      <path d="M32 53c-2.2 2.8-2.2 7.2 0 10" />
-      <path d="M40 55c-2 2.2-2 5.8 0 8" />
-    `,
+  <path d="M24 13c-3 2.2-3.5 6.2-.8 9" stroke-width="4" />
+  <path d="M32 11c-3 2.4-3.5 6.6-.6 9.4" stroke-width="4" />
+  <path d="M40 13c-3 2.2-3.5 6.2-.8 9" stroke-width="4" />
+
+  <path d="M22 30c0 9 4.5 15 10 18 5.5-3 10-9 10-18" stroke-width="4.3" />
+  <path d="M24 27c5-3 11-3 16 0" stroke-width="4.3" />
+
+  <path d="M32 48v6" stroke-width="4.3" />
+  <path d="M24 57h16" stroke-width="4.3" />
+`,
 
     flavor: `
       <path d="M13 25C17 15 25 9 32 9C39 9 47 15 51 25C49 34 42 40 32 40C22 40 15 34 13 25Z" fill="none" stroke-width="4.8" />
@@ -2301,9 +2304,9 @@ function iconPath(type) {
     `,
 
     again: `
-      <path d="M50 20a20 20 0 1 0 2.5 17" stroke-width="5.4" />
-      <path d="M49 11l4 10-10 2" stroke-width="5.4" />
-    `,
+  <path d="M46 25a16 16 0 1 0 1.8 15" stroke-width="5" />
+  <path d="M45 17l4 9-9 2" stroke-width="5" />
+`,
 
    recommend: `
   <path d="M14 33l11 11 25-26" stroke-width="6" />
@@ -2941,42 +2944,42 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.textBaseline = "middle";
 
   if (type === "aroma") {
-    ctx.lineWidth = 3.1;
+    ctx.lineWidth = 3;
 
-    // steam
+    // centered steam
     ctx.beginPath();
-    ctx.moveTo(x - 8, y - 19);
-    ctx.bezierCurveTo(x - 11, y - 22, x - 9, y - 26, x - 6, y - 28);
+    ctx.moveTo(x - 7, y - 15);
+    ctx.bezierCurveTo(x - 10, y - 18, x - 8, y - 21, x - 5, y - 23);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(x, y - 20);
-    ctx.bezierCurveTo(x - 3, y - 23, x - 1, y - 27, x + 2, y - 29);
+    ctx.moveTo(x, y - 16);
+    ctx.bezierCurveTo(x - 3, y - 19, x - 1, y - 22, x + 2, y - 24);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(x + 8, y - 19);
-    ctx.bezierCurveTo(x + 5, y - 22, x + 7, y - 26, x + 10, y - 28);
+    ctx.moveTo(x + 7, y - 15);
+    ctx.bezierCurveTo(x + 4, y - 18, x + 6, y - 21, x + 9, y - 23);
     ctx.stroke();
 
-    // small tasting glass
-    ctx.lineWidth = 3.4;
+    // centered nosing glass
+    ctx.lineWidth = 3.2;
     ctx.beginPath();
-    ctx.moveTo(x - 9, y - 7);
-    ctx.bezierCurveTo(x - 9, y + 4, x - 5, y + 11, x, y + 14);
-    ctx.bezierCurveTo(x + 5, y + 11, x + 9, y + 4, x + 9, y - 7);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(x - 6, y - 9);
-    ctx.bezierCurveTo(x - 2, y - 11, x + 2, y - 11, x + 6, y - 9);
+    ctx.moveTo(x - 8, y - 3);
+    ctx.bezierCurveTo(x - 8, y + 6, x - 4, y + 11, x, y + 13);
+    ctx.bezierCurveTo(x + 4, y + 11, x + 8, y + 6, x + 8, y - 3);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(x, y + 14);
-    ctx.lineTo(x, y + 19);
-    ctx.moveTo(x - 7, y + 22);
-    ctx.lineTo(x + 7, y + 22);
+    ctx.moveTo(x - 5, y - 5);
+    ctx.bezierCurveTo(x - 2, y - 7, x + 2, y - 7, x + 5, y - 5);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y + 13);
+    ctx.lineTo(x, y + 18);
+    ctx.moveTo(x - 7, y + 20);
+    ctx.lineTo(x + 7, y + 20);
     ctx.stroke();
   }
 
@@ -3033,42 +3036,44 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
   if (type === "again") {
-    ctx.lineWidth = 4.4;
+    ctx.lineWidth = 4.1;
 
+    // smaller centered repeat circle
     ctx.beginPath();
-    ctx.arc(x, y, 15, 0.35 * Math.PI, 1.82 * Math.PI);
+    ctx.arc(x, y + 1, 13, 0.35 * Math.PI, 1.75 * Math.PI);
     ctx.stroke();
 
+    // smaller arrow head, pulled inside circle
     ctx.beginPath();
-    ctx.moveTo(x + 12, y - 16);
-    ctx.lineTo(x + 19, y - 15);
-    ctx.lineTo(x + 16, y - 8);
+    ctx.moveTo(x + 10, y - 12);
+    ctx.lineTo(x + 16, y - 11);
+    ctx.lineTo(x + 14, y - 5);
     ctx.stroke();
   }
 
   if (type === "recommend") {
-  ctx.lineWidth = 5.3;
+    ctx.lineWidth = 5.3;
 
-  ctx.beginPath();
-  ctx.moveTo(x - 15, y + 2);
-  ctx.lineTo(x - 5, y + 12);
-  ctx.lineTo(x + 16, y - 12);
-  ctx.stroke();
-}
+    ctx.beginPath();
+    ctx.moveTo(x - 15, y + 2);
+    ctx.lineTo(x - 5, y + 12);
+    ctx.lineTo(x + 16, y - 12);
+    ctx.stroke();
+  }
 
-if (type === "recommendNo") {
-  ctx.lineWidth = 6.4;
+  if (type === "recommendNo") {
+    ctx.lineWidth = 6.4;
 
-  ctx.beginPath();
-  ctx.moveTo(x - 14, y - 14);
-  ctx.lineTo(x + 14, y + 14);
-  ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x - 14, y - 14);
+    ctx.lineTo(x + 14, y + 14);
+    ctx.stroke();
 
-  ctx.beginPath();
-  ctx.moveTo(x + 14, y - 14);
-  ctx.lineTo(x - 14, y + 14);
-  ctx.stroke();
-}
+    ctx.beginPath();
+    ctx.moveTo(x + 14, y - 14);
+    ctx.lineTo(x - 14, y + 14);
+    ctx.stroke();
+  }
 
   if (type === "value") {
     ctx.fillStyle = "#064c35";
