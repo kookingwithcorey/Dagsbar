@@ -2928,38 +2928,45 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.textBaseline = "middle";
 
   if (type === "aroma") {
-    ctx.beginPath();
-    ctx.moveTo(x - 5, y - 18);
-    ctx.bezierCurveTo(x - 8, y - 8, x - 14, y - 1, x - 13, y + 8);
-    ctx.bezierCurveTo(x - 12, y + 16, x - 4, y + 18, x + 1, y + 11);
-    ctx.stroke();
+  ctx.lineWidth = 3.1;
 
-    ctx.beginPath();
-    ctx.moveTo(x + 6, y - 18);
-    ctx.bezierCurveTo(x + 4, y - 7, x + 10, y - 1, x + 12, y + 7);
-    ctx.stroke();
+  /* aroma lines */
+  ctx.beginPath();
+  ctx.moveTo(x - 8, y - 13);
+  ctx.bezierCurveTo(x - 11, y - 17, x - 11, y - 20, x - 8, y - 23);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x - 10, y + 7);
-    ctx.bezierCurveTo(x - 5, y + 13, x + 5, y + 13, x + 10, y + 7);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, y - 15);
+  ctx.bezierCurveTo(x - 3, y - 19, x - 3, y - 22, x, y - 25);
+  ctx.stroke();
 
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-    ctx.moveTo(x - 18, y + 18);
-    ctx.bezierCurveTo(x - 22, y + 23, x - 22, y + 28, x - 18, y + 32);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x + 8, y - 13);
+  ctx.bezierCurveTo(x + 5, y - 17, x + 5, y - 20, x + 8, y - 23);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x, y + 17);
-    ctx.bezierCurveTo(x - 5, y + 24, x - 5, y + 30, x, y + 35);
-    ctx.stroke();
+  /* glass */
+  ctx.lineWidth = 3.3;
 
-    ctx.beginPath();
-    ctx.moveTo(x + 18, y + 18);
-    ctx.bezierCurveTo(x + 22, y + 23, x + 22, y + 28, x + 18, y + 32);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x - 7, y - 4);
+  ctx.bezierCurveTo(x - 7, y + 3, x - 4, y + 8, x, y + 10);
+  ctx.bezierCurveTo(x + 4, y + 8, x + 7, y + 3, x + 7, y - 4);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x - 4, y - 7);
+  ctx.bezierCurveTo(x - 2, y - 9, x + 2, y - 9, x + 4, y - 7);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x, y + 10);
+  ctx.lineTo(x, y + 15);
+  ctx.moveTo(x - 7, y + 18);
+  ctx.lineTo(x + 7, y + 18);
+  ctx.stroke();
+}
 
   if (type === "flavor") {
     ctx.lineWidth = 3.8;
@@ -3014,18 +3021,18 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
   if (type === "again") {
-    ctx.lineWidth = 5;
+  ctx.lineWidth = 4.2;
 
-    ctx.beginPath();
-    ctx.arc(x, y, 17, 0.35 * Math.PI, 1.8 * Math.PI);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(x, y, 14, 0.35 * Math.PI, 1.85 * Math.PI);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x + 16, y - 19);
-    ctx.lineTo(x + 23, y - 18);
-    ctx.lineTo(x + 21, y - 10);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x + 10, y - 15);
+  ctx.lineTo(x + 18, y - 15);
+  ctx.lineTo(x + 15, y - 7);
+  ctx.stroke();
+}
 
   if (type === "recommend") {
     ctx.lineWidth = 6;
