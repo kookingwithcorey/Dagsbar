@@ -2321,21 +2321,21 @@ function iconPath(type) {
       <path d="M21 54h22" />
     `,
 
-    again: `
-      <path
-        d="M44 24
-           A15 15 0 1 0 44 40"
-        fill="none"
-        stroke-width="4.6"
-      />
-      <path
-        d="M42 17
-           L49 24
-           L39 26"
-        fill="none"
-        stroke-width="4.6"
-      />
-    `,
+   again: `
+  <path
+    d="M43 22
+       A15 15 0 1 0 44 39"
+    fill="none"
+    stroke-width="4.2"
+  />
+  <path
+    d="M43 16
+       L43 23
+       L36 23"
+    fill="none"
+    stroke-width="4.2"
+  />
+`,
 
     recommend: `
       <path d="M14 33l11 11 25-26" stroke-width="6" />
@@ -3063,20 +3063,20 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
   if (type === "again") {
-    ctx.lineWidth = 4.2;
+  ctx.lineWidth = 4.2;
 
-    // centered repeat circle
-    ctx.beginPath();
-    ctx.arc(x, y, 14, 0.42 * Math.PI, 1.88 * Math.PI);
-    ctx.stroke();
+  // simple refresh/loading style icon
+  ctx.beginPath();
+  ctx.arc(x, y, 14, 0.18 * Math.PI, 1.82 * Math.PI);
+  ctx.stroke();
 
-    // centered arrow head
-    ctx.beginPath();
-    ctx.moveTo(x + 9, y - 14);
-    ctx.lineTo(x + 16, y - 8);
-    ctx.lineTo(x + 7, y - 6);
-    ctx.stroke();
-  }
+  // small clean arrow, like the iPhone loading-style preview
+  ctx.beginPath();
+  ctx.moveTo(x + 11, y - 16);
+  ctx.lineTo(x + 11, y - 9);
+  ctx.lineTo(x + 4, y - 9);
+  ctx.stroke();
+}
 
   if (type === "recommend") {
     ctx.lineWidth = 5.3;
