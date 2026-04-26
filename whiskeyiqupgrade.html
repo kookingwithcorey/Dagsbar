@@ -1495,15 +1495,14 @@
       .share-scores {
         grid-template-columns: repeat(2, 1fr);
       }
-
-      .action-grid {
-        grid-template-columns: 1fr 1fr;
-      }
     }
-   /* ================================
-   CLEAN WHISKEY IQ DASHBOARD FIX
+
+/* ================================
+   FINAL WHISKEY IQ OVERRIDES
+   Dashboard, mobile layout, card actions, icons
    ================================ */
 
+/* Logo */
 .brand-logo-mark {
   background: #078965 !important;
   overflow: hidden;
@@ -1517,7 +1516,7 @@
   display: block;
 }
 
-/* Toolbar bubbles */
+/* Dashboard toolbar */
 .iq-toolbar {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) 42px 42px 42px !important;
@@ -1555,6 +1554,10 @@
   background-size: 22px 22px !important;
 }
 
+.iq-toolbar .view-toggle {
+  display: none !important;
+}
+
 .view-circle-btn,
 .add-circle-btn {
   width: 42px !important;
@@ -1571,6 +1574,7 @@
   box-shadow: 0 10px 22px rgba(15,139,107,.18) !important;
   font-weight: 1000 !important;
   line-height: 1 !important;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
 }
 
 .view-circle-btn {
@@ -1582,12 +1586,27 @@
   margin: 0 !important;
 }
 
-/* Hide original grid/line buttons if any old copy remains */
-.iq-toolbar .view-toggle {
-  display: none !important;
+/* Grid icon */
+.grid-icon-4 {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  grid-template-columns: repeat(2, 7px);
+  grid-template-rows: repeat(2, 7px);
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Clean score circle */
+.grid-icon-4 span {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: #fff;
+  display: block;
+}
+
+/* Score circles */
 .score-pill {
   --scorePct: 0%;
   width: 70px !important;
@@ -1619,7 +1638,7 @@
   line-height: 1;
 }
 
-/* Card layout */
+/* Log card layout */
 .log-card {
   overflow: visible !important;
 }
@@ -1647,44 +1666,93 @@
   gap: 12px !important;
 }
 
-.line-view .log-card {
+.log-grid.line-view .log-card.has-bottle-image {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 74px !important;
+  grid-template-columns: 58px minmax(0, 1fr) !important;
   align-items: center !important;
   min-height: 112px !important;
   padding: 14px !important;
   border-radius: 24px !important;
 }
 
-.line-view .log-image,
-.line-view .mini-row {
+.log-grid.line-view .log-card.no-bottle-image {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: center !important;
+  min-height: 112px !important;
+  padding: 14px !important;
+  border-radius: 24px !important;
+}
+
+.log-grid.line-view .log-image {
+  display: block !important;
+  width: 58px !important;
+  height: 58px !important;
+  min-height: 58px !important;
+  border-radius: 16px !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+.log-grid.line-view .log-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.log-grid.line-view .log-content {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+}
+
+.log-grid.line-view .log-card.no-bottle-image .log-content {
+  grid-column: 1 !important;
+}
+
+.log-grid.line-view .mini-row {
   display: none !important;
 }
 
-.line-view .score-pill {
+.log-grid.line-view .log-top {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 66px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+.log-grid.line-view .log-title-wrap {
+  min-width: 0 !important;
+}
+
+.log-grid.line-view .score-pill {
   width: 66px !important;
   height: 66px !important;
   min-width: 66px !important;
   max-width: 66px !important;
   justify-self: end !important;
+  align-self: center !important;
+  margin-left: auto !important;
 }
 
-.line-view .log-actions {
-  grid-column: 1 / -1;
+.log-grid.line-view .log-actions {
+  grid-column: 1 / -1 !important;
   display: flex !important;
   flex-direction: row !important;
+  justify-content: flex-start !important;
   gap: 8px !important;
-  margin-top: 8px !important;
+  margin-top: 10px !important;
   min-width: 0 !important;
 }
 
 .line-score-bar {
   grid-column: 1 / -1;
   height: 7px;
+  width: 100% !important;
   border-radius: 999px;
   background: rgba(6,76,53,.10);
   overflow: hidden;
-  margin-top: 6px;
+  margin-top: 8px !important;
 }
 
 .line-score-fill {
@@ -1694,7 +1762,7 @@
   border-radius: inherit;
 }
 
-/* Top bottle score */
+/* Top bottle stat */
 .top-bottle-score-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1727,193 +1795,7 @@
   font-weight: 1000;
 }
 
-@media (max-width: 760px) {
-  .iq-toolbar {
-    grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
-    gap: 6px !important;
-  }
-
-  .iq-toolbar .search {
-    height: 42px !important;
-    font-size: 13px !important;
-    padding: 0 13px !important;
-  }
-
-  .iq-toolbar .select,
-  .view-circle-btn,
-  .add-circle-btn {
-    width: 40px !important;
-    min-width: 40px !important;
-    max-width: 40px !important;
-    height: 40px !important;
-  }
-
-  .view-circle-btn {
-    font-size: 23px !important;
-  }
-
-  .add-circle-btn {
-    font-size: 28px !important;
-  }
-
-  .score-pill {
-    width: 66px !important;
-    height: 66px !important;
-    min-width: 66px !important;
-    max-width: 66px !important;
-  }
-
-  .score-pill span {
-    font-size: 23px !important;
-  }
-}
-/* Final mobile toolbar safety override */
-@media (max-width: 720px) {
-  .toolbar.iq-toolbar {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
-    gap: 6px !important;
-    align-items: center !important;
-  }
-}
-/* Final grid + line view polish */
-
-/* Bigger grid icon when grid mode is active */
-.view-circle-btn {
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
-  line-height: 1 !important;
-}
-
-/* Grid view: keep buttons in one clean bottom row */
-@media (max-width: 720px) {
-  .log-grid:not(.line-view) .log-card.has-bottle-image {
-    grid-template-columns: 120px minmax(0, 1fr) !important;
-    align-items: start !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .log-actions {
-    grid-column: 1 / -1 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: flex-start !important;
-    gap: 8px !important;
-    margin-top: 10px !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .small-btn {
-    padding: 8px 14px !important;
-    font-size: 13px !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .small-btn.danger {
-    padding: 8px 16px !important;
-  }
-}
-
-/* Line view: bring back small image thumbnail if bottle has image */
-.log-grid.line-view .log-card.has-bottle-image {
-  grid-template-columns: 58px minmax(0, 1fr) !important;
-  align-items: center !important;
-}
-
-.log-grid.line-view .log-card.no-bottle-image {
-  grid-template-columns: minmax(0, 1fr) !important;
-}
-
-.log-grid.line-view .log-image {
-  display: block !important;
-  width: 58px !important;
-  height: 58px !important;
-  min-height: 58px !important;
-  border-radius: 16px !important;
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-}
-
-.log-grid.line-view .log-image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.log-grid.line-view .log-content {
-  grid-column: 2 !important;
-  min-width: 0 !important;
-}
-
-.log-grid.line-view .log-card.no-bottle-image .log-content {
-  grid-column: 1 !important;
-}
-
-/* Line view: force score to the far right */
-.log-grid.line-view .log-top {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 66px !important;
-  align-items: center !important;
-  gap: 12px !important;
-  width: 100% !important;
-}
-
-.log-grid.line-view .log-title-wrap {
-  min-width: 0 !important;
-}
-
-.log-grid.line-view .score-pill {
-  justify-self: end !important;
-  align-self: center !important;
-  margin-left: auto !important;
-}
-
-.log-grid.line-view .line-score-bar {
-  width: 100% !important;
-  margin-top: 8px !important;
-}
-
-.log-grid.line-view .log-actions {
-  grid-column: 1 / -1 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  margin-top: 10px !important;
-}
-
-/* Mobile line view: slightly smaller thumbnail and score */
-@media (max-width: 720px) {
-  .log-grid.line-view .log-card.has-bottle-image {
-    grid-template-columns: 52px minmax(0, 1fr) !important;
-  }
-
-  .log-grid.line-view .log-image {
-    width: 52px !important;
-    height: 52px !important;
-    min-height: 52px !important;
-    border-radius: 14px !important;
-  }
-
-  .log-grid.line-view .log-top {
-    grid-template-columns: minmax(0, 1fr) 64px !important;
-  }
-}
-/* Clean 4-square grid icon */
-.grid-icon-4 {
-  width: 19px;
-  height: 19px;
-  display: grid;
-  grid-template-columns: repeat(2, 7px);
-  grid-template-rows: repeat(2, 7px);
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-}
-
-.grid-icon-4 span {
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  background: #fff;
-  display: block;
-}
+/* Bottle photo upload */
 .photo-bubble {
   width: 58px;
   height: 58px;
@@ -1956,9 +1838,8 @@
   height: 100%;
   object-fit: cover;
 }
-/* FIX: Card Actions sits tight under score card */
-.card-actions,
-.share-actions,
+
+/* Card Actions */
 .action-panel {
   width: min(100%, 580px) !important;
   max-width: 580px !important;
@@ -1969,12 +1850,6 @@
   box-shadow: 0 18px 52px rgba(43, 28, 10, 0.14) !important;
 }
 
-/* Card Actions title */
-.card-actions h2,
-.card-actions h3,
-.share-actions h2,
-.share-actions h3,
-.action-panel h2,
 .action-panel h3 {
   font-family: Georgia, "Times New Roman", serif !important;
   font-size: clamp(34px, 7vw, 48px) !important;
@@ -1983,28 +1858,21 @@
   color: #111510 !important;
 }
 
-/* 3 buttons across, 2 rows */
-.card-actions-grid,
-.share-actions-grid,
-.action-grid {
+.action-panel .action-grid {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr) !important;
   gap: 12px !important;
 }
 
-/* Action buttons */
-.card-action-btn,
-.share-action-btn,
-.action-grid button,
-.card-actions button,
-.share-actions button,
-.action-panel button {
+.action-panel .action-btn {
   min-height: 104px !important;
   border-radius: 18px !important;
   border: 3px solid rgba(6, 76, 53, 0.68) !important;
   background: #fffdf6 !important;
   color: #064c35 !important;
   font-weight: 1000 !important;
+  font-size: 13px !important;
+  line-height: 1.1 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -2014,90 +1882,130 @@
   padding: 10px 8px !important;
 }
 
-/* Save button stays filled */
-.card-action-btn.save,
-.share-action-btn.save,
-.action-grid button.save,
-.action-grid button.primary,
-.card-actions button.save,
-.card-actions button.primary,
-.share-actions button.save,
-.share-actions button.primary,
-.action-panel button.primary {
+.action-panel .action-btn.primary {
   background: #064c35 !important;
   color: #fffaf1 !important;
 }
 
-/* Button icons */
-.card-action-btn svg,
-.share-action-btn svg,
-.action-grid button svg,
-.card-actions button svg,
-.share-actions button svg {
+.action-panel .action-btn svg {
   width: 34px !important;
   height: 34px !important;
   stroke-width: 2.25 !important;
 }
 
-/* Button text */
-.card-action-btn span,
-.share-action-btn span,
-.action-grid button span,
-.card-actions button span,
-.share-actions button span {
-  font-size: 14px !important;
-  line-height: 1.1 !important;
+/* Score icons */
+.real-icon-inner,
+.share-ring-inner {
+  color: var(--green) !important;
 }
 
-/* Mobile: keep 3 across, just shrink slightly */
-@media (max-width: 520px) {
-  .card-actions,
-  .share-actions,
-  .action-panel {
-    width: calc(100% - 18px) !important;
-    margin-top: 12px !important;
-    padding: 18px !important;
+.real-icon-inner svg,
+.share-ring svg,
+.mini-score svg {
+  stroke: var(--green) !important;
+  stroke-width: 3.2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+.real-icon-inner svg {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.share-ring svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.mini-score svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .iq-toolbar,
+  .toolbar.iq-toolbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
+    gap: 6px !important;
+    align-items: center !important;
   }
 
-  .card-actions-grid,
-  .share-actions-grid,
-  .action-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 9px !important;
+  .iq-toolbar .search {
+    height: 42px !important;
+    font-size: 13px !important;
+    padding: 0 13px !important;
   }
 
-  .card-action-btn,
-  .share-action-btn,
-  .action-grid button,
-  .card-actions button,
-  .share-actions button,
-  .action-panel button {
-    min-height: 92px !important;
-    border-radius: 16px !important;
-    padding: 8px 5px !important;
+  .iq-toolbar .select,
+  .view-circle-btn,
+  .add-circle-btn {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    height: 40px !important;
   }
 
-  .card-action-btn svg,
-  .share-action-btn svg,
-  .action-grid button svg,
-  .card-actions button svg,
-  .share-actions button svg {
-    width: 28px !important;
-    height: 28px !important;
+  .view-circle-btn {
+    font-size: 23px !important;
   }
 
-  .card-action-btn span,
-  .share-action-btn span,
-  .action-grid button span,
-  .card-actions button span,
-  .share-actions button span {
-    font-size: 12px !important;
+  .add-circle-btn {
+    font-size: 28px !important;
+  }
+
+  .score-pill {
+    width: 66px !important;
+    height: 66px !important;
+    min-width: 66px !important;
+    max-width: 66px !important;
+  }
+
+  .score-pill span {
+    font-size: 23px !important;
   }
 }
-/* Final Card Actions mobile fit */
-.action-panel .action-btn {
-  font-size: 13px !important;
-  line-height: 1.1 !important;
+
+@media (max-width: 720px) {
+  .log-grid:not(.line-view) .log-card.has-bottle-image {
+    grid-template-columns: 120px minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .log-actions {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .small-btn {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  .log-grid:not(.line-view) .log-card .small-btn.danger {
+    padding: 8px 16px !important;
+  }
+
+  .log-grid.line-view .log-card.has-bottle-image {
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+  }
+
+  .log-grid.line-view .log-image {
+    width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    border-radius: 14px !important;
+  }
+
+  .log-grid.line-view .log-top {
+    grid-template-columns: minmax(0, 1fr) 64px !important;
+  }
 }
 
 @media (max-width: 520px) {
@@ -2156,7 +2064,7 @@
         <h1>Rate every pour with <span>Whiskey IQ.</span></h1>
         <p>
           Add name, proof, and type. Score each category from the left-side ranking tabs,
-          then create a shareable Whiskey IQ card.
+          then create a shareable Whiskey IQ card with your custom IQ Insight.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" onclick="openBottle()">Add Bottle</button>
@@ -2350,43 +2258,48 @@
     let activeRank = 0;
     let viewMode = localStorage.getItem(VIEW_KEY) || "grid";
 
-    function iconPath(type) {
-      const paths = {
-        aroma: `
-          <path d="M25 10c-1 9-7 14-8 24-1 8 5 15 15 15 8 0 14-5 15-13" />
-          <path d="M36 11c3 8 9 14 10 23" />
-          <path d="M23 40c3 4 10 5 14 1" />
-          <path d="M30 28c-3 3-3 8 1 11 5-3 6-8 2-12" />
-        `,
-        flavor: `
-          <path d="M18 15v18c0 6 5 11 14 11s14-5 14-11V15" />
-          <path d="M25 15v23" />
-          <path d="M32 15v26" />
-          <path d="M39 15v23" />
-          <path d="M22 44c3 7 17 7 20 0" />
-        `,
-        finish: `
-          <path d="M23 12h18l-4 29H27L23 12Z" />
-          <path d="M27 29h10" />
-          <path d="M32 41v11" />
-          <path d="M24 53h16" />
-          <path d="M26 17h12" />
-        `,
-        again: `
-          <path d="M47 27a15 15 0 1 0 2 11" />
-          <path d="M47 15v12H35" />
-        `,
-        recommend: `
-          <path d="M18 34l9 9 19-22" />
-          <path d="M15 50h34" />
-        `,
-        value: `
-          <path d="M32 10v44" />
-          <path d="M44 19c-4-4-13-5-18-1-5 4-3 10 4 12l8 2c8 2 9 10 2 14-6 4-16 2-21-3" />
-        `
-      };
-      return paths[type] || paths.aroma;
-    }
+   function iconPath(type) {
+  const paths = {
+    aroma: `
+      <path d="M36 8c0 10-1 19-3 27-2 7-5 13-8 18-2 3 0 7 5 8 6 1 12-1 16-5" />
+      <path d="M31 46c3 5 8 7 14 7 5 0 9-2 12-5" />
+      <path d="M18 34c-2 2-2 6 0 8" />
+      <path d="M12 30c-3 3-3 9 0 12" />
+      <path d="M52 35c1 2 1 5 0 7" />
+    `,
+
+    flavor: `
+      <path d="M12 24c6-7 13-10 20-10s14 3 20 10c-5 7-12 11-20 11S17 31 12 24Z" />
+      <path d="M22 33c0 10 4 17 10 17s10-7 10-17" />
+      <path d="M32 33v16" />
+    `,
+
+    finish: `
+      <path d="M22 12h20v8c0 10-5 18-10 21-5-3-10-11-10-21v-8Z" />
+      <path d="M22 16H14c0 8 4 13 10 14" />
+      <path d="M42 16h8c0 8-4 13-10 14" />
+      <path d="M32 41v8" />
+      <path d="M24 50h16" />
+      <path d="M21 54h22" />
+    `,
+
+    again: `
+      <path d="M49 18a19 19 0 1 0 5 16" stroke-width="5.2" />
+      <path d="M45 9v14H31" stroke-width="5.2" />
+    `,
+
+    recommend: `
+      <path d="M14 33l11 11 25-26" stroke-width="6" />
+    `,
+
+    value: `
+      <path d="M32 8v48" stroke-width="5.2" />
+      <path d="M44 16c-3-3-8-5-13-5-8 0-13 4-13 10 0 6 5 9 13 11 8 2 13 5 13 11 0 6-6 10-14 10-6 0-11-2-15-5" stroke-width="5.2" />
+    `
+  };
+
+  return paths[type] || paths.aroma;
+}
 
     function svgIcon(type) {
       return `<svg viewBox="0 0 64 64">${iconPath(type)}</svg>`;
