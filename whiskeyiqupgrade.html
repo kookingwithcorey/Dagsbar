@@ -2030,6 +2030,15 @@
     height: 25px !important;
   }
 }
+/* Force dollar sign icon to render as a solid green $ */
+.real-icon-inner svg text,
+.share-ring svg text,
+.mini-score svg text {
+  fill: var(--green) !important;
+  stroke: none !important;
+  font-family: Arial Black, Impact, sans-serif !important;
+  font-weight: 900 !important;
+}
   </style>
 </head>
 
@@ -2339,31 +2348,21 @@ function iconPath(type) {
       <path d="M14 33l11 11 25-26" stroke-width="6" />
     `,
 
-    value: `
-  <path
-    d="M32 6v52"
-    stroke-width="7.5"
-  />
-
-  <path
-    d="M44 14
-       C39 10 31 9 24 12
-       C17 15 13 21 15 28
-       C17 35 24 38 33 40
-       C42 42 47 46 45 53
-       C43 60 34 63 24 60
-       C17 58 12 55 9 50"
-    stroke-width="7.5"
-  />
-
-  <path
-    d="M12 20
-       C17 14 25 11 34 12
-       C41 13 47 17 52 23"
-    stroke-width="7.5"
-  />
+  value: `
+  <text
+    x="32"
+    y="50"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    style="
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 58px;
+      font-weight: 900;
+      fill: var(--green);
+      stroke: none;
+    "
+  >$</text>
 `,
-  };
 
   return paths[type] || paths.aroma;
 }
