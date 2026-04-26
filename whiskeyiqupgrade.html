@@ -2305,9 +2305,14 @@ function iconPath(type) {
       <path d="M49 11l4 10-10 2" stroke-width="5.4" />
     `,
 
-    recommend: `
-      <path d="M14 33l11 11 25-26" stroke-width="6" />
-    `,
+   recommend: `
+  <path d="M14 33l11 11 25-26" stroke-width="6" />
+`,
+
+recommendNo: `
+  <path d="M18 18l28 28" stroke-width="7" />
+  <path d="M46 18L18 46" stroke-width="7" />
+`,
 
          value: `
       <text
@@ -2330,6 +2335,15 @@ return paths[type] || paths.aroma;
     function svgIcon(type) {
       return `<svg viewBox="0 0 64 64">${iconPath(type)}</svg>`;
     }
+    function displayIconFor(cat, bottle = current) {
+  const value = Number(bottle?.scores?.[cat.key] || 0);
+
+  if (cat.key === "recommend") {
+    return value > 3 ? "recommend" : "recommendNo";
+  }
+
+  return cat.icon;
+}
 
     function uid() {
       return Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -2506,7 +2520,7 @@ return paths[type] || paths.aroma;
         <div class="rank-score-card">
           <div class="score-row">
             <div class="real-icon-ring" style="--pct:${rangePct}%;">
-              <div class="real-icon-inner">${svgIcon(cat.icon)}</div>
+              <div class="real-icon-inner">${svgIcon(displayIconFor(cat, current))}</div>
             </div>
 
             <div class="rank-score-main">
@@ -2660,7 +2674,7 @@ return paths[type] || paths.aroma;
       const scoreCards = categories.map(cat => `
         <div class="share-score">
           <div class="share-ring" style="--pct:${pctFor(cat)}%;">
-            <div class="share-ring-inner">${svgIcon(cat.icon)}</div>
+           <div class="share-ring-inner">${svgIcon(displayIconFor(cat, current))}</div>
           </div>
           <div class="share-score-name">${cat.label}</div>
           <div class="share-score-num">${Number(current.scores[cat.key] || 0)}/${cat.max}</div>
@@ -2873,7 +2887,7 @@ function saveProgressAndClose() {
   ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
   ctx.stroke();
 
-  drawCanvasScoreIcon(ctx, cat.icon, x, y);
+  drawCanvasScoreIcon(ctx, displayIconFor(cat, card), x, y);
 
   ctx.fillStyle = "#101511";
   ctx.textAlign = "center";
@@ -3033,14 +3047,28 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
   if (type === "recommend") {
-    ctx.lineWidth = 5.3;
+  ctx.lineWidth = 5.3;
 
-    ctx.beginPath();
-    ctx.moveTo(x - 15, y + 2);
-    ctx.lineTo(x - 5, y + 12);
-    ctx.lineTo(x + 16, y - 12);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x - 15, y + 2);
+  ctx.lineTo(x - 5, y + 12);
+  ctx.lineTo(x + 16, y - 12);
+  ctx.stroke();
+}
+
+if (type === "recommendNo") {
+  ctx.lineWidth = 6.4;
+
+  ctx.beginPath();
+  ctx.moveTo(x - 14, y - 14);
+  ctx.lineTo(x + 14, y + 14);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x + 14, y - 14);
+  ctx.lineTo(x - 14, y + 14);
+  ctx.stroke();
+}
 
   if (type === "value") {
     ctx.fillStyle = "#064c35";
@@ -3122,29 +3150,45 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
       });
     }
 
-    function shareBottleCard() {
-      createShareCanvas(canvas => {
-        canvas.toBlob(async blob => {
-          const file = new File([blob], "whiskey-iq-card.png", { type: "image/png" });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                title: "Whiskey IQ Card",
-                text: `${current.name || "Whiskey"} scored ${totalScore(current)}/100.`,
-                files: [file]
-              });
-            } catch {}
-          } else if (navigator.share) {
-            await navigator.share({
-              title: "Whiskey IQ Card",
-              text: `${current.name || "Whiskey"} scored ${totalScore(current)}/100.`
-            });
-          } else {
-            saveShareImage();
-          }
-        }, "image/png");
-      });
-    }
+   function shareBottleCard() {
+  createShareCanvas(canvas => {
+    canvas.toBlob(async blob => {
+      if (!blob) {
+        saveShareImage();
+        return;
+      }
+
+      const fileName = `${(current.name || "whiskey-iq")
+        .replace(/[^a-z0-9]/gi, "-")
+        .toLowerCase()}-whiskey-iq.png`;
+
+      const file = new File([blob], fileName, { type: "image/png" });
+
+      try {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Whiskey IQ Card",
+            text: `${current.name || "Whiskey"} scored ${totalScore(current)}/100.`,
+            files: [file]
+          });
+          return;
+        }
+
+        if (navigator.share) {
+          await navigator.share({
+            title: "Whiskey IQ Card",
+            text: `${current.name || "Whiskey"} scored ${totalScore(current)}/100.`
+          });
+          return;
+        }
+
+        saveShareImage();
+      } catch (error) {
+        saveShareImage();
+      }
+    }, "image/png");
+  });
+}
 
 function updateViewToggleIcon() {
   const btn = document.getElementById("viewToggleBtn");
@@ -3214,7 +3258,7 @@ function toggleDashboardView() {
 
     const mini = categories.map(cat => `
       <div class="mini-score">
-        ${svgIcon(cat.icon)}
+        ${svgIcon(displayIconFor(cat, bottle))}
         <div class="mini-label">${cat.label}</div>
         <div class="mini-value">${Number(bottle.scores?.[cat.key] || 0)}/${cat.max}</div>
       </div>
