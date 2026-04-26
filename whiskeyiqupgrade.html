@@ -2030,7 +2030,19 @@
     height: 25px !important;
   }
 }
+/* Force Value icon to be a clean filled DAGS green dollar sign */
+svg .money-text {
+  fill: #064c35 !important;
+  stroke: none !important;
+  color: #064c35 !important;
+}
 
+.real-icon-inner svg .money-text,
+.share-ring svg .money-text,
+.mini-score svg .money-text {
+  fill: #064c35 !important;
+  stroke: none !important;
+}
   </style>
 </head>
 
@@ -2297,18 +2309,20 @@ function iconPath(type) {
       <path d="M14 33l11 11 25-26" stroke-width="6" />
     `,
 
-       value: `
+         value: `
       <text
+        class="money-text"
         x="32"
-        y="52"
+        y="53"
         text-anchor="middle"
-        font-family="Arial Black, Impact, system-ui, sans-serif"
-        font-size="58"
+        font-family="Arial Black, Impact, Helvetica, sans-serif"
+        font-size="60"
         font-weight="900"
-        fill="currentColor"
+        fill="#064c35"
         stroke="none"
+        transform="scale(1.08, 1) translate(-2.4, 0)"
       >$</text>
-    `,
+    `
   };
 return paths[type] || paths.aroma;
 }
