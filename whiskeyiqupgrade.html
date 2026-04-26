@@ -2340,20 +2340,26 @@ function iconPath(type) {
       <path d="M14 33l11 11 25-26" stroke-width="6" />
     `,
 
-  value: `
-  <text
-    x="32"
-    y="50"
-    text-anchor="middle"
-    dominant-baseline="middle"
-    style="
-      font-family: Arial Black, Impact, sans-serif;
-      font-size: 58px;
-      font-weight: 900;
-      fill: var(--green);
-      stroke: none;
-    "
-  >$</text>
+ value: `
+  <path d="M32 8v48" stroke-width="6.8" />
+
+  <path
+    d="M44 17
+       C40 13 34 11 28 12
+       C21 13 17 17 17 23
+       C17 30 23 33 32 35
+       C41 37 47 41 47 48
+       C47 55 40 60 30 60
+       C22 60 16 57 11 52"
+    stroke-width="6.8"
+  />
+
+  <path
+    d="M14 22
+       C19 15 27 11 36 13
+       C43 14 48 18 52 24"
+    stroke-width="6.8"
+  />
 `,
 
   return paths[type] || paths.aroma;
