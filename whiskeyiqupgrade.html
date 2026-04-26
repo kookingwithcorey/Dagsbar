@@ -2273,35 +2273,35 @@ svg .money-text {
 
 function iconPath(type) {
   const paths = {
-  aroma: `
-  <path
-    d="M23 17
-       C24 13 40 13 41 17
-       C43 27 40 39 32 41
-       C24 39 21 27 23 17Z"
-    fill="none"
-    stroke-width="3.8"
-  />
+    aroma: `
+      <path
+        d="M23 17
+           C24 13 40 13 41 17
+           C43 27 40 39 32 41
+           C24 39 21 27 23 17Z"
+        fill="none"
+        stroke-width="3.8"
+      />
 
-  <path
-    d="M24.5 31
-       C28 34 36 34 39.5 31
-       C38 36 35 39 32 40
-       C29 39 26 36 24.5 31Z"
-    fill="currentColor"
-    stroke="none"
-    opacity="0.92"
-  />
+      <path
+        d="M24.5 31
+           C28 34 36 34 39.5 31
+           C38 36 35 39 32 40
+           C29 39 26 36 24.5 31Z"
+        fill="currentColor"
+        stroke="none"
+        opacity="0.92"
+      />
 
-  <path
-    d="M24.5 31 C28 34 36 34 39.5 31"
-    fill="none"
-    stroke-width="3.2"
-  />
+      <path
+        d="M24.5 31 C28 34 36 34 39.5 31"
+        fill="none"
+        stroke-width="3.2"
+      />
 
-  <path d="M32 41v9" stroke-width="3.8" />
-  <path d="M24 52h16" stroke-width="3.8" />
-`,
+      <path d="M32 41v9" stroke-width="3.8" />
+      <path d="M24 52h16" stroke-width="3.8" />
+    `,
 
     flavor: `
       <path d="M13 25C17 15 25 9 32 9C39 9 47 15 51 25C49 34 42 40 32 40C22 40 15 34 13 25Z" fill="none" stroke-width="4.8" />
@@ -2322,35 +2322,46 @@ function iconPath(type) {
     `,
 
     again: `
-  <path d="M46 25a16 16 0 1 0 1.8 15" stroke-width="5" />
-  <path d="M45 17l4 9-9 2" stroke-width="5" />
-`,
+      <path
+        d="M44 24
+           A15 15 0 1 0 44 40"
+        fill="none"
+        stroke-width="4.6"
+      />
+      <path
+        d="M42 17
+           L49 24
+           L39 26"
+        fill="none"
+        stroke-width="4.6"
+      />
+    `,
 
-   recommend: `
-  <path d="M14 33l11 11 25-26" stroke-width="6" />
-`,
+    recommend: `
+      <path d="M14 33l11 11 25-26" stroke-width="6" />
+    `,
 
-recommendNo: `
-  <path d="M18 18l28 28" stroke-width="7" />
-  <path d="M46 18L18 46" stroke-width="7" />
-`,
+    recommendNo: `
+      <path d="M18 18l28 28" stroke-width="7" />
+      <path d="M46 18L18 46" stroke-width="7" />
+    `,
 
-         value: `
+    value: `
       <text
         class="money-text"
         x="32"
-        y="53"
+        y="50"
         text-anchor="middle"
-        font-family="Arial Black, Impact, Helvetica, sans-serif"
-        font-size="60"
-        font-weight="900"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="50"
+        font-weight="500"
         fill="#064c35"
         stroke="none"
-        transform="scale(1.08, 1) translate(-2.4, 0)"
       >$</text>
     `
   };
-return paths[type] || paths.aroma;
+
+  return paths[type] || paths.aroma;
 }
 
     function svgIcon(type) {
@@ -2951,6 +2962,7 @@ ctx.textBaseline = "alphabetic";
         drawRest();
       }
     }
+
 function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.save();
 
@@ -2962,41 +2974,42 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.textBaseline = "middle";
 
   if (type === "aroma") {
-  ctx.lineWidth = 3.8;
+    ctx.lineWidth = 3.8;
 
-  // snifter bowl - wide bottom, narrow top
-  ctx.beginPath();
-  ctx.moveTo(x - 9, y - 15);
-  ctx.bezierCurveTo(x - 8, y - 19, x + 8, y - 19, x + 9, y - 15);
-  ctx.bezierCurveTo(x + 12, y - 5, x + 8, y + 9, x, y + 11);
-  ctx.bezierCurveTo(x - 8, y + 9, x - 12, y - 5, x - 9, y - 15);
-  ctx.stroke();
+    // snifter bowl - wide bottom, narrow top
+    ctx.beginPath();
+    ctx.moveTo(x - 9, y - 15);
+    ctx.bezierCurveTo(x - 8, y - 19, x + 8, y - 19, x + 9, y - 15);
+    ctx.bezierCurveTo(x + 12, y - 5, x + 8, y + 9, x, y + 11);
+    ctx.bezierCurveTo(x - 8, y + 9, x - 12, y - 5, x - 9, y - 15);
+    ctx.stroke();
 
-  // bourbon liquid fill
-  ctx.beginPath();
-  ctx.moveTo(x - 7.5, y - 1);
-  ctx.bezierCurveTo(x - 4, y + 2, x + 4, y + 2, x + 7.5, y - 1);
-  ctx.bezierCurveTo(x + 6, y + 5, x + 3, y + 9, x, y + 10);
-  ctx.bezierCurveTo(x - 3, y + 9, x - 6, y + 5, x - 7.5, y - 1);
-  ctx.closePath();
-  ctx.fill();
+    // bourbon liquid fill
+    ctx.beginPath();
+    ctx.moveTo(x - 7.5, y - 1);
+    ctx.bezierCurveTo(x - 4, y + 2, x + 4, y + 2, x + 7.5, y - 1);
+    ctx.bezierCurveTo(x + 6, y + 5, x + 3, y + 9, x, y + 10);
+    ctx.bezierCurveTo(x - 3, y + 9, x - 6, y + 5, x - 7.5, y - 1);
+    ctx.closePath();
+    ctx.fill();
 
-  // liquid top line
-  ctx.lineWidth = 3.2;
-  ctx.beginPath();
-  ctx.moveTo(x - 7.5, y - 1);
-  ctx.bezierCurveTo(x - 4, y + 2, x + 4, y + 2, x + 7.5, y - 1);
-  ctx.stroke();
+    // liquid top line
+    ctx.lineWidth = 3.2;
+    ctx.beginPath();
+    ctx.moveTo(x - 7.5, y - 1);
+    ctx.bezierCurveTo(x - 4, y + 2, x + 4, y + 2, x + 7.5, y - 1);
+    ctx.stroke();
 
-  // stem and base
-  ctx.lineWidth = 3.8;
-  ctx.beginPath();
-  ctx.moveTo(x, y + 11);
-  ctx.lineTo(x, y + 20);
-  ctx.moveTo(x - 8, y + 22);
-  ctx.lineTo(x + 8, y + 22);
-  ctx.stroke();
-}
+    // stem and base
+    ctx.lineWidth = 3.8;
+    ctx.beginPath();
+    ctx.moveTo(x, y + 11);
+    ctx.lineTo(x, y + 20);
+    ctx.moveTo(x - 8, y + 22);
+    ctx.lineTo(x + 8, y + 22);
+    ctx.stroke();
+  }
+
   if (type === "flavor") {
     ctx.lineWidth = 3.5;
 
@@ -3050,18 +3063,18 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
   if (type === "again") {
-    ctx.lineWidth = 4.1;
+    ctx.lineWidth = 4.2;
 
-    // smaller centered repeat circle
+    // centered repeat circle
     ctx.beginPath();
-    ctx.arc(x, y + 1, 13, 0.35 * Math.PI, 1.75 * Math.PI);
+    ctx.arc(x, y, 14, 0.42 * Math.PI, 1.88 * Math.PI);
     ctx.stroke();
 
-    // smaller arrow head, pulled inside circle
+    // centered arrow head
     ctx.beginPath();
-    ctx.moveTo(x + 10, y - 12);
-    ctx.lineTo(x + 16, y - 11);
-    ctx.lineTo(x + 14, y - 5);
+    ctx.moveTo(x + 9, y - 14);
+    ctx.lineTo(x + 16, y - 8);
+    ctx.lineTo(x + 7, y - 6);
     ctx.stroke();
   }
 
@@ -3092,12 +3105,13 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   if (type === "value") {
     ctx.fillStyle = "#064c35";
     ctx.strokeStyle = "transparent";
-    ctx.font = "900 52px Arial Black, Impact, Helvetica, sans-serif";
+    ctx.font = "500 44px Arial, Helvetica, sans-serif";
     ctx.fillText("$", x, y + 1);
   }
 
   ctx.restore();
 }
+
     function drawDetail(ctx, label, value, y) {
       ctx.strokeStyle = "rgba(6,76,53,.16)";
       ctx.beginPath();
