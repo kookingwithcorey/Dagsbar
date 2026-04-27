@@ -2319,6 +2319,71 @@ svg .money-text {
     max-height: 78px !important;
   }
 }
+/* ================================
+   FIX SHARE CARD DETAIL FIT
+   Keeps values bold but prevents stretching/cutoff
+   ================================ */
+
+.share-details {
+  display: grid !important;
+  grid-template-columns: 34% 66% !important;
+  gap: 0 !important;
+  border-top: 7px solid rgba(6,76,53,.14) !important;
+}
+
+.detail-label,
+.detail-value {
+  min-height: 62px !important;
+  padding: 12px 0 !important;
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.detail-label {
+  color: #9d742b !important;
+  font-size: 20px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+  line-height: 1.05 !important;
+  justify-content: flex-start !important;
+}
+
+.detail-value {
+  color: #101511 !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1.18 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+}
+
+.detail-value.short-value {
+  justify-content: flex-end !important;
+  text-align: right !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+}
+
+.detail-value.summary-text {
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1.18 !important;
+  max-height: 84px !important;
+  overflow: hidden !important;
+}
+
+/* Keep IQ Insight from taking over the card */
+.share-details .detail-label:nth-last-of-type(1),
+.share-details .detail-value:nth-last-of-type(1) {
+  min-height: 84px !important;
+}
+
+.share-footer {
+  margin-top: 0 !important;
+}
   </style>
 </head>
 
