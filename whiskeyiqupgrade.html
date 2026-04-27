@@ -2472,6 +2472,209 @@ svg .money-text {
 .share-footer {
   margin-top: 0 !important;
 }
+/* =========================================================
+   FINAL CLEAN SHARE CARD DETAIL FIX
+   Keeps Type / Proof / Flavor Notes / Tasting Notes / IQ Insight
+   fitting inside the card without stretching or cutting off
+   ========================================================= */
+
+/* Main score card stays clean */
+.share-card {
+  overflow: hidden !important;
+}
+
+/* Details section */
+.share-details {
+  display: grid !important;
+  grid-template-columns: 190px minmax(0, 1fr) !important;
+  column-gap: 22px !important;
+  row-gap: 0 !important;
+  border-top: 7px solid rgba(6,76,53,.14) !important;
+  margin-top: 0 !important;
+  padding: 0 0 8px !important;
+}
+
+/* Every row gets equal clean spacing */
+.detail-label,
+.detail-value {
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  min-height: 76px !important;
+  padding: 14px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Left labels */
+.detail-label {
+  color: #9d742b !important;
+  font-size: 20px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .05em !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+
+/* Right values */
+.detail-value {
+  color: #101511 !important;
+  font-size: 25px !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+/* Type and Proof can stay right-aligned on larger screens */
+.detail-value.short-value {
+  justify-content: flex-end !important;
+  text-align: right !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+}
+
+/* Notes and IQ Insight should wrap naturally */
+.detail-value.summary-text {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  line-height: 1.22 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding-left: 0 !important;
+}
+
+/* Keep the footer below the content, not overlapping it */
+.share-footer {
+  margin-top: 0 !important;
+  background: #064c35 !important;
+  color: #fffaf1 !important;
+  text-align: center !important;
+  padding: 24px 14px !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .28em !important;
+  text-transform: uppercase !important;
+}
+
+/* =========================================================
+   MOBILE SHARE CARD FIX
+   Prevents Flavor Notes and IQ Insight from getting cut off
+   ========================================================= */
+
+@media (max-width: 720px) {
+  .share-inner {
+    padding: 22px 18px 0 !important;
+  }
+
+  .share-details {
+    grid-template-columns: 150px minmax(0, 1fr) !important;
+    column-gap: 16px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .detail-label,
+  .detail-value {
+    min-height: 70px !important;
+    padding: 12px 0 !important;
+  }
+
+  .detail-label {
+    font-size: 17px !important;
+    line-height: 1.12 !important;
+  }
+
+  .detail-value {
+    font-size: 21px !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+  }
+
+  .detail-value.short-value {
+    font-size: 25px !important;
+  }
+
+  .detail-value.summary-text {
+    font-size: 20px !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+  }
+
+  .share-footer {
+    padding: 22px 10px !important;
+    font-size: 17px !important;
+    letter-spacing: .24em !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .share-inner {
+    padding: 20px 14px 0 !important;
+  }
+
+  .share-details {
+    grid-template-columns: 132px minmax(0, 1fr) !important;
+    column-gap: 12px !important;
+  }
+
+  .detail-label,
+  .detail-value {
+    min-height: 66px !important;
+    padding: 11px 0 !important;
+  }
+
+  .detail-label {
+    font-size: 15px !important;
+    letter-spacing: .04em !important;
+  }
+
+  .detail-value {
+    font-size: 18px !important;
+    line-height: 1.16 !important;
+  }
+
+  .detail-value.short-value {
+    font-size: 22px !important;
+  }
+
+  .detail-value.summary-text {
+    font-size: 17px !important;
+    line-height: 1.16 !important;
+  }
+
+  .share-footer {
+    font-size: 15px !important;
+    letter-spacing: .2em !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .share-details {
+    grid-template-columns: 118px minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+  }
+
+  .detail-label {
+    font-size: 14px !important;
+  }
+
+  .detail-value,
+  .detail-value.summary-text {
+    font-size: 16px !important;
+  }
+
+  .detail-value.short-value {
+    font-size: 20px !important;
+  }
+}
   </style>
 </head>
 
