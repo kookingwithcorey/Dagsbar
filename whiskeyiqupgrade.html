@@ -2043,6 +2043,97 @@ svg .money-text {
   fill: #064c35 !important;
   stroke: none !important;
 }
+/* ================================
+   SCORE CARD PREVIEW FIXES
+   Matches downloaded card styling
+   ================================ */
+
+.share-divider {
+  display: none !important;
+}
+
+.share-name {
+  margin-bottom: 8px !important;
+}
+
+.score-label {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+}
+
+.big-score {
+  margin-bottom: 20px !important;
+}
+
+.share-details {
+  border-top: 7px solid rgba(6,76,53,.14) !important;
+  display: grid !important;
+  grid-template-columns: 170px 1fr !important;
+}
+
+.detail-label,
+.detail-value {
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  padding: 14px 0 !important;
+}
+
+.detail-label {
+  color: #9d742b !important;
+  font-size: 20px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .05em !important;
+  text-transform: uppercase !important;
+}
+
+.detail-value {
+  color: #101511 !important;
+  line-height: 1.25 !important;
+}
+
+.detail-value.short-value {
+  text-align: right !important;
+  font-size: 32px !important;
+  font-weight: 500 !important;
+}
+
+.detail-value.summary-text {
+  text-align: left !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  padding-left: 0 !important;
+}
+
+@media (max-width: 720px) {
+  .share-details {
+    grid-template-columns: 150px 1fr !important;
+  }
+
+  .detail-label {
+    font-size: 17px !important;
+  }
+
+  .detail-value.short-value {
+    font-size: 26px !important;
+  }
+
+  .detail-value.summary-text {
+    font-size: 22px !important;
+  }
+}
+/* Final preview tighten so website card matches downloaded image */
+.share-footer {
+  margin-top: 12px !important;
+}
+
+.detail-value.summary-text {
+  max-height: 96px !important;
+  overflow: hidden !important;
+}
+
+.share-details {
+  margin-top: 0 !important;
+}
   </style>
 </head>
 
@@ -2321,7 +2412,7 @@ function iconPath(type) {
       <path d="M21 54h22" />
     `,
 
-   again: `
+again: `
   <path
     d="M43 22
        A15 15 0 1 0 44 39"
@@ -2329,9 +2420,9 @@ function iconPath(type) {
     stroke-width="4.2"
   />
   <path
-    d="M43 16
-       L43 23
-       L36 23"
+    d="M44 39
+       L44 46
+       L37 46"
     fill="none"
     stroke-width="4.2"
   />
@@ -2748,21 +2839,21 @@ function iconPath(type) {
               <div class="share-scores">${scoreCards}</div>
 
               <div class="share-details">
-                <div class="detail-label">Type</div>
-                <div class="detail-value">${escapeHtml(current.type || "N/A")}</div>
+  <div class="detail-label">Type</div>
+  <div class="detail-value short-value">${escapeHtml(current.type || "N/A")}</div>
 
-                <div class="detail-label">Proof</div>
-                <div class="detail-value">${escapeHtml(current.proof || "N/A")}</div>
+  <div class="detail-label">Proof</div>
+  <div class="detail-value short-value">${escapeHtml(current.proof || "N/A")}</div>
 
-                <div class="detail-label">Flavor Notes</div>
-                <div class="detail-value">${escapeHtml(flavorProfile)}</div>
+  <div class="detail-label">Flavor Notes</div>
+  <div class="detail-value summary-text">${escapeHtml(flavorProfile)}</div>
 
-                <div class="detail-label">Tasting Notes</div>
-                <div class="detail-value summary-text">${escapeHtml(notes)}</div>
+  <div class="detail-label">Tasting Notes</div>
+  <div class="detail-value summary-text">${escapeHtml(notes)}</div>
 
-                <div class="detail-label">IQ Insight</div>
-                <div class="detail-value summary-text">${escapeHtml(summary)}</div>
-              </div>
+  <div class="detail-label">IQ Insight</div>
+  <div class="detail-value summary-text">${escapeHtml(summary)}</div>
+</div>
             </div>
 
             <div class="share-footer">Rate • Learn • Enjoy</div>
@@ -2878,22 +2969,18 @@ function saveProgressAndClose() {
       function drawRest() {
         let y = card.image ? 650 : 235;
 
-        ctx.fillStyle = "#101511";
-        ctx.font = "bold 56px Georgia";
-        ctx.textAlign = "center";
-        wrapText(ctx, card.name || "Untitled Bottle", w / 2, y, 720, 60, 2);
-        y += 96;
+       ctx.fillStyle = "#101511";
+ctx.font = "bold 56px Georgia";
+ctx.textAlign = "center";
+wrapText(ctx, card.name || "Untitled Bottle", w / 2, y, 720, 60, 2);
 
-        ctx.strokeStyle = "#b98a3f";
-        ctx.beginPath();
-        ctx.moveTo(280, y); ctx.lineTo(620, y);
-        ctx.stroke();
-        y += 50;
+/* tighter spacing under bottle name, no gold divider */
+y += 68;
 
-        ctx.fillStyle = "#101511";
-        ctx.font = "bold 24px Arial";
-        ctx.fillText("WHISKEY IQ SCORE", w / 2, y);
-        y += 78;
+ctx.fillStyle = "#101511";
+ctx.font = "bold 24px Arial";
+ctx.fillText("WHISKEY IQ SCORE", w / 2, y);
+y += 70;
 
         ctx.fillStyle = "#064c35";
         ctx.font = "bold 96px Arial";
@@ -2930,12 +3017,12 @@ function saveProgressAndClose() {
   ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
 });
 
-        y += 130;
-        drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 58;
-        drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 58;
-        drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 78;
-        drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 94;
-        drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
+y += 118;
+drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 64;
+drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 64;
+drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 86;
+drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 92;
+drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
       ctx.fillStyle = "#064c35";
 ctx.fillRect(40, h - 148, w - 80, 112);
@@ -3062,19 +3149,17 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
     ctx.stroke();
   }
 
-  if (type === "again") {
+ if (type === "again") {
   ctx.lineWidth = 4.2;
 
-  // simple refresh/loading style icon
   ctx.beginPath();
   ctx.arc(x, y, 14, 0.18 * Math.PI, 1.82 * Math.PI);
   ctx.stroke();
 
-  // small clean arrow, like the iPhone loading-style preview
   ctx.beginPath();
-  ctx.moveTo(x + 11, y - 16);
-  ctx.lineTo(x + 11, y - 9);
-  ctx.lineTo(x + 4, y - 9);
+  ctx.moveTo(x + 12, y + 9);
+  ctx.lineTo(x + 12, y + 16);
+  ctx.lineTo(x + 5, y + 16);
   ctx.stroke();
 }
 
@@ -3112,19 +3197,42 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.restore();
 }
 
-    function drawDetail(ctx, label, value, y) {
-      ctx.strokeStyle = "rgba(6,76,53,.16)";
-      ctx.beginPath();
-      ctx.moveTo(95, y - 28); ctx.lineTo(805, y - 28);
-      ctx.stroke();
-      ctx.textAlign = "left";
-      ctx.fillStyle = "#9d742b";
-      ctx.font = "bold 20px Arial";
-      ctx.fillText(label, 100, y);
-      ctx.fillStyle = "#101511";
-      ctx.font = "22px Arial";
-      wrapText(ctx, value, 330, y, 455, 28, 4);
-    }
+function drawDetail(ctx, label, value, y) {
+  const text = String(value || "N/A");
+
+  ctx.strokeStyle = "rgba(6,76,53,.16)";
+  ctx.lineWidth = 7;
+  ctx.beginPath();
+  ctx.moveTo(95, y - 30);
+  ctx.lineTo(805, y - 30);
+  ctx.stroke();
+
+  ctx.textBaseline = "alphabetic";
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#9d742b";
+  ctx.font = "900 23px Arial, Helvetica, sans-serif";
+  ctx.fillText(label, 100, y);
+
+  ctx.fillStyle = "#101511";
+
+  const longField =
+    label === "FLAVOR NOTES" ||
+    label === "TASTING NOTES" ||
+    label === "IQ INSIGHT";
+
+  if (longField) {
+    ctx.textAlign = "left";
+    ctx.font = "500 29px Arial, Helvetica, sans-serif";
+    wrapText(ctx, text, 335, y, 455, 35, 3);
+  } else {
+    ctx.textAlign = "right";
+    ctx.font = "500 34px Arial, Helvetica, sans-serif";
+    ctx.fillText(text, 790, y);
+  }
+
+  ctx.textAlign = "left";
+}
 
     function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 5) {
       const words = String(text || "").split(" ");
