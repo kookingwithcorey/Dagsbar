@@ -2151,6 +2151,50 @@ svg .money-text {
 .share-divider {
   margin-top: 0 !important;
 }
+/* Detail rows: bold values, equal spacing, cleaner IQ Insight label */
+.share-details {
+  display: grid !important;
+  grid-template-columns: 190px 1fr !important;
+  row-gap: 0 !important;
+}
+
+.detail-label,
+.detail-value {
+  min-height: 58px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  padding: 10px 0 !important;
+}
+
+.detail-label {
+  justify-content: flex-start !important;
+  font-size: 20px !important;
+  line-height: 1.05 !important;
+}
+
+.detail-value {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  font-weight: 800 !important;
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+}
+
+.detail-value.short-value {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  font-weight: 800 !important;
+  font-size: 24px !important;
+}
+
+.detail-value.summary-text {
+  font-weight: 800 !important;
+  font-size: 24px !important;
+  line-height: 1.22 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
   </style>
 </head>
 
