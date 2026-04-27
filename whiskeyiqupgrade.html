@@ -2567,17 +2567,19 @@ function iconPath(type) {
 
 again: `
   <path
-    d="
-      M50 38
-      A20 20 0 1 1 42 19
-      L34 26
-      L59 31
-      L55 6
-      L47 13
-      A32 32 0 1 0 62 40
-      L50 38
-      Z
-    "
+    d="M46 35
+       A16 16 0 1 1 41 20"
+    fill="none"
+    stroke="#064c35"
+    stroke-width="9"
+    stroke-linecap="butt"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M40 10
+       L57 26
+       L35 30
+       Z"
     fill="#064c35"
     stroke="none"
   />
@@ -3331,23 +3333,21 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
     ctx.stroke();
   }
 
- if (type === "again") {
+if (type === "again") {
+  ctx.strokeStyle = "#064c35";
   ctx.fillStyle = "#064c35";
-  ctx.strokeStyle = "transparent";
+  ctx.lineWidth = 8.5;
+  ctx.lineCap = "butt";
+  ctx.lineJoin = "round";
 
   ctx.beginPath();
+  ctx.arc(x - 1, y + 1, 16, 0.12 * Math.PI, 1.70 * Math.PI, false);
+  ctx.stroke();
 
-  // Solid refresh body
-  ctx.arc(x - 2, y + 3, 24, 0.16 * Math.PI, 1.86 * Math.PI, false);
-  ctx.arc(x - 2, y + 3, 15, 1.86 * Math.PI, 0.16 * Math.PI, true);
-  ctx.closePath();
-  ctx.fill();
-
-  // Arrowhead moved down
   ctx.beginPath();
-  ctx.moveTo(x + 12, y - 24);
-  ctx.lineTo(x + 34, y - 7);
-  ctx.lineTo(x + 8, y + 1);
+  ctx.moveTo(x + 8, y - 21);
+  ctx.lineTo(x + 26, y - 5);
+  ctx.lineTo(x + 3, y - 1);
   ctx.closePath();
   ctx.fill();
 }
