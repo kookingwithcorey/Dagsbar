@@ -2151,6 +2151,142 @@ svg .money-text,
     height: 25px !important;
   }
 }
+/* =========================================================
+   REAL FINAL SHARE CARD FIX
+   Row-based detail layout. Stops footer overlap on mobile.
+   ========================================================= */
+
+.share-card {
+  overflow: hidden !important;
+  height: auto !important;
+}
+
+.share-inner {
+  padding: 28px 34px 0 !important;
+}
+
+.share-details {
+  display: block !important;
+  border-top: 7px solid rgba(6,76,53,.14) !important;
+  margin-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.detail-row {
+  display: grid !important;
+  grid-template-columns: 180px minmax(0, 1fr) !important;
+  column-gap: 14px !important;
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  padding: 12px 0 !important;
+  min-height: 66px !important;
+  align-items: center !important;
+}
+
+.detail-row .detail-label {
+  border: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  color: #9d742b !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .045em !important;
+  line-height: 1.08 !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+
+.detail-row .detail-value {
+  border: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  color: #101511 !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1.18 !important;
+  text-align: left !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+.detail-row .detail-value.short-value {
+  text-align: right !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+}
+
+.detail-row .detail-value.summary-text {
+  font-size: 19px !important;
+  line-height: 1.18 !important;
+  font-weight: 800 !important;
+}
+
+.detail-row.insight-row .detail-value.summary-text {
+  font-size: 17px !important;
+  line-height: 1.16 !important;
+}
+
+.share-footer {
+  position: relative !important;
+  z-index: 3 !important;
+  margin-top: 0 !important;
+  background: #064c35 !important;
+  color: #fffaf1 !important;
+  text-align: center !important;
+  padding: 24px 14px !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .28em !important;
+  text-transform: uppercase !important;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  .share-inner {
+    padding: 22px 18px 0 !important;
+  }
+
+  .detail-row {
+    grid-template-columns: 118px minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+    padding: 11px 0 !important;
+    min-height: 58px !important;
+  }
+
+  .detail-row .detail-label {
+    font-size: 14px !important;
+    letter-spacing: .03em !important;
+  }
+
+  .detail-row .detail-value {
+    font-size: 16px !important;
+    line-height: 1.14 !important;
+  }
+
+  .detail-row .detail-value.short-value {
+    font-size: 22px !important;
+  }
+
+  .detail-row .detail-value.summary-text {
+    font-size: 15.5px !important;
+    line-height: 1.14 !important;
+  }
+
+  .detail-row.insight-row .detail-value.summary-text {
+    font-size: 14px !important;
+    line-height: 1.12 !important;
+  }
+
+  .share-footer {
+    padding: 22px 10px !important;
+    font-size: 15px !important;
+    letter-spacing: .2em !important;
+  }
+}
   </style>
 </head>
 
@@ -2431,17 +2567,23 @@ function iconPath(type) {
 
 again: `
   <path
-    d="M43 22
-       A15 15 0 1 0 44 39"
+    d="M47 24
+       A18 18 0 1 0 50 40"
     fill="none"
-    stroke-width="4.2"
+    stroke="#064c35"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
   />
   <path
-    d="M44 39
-       L44 46
-       L37 46"
+    d="M50 40
+       L50 50
+       L40 50"
     fill="none"
-    stroke-width="4.2"
+    stroke="#064c35"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
   />
 `,
 
@@ -2771,24 +2913,31 @@ again: `
       return "😬";
     }
 
-    function iqInsight(bottle) {
-      const score = totalScore(bottle);
-      const flavor = bottle.flavorProfile || "the listed flavor profile";
-      const notes = bottle.notes || "No tasting notes were added.";
-      let quality = "This is a developing pour with room to improve.";
-      if (score >= 90) quality = "This is an elite pour with standout balance and strong character.";
-      else if (score >= 80) quality = "This is a strong pour with a well-rounded profile and good replay value.";
-      else if (score >= 70) quality = "This is a solid pour with clear highlights and a few areas to improve.";
-      else if (score >= 60) quality = "This is a decent pour, but the score suggests it may be situational.";
+   function iqInsight(bottle) {
+  const score = totalScore(bottle);
 
-      const best = [...categories]
-        .sort((a, b) => Number(bottle.scores[b.key] || 0) / b.max - Number(bottle.scores[a.key] || 0) / a.max)
-        .slice(0, 2)
-        .map(cat => cat.label.toLowerCase())
-        .join(" and ");
+  const flavorSource = bottle.flavorProfile || "the listed flavor profile";
+  const flavor = String(flavorSource)
+    .split(",")
+    .map(item => item.trim())
+    .filter(Boolean)
+    .slice(0, 5)
+    .join(", ") || "the listed flavor profile";
 
-      return `${quality} The profile leans toward ${flavor}. Strongest areas are ${best}. Notes: ${notes}`;
-    }
+  let quality = "This pour has room to improve.";
+  if (score >= 90) quality = "Elite pour with standout balance and character.";
+  else if (score >= 80) quality = "Strong pour with a well-rounded profile.";
+  else if (score >= 70) quality = "Solid pour with clear highlights.";
+  else if (score >= 60) quality = "Decent pour, best for the right occasion.";
+
+  const best = [...categories]
+    .sort((a, b) => Number(bottle.scores[b.key] || 0) / b.max - Number(bottle.scores[a.key] || 0) / a.max)
+    .slice(0, 2)
+    .map(cat => cat.label.toLowerCase())
+    .join(" and ");
+
+  return `${quality} Leans toward ${flavor}. Best areas: ${best}.`;
+}
 
     function upsertBottle() {
       syncBottle();
@@ -2856,22 +3005,31 @@ again: `
               <div class="share-scores">${scoreCards}</div>
 
               <div class="share-details">
-  <div class="detail-label">Type</div>
-  <div class="detail-value short-value">${escapeHtml(current.type || "N/A")}</div>
+  <div class="detail-row">
+    <div class="detail-label">Type</div>
+    <div class="detail-value short-value">${escapeHtml(current.type || "N/A")}</div>
+  </div>
 
-  <div class="detail-label">Proof</div>
-  <div class="detail-value short-value">${escapeHtml(current.proof || "N/A")}</div>
+  <div class="detail-row">
+    <div class="detail-label">Proof</div>
+    <div class="detail-value short-value">${escapeHtml(current.proof || "N/A")}</div>
+  </div>
 
-  <div class="detail-label">Flavor Notes</div>
-  <div class="detail-value summary-text">${escapeHtml(flavorProfile)}</div>
+  <div class="detail-row">
+    <div class="detail-label">Flavor Notes</div>
+    <div class="detail-value summary-text">${escapeHtml(flavorProfile)}</div>
+  </div>
 
-  <div class="detail-label">Tasting Notes</div>
-  <div class="detail-value summary-text">${escapeHtml(notes)}</div>
+  <div class="detail-row">
+    <div class="detail-label">Tasting Notes</div>
+    <div class="detail-value summary-text">${escapeHtml(notes)}</div>
+  </div>
 
-  <div class="detail-label">IQ Insight</div>
-  <div class="detail-value summary-text">${escapeHtml(summary)}</div>
+  <div class="detail-row insight-row">
+    <div class="detail-label">IQ Insight</div>
+    <div class="detail-value summary-text">${escapeHtml(summary)}</div>
+  </div>
 </div>
-            </div>
 
             <div class="share-footer">Rate • Learn • Enjoy</div>
           </div>
@@ -2960,7 +3118,7 @@ function saveProgressAndClose() {
       const card = current;
       const scale = 2;
       const w = 900;
-      const h = card.image ? 1500 : 1220;
+      const h = card.image ? 1680 : 1450;
       const c = document.createElement("canvas");
       c.width = w * scale;
       c.height = h * scale;
@@ -3046,14 +3204,14 @@ y += 104;
 });
 
 y += 118;
-drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 64;
-drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 64;
+drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 70;
+drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 70;
 drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 86;
-drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 92;
+drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 82;
 drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
-      ctx.fillStyle = "#064c35";
-ctx.fillRect(40, h - 148, w - 80, 112);
+    ctx.fillStyle = "#064c35";
+ctx.fillRect(40, h - 150, w - 80, 114);
 
 ctx.fillStyle = "#fffaf1";
 ctx.textAlign = "center";
@@ -3178,16 +3336,19 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
  if (type === "again") {
-  ctx.lineWidth = 4.2;
+  ctx.strokeStyle = "#064c35";
+  ctx.lineWidth = 5;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
 
   ctx.beginPath();
-  ctx.arc(x, y, 14, 0.18 * Math.PI, 1.82 * Math.PI);
+  ctx.arc(x, y, 16, 0.18 * Math.PI, 1.86 * Math.PI);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x + 12, y + 9);
-  ctx.lineTo(x + 12, y + 16);
-  ctx.lineTo(x + 5, y + 16);
+  ctx.moveTo(x + 16, y + 8);
+  ctx.lineTo(x + 16, y + 18);
+  ctx.lineTo(x + 6, y + 18);
   ctx.stroke();
 }
 
