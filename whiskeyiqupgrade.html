@@ -2566,14 +2566,42 @@ function iconPath(type) {
 `,
 
 again: `
-  <path d="M32 10
-     A 22 22 0 1 1 54 32
-     L 50 28 L 62 32 L 50 36 L 54 32"
-    fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M32 54
-     A 22 22 0 1 1 10 32
-     L 14 36 L 2 32 L 14 28 L 10 32"
-    fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path
+    d="M7 20
+       C14 7 28 1 42 5
+       C47 6 51 9 55 13
+       L58 9
+       C60 7 63 8 63 11
+       L63 29
+       C63 32 60 34 57 32
+       L41 23
+       C38 21 38 17 41 15
+       L46 12
+       C36 6 22 9 15 22
+       C13 25 9 26 6 24
+       C4 23 4 22 7 20
+       Z"
+    fill="#064c35"
+    stroke="none"
+  />
+  <path
+    d="M57 44
+       C50 57 36 63 22 59
+       C17 58 13 55 9 51
+       L6 55
+       C4 57 1 56 1 53
+       L1 35
+       C1 32 4 30 7 32
+       L23 41
+       C26 43 26 47 23 49
+       L18 52
+       C28 58 42 55 49 42
+       C51 39 55 38 58 40
+       C60 41 60 42 57 44
+       Z"
+    fill="#064c35"
+    stroke="none"
+  />
 `,
 
 
@@ -3019,7 +3047,8 @@ recommend: `
     <div class="detail-label">IQ Insight</div>
     <div class="detail-value summary-text">${escapeHtml(summary)}</div>
   </div>
-</div>
+      </div>
+      </div>
 
             <div class="share-footer">Rate • Learn • Enjoy</div>
           </div>
@@ -3103,128 +3132,204 @@ function saveProgressAndClose() {
       closeBottle();
       location.hash = "dashboard";
     }
+function getWrappedLines(ctx, text, maxWidth, maxLines = 5) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  if (!words.length) return [""];
 
+  const lines = [];
+  let line = "";
+
+  words.forEach(word => {
+    const testLine = line ? `${line} ${word}` : word;
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = testLine;
+    }
+  });
+
+  if (line) lines.push(line);
+
+  if (lines.length > maxLines) {
+    const clipped = lines.slice(0, maxLines);
+    clipped[maxLines - 1] = clipped[maxLines - 1].replace(/[.,;:\s]+$/, "") + "…";
+    return clipped;
+  }
+
+  return lines;
+}
+
+function drawWrappedLines(ctx, lines, x, y, lineHeight) {
+  lines.forEach((line, i) => {
+    ctx.fillText(line, x, y + (i * lineHeight));
+  });
+}
     function createShareCanvas(callback) {
-      const card = current;
-      const scale = 2;
-      const w = 900;
-      const h = card.image ? 1680 : 1450;
-      const c = document.createElement("canvas");
-      c.width = w * scale;
-      c.height = h * scale;
-      const ctx = c.getContext("2d");
-      ctx.scale(scale, scale);
+  const card = current;
+  const scale = 2;
+  const w = 900;
+  const footerHeight = 114;
 
-      drawRound(ctx, 0, 0, w, h, 0, "#f2eadf");
-      drawRound(ctx, 40, 36, w - 80, h - 72, 12, "#fffaf1", "#064c35", 4);
+  function measureCanvasHeight() {
+    const probe = document.createElement("canvas");
+    probe.width = w;
+    probe.height = 2600;
+    const mctx = probe.getContext("2d");
 
-      ctx.fillStyle = "#064c35";
-      ctx.textAlign = "center";
-      ctx.font = "bold 42px Georgia";
-      ctx.fillText("Whiskey", w / 2, 110);
-      ctx.font = "bold 56px Georgia";
-      ctx.fillText("IQ", w / 2, 164);
-      ctx.strokeStyle = "#b98a3f";
-      ctx.lineWidth = 2;
+    let y = card.image ? 665 : 250;
+
+    mctx.font = "bold 56px Georgia";
+    const nameLines = getWrappedLines(mctx, card.name || "Untitled Bottle", 720, 2);
+    y += nameLines.length * 60;
+
+    y += 26;  // gap after name
+    y += 48;  // score label
+    y += 93;  // big score
+    y += 104; // gap before icon row
+    y += 118; // icon row block
+
+    y = drawDetail(mctx, "TYPE", card.type || "N/A", y, true);
+    y = drawDetail(mctx, "PROOF", card.proof || "N/A", y, true);
+    y = drawDetail(mctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y, true);
+    y = drawDetail(mctx, "TASTING NOTES", card.notes || "No tasting notes added.", y, true);
+    y = drawDetail(mctx, "IQ INSIGHT", iqInsight(card), y, true);
+
+    return y + 20 + footerHeight + 40;
+  }
+
+  const minHeight = card.image ? 1480 : 1280;
+  const h = Math.max(minHeight, measureCanvasHeight());
+
+  const c = document.createElement("canvas");
+  c.width = w * scale;
+  c.height = h * scale;
+
+  const ctx = c.getContext("2d");
+  ctx.scale(scale, scale);
+
+  drawRound(ctx, 0, 0, w, h, 0, "#f2eadf");
+  drawRound(ctx, 40, 36, w - 80, h - 72, 12, "#fffaf1", "#064c35", 4);
+
+  ctx.fillStyle = "#064c35";
+  ctx.textAlign = "center";
+  ctx.font = "bold 42px Georgia";
+  ctx.fillText("Whiskey", w / 2, 110);
+  ctx.font = "bold 56px Georgia";
+  ctx.fillText("IQ", w / 2, 164);
+
+  ctx.strokeStyle = "#b98a3f";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(210, 126);
+  ctx.lineTo(340, 126);
+  ctx.moveTo(560, 126);
+  ctx.lineTo(690, 126);
+  ctx.stroke();
+
+  function drawRest() {
+    let y = card.image ? 665 : 250;
+
+    // Bottle name
+    ctx.fillStyle = "#101511";
+    ctx.textAlign = "center";
+    ctx.font = "bold 56px Georgia";
+    const nameLines = getWrappedLines(ctx, card.name || "Untitled Bottle", 720, 2);
+    drawWrappedLines(ctx, nameLines, w / 2, y, 60);
+
+    y += nameLines.length * 60;
+    y += 26;
+
+    // Divider
+    ctx.strokeStyle = "#b98a3f";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(325, y);
+    ctx.lineTo(575, y);
+    ctx.stroke();
+
+    // Score label
+    y += 48;
+    ctx.fillStyle = "#101511";
+    ctx.font = "bold 24px Arial";
+    ctx.fillText("WHISKEY IQ SCORE", w / 2, y);
+
+    // Big score
+    y += 93;
+    ctx.fillStyle = "#064c35";
+    ctx.font = "bold 96px Arial";
+    ctx.fillText(String(totalScore(card)), w / 2 - 26, y);
+
+    ctx.fillStyle = "#101511";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText("/100", w / 2 + 88, y - 5);
+
+    // Score icon row
+    y += 104;
+
+    categories.forEach((cat, i) => {
+      const x = 112 + i * 135;
+      const pct = pctFor(cat, card) / 100;
+
+      ctx.strokeStyle = "rgba(6,76,53,.18)";
+      ctx.lineWidth = 6;
       ctx.beginPath();
-      ctx.moveTo(210, 126); ctx.lineTo(340, 126);
-      ctx.moveTo(560, 126); ctx.lineTo(690, 126);
+      ctx.arc(x, y, 30, 0, Math.PI * 2);
       ctx.stroke();
 
-      function drawRest() {
-       let y = card.image ? 665 : 250;
+      ctx.strokeStyle = "#064c35";
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
+      ctx.stroke();
 
-/* Bottle name centered between image and yellow line */
-ctx.fillStyle = "#101511";
-ctx.font = "bold 56px Georgia";
-ctx.textAlign = "center";
-wrapText(ctx, card.name || "Untitled Bottle", w / 2, y, 720, 60, 2);
+      drawCanvasScoreIcon(ctx, displayIconFor(cat, card), x, y);
 
-/* Yellow divider with better spacing */
-y += 86;
-ctx.strokeStyle = "#b98a3f";
-ctx.lineWidth = 2;
-ctx.beginPath();
-ctx.moveTo(325, y);
-ctx.lineTo(575, y);
-ctx.stroke();
+      ctx.fillStyle = "#101511";
+      ctx.textAlign = "center";
+      ctx.font = "bold 14px Arial";
+      ctx.fillText(cat.label, x, y + 55);
 
-/* Score section with room under the line */
-y += 48;
-ctx.fillStyle = "#101511";
-ctx.font = "bold 24px Arial";
-ctx.fillText("WHISKEY IQ SCORE", w / 2, y);
+      ctx.font = "bold 18px Arial";
+      ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
+    });
 
-y += 93;
-ctx.fillStyle = "#064c35";
-ctx.font = "bold 96px Arial";
-ctx.fillText(String(totalScore(card)), w / 2 - 26, y);
+    y += 118;
 
-ctx.fillStyle = "#101511";
-ctx.font = "bold 34px Arial";
-ctx.fillText("/100", w / 2 + 88, y - 5);
+    y = drawDetail(ctx, "TYPE", card.type || "N/A", y);
+    y = drawDetail(ctx, "PROOF", card.proof || "N/A", y);
+    y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
+    y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
+    y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
-y += 104;
-
-      categories.forEach((cat, i) => {
-  const x = 112 + i * 135;
-  const pct = pctFor(cat, card) / 100;
-
-  ctx.strokeStyle = "rgba(6,76,53,.18)";
-  ctx.lineWidth = 6;
-  ctx.beginPath();
-  ctx.arc(x, y, 30, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.strokeStyle = "#064c35";
-  ctx.lineWidth = 7;
-  ctx.beginPath();
-  ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
-  ctx.stroke();
-
-  drawCanvasScoreIcon(ctx, displayIconFor(cat, card), x, y);
-
-  ctx.fillStyle = "#101511";
-  ctx.textAlign = "center";
-  ctx.font = "bold 14px Arial";
-  ctx.fillText(cat.label, x, y + 55);
-
-  ctx.font = "bold 18px Arial";
-  ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
-});
-
-y += 118;
-drawDetail(ctx, "TYPE", card.type || "N/A", y); y += 70;
-drawDetail(ctx, "PROOF", card.proof || "N/A", y); y += 70;
-drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y); y += 86;
-drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y); y += 82;
-drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
+    // Footer directly under content
+    const footerY = y + 18;
 
     ctx.fillStyle = "#064c35";
-ctx.fillRect(40, h - 150, w - 80, 114);
+    ctx.fillRect(40, footerY, w - 80, footerHeight);
 
-ctx.fillStyle = "#fffaf1";
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-ctx.font = "bold 28px Arial";
-ctx.fillText("RATE • LEARN • ENJOY", w / 2, h - 92);
+    ctx.fillStyle = "#fffaf1";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 28px Arial";
+    ctx.fillText("RATE • LEARN • ENJOY", w / 2, footerY + (footerHeight / 2));
 
-ctx.textBaseline = "alphabetic";
+    ctx.textBaseline = "alphabetic";
 
-        callback(c);
-      }
+    callback(c);
+  }
 
-      if (card.image) {
-        const img = new Image();
-        img.onload = () => {
-          drawImageCover(ctx, img, 160, 210, 580, 390, 14);
-          drawRest();
-        };
-        img.src = card.image;
-      } else {
-        drawRest();
-      }
-    }
+  if (card.image) {
+    const img = new Image();
+    img.onload = () => {
+      drawImageCover(ctx, img, 160, 210, 580, 390, 14);
+      drawRest();
+    };
+    img.src = card.image;
+  } else {
+    drawRest();
+  }
+}
 
 function drawCanvasScoreIcon(ctx, type, x, y) {
   ctx.save();
@@ -3326,47 +3431,44 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
 if (type === "again") {
-  ctx.strokeStyle = "#064c35";
   ctx.fillStyle = "#064c35";
-  ctx.lineWidth = 5.5;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
+  ctx.strokeStyle = "transparent";
 
-  const r = 14;
-
-  // Top arc (right half, arrowhead pointing right)
+  // Top arrow
   ctx.beginPath();
-  ctx.arc(x, y, r, Math.PI * 0.85, Math.PI * -0.1, false);
-  ctx.stroke();
-
-  // Top arrowhead
-  ctx.save();
-  ctx.translate(x + r * Math.cos(-0.1 * Math.PI), y + r * Math.sin(-0.1 * Math.PI));
-  ctx.rotate(-0.1 * Math.PI + Math.PI / 2);
-  ctx.beginPath();
-  ctx.moveTo(0, -7);
-  ctx.lineTo(6, 5);
-  ctx.lineTo(-6, 5);
+  ctx.moveTo(x - 25, y - 12);
+  ctx.bezierCurveTo(x - 18, y - 25, x - 4, y - 31, x + 10, y - 27);
+  ctx.bezierCurveTo(x + 15, y - 26, x + 19, y - 23, x + 23, y - 19);
+  ctx.lineTo(x + 26, y - 23);
+  ctx.bezierCurveTo(x + 28, y - 25, x + 31, y - 24, x + 31, y - 21);
+  ctx.lineTo(x + 31, y - 3);
+  ctx.bezierCurveTo(x + 31, y, x + 28, y + 2, x + 25, y);
+  ctx.lineTo(x + 9, y - 9);
+  ctx.bezierCurveTo(x + 6, y - 11, x + 6, y - 15, x + 9, y - 17);
+  ctx.lineTo(x + 14, y - 20);
+  ctx.bezierCurveTo(x + 4, y - 26, x - 10, y - 23, x - 17, y - 10);
+  ctx.bezierCurveTo(x - 19, y - 7, x - 23, y - 6, x - 26, y - 8);
+  ctx.bezierCurveTo(x - 28, y - 9, x - 28, y - 10, x - 25, y - 12);
   ctx.closePath();
   ctx.fill();
-  ctx.restore();
 
-  // Bottom arc (left half, arrowhead pointing left)
+  // Bottom arrow
   ctx.beginPath();
-  ctx.arc(x, y, r, Math.PI * -0.15, Math.PI * 0.9, false);
-  ctx.stroke();
-
-  // Bottom arrowhead
-  ctx.save();
-  ctx.translate(x + r * Math.cos(0.9 * Math.PI), y + r * Math.sin(0.9 * Math.PI));
-  ctx.rotate(0.9 * Math.PI + Math.PI / 2);
-  ctx.beginPath();
-  ctx.moveTo(0, -7);
-  ctx.lineTo(6, 5);
-  ctx.lineTo(-6, 5);
+  ctx.moveTo(x + 25, y + 12);
+  ctx.bezierCurveTo(x + 18, y + 25, x + 4, y + 31, x - 10, y + 27);
+  ctx.bezierCurveTo(x - 15, y + 26, x - 19, y + 23, x - 23, y + 19);
+  ctx.lineTo(x - 26, y + 23);
+  ctx.bezierCurveTo(x - 28, y + 25, x - 31, y + 24, x - 31, y + 21);
+  ctx.lineTo(x - 31, y + 3);
+  ctx.bezierCurveTo(x - 31, y, x - 28, y - 2, x - 25, y);
+  ctx.lineTo(x - 9, y + 9);
+  ctx.bezierCurveTo(x - 6, y + 11, x - 6, y + 15, x - 9, y + 17);
+  ctx.lineTo(x - 14, y + 20);
+  ctx.bezierCurveTo(x - 4, y + 26, x + 10, y + 23, x + 17, y + 10);
+  ctx.bezierCurveTo(x + 19, y + 7, x + 23, y + 6, x + 26, y + 8);
+  ctx.bezierCurveTo(x + 28, y + 9, x + 28, y + 10, x + 25, y + 12);
   ctx.closePath();
   ctx.fill();
-  ctx.restore();
 }
 
 
@@ -3404,7 +3506,7 @@ if (type === "again") {
   ctx.restore();
 }
 
-function drawDetail(ctx, label, value, y) {
+function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
 
   const longField =
@@ -3412,37 +3514,50 @@ function drawDetail(ctx, label, value, y) {
     label === "TASTING NOTES" ||
     label === "IQ INSIGHT";
 
-  ctx.strokeStyle = "rgba(6,76,53,.16)";
-  ctx.lineWidth = 7;
-  ctx.beginPath();
-  ctx.moveTo(95, y - 30);
-  ctx.lineTo(805, y - 30);
-  ctx.stroke();
-
-  ctx.textBaseline = "alphabetic";
-
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#9d742b";
-  ctx.font = "900 23px Arial, Helvetica, sans-serif";
-  ctx.fillText(label, 100, y);
-
-  ctx.fillStyle = "#101511";
+  let lines = [text];
+  let fontSize = 28;
+  let lineHeight = 34;
 
   if (longField) {
-    const maxLines = label === "IQ INSIGHT" ? 3 : 2;
-    const fontSize = label === "IQ INSIGHT" ? 25 : 28;
-    const lineHeight = label === "IQ INSIGHT" ? 31 : 34;
-
-    ctx.textAlign = "left";
+    fontSize = label === "IQ INSIGHT" ? 25 : 28;
+    lineHeight = label === "IQ INSIGHT" ? 31 : 34;
     ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
-    wrapText(ctx, text, 335, y, 455, lineHeight, maxLines);
-  } else {
-    ctx.textAlign = "right";
-    ctx.font = "800 34px Arial, Helvetica, sans-serif";
-    ctx.fillText(text, 790, y);
+    lines = getWrappedLines(ctx, text, 455, label === "IQ INSIGHT" ? 4 : 3);
   }
 
-  ctx.textAlign = "left";
+  const rowHeight = longField
+    ? Math.max(54, (lines.length * lineHeight) + 6)
+    : 54;
+
+  if (!measureOnly) {
+    ctx.strokeStyle = "rgba(6,76,53,.16)";
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.moveTo(95, y - 30);
+    ctx.lineTo(805, y - 30);
+    ctx.stroke();
+
+    ctx.textBaseline = "alphabetic";
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#9d742b";
+    ctx.font = "900 23px Arial, Helvetica, sans-serif";
+    ctx.fillText(label, 100, y);
+
+    ctx.fillStyle = "#101511";
+
+    if (longField) {
+      ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
+      drawWrappedLines(ctx, lines, 335, y, lineHeight);
+    } else {
+      ctx.textAlign = "right";
+      ctx.font = "800 34px Arial, Helvetica, sans-serif";
+      ctx.fillText(text, 790, y);
+      ctx.textAlign = "left";
+    }
+  }
+
+  return y + rowHeight + 26;
 }
 
     function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 5) {
