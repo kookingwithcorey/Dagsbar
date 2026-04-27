@@ -2567,18 +2567,36 @@ function iconPath(type) {
 
 again: `
   <path
-    d="M46 35
-       A16 16 0 1 1 41 20"
+    d="M8 24
+       C15 8 38 5 51 18"
     fill="none"
     stroke="#064c35"
     stroke-width="9"
-    stroke-linecap="butt"
+    stroke-linecap="round"
     stroke-linejoin="round"
   />
   <path
-    d="M40 10
-       L57 26
-       L35 30
+    d="M49 8
+       L60 30
+       L36 25
+       Z"
+    fill="#064c35"
+    stroke="none"
+  />
+
+  <path
+    d="M56 40
+       C49 56 26 59 13 46"
+    fill="none"
+    stroke="#064c35"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M15 56
+       L4 34
+       L28 39
        Z"
     fill="#064c35"
     stroke="none"
@@ -3336,18 +3354,31 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
 if (type === "again") {
   ctx.strokeStyle = "#064c35";
   ctx.fillStyle = "#064c35";
-  ctx.lineWidth = 8.5;
-  ctx.lineCap = "butt";
+  ctx.lineWidth = 9;
+  ctx.lineCap = "round";
   ctx.lineJoin = "round";
 
   ctx.beginPath();
-  ctx.arc(x - 1, y + 1, 16, 0.12 * Math.PI, 1.70 * Math.PI, false);
+  ctx.moveTo(x - 24, y - 8);
+  ctx.bezierCurveTo(x - 17, y - 24, x + 6, y - 27, x + 19, y - 14);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x + 8, y - 21);
-  ctx.lineTo(x + 26, y - 5);
-  ctx.lineTo(x + 3, y - 1);
+  ctx.moveTo(x + 17, y - 24);
+  ctx.lineTo(x + 28, y - 2);
+  ctx.lineTo(x + 4, y - 7);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(x + 24, y + 8);
+  ctx.bezierCurveTo(x + 17, y + 24, x - 6, y + 27, x - 19, y + 14);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x - 17, y + 24);
+  ctx.lineTo(x - 28, y + 2);
+  ctx.lineTo(x - 4, y + 7);
   ctx.closePath();
   ctx.fill();
 }
