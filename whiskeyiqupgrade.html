@@ -3356,42 +3356,56 @@ if (type === "again") {
   ctx.fillStyle = "#064c35";
   ctx.strokeStyle = "transparent";
 
-  // Top arrow
+  const r = 28; // arc radius
+  const sw = 10; // stroke width for the arc
+
+  // --- TOP arrow (sweeps from lower-left to upper-right, arrowhead on right) ---
   ctx.beginPath();
-  ctx.moveTo(x - 25, y - 12);
-  ctx.bezierCurveTo(x - 18, y - 25, x - 4, y - 31, x + 10, y - 27);
-  ctx.bezierCurveTo(x + 15, y - 26, x + 19, y - 23, x + 23, y - 19);
-  ctx.lineTo(x + 26, y - 23);
-  ctx.bezierCurveTo(x + 28, y - 25, x + 31, y - 24, x + 31, y - 21);
-  ctx.lineTo(x + 31, y - 3);
-  ctx.bezierCurveTo(x + 31, y, x + 28, y + 2, x + 25, y);
-  ctx.lineTo(x + 9, y - 9);
-  ctx.bezierCurveTo(x + 6, y - 11, x + 6, y - 15, x + 9, y - 17);
-  ctx.lineTo(x + 14, y - 20);
-  ctx.bezierCurveTo(x + 4, y - 26, x - 10, y - 23, x - 17, y - 10);
-  ctx.bezierCurveTo(x - 19, y - 7, x - 23, y - 6, x - 26, y - 8);
-  ctx.bezierCurveTo(x - 28, y - 9, x - 28, y - 10, x - 25, y - 12);
+  // Outer arc: from ~210° to ~20°
+  ctx.arc(x, y, r + sw / 2, (210 * Math.PI) / 180, (20 * Math.PI) / 180, false);
+  // Inner arc: back from ~20° to ~210°
+  ctx.arc(x, y, r - sw / 2, (20 * Math.PI) / 180, (210 * Math.PI) / 180, true);
   ctx.closePath();
   ctx.fill();
 
-  // Bottom arrow
+  // Arrowhead for top arrow (pointing right/down-right at ~20°)
+  const topAngle = (20 * Math.PI) / 180;
+  const tx = x + r * Math.cos(topAngle);
+  const ty = y + r * Math.sin(topAngle);
   ctx.beginPath();
-  ctx.moveTo(x + 25, y + 12);
-  ctx.bezierCurveTo(x + 18, y + 25, x + 4, y + 31, x - 10, y + 27);
-  ctx.bezierCurveTo(x - 15, y + 26, x - 19, y + 23, x - 23, y + 19);
-  ctx.lineTo(x - 26, y + 23);
-  ctx.bezierCurveTo(x - 28, y + 25, x - 31, y + 24, x - 31, y + 21);
-  ctx.lineTo(x - 31, y + 3);
-  ctx.bezierCurveTo(x - 31, y, x - 28, y - 2, x - 25, y);
-  ctx.lineTo(x - 9, y + 9);
-  ctx.bezierCurveTo(x - 6, y + 11, x - 6, y + 15, x - 9, y + 17);
-  ctx.lineTo(x - 14, y + 20);
-  ctx.bezierCurveTo(x - 4, y + 26, x + 10, y + 23, x + 17, y + 10);
-  ctx.bezierCurveTo(x + 19, y + 7, x + 23, y + 6, x + 26, y + 8);
-  ctx.bezierCurveTo(x + 28, y + 9, x + 28, y + 10, x + 25, y + 12);
+  ctx.save();
+  ctx.translate(tx, ty);
+  ctx.rotate(topAngle + Math.PI / 2);
+  ctx.moveTo(0, -16);
+  ctx.lineTo(13, 8);
+  ctx.lineTo(-13, 8);
   ctx.closePath();
   ctx.fill();
+  ctx.restore();
+
+  // --- BOTTOM arrow (sweeps from upper-right to lower-left, arrowhead on left) ---
+  ctx.beginPath();
+  ctx.arc(x, y, r + sw / 2, (30 * Math.PI) / 180, (200 * Math.PI) / 180, false);
+  ctx.arc(x, y, r - sw / 2, (200 * Math.PI) / 180, (30 * Math.PI) / 180, true);
+  ctx.closePath();
+  ctx.fill();
+
+  // Arrowhead for bottom arrow (pointing left/up-left at ~200°)
+  const botAngle = (200 * Math.PI) / 180;
+  const bx = x + r * Math.cos(botAngle);
+  const by = y + r * Math.sin(botAngle);
+  ctx.beginPath();
+  ctx.save();
+  ctx.translate(bx, by);
+  ctx.rotate(botAngle + Math.PI / 2);
+  ctx.moveTo(0, -16);
+  ctx.lineTo(13, 8);
+  ctx.lineTo(-13, 8);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 }
+
 
   if (type === "recommend") {
     ctx.lineWidth = 5.3;
