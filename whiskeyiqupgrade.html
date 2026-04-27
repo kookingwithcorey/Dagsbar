@@ -2567,12 +2567,37 @@ function iconPath(type) {
 
 again: `
   <path
-    d="M32 10V2L20 14L32 26V18C43.05 18 52 26.95 52 38C52 41.36 51.17 44.53 49.7 47.31L54.62 52.23C57.03 48.15 58.4 43.31 58.4 38C58.4 23.08 46.92 10 32 10Z"
+    d="M32 8
+       A24 24 0 0 1 55 25"
+    fill="none"
+    stroke="#064c35"
+    stroke-width="8"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M55 25
+       L56 9
+       L43 18
+       Z"
     fill="#064c35"
     stroke="none"
   />
+
   <path
-    d="M32 54V62L44 50L32 38V46C20.95 46 12 37.05 12 26C12 22.64 12.83 19.47 14.3 16.69L9.38 11.77C6.97 15.85 5.6 20.69 5.6 26C5.6 40.92 17.08 54 32 54Z"
+    d="M32 56
+       A24 24 0 0 1 9 39"
+    fill="none"
+    stroke="#064c35"
+    stroke-width="8"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M9 39
+       L8 55
+       L21 46
+       Z"
     fill="#064c35"
     stroke="none"
   />
@@ -3327,34 +3352,33 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
   }
 
 if (type === "again") {
+  ctx.strokeStyle = "#064c35";
   ctx.fillStyle = "#064c35";
-  ctx.strokeStyle = "transparent";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  // Top/right circular arrow
+  ctx.beginPath();
+  ctx.arc(x, y, 24, -1.58, -0.28, false);
+  ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(x, y - 22);
-  ctx.lineTo(x, y - 30);
-  ctx.lineTo(x - 12, y - 18);
-  ctx.lineTo(x, y - 6);
-  ctx.lineTo(x, y - 14);
-  ctx.bezierCurveTo(x + 11, y - 14, x + 20, y - 5, x + 20, y + 6);
-  ctx.bezierCurveTo(x + 20, y + 9, x + 19, y + 13, x + 17, y + 16);
-  ctx.lineTo(x + 22, y + 21);
-  ctx.bezierCurveTo(x + 25, y + 16, x + 27, y + 11, x + 27, y + 6);
-  ctx.bezierCurveTo(x + 27, y - 9, x + 15, y - 22, x, y - 22);
+  ctx.moveTo(x + 23, y - 23);
+  ctx.lineTo(x + 25, y - 7);
+  ctx.lineTo(x + 12, y - 16);
   ctx.closePath();
   ctx.fill();
 
+  // Bottom/left circular arrow
   ctx.beginPath();
-  ctx.moveTo(x, y + 22);
-  ctx.lineTo(x, y + 30);
-  ctx.lineTo(x + 12, y + 18);
-  ctx.lineTo(x, y + 6);
-  ctx.lineTo(x, y + 14);
-  ctx.bezierCurveTo(x - 11, y + 14, x - 20, y + 5, x - 20, y - 6);
-  ctx.bezierCurveTo(x - 20, y - 9, x - 19, y - 13, x - 17, y - 16);
-  ctx.lineTo(x - 22, y - 21);
-  ctx.bezierCurveTo(x - 25, y - 16, x - 27, y - 11, x - 27, y - 6);
-  ctx.bezierCurveTo(x - 27, y + 9, x - 15, y + 22, x, y + 22);
+  ctx.arc(x, y, 24, 1.56, 2.86, false);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x - 23, y + 23);
+  ctx.lineTo(x - 25, y + 7);
+  ctx.lineTo(x - 12, y + 16);
   ctx.closePath();
   ctx.fill();
 }
