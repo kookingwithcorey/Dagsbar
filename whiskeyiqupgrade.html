@@ -1498,22 +1498,22 @@
     }
 
 /* ================================
-   FINAL WHISKEY IQ OVERRIDES
-   Dashboard, mobile layout, card actions, icons
+   FINAL WHISKEY IQ CLEAN OVERRIDES
+   Dashboard + Share Card + Mobile Fit
    ================================ */
 
 /* Logo */
 .brand-logo-mark {
   background: #078965 !important;
-  overflow: hidden;
+  overflow: hidden !important;
   padding: 0 !important;
 }
 
 .brand-logo-mark img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
 }
 
 /* Dashboard toolbar */
@@ -1574,7 +1574,6 @@
   box-shadow: 0 10px 22px rgba(15,139,107,.18) !important;
   font-weight: 1000 !important;
   line-height: 1 !important;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
 }
 
 .view-circle-btn {
@@ -1586,7 +1585,6 @@
   margin: 0 !important;
 }
 
-/* Grid icon */
 .grid-icon-4 {
   width: 19px;
   height: 19px;
@@ -1594,8 +1592,6 @@
   grid-template-columns: repeat(2, 7px);
   grid-template-rows: repeat(2, 7px);
   gap: 4px;
-  align-items: center;
-  justify-content: center;
 }
 
 .grid-icon-4 span {
@@ -1606,23 +1602,19 @@
   display: block;
 }
 
-/* Score circles */
+/* Dashboard cards */
 .score-pill {
   --scorePct: 0%;
   width: 70px !important;
   height: 70px !important;
   min-width: 70px !important;
-  max-width: 70px !important;
   border-radius: 999px !important;
   border: 0 !important;
   padding: 6px !important;
   display: grid !important;
   place-items: center !important;
   background: conic-gradient(var(--green-2) var(--scorePct), rgba(6,76,53,.12) 0) !important;
-  color: var(--green) !important;
   font-size: 0 !important;
-  line-height: 1 !important;
-  overflow: visible !important;
 }
 
 .score-pill span {
@@ -1635,10 +1627,8 @@
   color: var(--green);
   font-size: 24px;
   font-weight: 1000;
-  line-height: 1;
 }
 
-/* Log card layout */
 .log-card {
   overflow: visible !important;
 }
@@ -1649,10 +1639,6 @@
 
 .log-card.no-bottle-image .log-image {
   display: none !important;
-}
-
-.log-top {
-  align-items: flex-start !important;
 }
 
 .log-actions button[onclick*="openBottle"] {
@@ -1685,28 +1671,14 @@
 }
 
 .log-grid.line-view .log-image {
-  display: block !important;
   width: 58px !important;
   height: 58px !important;
   min-height: 58px !important;
   border-radius: 16px !important;
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-}
-
-.log-grid.line-view .log-image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
 }
 
 .log-grid.line-view .log-content {
-  grid-column: 2 !important;
   min-width: 0 !important;
-}
-
-.log-grid.line-view .log-card.no-bottle-image .log-content {
-  grid-column: 1 !important;
 }
 
 .log-grid.line-view .mini-row {
@@ -1718,31 +1690,21 @@
   grid-template-columns: minmax(0, 1fr) 66px !important;
   align-items: center !important;
   gap: 12px !important;
-  width: 100% !important;
-}
-
-.log-grid.line-view .log-title-wrap {
-  min-width: 0 !important;
 }
 
 .log-grid.line-view .score-pill {
   width: 66px !important;
   height: 66px !important;
   min-width: 66px !important;
-  max-width: 66px !important;
   justify-self: end !important;
-  align-self: center !important;
-  margin-left: auto !important;
 }
 
 .log-grid.line-view .log-actions {
   grid-column: 1 / -1 !important;
   display: flex !important;
   flex-direction: row !important;
-  justify-content: flex-start !important;
   gap: 8px !important;
   margin-top: 10px !important;
-  min-width: 0 !important;
 }
 
 .line-score-bar {
@@ -1774,7 +1736,6 @@
 }
 
 .top-bottle-score-row span {
-  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1795,7 +1756,7 @@
   font-weight: 1000;
 }
 
-/* Bottle photo upload */
+/* Bottle photo */
 .photo-bubble {
   width: 58px;
   height: 58px;
@@ -1839,7 +1800,176 @@
   object-fit: cover;
 }
 
-/* Card Actions */
+/* Icons */
+.real-icon-inner,
+.share-ring-inner {
+  color: var(--green) !important;
+}
+
+.real-icon-inner svg,
+.share-ring svg,
+.mini-score svg {
+  stroke: var(--green) !important;
+  stroke-width: 4.2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+.real-icon-inner svg {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.share-ring svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.mini-score svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+svg .money-text,
+.real-icon-inner svg .money-text,
+.share-ring svg .money-text,
+.mini-score svg .money-text {
+  fill: #064c35 !important;
+  stroke: none !important;
+}
+
+/* Share card - webpage preview */
+.share-card {
+  overflow: hidden !important;
+}
+
+.share-img {
+  margin-bottom: 12px !important;
+}
+
+.share-name {
+  min-height: 76px !important;
+  margin: 0 auto 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: .95 !important;
+}
+
+.share-divider {
+  display: block !important;
+  width: 250px !important;
+  height: 2px !important;
+  background: #b98a3f !important;
+  margin: 0 auto 24px !important;
+}
+
+.share-divider::after {
+  display: none !important;
+}
+
+.score-label {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+}
+
+.big-score {
+  margin-top: 0 !important;
+  margin-bottom: 34px !important;
+}
+
+.share-scores {
+  margin-bottom: 18px !important;
+}
+
+/* Share card details */
+.share-details {
+  display: grid !important;
+  grid-template-columns: 170px minmax(0, 1fr) !important;
+  column-gap: 18px !important;
+  border-top: 7px solid rgba(6,76,53,.14) !important;
+  margin-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.detail-label,
+.detail-value {
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  min-height: 66px !important;
+  padding: 12px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.detail-label {
+  color: #9d742b !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .045em !important;
+  line-height: 1.08 !important;
+  text-transform: uppercase !important;
+}
+
+.detail-value {
+  color: #101511 !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1.18 !important;
+  text-align: left !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.detail-value.short-value {
+  justify-content: flex-end !important;
+  text-align: right !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+}
+
+.detail-value.summary-text {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  align-items: unset !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  line-height: 1.18 !important;
+  overflow: hidden !important;
+}
+
+/* Flavor Notes */
+.share-details .detail-value:nth-child(6) {
+  -webkit-line-clamp: 2 !important;
+}
+
+/* Tasting Notes */
+.share-details .detail-value:nth-child(8) {
+  -webkit-line-clamp: 2 !important;
+}
+
+/* IQ Insight */
+.share-details .detail-value:nth-child(10) {
+  -webkit-line-clamp: 3 !important;
+  font-size: 18px !important;
+  line-height: 1.16 !important;
+}
+
+.share-footer {
+  margin-top: 0 !important;
+  background: #064c35 !important;
+  color: #fffaf1 !important;
+  text-align: center !important;
+  padding: 24px 14px !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .28em !important;
+  text-transform: uppercase !important;
+}
+
+/* Card actions */
 .action-panel {
   width: min(100%, 580px) !important;
   max-width: 580px !important;
@@ -1893,44 +2023,12 @@
   stroke-width: 2.25 !important;
 }
 
-/* Score icons */
-.real-icon-inner,
-.share-ring-inner {
-  color: var(--green) !important;
-}
-
-.real-icon-inner svg,
-.share-ring svg,
-.mini-score svg {
-  stroke: var(--green) !important;
-  stroke-width: 4.2 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-}
-
-.real-icon-inner svg {
-  width: 44px !important;
-  height: 44px !important;
-}
-
-.share-ring svg {
-  width: 32px !important;
-  height: 32px !important;
-}
-
-.mini-score svg {
-  width: 20px !important;
-  height: 20px !important;
-}
-
 /* Mobile */
 @media (max-width: 760px) {
   .iq-toolbar,
   .toolbar.iq-toolbar {
-    display: grid !important;
     grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
     gap: 6px !important;
-    align-items: center !important;
   }
 
   .iq-toolbar .search {
@@ -1948,19 +2046,10 @@
     height: 40px !important;
   }
 
-  .view-circle-btn {
-    font-size: 23px !important;
-  }
-
-  .add-circle-btn {
-    font-size: 28px !important;
-  }
-
   .score-pill {
     width: 66px !important;
     height: 66px !important;
     min-width: 66px !important;
-    max-width: 66px !important;
   }
 
   .score-pill span {
@@ -1978,18 +2067,8 @@
     grid-column: 1 / -1 !important;
     display: flex !important;
     flex-direction: row !important;
-    justify-content: flex-start !important;
     gap: 8px !important;
     margin-top: 10px !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .small-btn {
-    padding: 8px 14px !important;
-    font-size: 13px !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .small-btn.danger {
-    padding: 8px 16px !important;
   }
 
   .log-grid.line-view .log-card.has-bottle-image {
@@ -2003,8 +2082,50 @@
     border-radius: 14px !important;
   }
 
-  .log-grid.line-view .log-top {
-    grid-template-columns: minmax(0, 1fr) 64px !important;
+  .share-inner {
+    padding: 22px 18px 0 !important;
+  }
+
+  .share-details {
+    grid-template-columns: 132px minmax(0, 1fr) !important;
+    column-gap: 12px !important;
+  }
+
+  .detail-label,
+  .detail-value {
+    min-height: 62px !important;
+    padding: 10px 0 !important;
+  }
+
+  .detail-label {
+    font-size: 15px !important;
+    letter-spacing: .035em !important;
+  }
+
+  .detail-value {
+    font-size: 18px !important;
+    line-height: 1.14 !important;
+  }
+
+  .detail-value.short-value {
+    font-size: 22px !important;
+  }
+
+  .detail-value.summary-text {
+    font-size: 17px !important;
+    line-height: 1.14 !important;
+  }
+
+  .share-details .detail-value:nth-child(10) {
+    font-size: 15px !important;
+    line-height: 1.13 !important;
+    -webkit-line-clamp: 4 !important;
+  }
+
+  .share-footer {
+    padding: 22px 10px !important;
+    font-size: 15px !important;
+    letter-spacing: .2em !important;
   }
 }
 
@@ -2028,651 +2149,6 @@
   .action-panel .action-btn svg {
     width: 25px !important;
     height: 25px !important;
-  }
-}
-/* Force Value icon to be a clean filled DAGS green dollar sign */
-svg .money-text {
-  fill: #064c35 !important;
-  stroke: none !important;
-  color: #064c35 !important;
-}
-
-.real-icon-inner svg .money-text,
-.share-ring svg .money-text,
-.mini-score svg .money-text {
-  fill: #064c35 !important;
-  stroke: none !important;
-}
-/* ================================
-   SCORE CARD PREVIEW FIXES
-   Matches downloaded card styling
-   ================================ */
-
-.share-divider {
-  display: none !important;
-}
-
-.share-name {
-  margin-bottom: 8px !important;
-}
-
-.score-label {
-  margin-top: 0 !important;
-  margin-bottom: 6px !important;
-}
-
-.big-score {
-  margin-bottom: 20px !important;
-}
-
-.share-details {
-  border-top: 7px solid rgba(6,76,53,.14) !important;
-  display: grid !important;
-  grid-template-columns: 170px 1fr !important;
-}
-
-.detail-label,
-.detail-value {
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-  padding: 14px 0 !important;
-}
-
-.detail-label {
-  color: #9d742b !important;
-  font-size: 20px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .05em !important;
-  text-transform: uppercase !important;
-}
-
-.detail-value {
-  color: #101511 !important;
-  line-height: 1.25 !important;
-}
-
-.detail-value.short-value {
-  text-align: right !important;
-  font-size: 32px !important;
-  font-weight: 500 !important;
-}
-
-.detail-value.summary-text {
-  text-align: left !important;
-  font-size: 26px !important;
-  font-weight: 500 !important;
-  line-height: 1.3 !important;
-  padding-left: 0 !important;
-}
-
-@media (max-width: 720px) {
-  .share-details {
-    grid-template-columns: 150px 1fr !important;
-  }
-
-  .detail-label {
-    font-size: 17px !important;
-  }
-
-  .detail-value.short-value {
-    font-size: 26px !important;
-  }
-
-  .detail-value.summary-text {
-    font-size: 22px !important;
-  }
-}
-/* Final preview tighten so website card matches downloaded image */
-.share-footer {
-  margin-top: 12px !important;
-}
-
-.detail-value.summary-text {
-  max-height: 96px !important;
-  overflow: hidden !important;
-}
-
-.share-details {
-  margin-top: 0 !important;
-}
-/* Center bottle name vertically between image and yellow line */
-.share-img {
-  margin-bottom: 0 !important;
-}
-
-.share-name {
-  min-height: 82px !important;
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-.share-divider {
-  margin-top: 0 !important;
-}
-/* Detail rows: bold values, equal spacing, cleaner IQ Insight label */
-.share-details {
-  display: grid !important;
-  grid-template-columns: 190px 1fr !important;
-  row-gap: 0 !important;
-}
-
-.detail-label,
-.detail-value {
-  min-height: 58px !important;
-  display: flex !important;
-  align-items: center !important;
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-  padding: 10px 0 !important;
-}
-
-.detail-label {
-  justify-content: flex-start !important;
-  font-size: 20px !important;
-  line-height: 1.05 !important;
-}
-
-.detail-value {
-  justify-content: flex-start !important;
-  text-align: left !important;
-  font-weight: 800 !important;
-  font-size: 24px !important;
-  line-height: 1.2 !important;
-}
-
-.detail-value.short-value {
-  justify-content: flex-start !important;
-  text-align: left !important;
-  font-weight: 800 !important;
-  font-size: 24px !important;
-}
-
-.detail-value.summary-text {
-  font-weight: 800 !important;
-  font-size: 24px !important;
-  line-height: 1.22 !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-/* Better spacing between bottle image, bottle name, divider, and score */
-.share-img {
-  margin-bottom: 12px !important;
-}
-
-.share-name {
-  min-height: 82px !important;
-  margin: 0 auto 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  line-height: 0.95 !important;
-}
-
-.share-divider {
-  display: block !important;
-  width: 250px !important;
-  height: 2px !important;
-  background: #b98a3f !important;
-  margin: 0 auto 24px !important;
-}
-
-.share-divider::after {
-  display: none !important;
-}
-
-.score-label {
-  margin-bottom: 6px !important;
-}
-
-.big-score {
-  margin-bottom: 34px !important;
-}
-/* ================================
-   FIX SHARE CARD DETAIL ROWS
-   Keeps Type / Proof / Notes / Insight fitted
-   ================================ */
-
-.share-details {
-  display: grid !important;
-  grid-template-columns: 180px minmax(0, 1fr) !important;
-  border-top: 6px solid rgba(6,76,53,.14) !important;
-  margin-top: 0 !important;
-}
-
-.detail-label,
-.detail-value {
-  min-height: 64px !important;
-  border-bottom: 6px solid rgba(6,76,53,.14) !important;
-  padding: 13px 0 !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.detail-label {
-  color: #9d742b !important;
-  font-size: 19px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .04em !important;
-  text-transform: uppercase !important;
-  line-height: 1.08 !important;
-}
-
-.detail-value {
-  color: #101511 !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  line-height: 1.15 !important;
-  text-align: left !important;
-  min-width: 0 !important;
-}
-
-.detail-value.short-value {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  font-size: 28px !important;
-  font-weight: 800 !important;
-}
-
-.detail-value.summary-text {
-  justify-content: flex-start !important;
-  text-align: left !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  line-height: 1.18 !important;
-  max-height: 86px !important;
-  overflow: hidden !important;
-}
-
-.share-footer {
-  margin-top: 0 !important;
-}
-
-/* Mobile fit fix */
-@media (max-width: 720px) {
-  .share-details {
-    grid-template-columns: 145px minmax(0, 1fr) !important;
-  }
-
-  .detail-label,
-  .detail-value {
-    min-height: 58px !important;
-    padding: 11px 0 !important;
-  }
-
-  .detail-label {
-    font-size: 16px !important;
-  }
-
-  .detail-value {
-    font-size: 19px !important;
-  }
-
-  .detail-value.short-value {
-    font-size: 24px !important;
-  }
-
-  .detail-value.summary-text {
-    font-size: 19px !important;
-    line-height: 1.18 !important;
-    max-height: 78px !important;
-  }
-}
-/* ================================
-   FIX SHARE CARD DETAIL FIT
-   Keeps values bold but prevents stretching/cutoff
-   ================================ */
-
-.share-details {
-  display: grid !important;
-  grid-template-columns: 34% 66% !important;
-  gap: 0 !important;
-  border-top: 7px solid rgba(6,76,53,.14) !important;
-}
-
-.detail-label,
-.detail-value {
-  min-height: 62px !important;
-  padding: 12px 0 !important;
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.detail-label {
-  color: #9d742b !important;
-  font-size: 20px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .04em !important;
-  text-transform: uppercase !important;
-  line-height: 1.05 !important;
-  justify-content: flex-start !important;
-}
-
-.detail-value {
-  color: #101511 !important;
-  font-size: 22px !important;
-  font-weight: 900 !important;
-  line-height: 1.18 !important;
-  text-align: left !important;
-  justify-content: flex-start !important;
-  overflow: hidden !important;
-}
-
-.detail-value.short-value {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  font-size: 26px !important;
-  font-weight: 900 !important;
-}
-
-.detail-value.summary-text {
-  font-size: 22px !important;
-  font-weight: 900 !important;
-  line-height: 1.18 !important;
-  max-height: 84px !important;
-  overflow: hidden !important;
-}
-
-/* Keep IQ Insight from taking over the card */
-.share-details .detail-label:nth-last-of-type(1),
-.share-details .detail-value:nth-last-of-type(1) {
-  min-height: 84px !important;
-}
-
-.share-footer {
-  margin-top: 0 !important;
-}
-/* ================================
-   SCORE BLOCK SPACING FIX
-   Lowers Whiskey IQ score slightly
-   ================================ */
-
-.share-divider {
-  margin-top: 42px !important;
-  margin-bottom: 24px !important;
-}
-
-.score-label {
-  margin-top: 0 !important;
-  margin-bottom: 4px !important;
-}
-
-.big-score {
-  margin-top: 0 !important;
-  margin-bottom: 34px !important;
-}
-/* ================================
-   MOBILE CARD DETAIL TEXT FIX
-   Keeps details bold but makes them fit
-   ================================ */
-
-.share-details {
-  grid-template-columns: 36% 64% !important;
-  row-gap: 0 !important;
-}
-
-.detail-label,
-.detail-value {
-  min-height: 64px !important;
-  display: flex !important;
-  align-items: center !important;
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-}
-
-.detail-label {
-  font-size: 18px !important;
-  line-height: 1.05 !important;
-  padding: 10px 8px 10px 0 !important;
-}
-
-.detail-value {
-  font-size: 22px !important;
-  line-height: 1.15 !important;
-  font-weight: 900 !important;
-  padding: 10px 0 !important;
-  text-align: left !important;
-  overflow: hidden !important;
-}
-
-.detail-value.short-value {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  font-size: 28px !important;
-}
-
-.detail-value.summary-text {
-  font-size: 21px !important;
-  line-height: 1.12 !important;
-  font-weight: 900 !important;
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  align-items: unset !important;
-  overflow: hidden !important;
-}
-
-/* Flavor Notes */
-.share-details .detail-value:nth-child(6) {
-  -webkit-line-clamp: 2 !important;
-}
-
-/* Tasting Notes */
-.share-details .detail-value:nth-child(8) {
-  -webkit-line-clamp: 2 !important;
-}
-
-/* IQ Insight */
-.share-details .detail-value:nth-child(10) {
-  -webkit-line-clamp: 4 !important;
-  font-size: 19px !important;
-  line-height: 1.12 !important;
-}
-
-.share-footer {
-  margin-top: 0 !important;
-}
-/* =========================================================
-   FINAL CLEAN SHARE CARD DETAIL FIX
-   Keeps Type / Proof / Flavor Notes / Tasting Notes / IQ Insight
-   fitting inside the card without stretching or cutting off
-   ========================================================= */
-
-/* Main score card stays clean */
-.share-card {
-  overflow: hidden !important;
-}
-
-/* Details section */
-.share-details {
-  display: grid !important;
-  grid-template-columns: 190px minmax(0, 1fr) !important;
-  column-gap: 22px !important;
-  row-gap: 0 !important;
-  border-top: 7px solid rgba(6,76,53,.14) !important;
-  margin-top: 0 !important;
-  padding: 0 0 8px !important;
-}
-
-/* Every row gets equal clean spacing */
-.detail-label,
-.detail-value {
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-  min-height: 76px !important;
-  padding: 14px 0 !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-/* Left labels */
-.detail-label {
-  color: #9d742b !important;
-  font-size: 20px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .05em !important;
-  line-height: 1.1 !important;
-  text-transform: uppercase !important;
-  white-space: normal !important;
-}
-
-/* Right values */
-.detail-value {
-  color: #101511 !important;
-  font-size: 25px !important;
-  font-weight: 800 !important;
-  line-height: 1.2 !important;
-  text-align: left !important;
-  justify-content: flex-start !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  overflow: visible !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-  word-break: normal !important;
-}
-
-/* Type and Proof can stay right-aligned on larger screens */
-.detail-value.short-value {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  font-size: 30px !important;
-  font-weight: 800 !important;
-}
-
-/* Notes and IQ Insight should wrap naturally */
-.detail-value.summary-text {
-  justify-content: flex-start !important;
-  text-align: left !important;
-  font-size: 24px !important;
-  font-weight: 800 !important;
-  line-height: 1.22 !important;
-  max-height: none !important;
-  overflow: visible !important;
-  padding-left: 0 !important;
-}
-
-/* Keep the footer below the content, not overlapping it */
-.share-footer {
-  margin-top: 0 !important;
-  background: #064c35 !important;
-  color: #fffaf1 !important;
-  text-align: center !important;
-  padding: 24px 14px !important;
-  font-size: 19px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .28em !important;
-  text-transform: uppercase !important;
-}
-
-/* =========================================================
-   MOBILE SHARE CARD FIX
-   Prevents Flavor Notes and IQ Insight from getting cut off
-   ========================================================= */
-
-@media (max-width: 720px) {
-  .share-inner {
-    padding: 22px 18px 0 !important;
-  }
-
-  .share-details {
-    grid-template-columns: 150px minmax(0, 1fr) !important;
-    column-gap: 16px !important;
-    padding-bottom: 8px !important;
-  }
-
-  .detail-label,
-  .detail-value {
-    min-height: 70px !important;
-    padding: 12px 0 !important;
-  }
-
-  .detail-label {
-    font-size: 17px !important;
-    line-height: 1.12 !important;
-  }
-
-  .detail-value {
-    font-size: 21px !important;
-    line-height: 1.18 !important;
-    font-weight: 800 !important;
-  }
-
-  .detail-value.short-value {
-    font-size: 25px !important;
-  }
-
-  .detail-value.summary-text {
-    font-size: 20px !important;
-    line-height: 1.18 !important;
-    font-weight: 800 !important;
-  }
-
-  .share-footer {
-    padding: 22px 10px !important;
-    font-size: 17px !important;
-    letter-spacing: .24em !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .share-inner {
-    padding: 20px 14px 0 !important;
-  }
-
-  .share-details {
-    grid-template-columns: 132px minmax(0, 1fr) !important;
-    column-gap: 12px !important;
-  }
-
-  .detail-label,
-  .detail-value {
-    min-height: 66px !important;
-    padding: 11px 0 !important;
-  }
-
-  .detail-label {
-    font-size: 15px !important;
-    letter-spacing: .04em !important;
-  }
-
-  .detail-value {
-    font-size: 18px !important;
-    line-height: 1.16 !important;
-  }
-
-  .detail-value.short-value {
-    font-size: 22px !important;
-  }
-
-  .detail-value.summary-text {
-    font-size: 17px !important;
-    line-height: 1.16 !important;
-  }
-
-  .share-footer {
-    font-size: 15px !important;
-    letter-spacing: .2em !important;
-  }
-}
-
-/* Extra small phones */
-@media (max-width: 380px) {
-  .share-details {
-    grid-template-columns: 118px minmax(0, 1fr) !important;
-    column-gap: 10px !important;
-  }
-
-  .detail-label {
-    font-size: 14px !important;
-  }
-
-  .detail-value,
-  .detail-value.summary-text {
-    font-size: 16px !important;
-  }
-
-  .detail-value.short-value {
-    font-size: 20px !important;
   }
 }
   </style>
@@ -3752,6 +3228,11 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
 function drawDetail(ctx, label, value, y) {
   const text = String(value || "N/A");
 
+  const longField =
+    label === "FLAVOR NOTES" ||
+    label === "TASTING NOTES" ||
+    label === "IQ INSIGHT";
+
   ctx.strokeStyle = "rgba(6,76,53,.16)";
   ctx.lineWidth = 7;
   ctx.beginPath();
@@ -3768,18 +3249,17 @@ function drawDetail(ctx, label, value, y) {
 
   ctx.fillStyle = "#101511";
 
-  const longField =
-    label === "FLAVOR NOTES" ||
-    label === "TASTING NOTES" ||
-    label === "IQ INSIGHT";
-
   if (longField) {
+    const maxLines = label === "IQ INSIGHT" ? 3 : 2;
+    const fontSize = label === "IQ INSIGHT" ? 25 : 28;
+    const lineHeight = label === "IQ INSIGHT" ? 31 : 34;
+
     ctx.textAlign = "left";
-    ctx.font = "500 29px Arial, Helvetica, sans-serif";
-    wrapText(ctx, text, 335, y, 455, 35, 3);
+    ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
+    wrapText(ctx, text, 335, y, 455, lineHeight, maxLines);
   } else {
     ctx.textAlign = "right";
-    ctx.font = "500 34px Arial, Helvetica, sans-serif";
+    ctx.font = "800 34px Arial, Helvetica, sans-serif";
     ctx.fillText(text, 790, y);
   }
 
