@@ -587,7 +587,7 @@
         <div class="button-row">
           <button type="button" id="printBtn">Print Sheet</button>
           <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
-          <button type="button" id="saveBtn" class="btn-secondary">Save Tasting</button>
+         <button type="button" id="saveBtn" class="btn-secondary">Save Log</button>
         </div>
       </div>
 
@@ -1019,19 +1019,29 @@
     }
 
     document.getElementById("saveBtn")?.addEventListener("click", () => {
-      const entry = getCurrentTastingEntry();
+  const entry = getCurrentTastingEntry();
 
-      if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
-        alert("Fill in at least the whiskey name, distillery, or rating before saving.");
-        return;
-      }
+  if (!entry.whiskeyName && !entry.distillery && !entry.rating) {
+    alert("Fill in at least the whiskey name, distillery, or rating before saving.");
+    return;
+  }
 
-      const history = loadTastingHistory();
-      history.push(entry);
-      saveTastingHistory(history);
+  const TASTING_HISTORY_KEY = "dags_tastings_v1";
+  const existing = JSON.parse(localStorage.getItem(TASTING_HISTORY_KEY) || "[]");
 
-      alert("Tasting saved to your Whiskey Log Book!");
-    });
+  existing.unshift(entry);
+  localStorage.setItem(TASTING_HISTORY_KEY, JSON.stringify(existing));
+
+  const shouldReturnToLog =
+    new URLSearchParams(window.location.search).get("returnToLog") === "1";
+
+  if (shouldReturnToLog) {
+    window.location.href = "history.html";
+    return;
+  }
+
+  alert("Tasting saved to Whiskey Log.");
+});
 
     document.getElementById("printBtn")?.addEventListener("click", () => {
       window.print();
