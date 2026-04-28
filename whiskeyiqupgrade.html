@@ -144,7 +144,30 @@
       gap: 8px;
       flex-wrap: wrap;
     }
+.nav a.legacy-iq-btn {
+  border: 1px solid rgba(15,139,107,.75);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--green), #043422);
+  color: #fff !important;
+  padding: 10px 13px;
+  font-size: 13px;
+  font-weight: 1000;
+  white-space: nowrap;
+  box-shadow: 0 14px 32px rgba(15,139,107,.18);
+  transition: .18s ease;
+}
 
+.nav a.legacy-iq-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15,139,107,.95);
+}
+
+@media (max-width: 720px) {
+  .legacy-iq-btn {
+    font-size: 12px;
+    padding: 9px 10px;
+  }
+}
     .btn,
     .nav a,
     .icon-btn {
@@ -163,6 +186,11 @@
     html[data-theme="dark"] .icon-btn {
       background: rgba(255,255,255,.07);
     }
+    html[data-theme="dark"] .nav a.legacy-iq-btn {
+  background: linear-gradient(135deg, var(--green), #043422);
+  color: #fff !important;
+  border-color: rgba(15,139,107,.75);
+}
 
     .btn:hover,
     .nav a:hover,
@@ -2300,15 +2328,18 @@ svg .money-text,
       </a>
 
       <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="#dashboard">View Dashboard</a>
-        <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle light and dark">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 3a7 7 0 1 0 9 9a9 9 0 0 1-9-9Z"></path>
-          </svg>
-        </button>
-      </nav>
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="#dashboard">View Dashboard</a>
+  <a class="legacy-iq-btn" href="whiskeyiq.html" aria-label="Go to legacy Whiskey IQ">
+    Legacy IQ
+  </a>
+  <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle light and dark">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3a7 7 0 1 0 9 9a9 9 0 0 1-9-9Z"></path>
+    </svg>
+  </button>
+</nav>
     </header>
 
     <section class="hero">
