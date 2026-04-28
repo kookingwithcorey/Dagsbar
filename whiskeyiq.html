@@ -622,7 +622,51 @@
       overscroll-behavior: contain;
       overflow-anchor: none;
     }
+.iq-upgrade-toggle {
+  position: absolute !important;
+  top: 14px !important;
+  right: 66px !important;
+  z-index: 999 !important;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(24,18,13,0.22);
+  background: rgba(15,139,107,0.95);
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
 
+.iq-upgrade-toggle:hover {
+  background: #0b6f58;
+  transform: translateY(-1px);
+}
+
+body.dark-ui .iq-upgrade-toggle {
+  background: rgba(15,139,107,0.95);
+  border-color: rgba(255,255,255,0.12);
+  color: #ffffff !important;
+}
+
+@media (max-width: 720px) {
+  .iq-upgrade-toggle {
+    top: 10px !important;
+    right: 52px !important;
+    min-height: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+}
     .iq-theme-btn,
     .home-theme-btn {
       position: absolute !important;
@@ -1511,16 +1555,17 @@ body.dark-ui .iq-tag:focus-visible {
       }
 
       header,
-      .home-screen,
-      .iq-theme-btn,
-      .home-theme-btn,
-      .iq-back,
-      .iq-summary-actions,
-      .iq-delete-btn,
-      .bottle-actions,
-      .fab-add {
-        display: none !important;
-      }
+.home-screen,
+.iq-theme-btn,
+.home-theme-btn,
+.iq-upgrade-toggle,
+.iq-back,
+.iq-summary-actions,
+.iq-delete-btn,
+.bottle-actions,
+.fab-add {
+  display: none !important;
+}
 
       .page {
         transform: scale(0.6);
@@ -2172,10 +2217,14 @@ body.dark-ui .iq-tag:focus-visible {
 
     <main class="app-shell">
       <div class="app-frame">
-        <section class="screen home-screen active" id="homeScreen">
-          <button class="iq-theme-btn home-theme-btn" id="homeThemeToggle" type="button" aria-label="Toggle theme">
-            <svg id="homeThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-          </button>
+       <section class="screen home-screen active" id="homeScreen">
+  <a class="iq-upgrade-toggle" href="whiskeyiqupgrade.html" aria-label="Go to upgraded Whiskey IQ">
+    Upgrade
+  </a>
+
+  <button class="iq-theme-btn home-theme-btn" id="homeThemeToggle" type="button" aria-label="Toggle theme">
+    <svg id="homeThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+  </button>
 
           <div class="home-top">
             <div class="home-brand">Whiskey IQ</div>
@@ -2204,11 +2253,14 @@ body.dark-ui .iq-tag:focus-visible {
           <div class="iq-rating-shell">
             <aside class="iq-left" id="iqSidebar"></aside>
 
-            <section class="iq-right">
-              <button class="iq-theme-btn" id="iqThemeToggle" type="button" aria-label="Toggle theme">
-                <svg id="iqThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-              </button>
+           <section class="iq-right">
+  <a class="iq-upgrade-toggle" href="whiskeyiqupgrade.html" aria-label="Go to upgraded Whiskey IQ">
+    Upgrade
+  </a>
 
+  <button class="iq-theme-btn" id="iqThemeToggle" type="button" aria-label="Toggle theme">
+    <svg id="iqThemeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+  </button>
               <div class="iq-topbar">
                 <button class="iq-back" type="button" id="backToHomeBtn" aria-label="Back">‹</button>
                 <div class="iq-bottle-name" id="bottleTitleDisplay">Your Bottle Name</div>
