@@ -2946,7 +2946,7 @@ function buildInsightText(bottle) {
               <div class="bottle-score-line"><span style="width:${score}%"></span></div>
             </div>
             <div class="bottle-actions">
-              <button type="button" class="bottle-action-btn" data-print-bottle="${bottle.id}">Print</button>
+             <button type="button" class="bottle-action-btn" data-view-bottle="${bottle.id}">View</button>
               <button type="button" class="bottle-action-btn" data-share-bottle="${bottle.id}">Share</button>
             </div>
           </div>
@@ -2956,11 +2956,10 @@ document.querySelectorAll("[data-bottle-open]").forEach(el => {
   el.addEventListener("click", () => openBottle(el.dataset.bottleOpen));
 });
 
-document.querySelectorAll("[data-print-bottle]").forEach(el => {
+document.querySelectorAll("[data-view-bottle]").forEach(el => {
   el.addEventListener("click", (e) => {
     e.stopPropagation();
-    openBottle(el.dataset.printBottle);
-    setTimeout(() => window.print(), 150);
+    openBottle(el.dataset.viewBottle);
   });
 });
     document.querySelectorAll("[data-share-bottle]").forEach(el => {
