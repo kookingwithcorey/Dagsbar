@@ -3108,22 +3108,7 @@ function renderChoiceStage(bottle, cat, index) {
       return `
         <section class="iq-stage ${bottle.activeStage === categories.length ? "active" : ""}" data-stage="summary">
           <div class="iq-summary">
-          ${bottle.image ? `
-  <div class="iq-summary-block summary-image-card">
-    <div class="summary-bottle-image">
-      <img src="${bottle.image}" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div class="summary-image-actions">
-      <button class="image-pill-btn" type="button" id="changeBottleImageBtn">Change Image</button>
-    </div>
-  </div>
-` : `
-  <div class="iq-summary-block summary-image-card">
-    <div class="summary-image-actions">
-      <button class="image-pill-btn" type="button" id="changeBottleImageBtn">Add Bottle Image</button>
-    </div>
-  </div>
-`}
+        
           <div class="iq-summary-hero" id="summaryHero">
               <div class="iq-summary-hero-left">
                 <div class="iq-summary-hero-label">Total Score</div>
@@ -3188,7 +3173,7 @@ function renderChoiceStage(bottle, cat, index) {
             <div class="iq-summary-block">
               <div class="iq-summary-actions">
                 <button class="iq-save-btn" type="button" id="addToLogBtn">Add to Log</button>
-                <button class="iq-edit-btn" type="button" id="printBottleBtn">Print</button>
+               <button class="iq-edit-btn" type="button" id="addBottleImageBtn">Add Bottle Image</button>
                 <button class="iq-edit-btn" type="button" id="saveBottleBtn">Save</button>
                 <button class="iq-edit-btn iq-share-btn" type="button" id="shareBottleBtn" aria-label="Share review">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -3414,12 +3399,7 @@ function renderSidebar(bottle) {
 
 
   attachBottleEvents(bottle);
-  const changeBottleImageBtn = document.getElementById("changeBottleImageBtn");
-if (changeBottleImageBtn) {
-  changeBottleImageBtn.addEventListener("click", () => {
-    openImagePicker(bottle);
-  });
-}
+
   if (shouldResetScroll) {
     scrollCurrentStageToTop();
   }
@@ -3791,13 +3771,14 @@ async function shareBottleAsImage(bottle) {
         });
       }
 
-      const printBottleBtn = document.getElementById("printBottleBtn");
-      if (printBottleBtn) {
-        printBottleBtn.addEventListener("click", () => {
-          window.print();
-        });
-      }
-
+const addBottleImageBtn = document.getElementById("addBottleImageBtn");
+if (addBottleImageBtn) {
+  addBottleImageBtn.addEventListener("click", () => {
+    imagePickerModal.dataset.id = bottle.id;
+    imageFileInput.removeAttribute("capture");
+    imageFileInput.click();
+  });
+}
      const saveBottleBtn = document.getElementById("saveBottleBtn");
 if (saveBottleBtn) {
   saveBottleBtn.addEventListener("click", () => {
