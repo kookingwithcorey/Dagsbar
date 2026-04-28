@@ -1129,6 +1129,7 @@
       line-height: .85;
       margin-bottom: 24px;
     }
+    
 
     .big-score span {
       color: #101511;
@@ -1883,61 +1884,55 @@ svg .money-text,
   margin-bottom: 18px !important;
 }
 
-/* Share card details */
+/* Whiskey IQ share card details */
 .share-details {
-  display: grid !important;
-  grid-template-columns: 170px minmax(0, 1fr) !important;
-  column-gap: 18px !important;
-  border-top: 7px solid rgba(6,76,53,.14) !important;
-  margin-top: 0 !important;
-  padding-bottom: 0 !important;
+  width: 100%;
+  margin-top: 2px;
 }
 
-.detail-label,
-.detail-value {
-  border-bottom: 7px solid rgba(6,76,53,.14) !important;
-  min-height: 66px !important;
-  padding: 12px 0 !important;
-  display: flex !important;
-  align-items: center !important;
+.share-detail,
+.share-row,
+.share-line,
+.share-meta-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  align-items: start;
+  column-gap: 28px;
+  padding: 13px 6px 16px;
+  border-top: 7px solid rgba(6, 76, 53, 0.14);
 }
 
-.detail-label {
-  color: #9d742b !important;
-  font-size: 19px !important;
-  font-weight: 1000 !important;
-  letter-spacing: .045em !important;
-  line-height: 1.08 !important;
-  text-transform: uppercase !important;
+.share-detail-label,
+.share-label,
+.share-meta-label {
+  color: #a5792a;
+  font-weight: 1000;
+  text-transform: uppercase;
+  font-size: 20px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-align: left;
 }
 
-.detail-value {
-  color: #101511 !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  line-height: 1.18 !important;
+.share-detail-value,
+.share-value,
+.share-meta-value {
+  color: #101511;
+  font-weight: 1000;
+  font-size: 28px;
+  line-height: 1.18;
   text-align: left !important;
-  min-width: 0 !important;
-  overflow: hidden !important;
+  justify-self: start !important;
+  width: 100%;
 }
-
-.detail-value.short-value {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  font-size: 28px !important;
-  font-weight: 800 !important;
-}
-
-.detail-value.summary-text {
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  align-items: unset !important;
-  justify-content: flex-start !important;
+.share-detail:nth-child(1) .share-detail-value,
+.share-detail:nth-child(2) .share-detail-value,
+.share-row:nth-child(1) .share-value,
+.share-row:nth-child(2) .share-value,
+.share-line:nth-child(1) .share-value,
+.share-line:nth-child(2) .share-value {
   text-align: left !important;
-  font-size: 20px !important;
-  font-weight: 800 !important;
-  line-height: 1.18 !important;
-  overflow: hidden !important;
+  justify-self: start !important;
 }
 
 /* Flavor Notes */
@@ -2214,7 +2209,7 @@ svg .money-text,
 }
 
 .detail-row .detail-value.short-value {
-  text-align: right !important;
+  text-align: left !important;
   font-size: 28px !important;
   font-weight: 900 !important;
 }
@@ -2267,9 +2262,10 @@ svg .money-text,
     line-height: 1.14 !important;
   }
 
-  .detail-row .detail-value.short-value {
-    font-size: 22px !important;
-  }
+.detail-row .detail-value.short-value {
+  text-align: left !important;
+  font-size: 22px !important;
+}
 
   .detail-row .detail-value.summary-text {
     font-size: 15.5px !important;
@@ -3545,15 +3541,14 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
     ctx.fillText(label, 100, y);
 
     ctx.fillStyle = "#101511";
+    ctx.textAlign = "left";
 
     if (longField) {
       ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
       drawWrappedLines(ctx, lines, 335, y, lineHeight);
     } else {
-      ctx.textAlign = "right";
       ctx.font = "800 34px Arial, Helvetica, sans-serif";
-      ctx.fillText(text, 790, y);
-      ctx.textAlign = "left";
+      ctx.fillText(text, 335, y);
     }
   }
 
