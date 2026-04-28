@@ -654,6 +654,29 @@
   color: var(--muted) !important;
   text-decoration: none !important;
 }
+    .add-log-btn {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: all 0.18s ease;
+}
+
+.add-log-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+}
   </style>
 </head>
 <body>
@@ -681,21 +704,25 @@
             Search, filter, multi-select, and click any entry to see details, edit, or delete.
           </div>
         </div>
-        <div class="controls">
-          <input
-            id="historySearch"
-            class="search-input"
-            type="text"
-            placeholder="Search whiskey, notes..."
-          />
-          <select id="typeFilter" class="filter-select">
-            <option value="all">All Entries</option>
-            <option value="tasting">Tasting Sheets Only</option>
-            <option value="blind">Blind Tastings Only</option>
-          </select>
-          <button type="button" id="deleteSelectedBtn" class="btn-danger">Delete Selected</button>
-          <button type="button" id="exportCsvBtn" class="btn-secondary">Export CSV</button>
-        </div>
+<div class="controls">
+  <a href="tasting.html?returnToLog=1" class="add-log-btn" aria-label="Add tasting to whiskey log">
+    +
+  </a>
+
+  <input
+    id="historySearch"
+    class="search-input"
+    type="text"
+    placeholder="Search whiskey, notes..."
+  />
+  <select id="typeFilter" class="filter-select">
+    <option value="all">All Entries</option>
+    <option value="tasting">Tasting Sheets Only</option>
+    <option value="blind">Blind Tastings Only</option>
+  </select>
+  <button type="button" id="deleteSelectedBtn" class="btn-danger">Delete Selected</button>
+  <button type="button" id="exportCsvBtn" class="btn-secondary">Export CSV</button>
+</div>
       </div>
 
       <section>
