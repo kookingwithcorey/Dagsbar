@@ -3420,25 +3420,25 @@ function drawCanvasScoreIcon(ctx, type, x, y) {
 }
 
   if (type === "flavor") {
-    ctx.lineWidth = 3.5;
+  ctx.lineWidth = 3.1;
 
-    ctx.beginPath();
-    ctx.moveTo(x - 17, y - 11);
-    ctx.bezierCurveTo(x - 9, y - 19, x + 9, y - 19, x + 17, y - 11);
-    ctx.bezierCurveTo(x + 11, y - 3, x - 11, y - 3, x - 17, y - 11);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 15, y - 10);
+  ctx.bezierCurveTo(x - 8, y - 17, x + 8, y - 17, x + 15, y - 10);
+  ctx.bezierCurveTo(x + 10, y - 3, x - 10, y - 3, x - 15, y - 10);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x - 9, y - 3);
-    ctx.bezierCurveTo(x - 8, y + 15, x - 4, y + 22, x, y + 22);
-    ctx.bezierCurveTo(x + 4, y + 22, x + 8, y + 15, x + 9, y - 3);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 8, y - 3);
+  ctx.bezierCurveTo(x - 7, y + 13, x - 3.5, y + 20, x, y + 20);
+  ctx.bezierCurveTo(x + 3.5, y + 20, x + 7, y + 13, x + 8, y - 3);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x, y + 17);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x, y + 15);
+  ctx.stroke();
+}
 
   if (type === "finish") {
   ctx.lineWidth = 3;
