@@ -3511,28 +3511,28 @@ if (type === "again") {
 
 
   if (type === "recommend") {
-    ctx.lineWidth = 5.3;
+  ctx.lineWidth = 4.6;
 
-    ctx.beginPath();
-    ctx.moveTo(x - 15, y + 2);
-    ctx.lineTo(x - 5, y + 12);
-    ctx.lineTo(x + 16, y - 12);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x - 12, y + 2);
+  ctx.lineTo(x - 4, y + 10);
+  ctx.lineTo(x + 13, y - 10);
+  ctx.stroke();
+}
 
-  if (type === "recommendNo") {
-    ctx.lineWidth = 6.4;
+if (type === "recommendNo") {
+  ctx.lineWidth = 5.4;
 
-    ctx.beginPath();
-    ctx.moveTo(x - 14, y - 14);
-    ctx.lineTo(x + 14, y + 14);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 12, y - 12);
+  ctx.lineTo(x + 12, y + 12);
+  ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(x + 14, y - 14);
-    ctx.lineTo(x - 14, y + 14);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(x + 12, y - 12);
+  ctx.lineTo(x - 12, y + 12);
+  ctx.stroke();
+}
 
   if (type === "value") {
     ctx.fillStyle = "#064c35";
