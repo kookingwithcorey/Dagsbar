@@ -1919,11 +1919,18 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .detail-duo .detail-row {
-  grid-template-columns: auto minmax(0, 1fr) !important;
-  column-gap: 10px !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
   border-bottom: 0 !important;
   min-height: 66px !important;
   padding: 12px 0 !important;
+}
+
+.detail-duo .detail-row .detail-label,
+.detail-duo .detail-row .detail-value {
+  text-align: center !important;
+  width: 100% !important;
 }
 
 .detail-duo .detail-row:first-child {
@@ -1941,11 +1948,12 @@ input[type="range"]::-moz-range-thumb {
   }
 
   .detail-duo .detail-row {
-    grid-template-columns: auto minmax(0, 1fr) !important;
-    column-gap: 10px !important;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    text-align: center !important;
     border-bottom: 0 !important;
-    min-height: 66px !important;
-    padding: 12px 0 !important;
+    min-height: 58px !important;
+    padding: 11px 0 !important;
   }
 
   .detail-duo .detail-row:first-child {
@@ -3681,7 +3689,7 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
 
     y += 118;
 
-   y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y, true);
+   y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y);
     y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
     y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
     y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
