@@ -4086,12 +4086,16 @@ if (type === "recommendNo") {
 }
 
 function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
+  const rowHeight = 76;
+  const lineY = y - 30;
+  const rowCenterY = lineY + (rowHeight / 2);
+
   if (!measureOnly) {
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
     ctx.beginPath();
-    ctx.moveTo(95, y - 30);
-    ctx.lineTo(805, y - 30);
+    ctx.moveTo(95, lineY);
+    ctx.lineTo(805, lineY);
     ctx.stroke();
 
     ctx.textBaseline = "middle";
@@ -4099,9 +4103,8 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
 
     const leftCenter = 272;
     const rightCenter = 628;
-    const rowCenterY = y + 18;
 
-    // TYPE side
+    // TYPE side — stays on one line
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
     ctx.fillText("TYPE", leftCenter - 48, rowCenterY);
@@ -4110,7 +4113,7 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.font = "600 28px Arial, Helvetica, sans-serif";
     ctx.fillText(String(typeValue || "N/A"), leftCenter + 42, rowCenterY);
 
-    // PROOF side
+    // PROOF side — stays on one line
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
     ctx.fillText("PROOF", rightCenter - 54, rowCenterY);
@@ -4118,9 +4121,11 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.fillStyle = "#101511";
     ctx.font = "600 28px Arial, Helvetica, sans-serif";
     ctx.fillText(String(proofValue || "N/A"), rightCenter + 45, rowCenterY);
+
+    ctx.textBaseline = "alphabetic";
   }
 
-  return y + 76;
+  return y + rowHeight;
 }
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
