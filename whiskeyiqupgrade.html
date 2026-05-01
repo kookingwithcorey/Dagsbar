@@ -2097,29 +2097,29 @@ input[type="range"]::-moz-range-thumb {
 
   /* Ranking screen: keep it compact */
  #stepRank.active {
-  min-height: calc(100dvh - 118px) !important;
+  min-height: calc(100dvh - 92px) !important;
 }
 
-  #stepRank.active .rank-layout {
+#stepRank.active .rank-layout {
   grid-template-columns: 108px minmax(0, 1fr) !important;
-  height: calc(100dvh - 118px) !important;
-    min-height: 0 !important;
-    align-items: stretch !important;
-    border-radius: 22px !important;
-    overflow: hidden !important;
-  }
+  min-height: calc(100dvh - 92px) !important;
+  height: auto !important;
+  align-items: stretch !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
 
   /* Left green tabs stop at Results */
-  #stepRank.active .rank-tabs {
-    min-height: 0 !important;
-    height: auto !important;
-    align-self: start !important;
-    display: flex !important;
-    flex-direction: column !important;
-    background: linear-gradient(180deg, var(--green-2), var(--green)) !important;
-    border-radius: 0 !important;
-    overflow: hidden !important;
-  }
+#stepRank.active .rank-tabs {
+  min-height: calc(100dvh - 92px) !important;
+  height: auto !important;
+  align-self: stretch !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: linear-gradient(180deg, var(--green-2), var(--green)) !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
 
   #stepRank.active .rank-tab {
   min-height: 82px !important;
@@ -2152,21 +2152,21 @@ input[type="range"]::-moz-range-thumb {
   }
 
   #stepRank.active .results-tab {
-    margin-top: 0 !important;
-    min-height: 82px !important;
-    border-top: 1px solid rgba(255,255,255,.25) !important;
-    border-bottom: 0 !important;
-  }
+  margin-top: auto !important;
+  min-height: 82px !important;
+  border-top: 1px solid rgba(255,255,255,.25) !important;
+  border-bottom: 0 !important;
+}
 
   /* Right side stays same size for every question */
   #stepRank.active .rank-page {
-    height: 100% !important;
-    min-height: 0 !important;
-    display: grid !important;
-    grid-template-rows: auto 150px auto 1fr auto !important;
-    padding: 10px !important;
-    overflow: hidden !important;
-  }
+  min-height: calc(100dvh - 92px) !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-rows: auto 150px auto auto auto !important;
+  padding: 10px !important;
+  overflow: visible !important;
+}
 
   #stepRank.active .rank-header {
     margin-bottom: 8px !important;
@@ -2263,16 +2263,17 @@ input[type="range"]::-moz-range-thumb {
   }
 
   #stepRank.active .flavor-row {
-    gap: 6px !important;
-    margin-bottom: 6px !important;
-    max-height: 106px !important;
-    overflow: hidden !important;
-  }
+  gap: 6px !important;
+  margin-bottom: 8px !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
 
-  #stepRank.active .flavor-chip {
-    padding: 6px 10px !important;
-    font-size: 10.5px !important;
-  }
+ #stepRank.active .flavor-chip {
+  padding: 6px 9px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
 
   #stepRank.active #flavorProfile {
     padding: 10px 12px !important;
