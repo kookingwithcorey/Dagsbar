@@ -3994,39 +3994,59 @@ if (type === "recommendNo") {
 }
 
 function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
+  const typeText = String(typeValue || "N/A");
+  const proofText = String(proofValue || "N/A");
+
+  const labelFont = "900 23px Arial, Helvetica, sans-serif";
+  const valueFont = "800 34px Arial, Helvetica, sans-serif";
+
+  const labelValueGap = 46;
+  const groupGap = 115;
+
+  ctx.font = labelFont;
+  const typeLabelW = ctx.measureText("TYPE").width;
+  const proofLabelW = ctx.measureText("PROOF").width;
+
+  ctx.font = valueFont;
+  const typeValueW = ctx.measureText(typeText).width;
+  const proofValueW = ctx.measureText(proofText).width;
+
+  const totalRowW =
+    typeLabelW +
+    labelValueGap +
+    typeValueW +
+    groupGap +
+    proofLabelW +
+    labelValueGap +
+    proofValueW;
+
+  const startX = (900 - totalRowW) / 2;
+
+  const typeLabelX = startX;
+  const typeValueX = typeLabelX + typeLabelW + labelValueGap;
+  const proofLabelX = typeValueX + typeValueW + groupGap;
+  const proofValueX = proofLabelX + proofLabelW + labelValueGap;
+
   if (!measureOnly) {
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
-
-    // Top divider line
     ctx.beginPath();
     ctx.moveTo(95, y - 30);
     ctx.lineTo(805, y - 30);
     ctx.stroke();
 
-    ctx.textBaseline = "middle";
+    ctx.textBaseline = "alphabetic";
     ctx.textAlign = "left";
 
-    // Centers the Type/Proof row vertically between divider lines
-    const rowY = y + 10;
-
-    // TYPE + value, same line
     ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("TYPE", 100, rowY);
+    ctx.font = labelFont;
+    ctx.fillText("TYPE", typeLabelX, y);
+    ctx.fillText("PROOF", proofLabelX, y);
 
     ctx.fillStyle = "#101511";
-    ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(typeValue || "N/A"), 205, rowY);
-
-    // PROOF + value, same line
-    ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("PROOF", 470, rowY);
-
-    ctx.fillStyle = "#101511";
-    ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(proofValue || "N/A"), 585, rowY);
+    ctx.font = valueFont;
+    ctx.fillText(typeText, typeValueX, y);
+    ctx.fillText(proofText, proofValueX, y);
   }
 
   return y + 54 + 26;
