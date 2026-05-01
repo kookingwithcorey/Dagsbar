@@ -3496,19 +3496,16 @@ function upsertBottle(shouldSyncInfo = true) {
       stroke-linejoin="round"
     />
 
-  <!-- bigger top oval, extended wider toward the barrel sides -->
-<path
-  d="M18 18
-     C25 8 39 5 55 5
-     C71 5 85 8 92 18
-     C85 26 70 30 55 30
-     C40 30 25 26 18 18Z"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="4"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-/>
+    <!-- clean top oval, no inside lines -->
+    <ellipse
+      cx="55"
+      cy="17"
+      rx="26"
+      ry="6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+    />
 
     <!-- one horizontal barrel band only -->
     <path
