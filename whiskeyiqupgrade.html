@@ -1009,6 +1009,20 @@
       background: var(--green);
       border-color: var(--green);
     }
+    .add-flavor-chip {
+  border: 1px dashed rgba(6, 76, 53, 0.55) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.34) !important;
+  color: var(--green) !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 1000 !important;
+}
+
+html[data-theme="dark"] .add-flavor-chip {
+  background: rgba(255,255,255,.06) !important;
+  color: var(--green-2) !important;
+}
 
     .rank-actions {
       display: flex;
@@ -3170,9 +3184,15 @@ function resetModalScroll() {
         </button>
       `;
 
-      const cat = categories[activeRank];
-      const value = Number(current.scores[cat.key] || 0);
-      const rangePct = pctFor(cat);
+     const cat = categories[activeRank];
+const value = Number(current.scores[cat.key] || 0);
+const rangePct = pctFor(cat);
+
+const customFlavors = (current.flavors || []).filter(flavor =>
+  !flavorBank.some(bankFlavor => bankFlavor.toLowerCase() === String(flavor).toLowerCase())
+);
+
+const visibleFlavors = [...flavorBank, ...customFlavors];
 
       page.innerHTML = `
        <div class="rank-header">
@@ -3239,15 +3259,25 @@ function resetModalScroll() {
           </div>
         </div>
 
-        <div class="field">
-          <label>Flavor Notes</label>
-          <div class="flavor-row">
-            ${flavorBank.map(flavor => `
-              <button class="flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}" onclick="toggleFlavor('${flavor}')">${flavor}</button>
-            `).join("")}
-          </div>
-          <input id="flavorProfile" type="text" placeholder="Example: honey, smoke, pepper, citrus, leather, vanilla" value="${escapeHtml(current.flavorProfile || "")}" oninput="current.flavorProfile = this.value" />
-        </div>
+     <div class="field">
+  <label>Flavor Notes</label>
+  <div class="flavor-row">
+    ${visibleFlavors.map(flavor => `
+      <button
+        class="flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}"
+        data-flavor="${escapeHtml(flavor)}"
+        onclick="toggleFlavor(this.dataset.flavor)"
+        type="button"
+      >
+        ${escapeHtml(flavor)}
+      </button>
+    `).join("")}
+
+    <button class="add-flavor-chip" type="button" onclick="addCustomFlavor()">
+      + Add Flavor
+    </button>
+  </div>
+</div>
 
         <div class="field">
           <label>Tasting Notes</label>
@@ -3377,39 +3407,55 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
 }
 
     function toggleFlavor(flavor) {
-      if (!current.flavors) current.flavors = [];
-      if (current.flavors.includes(flavor)) current.flavors = current.flavors.filter(f => f !== flavor);
-      else current.flavors.push(flavor);
-      current.flavorProfile = current.flavors.join(", ");
-      renderRank();
-    }
+  if (!current.flavors) current.flavors = [];
 
-   function iqInsight(bottle) {
-  const score = totalScore(bottle);
+  if (current.flavors.includes(flavor)) {
+    current.flavors = current.flavors.filter(f => f !== flavor);
+  } else {
+    current.flavors.push(flavor);
+  }
 
-  const flavorSource = bottle.flavorProfile || "the listed flavor profile";
-  const flavor = String(flavorSource)
-    .split(",")
-    .map(item => item.trim())
-    .filter(Boolean)
-    .slice(0, 5)
-    .join(", ") || "the listed flavor profile";
-
-  let quality = "This pour has room to improve.";
-  if (score >= 90) quality = "Elite pour with standout balance and character.";
-  else if (score >= 80) quality = "Strong pour with a well-rounded profile.";
-  else if (score >= 70) quality = "Solid pour with clear highlights.";
-  else if (score >= 60) quality = "Decent pour, best for the right occasion.";
-
-  const best = [...categories]
-    .sort((a, b) => Number(bottle.scores[b.key] || 0) / b.max - Number(bottle.scores[a.key] || 0) / a.max)
-    .slice(0, 2)
-    .map(cat => cat.label.toLowerCase())
-    .join(" and ");
-
-  return `${quality} Leans toward ${flavor}. Best areas: ${best}.`;
+  current.flavorProfile = combinedFlavorText(current);
+  renderRank();
 }
 
+function addCustomFlavor() {
+  if (!current.flavors) current.flavors = [];
+
+  const flavor = prompt("Add a flavor note:");
+  if (!flavor) return;
+
+  const cleaned = flavor.trim();
+  if (!cleaned) return;
+
+  const exists = current.flavors.some(f => f.toLowerCase() === cleaned.toLowerCase());
+  if (!exists) {
+    current.flavors.push(cleaned);
+  }
+
+  current.flavorProfile = combinedFlavorText(current);
+  renderRank();
+}
+
+function combinedFlavorText(bottle = current) {
+  const selected = Array.isArray(bottle?.flavors) ? bottle.flavors : [];
+
+  const typed = String(bottle?.flavorProfile || "")
+    .split(",")
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  const all = [...selected, ...typed];
+  const unique = [];
+
+  all.forEach(item => {
+    if (!unique.some(existing => existing.toLowerCase() === item.toLowerCase())) {
+      unique.push(item);
+    }
+  });
+
+  return unique.join(", ");
+}
    function isBlankBottle(bottle) {
   if (!bottle) return true;
 
@@ -3459,7 +3505,7 @@ function upsertBottle(shouldSyncInfo = true) {
     function renderShare() {
       const score = totalScore(current);
       const summary = iqInsight(current);
-      const flavorProfile = current.flavorProfile || "No flavor profile added.";
+    const flavorProfile = combinedFlavorText(current) || "No flavor profile added.";
       const notes = current.notes || "No tasting notes added.";
 
       const scoreCards = categories.map(cat => `
@@ -3741,7 +3787,7 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     y += 118; // icon row block
 
 y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
-    y = drawDetail(mctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y, true);
+    y = drawDetail(mctx, "FLAVOR NOTES", combinedFlavorText(card) || "No flavor profile added.", y, true);
     y = drawDetail(mctx, "TASTING NOTES", card.notes || "No tasting notes added.", y, true);
     y = drawDetail(mctx, "IQ INSIGHT", iqInsight(card), y, true);
 
@@ -3847,7 +3893,7 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
     y += 118;
 
    y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y);
-    y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
+    y = drawDetail(ctx, "FLAVOR NOTES", combinedFlavorText(card) || "No flavor profile added.", y);
     y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
     y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
