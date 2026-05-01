@@ -1067,10 +1067,10 @@
       letter-spacing: -.04em;
     }
 
- .barrel-mark {
+.barrel-mark {
   display: block;
-  margin: 0 auto 5px;
-  width: 66px;
+  margin: 0 auto 4px;
+  width: 56px;
   height: 38px;
   color: #064c35;
 }
@@ -1080,7 +1080,7 @@
   height: 100%;
   stroke: currentColor;
   fill: none;
-  stroke-width: 3;
+  stroke-width: 4.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -3393,41 +3393,28 @@ function upsertBottle(shouldSyncInfo = true) {
               <div class="share-logo">
                 <div class="share-logo-line"></div>
                 <div>
-                 <div class="barrel-mark">
- <svg viewBox="0 0 96 54" aria-hidden="true">
-  <!-- outer barrel shape -->
-  <path d="M20 14
-           C28 8 68 8 76 14
-           C84 22 84 32 76 40
-           C68 46 28 46 20 40
-           C12 32 12 22 20 14Z"></path>
+                <div class="barrel-mark">
+  <svg viewBox="0 0 80 48" aria-hidden="true">
+    <!-- top hoop -->
+    <path d="M22 14C28 9 52 9 58 14"></path>
 
-  <!-- left and right curved sides -->
-  <path d="M24 15
-           C18 22 18 32 24 39"></path>
-  <path d="M72 15
-           C78 22 78 32 72 39"></path>
+    <!-- upper barrel body -->
+    <path d="M22 14H58"></path>
+    <path d="M18 19C25 15 55 15 62 19"></path>
 
-  <!-- metal hoops -->
-  <path d="M31 11
-           C27 20 27 34 31 43"></path>
-  <path d="M65 11
-           C69 20 69 34 65 43"></path>
+    <!-- curved sides -->
+    <path d="M22 14C18 20 17 29 21 36"></path>
+    <path d="M58 14C62 20 63 29 59 36"></path>
 
-  <!-- stave lines -->
-  <path d="M40 11
-           C38 20 38 34 40 43"></path>
-  <path d="M48 10
-           V44"></path>
-  <path d="M56 11
-           C58 20 58 34 56 43"></path>
+    <!-- lower hoop -->
+    <path d="M21 36C29 40 51 40 59 36"></path>
+    <path d="M18 31C25 35 55 35 62 31"></path>
 
-  <!-- top and bottom curve detail -->
-  <path d="M22 18
-           C34 22 62 22 74 18"></path>
-  <path d="M22 36
-           C34 32 62 32 74 36"></path>
-</svg>
+    <!-- staves -->
+    <path d="M32 15C30 22 30 30 32 37"></path>
+    <path d="M40 14V38"></path>
+    <path d="M48 15C50 22 50 30 48 37"></path>
+  </svg>
 </div>
                   <div class="share-logo-text">Whiskey<br>IQ</div>
                 </div>
