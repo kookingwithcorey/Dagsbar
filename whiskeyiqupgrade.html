@@ -2323,66 +2323,171 @@ svg .money-text,
 }
 
 
-/* --- Smoother mobile-friendly score slider --- */
+/* --- Rating page layout: longer slider + raised icon ring --- */
+
+/* Gives the slider more room by tightening the icon column */
+.rank-score-card {
+  padding: 14px !important;
+}
+
+.score-row {
+  grid-template-columns: 68px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  align-items: start !important;
+}
+
+/* Move the icon/ring slightly higher so it lines up with the label */
+.real-icon-ring {
+  width: 66px !important;
+  height: 66px !important;
+  padding: 5px !important;
+  align-self: start !important;
+  margin-top: -4px !important;
+}
+
+.real-icon-inner svg {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+/* Tighten label/score area so the slider sits higher and gets more space */
+.score-name {
+  margin-bottom: 4px !important;
+  gap: 8px !important;
+}
+
+.score-name h3 {
+  font-size: 16px !important;
+  letter-spacing: .12em !important;
+}
+
+.score-name strong {
+  font-size: 34px !important;
+}
+
+.score-name span {
+  font-size: 15px !important;
+}
+
+.rank-help {
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Longer slider: smaller number box, more slider width */
 .range-wrap {
-  grid-template-columns: minmax(0, 1fr) 78px;
-  gap: 12px;
-  align-items: center;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 54px !important;
+  gap: 8px !important;
+  align-items: center !important;
 }
 
 input[type="range"] {
-  height: 36px;
-  padding: 12px 0;
-  touch-action: pan-y;
-  cursor: grab;
+  width: 100% !important;
+  height: 40px !important;
+  padding: 14px 0 !important;
+  touch-action: pan-y !important;
+  cursor: grab !important;
   transition: none !important;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 input[type="range"]:active {
-  cursor: grabbing;
+  cursor: grabbing !important;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  width: 30px;
-  height: 30px;
-  border-width: 3px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+  width: 32px !important;
+  height: 32px !important;
+  border-width: 3px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.22) !important;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: #fff;
-  border: 3px solid var(--green);
-  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  border: 3px solid var(--green) !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.22) !important;
 }
 
 .num-input {
-  min-height: 46px;
-  font-size: 16px; /* prevents iPhone zoom/focus jump */
+  min-height: 42px !important;
+  font-size: 15px !important;
+  padding: 8px 4px !important;
 }
 
+/* Mobile rating card fit */
 @media (max-width: 720px) {
+  .rank-score-card {
+    padding: 12px !important;
+  }
+
+  .score-row {
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .real-icon-ring {
+    width: 56px !important;
+    height: 56px !important;
+    margin-top: -6px !important;
+  }
+
+  .real-icon-inner svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .score-name {
+    margin-bottom: 2px !important;
+  }
+
+  .score-name h3 {
+    font-size: 14px !important;
+    letter-spacing: .1em !important;
+  }
+
+  .score-name strong {
+    font-size: 30px !important;
+  }
+
+  .score-name span {
+    font-size: 13px !important;
+  }
+
+  .rank-help {
+    font-size: 12px !important;
+    line-height: 1.24 !important;
+    margin-bottom: 6px !important;
+  }
+
   .range-wrap {
-    grid-template-columns: minmax(0, 1fr) 72px;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) 48px !important;
+    gap: 7px !important;
   }
 
   input[type="range"] {
-    height: 42px;
-    padding: 15px 0;
+    height: 42px !important;
+    padding: 15px 0 !important;
   }
 
   input[type="range"]::-webkit-slider-thumb {
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
   }
 
   input[type="range"]::-moz-range-thumb {
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .num-input {
+    min-height: 40px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
   }
 }
   </style>
@@ -2708,6 +2813,11 @@ again: `
     stroke-linejoin="round"
   />
 `,
+againNo: `
+  <path d="M42 8H22v28h20L50 20V10c0-1.1-.9-2-2-2h-6Z" fill="none" stroke-width="5" />
+  <path d="M22 8H12v28h10" fill="none" stroke-width="5" />
+  <path d="M30 36v12c0 4 3 7 7 7l5-19" fill="none" stroke-width="5" />
+`,
 
 
 recommend: `
@@ -2745,6 +2855,10 @@ recommend: `
 
   if (cat.key === "recommend") {
     return value > 3 ? "recommend" : "recommendNo";
+  }
+
+  if (cat.key === "drinkAgain") {
+    return value < 2 ? "againNo" : "again";
   }
 
   return cat.icon;
@@ -3067,14 +3181,13 @@ function updateScorePreview(key, raw, inputEl) {
     page.querySelectorAll(".choice").forEach(choice => {
     const choiceText = choice.textContent.trim();
 
-    if (cat.key === "drinkAgain") {
-      choice.classList.toggle(
-        "active",
-        (choiceText === "No" && value === 0) ||
-        (choiceText === "Maybe" && value === 2) ||
-        (choiceText === "Yes" && value === 5)
-      );
-    }
+   if (cat.key === "drinkAgain") {
+  choice.classList.toggle(
+    "active",
+    (choiceText === "No" && value === 0) ||
+    (choiceText === "Yes" && value === 5)
+  );
+}
 
     if (cat.key === "recommend") {
       choice.classList.toggle(
@@ -3659,7 +3772,40 @@ if (type === "again") {
   ctx.lineTo(x - 5, y + 19);
   ctx.stroke();
 }
+if (type === "againNo") {
+  ctx.strokeStyle = "#064c35";
+  ctx.fillStyle = "transparent";
+  ctx.lineWidth = 3.8;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
 
+  // Thumb base / hand
+  ctx.beginPath();
+  ctx.moveTo(x + 8, y - 12);
+  ctx.lineTo(x - 7, y - 12);
+  ctx.lineTo(x - 7, y + 5);
+  ctx.lineTo(x + 6, y + 5);
+  ctx.lineTo(x + 11, y - 4);
+  ctx.lineTo(x + 11, y - 10);
+  ctx.quadraticCurveTo(x + 11, y - 12, x + 8, y - 12);
+  ctx.stroke();
+
+  // Wrist
+  ctx.beginPath();
+  ctx.moveTo(x - 7, y - 12);
+  ctx.lineTo(x - 15, y - 12);
+  ctx.lineTo(x - 15, y + 5);
+  ctx.lineTo(x - 7, y + 5);
+  ctx.stroke();
+
+  // Thumb down
+  ctx.beginPath();
+  ctx.moveTo(x - 1, y + 5);
+  ctx.lineTo(x - 1, y + 15);
+  ctx.quadraticCurveTo(x - 1, y + 20, x + 4, y + 20);
+  ctx.lineTo(x + 8, y + 5);
+  ctx.stroke();
+}
 
   if (type === "recommend") {
   ctx.lineWidth = 4.6;
