@@ -3952,31 +3952,42 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.stroke();
 
     ctx.textBaseline = "alphabetic";
-    ctx.textAlign = "center";
 
     const leftCenter = 272;
     const rightCenter = 628;
 
-    // TYPE side
-    ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("TYPE", leftCenter, y);
+    function drawCenteredPair(label, value, centerX) {
+      const labelText = String(label || "");
+      const valueText = String(value || "N/A");
 
-    ctx.fillStyle = "#101511";
-    ctx.font = "800 34px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(typeValue || "N/A"), leftCenter, y + 42);
+      ctx.font = "900 23px Arial, Helvetica, sans-serif";
+      const labelWidth = ctx.measureText(labelText).width;
 
-    // PROOF side
-    ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("PROOF", rightCenter, y);
+      ctx.font = "800 34px Arial, Helvetica, sans-serif";
+      const valueWidth = ctx.measureText(valueText).width;
 
-    ctx.fillStyle = "#101511";
-    ctx.font = "800 34px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(proofValue || "N/A"), rightCenter, y + 42);
+      const gap = 16;
+      const totalWidth = labelWidth + gap + valueWidth;
+      let startX = centerX - totalWidth / 2;
+
+      ctx.textAlign = "left";
+
+      ctx.fillStyle = "#9d742b";
+      ctx.font = "900 23px Arial, Helvetica, sans-serif";
+      ctx.fillText(labelText, startX, y);
+
+      startX += labelWidth + gap;
+
+      ctx.fillStyle = "#101511";
+      ctx.font = "800 34px Arial, Helvetica, sans-serif";
+      ctx.fillText(valueText, startX, y);
+    }
+
+    drawCenteredPair("TYPE", typeValue, leftCenter);
+    drawCenteredPair("PROOF", proofValue, rightCenter);
   }
 
-  return y + 92;
+  return y + 54 + 26;
 }
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
