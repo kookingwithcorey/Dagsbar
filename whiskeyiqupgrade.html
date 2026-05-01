@@ -3964,31 +3964,31 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.stroke();
 
     ctx.textBaseline = "alphabetic";
-    ctx.textAlign = "center";
 
     const leftCenter = 272;
     const rightCenter = 628;
 
-    // TYPE side
+    // TYPE side - centered as a group
+    ctx.textAlign = "center";
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("TYPE", leftCenter, y);
+    ctx.fillText("TYPE", leftCenter - 62, y);
 
     ctx.fillStyle = "#101511";
     ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(typeValue || "N/A"), leftCenter, y + 38);
+    ctx.fillText(String(typeValue || "N/A"), leftCenter + 52, y);
 
-    // PROOF side
+    // PROOF side - centered as a group
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("PROOF", rightCenter, y);
+    ctx.fillText("PROOF", rightCenter - 62, y);
 
     ctx.fillStyle = "#101511";
     ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(proofValue || "N/A"), rightCenter, y + 38);
+    ctx.fillText(String(proofValue || "N/A"), rightCenter + 52, y);
   }
 
-  return y + 84;
+  return y + 54 + 26;
 }
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
