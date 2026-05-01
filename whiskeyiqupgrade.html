@@ -3117,28 +3117,13 @@ resetModalScroll();
       renderRank();
     }
 
-  function showShare() {
-  if (!current) {
-    alert("No bottle is currently open.");
-    return;
-  }
+ function showShare() {
+  if (!current) return;
 
   document.body.classList.add("share-view");
   document.body.classList.remove("rank-view");
 
   current = normalizeBottleShape(current);
-
-  try {
-    syncFlavorProfile();
-  } catch (error) {
-    console.warn("Flavor sync failed:", error);
-  }
-
-  try {
-    upsertBottle(false);
-  } catch (error) {
-    console.warn("Save before share failed:", error);
-  }
 
   document.getElementById("stepInfo").classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
@@ -3777,23 +3762,14 @@ function saveProgressAndClose() {
 }
 
 function saveAndHome() {
-  if (!current) {
-    alert("No bottle is currently open.");
-    return;
-  }
+  if (!current) return;
 
-  try {
-    upsertBottle(false);
-  } catch (error) {
-    console.warn("Final save failed:", error);
-  }
-
+  upsertBottle(false);
   closeBottle();
 
-  setTimeout(() => {
-    location.hash = "dashboard";
-    renderLog();
-  }, 50);
+  location.hash = "dashboard";
+  renderLog();
+}
 }
 function getWrappedLines(ctx, text, maxWidth, maxLines = 5) {
   const words = String(text || "").split(/\s+/).filter(Boolean);
@@ -4483,19 +4459,9 @@ function toggleDashboardView() {
 
    function viewBottle(id) {
   const bottle = bottles.find(b => b.id === id);
-
-  if (!bottle) {
-    alert("Bottle not found.");
-    return;
-  }
+  if (!bottle) return;
 
   current = normalizeBottleShape(JSON.parse(JSON.stringify(bottle)));
-
-  try {
-    syncFlavorProfile();
-  } catch (error) {
-    console.warn("Flavor sync on view failed:", error);
-  }
 
   document.getElementById("modalBackdrop").classList.add("active");
   document.body.classList.add("modal-open");
