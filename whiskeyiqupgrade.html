@@ -1067,11 +1067,11 @@
       letter-spacing: -.04em;
     }
 
-   .barrel-mark {
+ .barrel-mark {
   display: block;
-  margin: 0 auto 4px;
-  width: 56px;
-  height: 30px;
+  margin: 0 auto 5px;
+  width: 66px;
+  height: 38px;
   color: #064c35;
 }
 
@@ -1080,7 +1080,7 @@
   height: 100%;
   stroke: currentColor;
   fill: none;
-  stroke-width: 2.6;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -3393,16 +3393,40 @@ function upsertBottle(shouldSyncInfo = true) {
                 <div class="share-logo-line"></div>
                 <div>
                  <div class="barrel-mark">
-  <svg viewBox="0 0 90 46">
-    <path d="M20 12h50c5 6 5 20 0 26H20c-5-6-5-20 0-26Z"></path>
-    <path d="M20 12c8 4 42 4 50 0"></path>
-    <path d="M20 38c8-4 42-4 50 0"></path>
-    <path d="M30 12v26"></path>
-    <path d="M45 12v26"></path>
-    <path d="M60 12v26"></path>
-    <path d="M24 18c10 3 42 3 52 0"></path>
-    <path d="M24 32c10-3 42-3 52 0"></path>
-  </svg>
+ <svg viewBox="0 0 96 54" aria-hidden="true">
+  <!-- outer barrel shape -->
+  <path d="M20 14
+           C28 8 68 8 76 14
+           C84 22 84 32 76 40
+           C68 46 28 46 20 40
+           C12 32 12 22 20 14Z"></path>
+
+  <!-- left and right curved sides -->
+  <path d="M24 15
+           C18 22 18 32 24 39"></path>
+  <path d="M72 15
+           C78 22 78 32 72 39"></path>
+
+  <!-- metal hoops -->
+  <path d="M31 11
+           C27 20 27 34 31 43"></path>
+  <path d="M65 11
+           C69 20 69 34 65 43"></path>
+
+  <!-- stave lines -->
+  <path d="M40 11
+           C38 20 38 34 40 43"></path>
+  <path d="M48 10
+           V44"></path>
+  <path d="M56 11
+           C58 20 58 34 56 43"></path>
+
+  <!-- top and bottom curve detail -->
+  <path d="M22 18
+           C34 22 62 22 74 18"></path>
+  <path d="M22 36
+           C34 32 62 32 74 36"></path>
+</svg>
 </div>
                   <div class="share-logo-text">Whiskey<br>IQ</div>
                 </div>
