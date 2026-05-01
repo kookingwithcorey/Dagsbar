@@ -3949,22 +3949,31 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.stroke();
 
     ctx.textBaseline = "alphabetic";
+    ctx.textAlign = "center";
 
-    ctx.textAlign = "left";
+    const leftCenter = 272;
+    const rightCenter = 628;
+
+    // TYPE side
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
-
-    ctx.fillText("TYPE", 100, y);
-    ctx.fillText("PROOF", 470, y);
+    ctx.fillText("TYPE", leftCenter, y);
 
     ctx.fillStyle = "#101511";
     ctx.font = "800 34px Arial, Helvetica, sans-serif";
+    ctx.fillText(String(typeValue || "N/A"), leftCenter, y + 42);
 
-    ctx.fillText(String(typeValue || "N/A"), 215, y);
-    ctx.fillText(String(proofValue || "N/A"), 590, y);
+    // PROOF side
+    ctx.fillStyle = "#9d742b";
+    ctx.font = "900 23px Arial, Helvetica, sans-serif";
+    ctx.fillText("PROOF", rightCenter, y);
+
+    ctx.fillStyle = "#101511";
+    ctx.font = "800 34px Arial, Helvetica, sans-serif";
+    ctx.fillText(String(proofValue || "N/A"), rightCenter, y + 42);
   }
 
-  return y + 54 + 26;
+  return y + 92;
 }
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
