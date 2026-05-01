@@ -2321,6 +2321,70 @@ svg .money-text,
     letter-spacing: .2em !important;
   }
 }
+
+
+/* --- Smoother mobile-friendly score slider --- */
+.range-wrap {
+  grid-template-columns: minmax(0, 1fr) 78px;
+  gap: 12px;
+  align-items: center;
+}
+
+input[type="range"] {
+  height: 36px;
+  padding: 12px 0;
+  touch-action: pan-y;
+  cursor: grab;
+  transition: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type="range"]:active {
+  cursor: grabbing;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 30px;
+  height: 30px;
+  border-width: 3px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #fff;
+  border: 3px solid var(--green);
+  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+}
+
+.num-input {
+  min-height: 46px;
+  font-size: 16px; /* prevents iPhone zoom/focus jump */
+}
+
+@media (max-width: 720px) {
+  .range-wrap {
+    grid-template-columns: minmax(0, 1fr) 72px;
+    gap: 10px;
+  }
+
+  input[type="range"] {
+    height: 42px;
+    padding: 15px 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+  }
+}
   </style>
 </head>
 
@@ -2528,9 +2592,9 @@ svg .money-text,
         key: "drinkAgain",
         label: "Drink Again",
         max: 5,
-        help: "No = 0, Maybe = 2, Yes = 5.",
+        help: "No = 0, Yes = 5.",
         icon: "again",
-        choices: [{ label: "No", value: 0 }, { label: "Maybe", value: 2 }, { label: "Yes", value: 5 }]
+        choices: [{ label: "No", value: 0 }, { label: "Yes", value: 5 }]
       },
       {
         key: "recommend",
@@ -2848,16 +2912,6 @@ recommend: `
           </button>
         </div>
 
-        <div class="rank-score-card" style="background: var(--green); color:#fff;">
-          <div class="score-name">
-            <div>
-              <h3 style="color:rgba(255,255,255,.78);">Total Score</h3>
-              <strong>${totalScore(current)}<span style="font-size:20px;color:rgba(255,255,255,.72);"> /100</span></strong>
-            </div>
-            <div style="font-size:38px;">${scoreEmoji(totalScore(current), 100)}</div>
-          </div>
-        </div>
-
         <div class="rank-score-card">
           <div class="score-row">
             <div class="real-icon-ring" style="--pct:${rangePct}%;">
@@ -2871,26 +2925,35 @@ recommend: `
               </div>
               <div class="rank-help">${cat.help}</div>
 
-              <div class="range-wrap">
-                <input
-                  type="range"
-                  min="0"
-                  max="${cat.max}"
-                  step="1"
-                  value="${value}"
-                  style="--rangePct:${rangePct}%;"
-                  oninput="setScore('${cat.key}', this.value)"
-                />
-                <input
-                  class="num-input"
-                  type="number"
-                  min="0"
-                  max="${cat.max}"
-                  step="1"
-                  value="${value}"
-                  oninput="setScore('${cat.key}', this.value)"
-                />
-              </div>
+              ${
+  cat.choices
+    ? ""
+    : `<div class="range-wrap">
+        <input
+          class="score-range"
+          type="range"
+          min="0"
+          max="${cat.max}"
+          step="1"
+          value="${value}"
+          style="--rangePct:${rangePct}%;"
+          oninput="setScore('${cat.key}', this.value, this, false)"
+        />
+        <input
+          class="num-input"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          max="${cat.max}"
+          step="1"
+          value="${value}"
+          onfocus="this.dataset.editing='true'"
+          oninput="updateScorePreview('${cat.key}', this.value, this)"
+          onblur="commitScoreInput('${cat.key}', this.value)"
+          onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
+        />
+      </div>`
+}
 
               ${
                 cat.choices
@@ -2946,14 +3009,102 @@ recommend: `
       renderRank();
     }
 
-    function setScore(key, raw) {
-      const cat = categories.find(c => c.key === key);
-      let value = Number(raw);
-      if (Number.isNaN(value)) value = 0;
-      value = Math.max(0, Math.min(cat.max, Math.round(value)));
-      current.scores[key] = value;
-      renderRank();
+    function normalizeScoreValue(key, raw) {
+  const cat = categories.find(c => c.key === key);
+  let value = Number(raw);
+
+  if (Number.isNaN(value)) value = 0;
+
+  value = Math.max(0, Math.min(cat.max, Math.round(value)));
+
+  return { cat, value };
+}
+
+function updateScorePreview(key, raw, inputEl) {
+  const { cat, value } = normalizeScoreValue(key, raw);
+
+  current.scores[key] = value;
+
+  const page = document.getElementById("rankPage");
+  const tabs = document.getElementById("rankTabs");
+
+  const rangePct = Math.max(0, Math.min(100, Math.round((value / cat.max) * 100)));
+
+  const range = page.querySelector(".score-range");
+  if (range && range !== inputEl) {
+    range.value = value;
+    range.style.setProperty("--rangePct", rangePct + "%");
+  }
+
+  if (range && range === inputEl) {
+    range.style.setProperty("--rangePct", rangePct + "%");
+  }
+
+  const numberInput = page.querySelector(".num-input");
+  if (numberInput && numberInput !== inputEl && numberInput.dataset.editing !== "true") {
+    numberInput.value = value;
+  }
+
+  const iconRing = page.querySelector(".real-icon-ring");
+  if (iconRing) {
+    iconRing.style.setProperty("--pct", rangePct + "%");
+  }
+
+  const scoreStrong = page.querySelector(".score-name strong");
+  if (scoreStrong) {
+    scoreStrong.innerHTML = `${value}<span> /${cat.max}</span>`;
+  }
+
+  const activeTab = tabs.querySelector(".rank-tab.active strong");
+  if (activeTab) {
+    activeTab.textContent = value;
+  }
+
+  const resultsTab = tabs.querySelector(".results-tab strong");
+  if (resultsTab) {
+    resultsTab.textContent = totalScore(current);
+  }
+    page.querySelectorAll(".choice").forEach(choice => {
+    const choiceText = choice.textContent.trim();
+
+    if (cat.key === "drinkAgain") {
+      choice.classList.toggle(
+        "active",
+        (choiceText === "No" && value === 0) ||
+        (choiceText === "Maybe" && value === 2) ||
+        (choiceText === "Yes" && value === 5)
+      );
     }
+
+    if (cat.key === "recommend") {
+      choice.classList.toggle(
+        "active",
+        (choiceText === "No" && value === 0) ||
+        (choiceText === "Yes" && value === 5)
+      );
+    }
+  });
+}
+
+function commitScoreInput(key, raw) {
+  const { value } = normalizeScoreValue(key, raw);
+
+  const input = document.querySelector(".num-input");
+  if (input) {
+    input.dataset.editing = "false";
+    input.value = value;
+  }
+
+  updateScorePreview(key, value, input);
+}
+
+function setScore(key, raw, inputEl = null, shouldRender = true) {
+  updateScorePreview(key, raw, inputEl);
+
+  if (shouldRender) {
+    renderRank();
+  }
+}
 
     function toggleFlavor(flavor) {
       if (!current.flavors) current.flavors = [];
@@ -3868,6 +4019,7 @@ document.addEventListener("keydown", event => {
     loadBottles();
     renderLog();
 
-  </script>
+
+</script>
 </body>
 </html>
