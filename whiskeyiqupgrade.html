@@ -3480,14 +3480,14 @@ function upsertBottle(shouldSyncInfo = true) {
                 <div>
   <div class="barrel-mark">
   <svg viewBox="0 0 110 58" aria-hidden="true">
-    <!-- wider barrel body -->
+    <!-- outside barrel body -->
     <path
-      d="M18 18
-         C23 10 36 7 55 7
-         C74 7 87 10 92 18
-         L86 43
-         C82 51 70 54 55 54
-         C40 54 28 51 24 43
+      d="M20 18
+         C25 10 38 7 55 7
+         C72 7 85 10 90 18
+         L84 43
+         C80 51 68 54 55 54
+         C42 54 30 51 26 43
          Z"
       fill="none"
       stroke="currentColor"
@@ -3496,31 +3496,34 @@ function upsertBottle(shouldSyncInfo = true) {
       stroke-linejoin="round"
     />
 
-    <!-- clean top oval, no inside lines -->
-    <ellipse
-      cx="55"
-      cy="17"
-      rx="26"
-      ry="6"
+    <!-- wider top oval, extended closer to the side dip -->
+    <path
+      d="M22 18
+         C28 9 41 6 55 6
+         C69 6 82 9 88 18
+         C82 25 68 28 55 28
+         C42 28 28 25 22 18Z"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
 
-    <!-- one horizontal barrel band only -->
+    <!-- one horizontal barrel band -->
     <path
-      d="M23 33
-         C35 37 75 37 87 33"
+      d="M25 33
+         C36 37 74 37 85 33"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- 3 vertical stave lines, kept out of the oval -->
+    <!-- side stave lines only -->
     <path
-      d="M41 23
-         C39 33 39 43 42 51"
+      d="M42 10
+         C39 23 39 39 42 51"
       fill="none"
       stroke="currentColor"
       stroke-width="3"
@@ -3528,17 +3531,8 @@ function upsertBottle(shouldSyncInfo = true) {
     />
 
     <path
-      d="M55 24
-         V54"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="3"
-      stroke-linecap="round"
-    />
-
-    <path
-      d="M69 23
-         C71 33 71 43 68 51"
+      d="M68 10
+         C71 23 71 39 68 51"
       fill="none"
       stroke="currentColor"
       stroke-width="3"
