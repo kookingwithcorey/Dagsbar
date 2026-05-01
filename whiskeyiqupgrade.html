@@ -1915,30 +1915,25 @@ input[type="range"]::-moz-range-thumb {
   grid-template-columns: 1fr 1fr !important;
   gap: 14px !important;
   border-bottom: 7px solid rgba(6,76,53,.14) !important;
+  min-height: 76px !important;
+  align-items: center !important;
 }
 
 .detail-duo .detail-row {
   grid-template-columns: auto auto !important;
   justify-content: center !important;
-  align-items: baseline !important;
-  column-gap: 10px !important;
+  align-items: center !important;
+  column-gap: 8px !important;
   text-align: center !important;
   border-bottom: 0 !important;
-  min-height: 66px !important;
-  padding: 12px 0 !important;
+  min-height: 76px !important;
+  padding: 0 !important;
 }
 
 .detail-duo .detail-row .detail-label,
 .detail-duo .detail-row .detail-value {
   text-align: center !important;
   width: auto !important;
-}
-
-/* Make Type/Proof values match the other detail text */
-.detail-duo .detail-row .detail-value.short-value {
-  font-size: 19px !important;
-  line-height: 1.18 !important;
-  font-weight: 800 !important;
 }
 
 .detail-duo .detail-row:first-child {
@@ -1953,24 +1948,20 @@ input[type="range"]::-moz-range-thumb {
   .detail-duo {
     grid-template-columns: 1fr 1fr !important;
     gap: 8px !important;
+    min-height: 68px !important;
+    align-items: center !important;
   }
 
   .detail-duo .detail-row {
-  grid-template-columns: auto auto !important;
-  justify-content: center !important;
-  align-items: baseline !important;
-  column-gap: 8px !important;
-  text-align: center !important;
-  border-bottom: 0 !important;
-  min-height: 58px !important;
-  padding: 11px 0 !important;
-}
-
- .detail-duo .detail-row .detail-label,
-.detail-duo .detail-row .detail-value {
-  text-align: center !important;
-  width: auto !important;
-}
+    grid-template-columns: auto auto !important;
+    justify-content: center !important;
+    align-items: center !important;
+    column-gap: 7px !important;
+    text-align: center !important;
+    border-bottom: 0 !important;
+    min-height: 68px !important;
+    padding: 0 !important;
+  }
 
   .detail-duo .detail-row:first-child {
     padding-right: 4px !important;
