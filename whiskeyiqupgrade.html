@@ -3118,18 +3118,20 @@ resetModalScroll();
     }
 
    function showShare() {
+  if (!current) return;
+
   document.body.classList.add("share-view");
   document.body.classList.remove("rank-view");
 
-  if (current) {
-    current = normalizeBottleShape(current);
-  }
+  current = normalizeBottleShape(current);
+  syncFlavorProfile();
 
   upsertBottle(false);
 
   document.getElementById("stepInfo").classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
   document.getElementById("stepShare").classList.add("active");
+
   document.getElementById("modalTitle").textContent = "Review Results";
   document.getElementById("modalSub").textContent = "Save or share your Whiskey IQ card.";
 
@@ -3406,55 +3408,78 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
   }
 }
 
-    function toggleFlavor(flavor) {
-  if (!current.flavors) current.flavors = [];
+   function normalizeFlavorList(list) {
+  const unique = [];
 
-  if (current.flavors.includes(flavor)) {
-    current.flavors = current.flavors.filter(f => f !== flavor);
-  } else {
-    current.flavors.push(flavor);
+  (Array.isArray(list) ? list : [])
+    .map(item => String(item || "").trim())
+    .filter(Boolean)
+    .forEach(item => {
+      if (!unique.some(existing => existing.toLowerCase() === item.toLowerCase())) {
+        unique.push(item);
+      }
+    });
+
+  return unique;
+}
+
+function combinedFlavorText(bottle = current) {
+  const selected = normalizeFlavorList(bottle?.flavors);
+
+  if (selected.length) {
+    return selected.join(", ");
   }
 
+  return String(bottle?.flavorProfile || "").trim();
+}
+
+function syncFlavorProfile() {
+  if (!current) return;
+
+  current.flavors = normalizeFlavorList(current.flavors);
   current.flavorProfile = combinedFlavorText(current);
+  current.updatedAt = new Date().toISOString();
+}
+
+function toggleFlavor(flavor) {
+  if (!current) return;
+
+  const cleanFlavor = String(flavor || "").trim();
+  if (!cleanFlavor) return;
+
+  current.flavors = normalizeFlavorList(current.flavors);
+
+  const exists = current.flavors.some(f => f.toLowerCase() === cleanFlavor.toLowerCase());
+
+  if (exists) {
+    current.flavors = current.flavors.filter(f => f.toLowerCase() !== cleanFlavor.toLowerCase());
+  } else {
+    current.flavors.push(cleanFlavor);
+  }
+
+  syncFlavorProfile();
   renderRank();
 }
 
 function addCustomFlavor() {
-  if (!current.flavors) current.flavors = [];
+  if (!current) return;
 
   const flavor = prompt("Add a flavor note:");
   if (!flavor) return;
 
-  const cleaned = flavor.trim();
-  if (!cleaned) return;
+  const cleanFlavor = flavor.trim();
+  if (!cleanFlavor) return;
 
-  const exists = current.flavors.some(f => f.toLowerCase() === cleaned.toLowerCase());
+  current.flavors = normalizeFlavorList(current.flavors);
+
+  const exists = current.flavors.some(f => f.toLowerCase() === cleanFlavor.toLowerCase());
+
   if (!exists) {
-    current.flavors.push(cleaned);
+    current.flavors.push(cleanFlavor);
   }
 
-  current.flavorProfile = combinedFlavorText(current);
+  syncFlavorProfile();
   renderRank();
-}
-
-function combinedFlavorText(bottle = current) {
-  const selected = Array.isArray(bottle?.flavors) ? bottle.flavors : [];
-
-  const typed = String(bottle?.flavorProfile || "")
-    .split(",")
-    .map(item => item.trim())
-    .filter(Boolean);
-
-  const all = [...selected, ...typed];
-  const unique = [];
-
-  all.forEach(item => {
-    if (!unique.some(existing => existing.toLowerCase() === item.toLowerCase())) {
-      unique.push(item);
-    }
-  });
-
-  return unique.join(", ");
 }
    function isBlankBottle(bottle) {
   if (!bottle) return true;
@@ -3472,7 +3497,7 @@ function combinedFlavorText(bottle = current) {
 }
 
 function upsertBottle(shouldSyncInfo = true) {
-  if (!current) return;
+  if (!current) return false;
 
   current = normalizeBottleShape(current);
 
@@ -3480,8 +3505,10 @@ function upsertBottle(shouldSyncInfo = true) {
     syncBottle();
   }
 
+  syncFlavorProfile();
+
   if (isBlankBottle(current)) {
-    return;
+    return false;
   }
 
   if (!current.name) current.name = "Untitled Bottle";
@@ -3490,16 +3517,19 @@ function upsertBottle(shouldSyncInfo = true) {
   current.iqInsight = iqInsight(current);
   current.updatedAt = new Date().toISOString();
 
+  const savedCopy = JSON.parse(JSON.stringify(current));
   const index = bottles.findIndex(b => b.id === current.id);
 
   if (index >= 0) {
-    bottles[index] = JSON.parse(JSON.stringify(current));
+    bottles[index] = savedCopy;
   } else {
-    bottles.unshift(JSON.parse(JSON.stringify(current)));
+    bottles.unshift(savedCopy);
   }
 
   saveBottles();
   renderLog();
+
+  return true;
 }
 
     function renderShare() {
@@ -3724,10 +3754,16 @@ function saveProgressAndClose() {
   closeBottle();
   location.hash = "dashboard";
 }
-   function saveAndHome() {
+ function saveAndHome() {
+  if (!current) return;
+
   upsertBottle(false);
   closeBottle();
-  location.hash = "dashboard";
+
+  setTimeout(() => {
+    location.hash = "dashboard";
+    renderLog();
+  }, 50);
 }
 function getWrappedLines(ctx, text, maxWidth, maxLines = 5) {
   const words = String(text || "").split(/\s+/).filter(Boolean);
@@ -4415,11 +4451,16 @@ function toggleDashboardView() {
   renderStats();
 }
 
-    function viewBottle(id) {
+   function viewBottle(id) {
   const bottle = bottles.find(b => b.id === id);
-  if (!bottle) return;
+
+  if (!bottle) {
+    alert("Bottle not found.");
+    return;
+  }
 
   current = normalizeBottleShape(JSON.parse(JSON.stringify(bottle)));
+  syncFlavorProfile();
 
   document.getElementById("modalBackdrop").classList.add("active");
   document.body.classList.add("modal-open");
