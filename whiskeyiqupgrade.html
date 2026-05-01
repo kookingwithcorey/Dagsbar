@@ -2048,7 +2048,98 @@ input[type="range"]::-moz-range-thumb {
 .log-card .log-actions {
   grid-column: 1 / -1;
 }
+/* =========================================================
+   WEB ONLY DASHBOARD CUBE LAYOUT
+   Makes desktop dashboard cards more square and stacks scores 3 x 2
+   Mobile stays unchanged
+   ========================================================= */
 
+@media (min-width: 721px) {
+  #dashboard .log-grid:not(.line-view) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-card {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 360px !important;
+    padding: 14px !important;
+    border-radius: 26px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-card.has-bottle-image .log-image {
+    width: 100% !important;
+    height: 150px !important;
+    min-height: 150px !important;
+    border-radius: 20px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-card.no-bottle-image .log-image {
+    display: none !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-content {
+    width: 100% !important;
+    flex: 1 !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-top {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 70px !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .mini-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .mini-score {
+    min-height: 64px !important;
+    border-radius: 14px !important;
+    padding: 8px 5px !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .mini-score svg {
+    width: 22px !important;
+    height: 22px !important;
+    margin-bottom: 3px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .mini-label {
+    font-size: 8px !important;
+    line-height: 1.05 !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .mini-value {
+    font-size: 12px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .log-actions {
+    margin-top: 12px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  #dashboard .log-grid:not(.line-view) .small-btn {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 8px 6px !important;
+  }
+}
+
+/* Slightly wider desktop gets cleaner 3-column card spacing */
+@media (min-width: 721px) and (max-width: 1020px) {
+  #dashboard .log-grid:not(.line-view) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
 /* =========================================================
    CLEAN MOBILE FOUNDATION + RANKING FIXES
    Fixes left tabs, fixed question height, results scroll
