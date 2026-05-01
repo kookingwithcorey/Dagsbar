@@ -1910,6 +1910,53 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.16 !important;
 }
 
+/* Type + Proof same line on final result card */
+.detail-duo {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 14px !important;
+  border-bottom: 7px solid rgba(6,76,53,.14) !important;
+}
+
+.detail-duo .detail-row {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  column-gap: 10px !important;
+  border-bottom: 0 !important;
+  min-height: 66px !important;
+  padding: 12px 0 !important;
+}
+
+.detail-duo .detail-row:first-child {
+  padding-right: 10px !important;
+}
+
+.detail-duo .detail-row:last-child {
+  padding-left: 10px !important;
+}
+
+@media (max-width: 720px) {
+  .detail-duo {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .detail-duo .detail-row {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+    border-bottom: 0 !important;
+    min-height: 66px !important;
+    padding: 12px 0 !important;
+  }
+
+  .detail-duo .detail-row:first-child {
+    padding-right: 4px !important;
+  }
+
+  .detail-duo .detail-row:last-child {
+    padding-left: 4px !important;
+  }
+}
+
 .share-footer {
   position: relative !important;
   z-index: 3 !important;
@@ -3353,15 +3400,17 @@ function upsertBottle(shouldSyncInfo = true) {
 
               <div class="share-scores">${scoreCards}</div>
 
-              <div class="share-details">
-  <div class="detail-row">
-    <div class="detail-label">Type</div>
-    <div class="detail-value short-value">${escapeHtml(current.type || "N/A")}</div>
-  </div>
+            <div class="share-details">
+  <div class="detail-duo">
+    <div class="detail-row">
+      <div class="detail-label">Type</div>
+      <div class="detail-value short-value">${escapeHtml(current.type || "N/A")}</div>
+    </div>
 
-  <div class="detail-row">
-    <div class="detail-label">Proof</div>
-    <div class="detail-value short-value">${escapeHtml(current.proof || "N/A")}</div>
+    <div class="detail-row">
+      <div class="detail-label">Proof</div>
+      <div class="detail-value short-value">${escapeHtml(current.proof || "N/A")}</div>
+    </div>
   </div>
 
   <div class="detail-row">
@@ -3526,8 +3575,7 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     y += 104; // gap before icon row
     y += 118; // icon row block
 
-    y = drawDetail(mctx, "TYPE", card.type || "N/A", y, true);
-    y = drawDetail(mctx, "PROOF", card.proof || "N/A", y, true);
+y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
     y = drawDetail(mctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y, true);
     y = drawDetail(mctx, "TASTING NOTES", card.notes || "No tasting notes added.", y, true);
     y = drawDetail(mctx, "IQ INSIGHT", iqInsight(card), y, true);
@@ -3633,8 +3681,7 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
 
     y += 118;
 
-    y = drawDetail(ctx, "TYPE", card.type || "N/A", y);
-    y = drawDetail(ctx, "PROOF", card.proof || "N/A", y);
+   y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y, true);
     y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
     y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
     y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
@@ -3873,6 +3920,33 @@ if (type === "recommendNo") {
   ctx.restore();
 }
 
+function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
+  if (!measureOnly) {
+    ctx.strokeStyle = "rgba(6,76,53,.16)";
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.moveTo(95, y - 30);
+    ctx.lineTo(805, y - 30);
+    ctx.stroke();
+
+    ctx.textBaseline = "alphabetic";
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#9d742b";
+    ctx.font = "900 23px Arial, Helvetica, sans-serif";
+
+    ctx.fillText("TYPE", 100, y);
+    ctx.fillText("PROOF", 470, y);
+
+    ctx.fillStyle = "#101511";
+    ctx.font = "800 34px Arial, Helvetica, sans-serif";
+
+    ctx.fillText(String(typeValue || "N/A"), 215, y);
+    ctx.fillText(String(proofValue || "N/A"), 590, y);
+  }
+
+  return y + 54 + 26;
+}
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
 
