@@ -3117,16 +3117,28 @@ resetModalScroll();
       renderRank();
     }
 
-   function showShare() {
-  if (!current) return;
+  function showShare() {
+  if (!current) {
+    alert("No bottle is currently open.");
+    return;
+  }
 
   document.body.classList.add("share-view");
   document.body.classList.remove("rank-view");
 
   current = normalizeBottleShape(current);
-  syncFlavorProfile();
 
-  upsertBottle(false);
+  try {
+    syncFlavorProfile();
+  } catch (error) {
+    console.warn("Flavor sync failed:", error);
+  }
+
+  try {
+    upsertBottle(false);
+  } catch (error) {
+    console.warn("Save before share failed:", error);
+  }
 
   document.getElementById("stepInfo").classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
@@ -3748,16 +3760,34 @@ function loadBottleInfoImage(event) {
 function saveProgressAndClose() {
   if (current && !isBlankBottle(current)) {
     const infoStepActive = document.getElementById("stepInfo")?.classList.contains("active");
-    upsertBottle(infoStepActive);
+
+    try {
+      upsertBottle(infoStepActive);
+    } catch (error) {
+      console.warn("Save progress failed:", error);
+    }
   }
 
   closeBottle();
-  location.hash = "dashboard";
-}
- function saveAndHome() {
-  if (!current) return;
 
-  upsertBottle(false);
+  setTimeout(() => {
+    location.hash = "dashboard";
+    renderLog();
+  }, 50);
+}
+
+function saveAndHome() {
+  if (!current) {
+    alert("No bottle is currently open.");
+    return;
+  }
+
+  try {
+    upsertBottle(false);
+  } catch (error) {
+    console.warn("Final save failed:", error);
+  }
+
   closeBottle();
 
   setTimeout(() => {
@@ -4460,7 +4490,12 @@ function toggleDashboardView() {
   }
 
   current = normalizeBottleShape(JSON.parse(JSON.stringify(bottle)));
-  syncFlavorProfile();
+
+  try {
+    syncFlavorProfile();
+  } catch (error) {
+    console.warn("Flavor sync on view failed:", error);
+  }
 
   document.getElementById("modalBackdrop").classList.add("active");
   document.body.classList.add("modal-open");
@@ -4470,13 +4505,22 @@ function toggleDashboardView() {
 
 function dashboardShare(id) {
   const bottle = bottles.find(b => b.id === id);
-  if (!bottle) return;
+
+  if (!bottle) {
+    alert("Bottle not found.");
+    return;
+  }
 
   current = normalizeBottleShape(JSON.parse(JSON.stringify(bottle)));
 
+  try {
+    syncFlavorProfile();
+  } catch (error) {
+    console.warn("Flavor sync before share failed:", error);
+  }
+
   shareBottleCard();
 }
-
     function deleteBottle(id) {
       const bottle = bottles.find(b => b.id === id);
       if (!bottle) return;
