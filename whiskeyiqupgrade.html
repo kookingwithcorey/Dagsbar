@@ -1978,315 +1978,7 @@ input[type="range"]::-moz-range-thumb {
   stroke-width: 2.25 !important;
 }
 
-/* Mobile */
-@media (max-width: 760px) {
-  .iq-toolbar,
-  .toolbar.iq-toolbar {
-    grid-template-columns: minmax(0, 1fr) 40px 40px 40px !important;
-    gap: 6px !important;
-  }
 
-  .iq-toolbar .search {
-    height: 42px !important;
-    font-size: 13px !important;
-    padding: 0 13px !important;
-  }
-
-  .iq-toolbar .select,
-  .view-circle-btn,
-  .add-circle-btn {
-    width: 40px !important;
-    min-width: 40px !important;
-    max-width: 40px !important;
-    height: 40px !important;
-  }
-
-  .score-pill {
-    width: 66px !important;
-    height: 66px !important;
-    min-width: 66px !important;
-  }
-
-  .score-pill span {
-    font-size: 23px !important;
-  }
-}
-
-@media (max-width: 720px) {
-  .modal {
-    height: 100vh !important;
-    max-height: 100vh !important;
-    border-radius: 0 !important;
-    border: 0 !important;
-  }
-
-  .modal-head {
-    padding: 10px 12px !important;
-  }
-
-  .modal-title {
-    font-size: 28px !important;
-    line-height: .95 !important;
-  }
-
-  .modal-sub {
-    font-size: 14px !important;
-    line-height: 1.2 !important;
-    margin-top: 4px !important;
-  }
-
-  .modal-body {
-    padding: 8px 8px 4px !important;
-  }
-
-  .rank-layout {
-    grid-template-columns: 108px minmax(0, 1fr) !important;
-    min-height: calc(100vh - 180px) !important;
-    align-items: stretch !important;
-    border-radius: 22px !important;
-  }
-
-  .rank-tabs {
-    min-height: 100% !important;
-  }
-
-  .rank-tab {
-    padding: 8px 7px !important;
-    letter-spacing: .045em !important;
-  }
-
-  .rank-tab strong {
-    font-size: 21px !important;
-    line-height: .88 !important;
-  }
-
-  .rank-tab small {
-    font-size: 10px !important;
-    margin-top: 0 !important;
-  }
-
-  .results-tab {
-    margin-top: 10px !important;
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-  }
-
-  .rank-page {
-    min-height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 10px !important;
-  }
-
-  .rank-header {
-    margin-bottom: 8px !important;
-    gap: 8px !important;
-  }
-
-  .rank-title {
-    font-size: 34px !important;
-    line-height: .93 !important;
-  }
-
-  .rank-header .icon-btn,
-  .rank-header-spacer {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-  }
-
-  .rank-score-card {
-    padding: 10px !important;
-    margin-bottom: 8px !important;
-    border-radius: 20px !important;
-  }
-
-  .score-row {
-    grid-template-columns: 54px minmax(0, 1fr) !important;
-    gap: 8px !important;
-  }
-
-  .real-icon-ring {
-    width: 54px !important;
-    height: 54px !important;
-  }
-
-  .real-icon-inner svg {
-    width: 31px !important;
-    height: 31px !important;
-  }
-
-  .score-name {
-    margin-bottom: 2px !important;
-  }
-
-  .score-name h3 {
-    font-size: 13px !important;
-    letter-spacing: .08em !important;
-  }
-
-  .score-name strong {
-    font-size: 28px !important;
-  }
-
-  .score-name span {
-    font-size: 12px !important;
-  }
-
-  .rank-help {
-    font-size: 11.5px !important;
-    line-height: 1.18 !important;
-    margin-bottom: 4px !important;
-  }
-
-  .choice-row {
-    margin-top: 6px !important;
-    gap: 7px !important;
-  }
-
-  .choice {
-    padding: 8px 15px !important;
-    font-size: 13px !important;
-  }
-
-  #rankPage .field {
-    margin-bottom: 7px !important;
-    gap: 5px !important;
-  }
-
-  #rankPage .field label {
-    font-size: 11.5px !important;
-    letter-spacing: .14em !important;
-  }
-
-  .flavor-row {
-    gap: 6px !important;
-    margin-bottom: 6px !important;
-  }
-
-  .flavor-chip {
-    padding: 6px 10px !important;
-    font-size: 10.5px !important;
-  }
-
-  #flavorProfile {
-    padding: 10px 12px !important;
-    border-radius: 16px !important;
-    font-size: 15px !important;
-  }
-
-  #rankPage .field:last-of-type {
-    flex: 1 1 auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  #rankNotes {
-    flex: 1 1 auto !important;
-    min-height: 104px !important;
-    max-height: 140px !important;
-    padding: 10px 12px !important;
-    font-size: 15px !important;
-    line-height: 1.22 !important;
-  }
-
-  .rank-actions {
-    margin-top: 8px !important;
-    padding-bottom: 0 !important;
-  }
-
-  .rank-actions .btn {
-    padding: 10px 18px !important;
-  }
-
-  .log-grid:not(.line-view) .log-card.has-bottle-image {
-    grid-template-columns: 120px minmax(0, 1fr) !important;
-    align-items: start !important;
-  }
-
-  .log-grid:not(.line-view) .log-card .log-actions {
-    grid-column: 1 / -1 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 8px !important;
-    margin-top: 10px !important;
-  }
-
-  .log-grid.line-view .log-card.has-bottle-image {
-    grid-template-columns: 52px minmax(0, 1fr) !important;
-  }
-
-  .log-grid.line-view .log-image {
-    width: 52px !important;
-    height: 52px !important;
-    min-height: 52px !important;
-    border-radius: 14px !important;
-  }
-
-  .share-inner {
-    padding: 22px 18px 0 !important;
-  }
-
-  .detail-row {
-    grid-template-columns: 118px minmax(0, 1fr) !important;
-    column-gap: 10px !important;
-    padding: 11px 0 !important;
-    min-height: 58px !important;
-  }
-
-  .detail-row .detail-label {
-    font-size: 14px !important;
-    letter-spacing: .03em !important;
-  }
-
-  .detail-row .detail-value {
-    font-size: 16px !important;
-    line-height: 1.14 !important;
-  }
-
-  .detail-row .detail-value.short-value {
-    font-size: 22px !important;
-  }
-
-  .detail-row .detail-value.summary-text {
-    font-size: 15.5px !important;
-    line-height: 1.14 !important;
-  }
-
-  .detail-row.insight-row .detail-value.summary-text {
-    font-size: 14px !important;
-    line-height: 1.12 !important;
-  }
-
-  .share-footer {
-    padding: 22px 10px !important;
-    font-size: 15px !important;
-    letter-spacing: .2em !important;
-  }
-}
-
-@media (max-width: 520px) {
-  .action-panel {
-    width: calc(100% - 10px) !important;
-    padding: 14px !important;
-  }
-
-  .action-panel .action-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-  }
-
-  .action-panel .action-btn {
-    min-height: 86px !important;
-    font-size: 11px !important;
-    padding: 7px 4px !important;
-  }
-
-  .action-panel .action-btn svg {
-    width: 25px !important;
-    height: 25px !important;
-  }
-}
 /* =========================================================
    CLEAN MOBILE FOUNDATION + RANKING FIXES
    Fixes left tabs, fixed question height, results scroll
@@ -2365,10 +2057,10 @@ input[type="range"]::-moz-range-thumb {
     padding: 0 !important;
   }
 
-  .modal {
-    width: 100% !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+.modal {
+  width: 100% !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
     border-radius: 0 !important;
     border: 0 !important;
     overflow-y: auto !important;
@@ -2395,13 +2087,13 @@ input[type="range"]::-moz-range-thumb {
   }
 
   /* Ranking screen: keep it compact */
-  #stepRank.active {
-    min-height: calc(100vh - 118px) !important;
-  }
+ #stepRank.active {
+  min-height: calc(100dvh - 118px) !important;
+}
 
   #stepRank.active .rank-layout {
-    grid-template-columns: 108px minmax(0, 1fr) !important;
-    height: calc(100vh - 118px) !important;
+  grid-template-columns: 108px minmax(0, 1fr) !important;
+  height: calc(100dvh - 118px) !important;
     min-height: 0 !important;
     align-items: stretch !important;
     border-radius: 22px !important;
@@ -2421,14 +2113,16 @@ input[type="range"]::-moz-range-thumb {
   }
 
   #stepRank.active .rank-tab {
-    min-height: 82px !important;
-    padding: 8px 7px !important;
-    letter-spacing: .035em !important;
-    line-height: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    overflow: hidden !important;
-  }
+  min-height: 82px !important;
+  padding: 8px 7px !important;
+  letter-spacing: .035em !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  font-size: 12px !important;
+  word-break: normal !important;
+}
 
   #stepRank.active .rank-tab span {
     display: block !important;
@@ -3188,16 +2882,21 @@ document.body.classList.remove("share-view");
       current = null;
     }
 
-    function showInfo() {
-      document.getElementById("stepInfo").classList.add("active");
-      document.getElementById("stepRank").classList.remove("active");
-      document.getElementById("stepShare").classList.remove("active");
-      document.getElementById("modalTitle").textContent = "Bottle Info";
-     document.getElementById("modalSub").textContent = "Name, proof, type, and photo.";
-    }
+  function showInfo() {
+  document.body.classList.remove("rank-view");
+  document.body.classList.remove("share-view");
+  resetModalScroll();
+
+  document.getElementById("stepInfo").classList.add("active");
+  document.getElementById("stepRank").classList.remove("active");
+  document.getElementById("stepShare").classList.remove("active");
+  document.getElementById("modalTitle").textContent = "Bottle Info";
+  document.getElementById("modalSub").textContent = "Name, proof, type, and photo.";
+}
 
     function showRank() {document.body.classList.add("rank-view");
 document.body.classList.remove("share-view");
+resetModalScroll();
       
       syncBottle();
       if (!current.name) current.name = "Untitled Bottle";
@@ -3211,6 +2910,7 @@ document.body.classList.remove("share-view");
 
     function showShare() {document.body.classList.add("share-view");
 document.body.classList.remove("rank-view");
+resetModalScroll();
       upsertBottle();
       document.getElementById("stepInfo").classList.remove("active");
       document.getElementById("stepRank").classList.remove("active");
@@ -3235,6 +2935,10 @@ document.body.classList.remove("rank-view");
       preview.innerHTML = "";
     }
   }
+}
+function resetModalScroll() {
+  const modal = document.querySelector(".modal");
+  if (modal) modal.scrollTop = 0;
 }
 
     function syncBottle() {
