@@ -1978,6 +1978,15 @@ input[type="range"]::-moz-range-thumb {
   stroke-width: 2.25 !important;
 }
 
+/* Hide green score bar in grid view. Keep it only in line view. */
+.log-grid:not(.line-view) .line-score-bar {
+  display: none !important;
+}
+
+/* Make card buttons sit cleanly under the whole card. */
+.log-card .log-actions {
+  grid-column: 1 / -1;
+}
 
 /* =========================================================
    CLEAN MOBILE FOUNDATION + RANKING FIXES
@@ -2865,14 +2874,36 @@ recommend: `
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bottles));
     }
 
-    function openBottle(id = null) {
-      current = id ? JSON.parse(JSON.stringify(bottles.find(b => b.id === id))) : blankBottle();
-      activeRank = 0;
-      fillInfo();
-      document.getElementById("modalBackdrop").classList.add("active");
-      document.body.classList.add("modal-open");
-      showInfo();
-    }
+function normalizeBottleShape(bottle) {
+  const base = blankBottle();
+  const merged = { ...base, ...(bottle || {}) };
+
+  merged.scores = { ...base.scores, ...(bottle?.scores || {}) };
+  merged.flavors = Array.isArray(bottle?.flavors) ? bottle.flavors : [];
+
+  return merged;
+}
+
+function openBottle(id = null) {
+  const found = id ? bottles.find(b => b.id === id) : null;
+
+  if (id && !found) {
+    alert("Bottle not found.");
+    return;
+  }
+
+  current = id
+    ? normalizeBottleShape(JSON.parse(JSON.stringify(found)))
+    : blankBottle();
+
+  activeRank = 0;
+  fillInfo();
+
+  document.getElementById("modalBackdrop").classList.add("active");
+  document.body.classList.add("modal-open");
+
+  showInfo();
+}
 
     function closeBottle() {
       document.getElementById("modalBackdrop").classList.remove("active");
@@ -2882,16 +2913,22 @@ document.body.classList.remove("share-view");
       current = null;
     }
 
-  function showInfo() {
+ function showInfo() {
   document.body.classList.remove("rank-view");
   document.body.classList.remove("share-view");
-  resetModalScroll();
+
+  if (current) {
+    current = normalizeBottleShape(current);
+    fillInfo();
+  }
 
   document.getElementById("stepInfo").classList.add("active");
   document.getElementById("stepRank").classList.remove("active");
   document.getElementById("stepShare").classList.remove("active");
   document.getElementById("modalTitle").textContent = "Bottle Info";
   document.getElementById("modalSub").textContent = "Name, proof, type, and photo.";
+
+  resetModalScroll();
 }
 
     function showRank() {document.body.classList.add("rank-view");
@@ -2908,17 +2945,25 @@ resetModalScroll();
       renderRank();
     }
 
-    function showShare() {document.body.classList.add("share-view");
-document.body.classList.remove("rank-view");
-resetModalScroll();
-      upsertBottle();
-      document.getElementById("stepInfo").classList.remove("active");
-      document.getElementById("stepRank").classList.remove("active");
-      document.getElementById("stepShare").classList.add("active");
-      document.getElementById("modalTitle").textContent = "Review Results";
-      document.getElementById("modalSub").textContent = "Save or share your Whiskey IQ card.";
-      renderShare();
-    }
+   function showShare() {
+  document.body.classList.add("share-view");
+  document.body.classList.remove("rank-view");
+
+  if (current) {
+    current = normalizeBottleShape(current);
+  }
+
+  upsertBottle(false);
+
+  document.getElementById("stepInfo").classList.remove("active");
+  document.getElementById("stepRank").classList.remove("active");
+  document.getElementById("stepShare").classList.add("active");
+  document.getElementById("modalTitle").textContent = "Review Results";
+  document.getElementById("modalSub").textContent = "Save or share your Whiskey IQ card.";
+
+  renderShare();
+  resetModalScroll();
+}
 
   function fillInfo() {
   document.getElementById("bottleName").value = current.name || "";
@@ -3231,21 +3276,32 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
   return !hasName && !hasProof && !hasType && !hasImage && !hasNotes && !hasFlavorProfile && !hasFlavors && !hasScores;
 }
 
-function upsertBottle() {
-  syncBottle();
+function upsertBottle(shouldSyncInfo = true) {
+  if (!current) return;
+
+  current = normalizeBottleShape(current);
+
+  if (shouldSyncInfo) {
+    syncBottle();
+  }
 
   if (isBlankBottle(current)) {
     return;
   }
 
   if (!current.name) current.name = "Untitled Bottle";
+
   current.totalScore = totalScore(current);
   current.iqInsight = iqInsight(current);
   current.updatedAt = new Date().toISOString();
 
   const index = bottles.findIndex(b => b.id === current.id);
-  if (index >= 0) bottles[index] = JSON.parse(JSON.stringify(current));
-  else bottles.unshift(JSON.parse(JSON.stringify(current)));
+
+  if (index >= 0) {
+    bottles[index] = JSON.parse(JSON.stringify(current));
+  } else {
+    bottles.unshift(JSON.parse(JSON.stringify(current)));
+  }
 
   saveBottles();
   renderLog();
