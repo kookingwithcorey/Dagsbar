@@ -1919,8 +1919,10 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .detail-duo .detail-row {
-  grid-template-columns: 1fr !important;
-  justify-items: center !important;
+  grid-template-columns: auto auto !important;
+  justify-content: center !important;
+  align-items: baseline !important;
+  column-gap: 10px !important;
   text-align: center !important;
   border-bottom: 0 !important;
   min-height: 66px !important;
@@ -1930,7 +1932,7 @@ input[type="range"]::-moz-range-thumb {
 .detail-duo .detail-row .detail-label,
 .detail-duo .detail-row .detail-value {
   text-align: center !important;
-  width: 100% !important;
+  width: auto !important;
 }
 
 /* Make Type/Proof values match the other detail text */
@@ -1955,19 +1957,21 @@ input[type="range"]::-moz-range-thumb {
   }
 
   .detail-duo .detail-row {
-    grid-template-columns: 1fr !important;
-    justify-items: center !important;
-    text-align: center !important;
-    border-bottom: 0 !important;
-    min-height: 58px !important;
-    padding: 11px 0 !important;
-  }
+  grid-template-columns: auto auto !important;
+  justify-content: center !important;
+  align-items: baseline !important;
+  column-gap: 8px !important;
+  text-align: center !important;
+  border-bottom: 0 !important;
+  min-height: 58px !important;
+  padding: 11px 0 !important;
+}
 
-  .detail-duo .detail-row .detail-value.short-value {
-    font-size: 15.5px !important;
-    line-height: 1.14 !important;
-    font-weight: 800 !important;
-  }
+ .detail-duo .detail-row .detail-label,
+.detail-duo .detail-row .detail-value {
+  text-align: center !important;
+  width: auto !important;
+}
 
   .detail-duo .detail-row:first-child {
     padding-right: 4px !important;
@@ -3968,24 +3972,34 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     const leftCenter = 272;
     const rightCenter = 628;
 
-    // TYPE side - centered as a group
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("TYPE", leftCenter - 62, y);
+    function drawCenteredPair(centerX, label, value) {
+      const labelFont = "900 23px Arial, Helvetica, sans-serif";
+      const valueFont = "800 26px Arial, Helvetica, sans-serif";
+      const gap = 14;
 
-    ctx.fillStyle = "#101511";
-    ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(typeValue || "N/A"), leftCenter + 52, y);
+      ctx.font = labelFont;
+      const labelWidth = ctx.measureText(label).width;
 
-    // PROOF side - centered as a group
-    ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("PROOF", rightCenter - 62, y);
+      ctx.font = valueFont;
+      const valueText = String(value || "N/A");
+      const valueWidth = ctx.measureText(valueText).width;
 
-    ctx.fillStyle = "#101511";
-    ctx.font = "800 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(proofValue || "N/A"), rightCenter + 52, y);
+      const totalWidth = labelWidth + gap + valueWidth;
+      const startX = centerX - totalWidth / 2;
+
+      ctx.textAlign = "left";
+
+      ctx.fillStyle = "#9d742b";
+      ctx.font = labelFont;
+      ctx.fillText(label, startX, y);
+
+      ctx.fillStyle = "#101511";
+      ctx.font = valueFont;
+      ctx.fillText(valueText, startX + labelWidth + gap, y);
+    }
+
+    drawCenteredPair(leftCenter, "TYPE", typeValue);
+    drawCenteredPair(rightCenter, "PROOF", proofValue);
   }
 
   return y + 54 + 26;
