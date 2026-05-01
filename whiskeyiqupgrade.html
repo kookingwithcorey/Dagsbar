@@ -3770,7 +3770,7 @@ function saveAndHome() {
   location.hash = "dashboard";
   renderLog();
 }
-}
+
 function getWrappedLines(ctx, text, maxWidth, maxLines = 5) {
   const words = String(text || "").split(/\s+/).filter(Boolean);
   if (!words.length) return [""];
