@@ -1894,8 +1894,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .detail-row .detail-value.short-value {
-  font-size: 28px !important;
-  font-weight: 900 !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
 }
 
 .detail-row .detail-value.summary-text {
@@ -4085,39 +4086,6 @@ if (type === "recommendNo") {
 }
 
 function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
-  const typeText = String(typeValue || "N/A");
-  const proofText = String(proofValue || "N/A");
-
-  const labelFont = "900 23px Arial, Helvetica, sans-serif";
-  const valueFont = "800 34px Arial, Helvetica, sans-serif";
-
-  const labelValueGap = 46;
-  const groupGap = 115;
-
-  ctx.font = labelFont;
-  const typeLabelW = ctx.measureText("TYPE").width;
-  const proofLabelW = ctx.measureText("PROOF").width;
-
-  ctx.font = valueFont;
-  const typeValueW = ctx.measureText(typeText).width;
-  const proofValueW = ctx.measureText(proofText).width;
-
-  const totalRowW =
-    typeLabelW +
-    labelValueGap +
-    typeValueW +
-    groupGap +
-    proofLabelW +
-    labelValueGap +
-    proofValueW;
-
-  const startX = (900 - totalRowW) / 2;
-
-  const typeLabelX = startX;
-  const typeValueX = typeLabelX + typeLabelW + labelValueGap;
-  const proofLabelX = typeValueX + typeValueW + groupGap;
-  const proofValueX = proofLabelX + proofLabelW + labelValueGap;
-
   if (!measureOnly) {
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
@@ -4126,21 +4094,33 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.lineTo(805, y - 30);
     ctx.stroke();
 
-    ctx.textBaseline = "alphabetic";
-    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
 
+    const leftCenter = 272;
+    const rightCenter = 628;
+    const rowCenterY = y + 18;
+
+    // TYPE side
     ctx.fillStyle = "#9d742b";
-    ctx.font = labelFont;
-    ctx.fillText("TYPE", typeLabelX, y);
-    ctx.fillText("PROOF", proofLabelX, y);
+    ctx.font = "900 23px Arial, Helvetica, sans-serif";
+    ctx.fillText("TYPE", leftCenter - 48, rowCenterY);
 
     ctx.fillStyle = "#101511";
-    ctx.font = valueFont;
-    ctx.fillText(typeText, typeValueX, y);
-    ctx.fillText(proofText, proofValueX, y);
+    ctx.font = "600 28px Arial, Helvetica, sans-serif";
+    ctx.fillText(String(typeValue || "N/A"), leftCenter + 42, rowCenterY);
+
+    // PROOF side
+    ctx.fillStyle = "#9d742b";
+    ctx.font = "900 23px Arial, Helvetica, sans-serif";
+    ctx.fillText("PROOF", rightCenter - 54, rowCenterY);
+
+    ctx.fillStyle = "#101511";
+    ctx.font = "600 28px Arial, Helvetica, sans-serif";
+    ctx.fillText(String(proofValue || "N/A"), rightCenter + 45, rowCenterY);
   }
 
-  return y + 54 + 26;
+  return y + 76;
 }
 function drawDetail(ctx, label, value, y, measureOnly = false) {
   const text = String(value || "N/A");
