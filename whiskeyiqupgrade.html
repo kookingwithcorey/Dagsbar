@@ -4087,40 +4087,73 @@ if (type === "recommendNo") {
 
 function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
   const rowHeight = 76;
-  const lineY = y - 30;
-  const rowCenterY = lineY + (rowHeight / 2);
+  const topLineY = y - 30;
+  const bottomLineY = topLineY + rowHeight;
+  const rowCenterY = (topLineY + bottomLineY) / 2;
 
   if (!measureOnly) {
+    // top divider
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
     ctx.beginPath();
-    ctx.moveTo(95, lineY);
-    ctx.lineTo(805, lineY);
+    ctx.moveTo(95, topLineY);
+    ctx.lineTo(805, topLineY);
     ctx.stroke();
 
     ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
+    ctx.textAlign = "left";
 
-    const leftCenter = 272;
-    const rightCenter = 628;
+    const leftStart = 95;
+    const leftWidth = 355;
+    const rightStart = 450;
+    const rightWidth = 355;
+    const gap = 8;
 
-    // TYPE side — stays on one line
+    // fonts
+    const labelFont = "900 23px Arial, Helvetica, sans-serif";
+    const valueFont = "600 28px Arial, Helvetica, sans-serif";
+
+    // LEFT GROUP: TYPE + value
+    const leftLabel = "TYPE";
+    const leftValue = String(typeValue || "N/A");
+
+    ctx.font = labelFont;
+    const leftLabelWidth = ctx.measureText(leftLabel).width;
+
+    ctx.font = valueFont;
+    const leftValueWidth = ctx.measureText(leftValue).width;
+
+    const leftGroupWidth = leftLabelWidth + gap + leftValueWidth;
+    const leftX = leftStart + ((leftWidth - leftGroupWidth) / 2);
+
+    ctx.font = labelFont;
     ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("TYPE", leftCenter - 48, rowCenterY);
+    ctx.fillText(leftLabel, leftX, rowCenterY);
 
+    ctx.font = valueFont;
     ctx.fillStyle = "#101511";
-    ctx.font = "600 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(typeValue || "N/A"), leftCenter + 42, rowCenterY);
+    ctx.fillText(leftValue, leftX + leftLabelWidth + gap, rowCenterY);
 
-    // PROOF side — stays on one line
+    // RIGHT GROUP: PROOF + value
+    const rightLabel = "PROOF";
+    const rightValue = String(proofValue || "N/A");
+
+    ctx.font = labelFont;
+    const rightLabelWidth = ctx.measureText(rightLabel).width;
+
+    ctx.font = valueFont;
+    const rightValueWidth = ctx.measureText(rightValue).width;
+
+    const rightGroupWidth = rightLabelWidth + gap + rightValueWidth;
+    const rightX = rightStart + ((rightWidth - rightGroupWidth) / 2);
+
+    ctx.font = labelFont;
     ctx.fillStyle = "#9d742b";
-    ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText("PROOF", rightCenter - 54, rowCenterY);
+    ctx.fillText(rightLabel, rightX, rowCenterY);
 
+    ctx.font = valueFont;
     ctx.fillStyle = "#101511";
-    ctx.font = "600 28px Arial, Helvetica, sans-serif";
-    ctx.fillText(String(proofValue || "N/A"), rightCenter + 45, rowCenterY);
+    ctx.fillText(rightValue, rightX + rightLabelWidth + gap, rowCenterY);
 
     ctx.textBaseline = "alphabetic";
   }
