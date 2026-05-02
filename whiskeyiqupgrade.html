@@ -1009,12 +1009,26 @@
       background: var(--green);
       border-color: var(--green);
     }
-    .custom-flavor-add {
-  display: grid;
+   .custom-flavor-toggle {
+  border: 1px solid rgba(15,139,107,.65) !important;
+  border-radius: 999px !important;
+  background: var(--green) !important;
+  color: #fff !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 1000 !important;
+}
+
+.custom-flavor-add {
+  display: none;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
   margin-top: 8px;
+}
+
+.custom-flavor-add.active {
+  display: grid;
 }
 
 .custom-flavor-add input {
@@ -1045,7 +1059,6 @@ html[data-theme="dark"] .custom-flavor-add input {
 
 .custom-flavor-chip {
   position: relative;
-  padding-right: 24px !important;
 }
 
 .custom-flavor-chip::after {
@@ -3369,24 +3382,30 @@ function resetModalScroll() {
             `).join("")}
 
             ${(current.customFlavors || []).map(flavor => `
-              <button
-                class="flavor-chip custom-flavor-chip active"
-                onclick="removeCustomFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
-                type="button"
-                title="Tap to remove"
-              >${escapeHtml(flavor)}</button>
-            `).join("")}
-          </div>
+  <button
+    class="flavor-chip custom-flavor-chip active"
+    onclick="removeCustomFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+    type="button"
+    title="Tap to remove"
+  >${escapeHtml(flavor)}</button>
+`).join("")}
 
-          <div class="custom-flavor-add">
-            <input
-              id="customFlavorInput"
-              type="text"
-              placeholder="Add custom flavor..."
-              onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
-            />
-            <button type="button" onclick="addCustomFlavor()">Add Flavor</button>
-          </div>
+<button
+  class="flavor-chip custom-flavor-toggle"
+  type="button"
+  onclick="toggleCustomFlavorInput()"
+>+ Flavor</button>
+</div>
+
+<div id="customFlavorAdd" class="custom-flavor-add">
+  <input
+    id="customFlavorInput"
+    type="text"
+    placeholder="Add custom flavor..."
+    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
+  />
+  <button type="button" onclick="addCustomFlavor()">Add</button>
+</div>
         </div>
 
         <div class="field">
@@ -3535,7 +3554,18 @@ function toggleFlavor(flavor) {
   syncFlavorProfile();
   renderRank();
 }
+function toggleCustomFlavorInput() {
+  const wrap = document.getElementById("customFlavorAdd");
+  const input = document.getElementById("customFlavorInput");
 
+  if (!wrap) return;
+
+  wrap.classList.toggle("active");
+
+  if (wrap.classList.contains("active") && input) {
+    setTimeout(() => input.focus(), 50);
+  }
+}
 function addCustomFlavor() {
   if (!current) return;
 
