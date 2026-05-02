@@ -4978,7 +4978,7 @@ function dashboardShare(id) {
   document.getElementById("statBest").textContent = totalScore(best);
   document.getElementById("statAverage").textContent = Math.round(avg);
 
-const rankedBottles = sorted.map((bottle, index) => {
+const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
   const score = totalScore(bottle);
 
   return `
