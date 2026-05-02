@@ -1910,66 +1910,101 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.16 !important;
 }
 
-/* Type + Proof same line on final result card */
+/* Type + Proof same line on final result card - balanced web/mobile */
 .detail-duo {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: 14px !important;
+  gap: 0 !important;
   border-bottom: 7px solid rgba(6,76,53,.14) !important;
   min-height: 76px !important;
   align-items: center !important;
 }
 
 .detail-duo .detail-row {
-  grid-template-columns: auto auto !important;
-  justify-content: center !important;
+  display: flex !important;
   align-items: center !important;
-  column-gap: 8px !important;
-  text-align: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
   border-bottom: 0 !important;
   min-height: 76px !important;
   padding: 0 !important;
+  text-align: center !important;
+  min-width: 0 !important;
 }
 
 .detail-duo .detail-row .detail-label,
 .detail-duo .detail-row .detail-value {
-  text-align: center !important;
+  border: 0 !important;
+  padding: 0 !important;
   width: auto !important;
+  min-width: 0 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
 }
 
-.detail-duo .detail-row:first-child {
-  padding-right: 10px !important;
+.detail-duo .detail-row .detail-label {
+  color: #9d742b !important;
+  font-size: 19px !important;
+  font-weight: 1000 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
 }
 
-.detail-duo .detail-row:last-child {
-  padding-left: 10px !important;
+.detail-duo .detail-row .detail-value {
+  color: #101511 !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
+.detail-duo .detail-row .detail-value.short-value {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+/* Mobile: keep TYPE + value and PROOF + value balanced on one line */
 @media (max-width: 720px) {
   .detail-duo {
     grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
+    gap: 0 !important;
     min-height: 68px !important;
     align-items: center !important;
   }
 
   .detail-duo .detail-row {
-    grid-template-columns: auto auto !important;
-    justify-content: center !important;
-    align-items: center !important;
-    column-gap: 7px !important;
-    text-align: center !important;
-    border-bottom: 0 !important;
     min-height: 68px !important;
-    padding: 0 !important;
+    gap: 5px !important;
+    padding: 0 4px !important;
   }
 
-  .detail-duo .detail-row:first-child {
-    padding-right: 4px !important;
+  .detail-duo .detail-row .detail-label {
+    font-size: 14px !important;
+    letter-spacing: .025em !important;
   }
 
-  .detail-duo .detail-row:last-child {
-    padding-left: 4px !important;
+  .detail-duo .detail-row .detail-value,
+  .detail-duo .detail-row .detail-value.short-value {
+    font-size: 17px !important;
+    font-weight: 800 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .detail-duo .detail-row {
+    gap: 4px !important;
+    padding: 0 3px !important;
+  }
+
+  .detail-duo .detail-row .detail-label {
+    font-size: 12px !important;
+  }
+
+  .detail-duo .detail-row .detail-value,
+  .detail-duo .detail-row .detail-value.short-value {
+    font-size: 15px !important;
   }
 }
 .share-footer {
@@ -4092,7 +4127,6 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
   const rowCenterY = (topLineY + bottomLineY) / 2;
 
   if (!measureOnly) {
-    // top divider
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
     ctx.beginPath();
@@ -4101,60 +4135,41 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.stroke();
 
     ctx.textBaseline = "middle";
-    ctx.textAlign = "left";
 
-    const leftStart = 95;
-    const leftWidth = 355;
-    const rightStart = 450;
-    const rightWidth = 355;
-    const gap = 8;
+    const leftCenter = 272;
+    const rightCenter = 628;
+    const labelValueGap = 8;
 
-    // fonts
     const labelFont = "900 23px Arial, Helvetica, sans-serif";
     const valueFont = "600 28px Arial, Helvetica, sans-serif";
 
-    // LEFT GROUP: TYPE + value
-    const leftLabel = "TYPE";
-    const leftValue = String(typeValue || "N/A");
+    function drawCenteredPair(label, value, centerX) {
+      const safeValue = String(value || "N/A");
 
-    ctx.font = labelFont;
-    const leftLabelWidth = ctx.measureText(leftLabel).width;
+      ctx.font = labelFont;
+      const labelWidth = ctx.measureText(label).width;
 
-    ctx.font = valueFont;
-    const leftValueWidth = ctx.measureText(leftValue).width;
+      ctx.font = valueFont;
+      const valueWidth = ctx.measureText(safeValue).width;
 
-    const leftGroupWidth = leftLabelWidth + gap + leftValueWidth;
-    const leftX = leftStart + ((leftWidth - leftGroupWidth) / 2);
+      const totalWidth = labelWidth + labelValueGap + valueWidth;
+      const startX = centerX - totalWidth / 2;
 
-    ctx.font = labelFont;
-    ctx.fillStyle = "#9d742b";
-    ctx.fillText(leftLabel, leftX, rowCenterY);
+      ctx.textAlign = "left";
 
-    ctx.font = valueFont;
-    ctx.fillStyle = "#101511";
-    ctx.fillText(leftValue, leftX + leftLabelWidth + gap, rowCenterY);
+      ctx.font = labelFont;
+      ctx.fillStyle = "#9d742b";
+      ctx.fillText(label, startX, rowCenterY);
 
-    // RIGHT GROUP: PROOF + value
-    const rightLabel = "PROOF";
-    const rightValue = String(proofValue || "N/A");
+      ctx.font = valueFont;
+      ctx.fillStyle = "#101511";
+      ctx.fillText(safeValue, startX + labelWidth + labelValueGap, rowCenterY);
+    }
 
-    ctx.font = labelFont;
-    const rightLabelWidth = ctx.measureText(rightLabel).width;
+    drawCenteredPair("TYPE", typeValue, leftCenter);
+    drawCenteredPair("PROOF", proofValue, rightCenter);
 
-    ctx.font = valueFont;
-    const rightValueWidth = ctx.measureText(rightValue).width;
-
-    const rightGroupWidth = rightLabelWidth + gap + rightValueWidth;
-    const rightX = rightStart + ((rightWidth - rightGroupWidth) / 2);
-
-    ctx.font = labelFont;
-    ctx.fillStyle = "#9d742b";
-    ctx.fillText(rightLabel, rightX, rowCenterY);
-
-    ctx.font = valueFont;
-    ctx.fillStyle = "#101511";
-    ctx.fillText(rightValue, rightX + rightLabelWidth + gap, rowCenterY);
-
+    ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
   }
 
