@@ -3537,23 +3537,23 @@ function upsertBottle(shouldSyncInfo = true) {
                 <div>
 <div class="barrel-mark">
   <svg viewBox="0 0 110 58" aria-hidden="true">
-    <!-- barrel body: skinny top, wider bottom -->
+    <!-- barrel body: narrow top, wider bottom, curved outer sides -->
     <path
       d="M35 18
          C39 12 46 9 55 9
          C64 9 71 12 75 18
-         L92 43
+         C84 29 91 38 92 43
          C86 51 72 54 55 54
          C38 54 24 51 18 43
-         Z"
+         C19 38 26 29 35 18Z"
       fill="none"
       stroke="currentColor"
-      stroke-width="4"
+      stroke-width="4.4"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
 
-    <!-- top oval ring stays on top -->
+    <!-- top oval ring -->
     <ellipse
       cx="55"
       cy="17"
@@ -3561,44 +3561,54 @@ function upsertBottle(shouldSyncInfo = true) {
       ry="5"
       fill="none"
       stroke="currentColor"
-      stroke-width="4"
+      stroke-width="4.4"
     />
 
-    <!-- lower barrel band, wider to match the bottom shape -->
+    <!-- upper barrel band moved higher -->
     <path
-      d="M24 35
-         C38 40 72 40 86 35"
+      d="M29 27
+         C42 31 68 31 81 27"
       fill="none"
       stroke="currentColor"
-      stroke-width="4"
+      stroke-width="4.4"
       stroke-linecap="round"
     />
 
-    <!-- curved stave lines following wider-bottom shape -->
+    <!-- lower barrel band -->
     <path
-      d="M42 23
-         C39 33 38 43 42 51"
+      d="M24 37
+         C38 42 72 42 86 37"
       fill="none"
       stroke="currentColor"
-      stroke-width="3"
+      stroke-width="4.4"
+      stroke-linecap="round"
+    />
+
+    <!-- curved inner stave lines -->
+    <path
+      d="M42 22
+         C39 32 39 43 42 51"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3.2"
       stroke-linecap="round"
     />
 
     <path
-      d="M55 23
-         V54"
+      d="M55 22
+         C54 33 54 44 55 54"
       fill="none"
       stroke="currentColor"
-      stroke-width="3"
+      stroke-width="3.2"
       stroke-linecap="round"
     />
 
     <path
-      d="M68 23
-         C71 33 72 43 68 51"
+      d="M68 22
+         C71 32 71 43 68 51"
       fill="none"
       stroke="currentColor"
-      stroke-width="3"
+      stroke-width="3.2"
       stroke-linecap="round"
     />
   </svg>
