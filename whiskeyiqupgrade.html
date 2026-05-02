@@ -3892,10 +3892,10 @@ function upsertBottle(shouldSyncInfo = true) {
                 Share
               </button>
 
-              <button class="action-btn" onclick="window.location.href='history.html'">
-                <svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
-                Whiskey Log
-              </button>
+              <button class="action-btn" onclick="saveToWhiskeyLog()">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+  Whiskey Log
+</button>
             </div>
           </div>
         </div>
@@ -4008,7 +4008,117 @@ function loadBottleInfoImage(event) {
     event.target.value = "";
   });
 }
+function saveToWhiskeyLog() {
+  if (!current) return;
 
+  current = normalizeBottleShape(current);
+
+  const saved = upsertBottle(false);
+
+  if (!saved && !isBlankBottle(current)) {
+    return;
+  }
+
+  const TASTING_HISTORY_KEY = "dags_tastings_v1";
+
+  let tastingHistory = [];
+
+  try {
+    tastingHistory = JSON.parse(localStorage.getItem(TASTING_HISTORY_KEY) || "[]");
+    if (!Array.isArray(tastingHistory)) tastingHistory = [];
+  } catch {
+    tastingHistory = [];
+  }
+
+  const now = new Date().toISOString();
+  const score = totalScore(current);
+  const summary = iqInsight(current);
+  const flavorProfile = current.flavorProfile || "";
+
+  const logEntry = {
+    id: current.whiskeyLogId || ("wiq-" + current.id),
+    whiskeyIqId: current.id,
+    source: "Whiskey IQ",
+    createdAt: current.createdAt || now,
+    updatedAt: now,
+
+    whiskeyName: current.name || "Untitled Bottle",
+    whiskey: current.name || "Untitled Bottle",
+    title: current.name || "Untitled Bottle",
+
+    distillery: current.type || "Whiskey IQ",
+    brand: current.type || "Whiskey IQ",
+    type: current.type || "",
+    proof: current.proof || "",
+
+    price: "",
+    rating: `${score}/100 Whiskey IQ`,
+
+    nose: `Aroma: ${Number(current.scores?.aroma || 0)}/25`,
+    palate: `Flavor: ${Number(current.scores?.flavor || 0)}/30. Flavor Notes: ${flavorProfile || "None added."}`,
+    finish: `Finish: ${Number(current.scores?.finish || 0)}/25`,
+    other: [
+      `Drink Again: ${Number(current.scores?.drinkAgain || 0)}/5`,
+      `Recommend: ${Number(current.scores?.recommend || 0)}/5`,
+      `Value: ${Number(current.scores?.value || 0)}/10`,
+      current.notes ? `Tasting Notes: ${current.notes}` : "",
+      `IQ Insight: ${summary}`
+    ].filter(Boolean).join("\n\n"),
+
+    notes: current.notes || "",
+    iqInsight: summary,
+    whiskeyIqScore: score,
+    flavorProfile: flavorProfile,
+
+    flavorsText: flavorProfile,
+    selectedFlavors: current.flavors || [],
+
+    scores: current.scores || {},
+
+    flavors: {
+      smoky: 0,
+      spicy: current.flavors?.some(f => /spice|pepper/i.test(f)) ? 5 : 0,
+      herbal: current.flavors?.some(f => /mint|herbal/i.test(f)) ? 4 : 0,
+      fullBody: score >= 80 ? 4 : score >= 70 ? 3 : 2,
+      rich: current.flavors?.some(f => /chocolate|coffee|caramel|crème|creme/i.test(f)) ? 5 : 0,
+      sweet: current.flavors?.some(f => /vanilla|caramel|honey|cherry|fruit/i.test(f)) ? 5 : 0,
+      vanilla: current.flavors?.some(f => /vanilla/i.test(f)) ? 5 : 0,
+      creamy: current.flavors?.some(f => /crème|creme/i.test(f)) ? 4 : 0,
+      oaky: current.flavors?.some(f => /oak|leather/i.test(f)) ? 5 : 0,
+      tart: current.flavors?.some(f => /citrus/i.test(f)) ? 4 : 0,
+      fruity: current.flavors?.some(f => /fruit|cherry|citrus/i.test(f)) ? 5 : 0,
+      floral: current.flavors?.some(f => /floral/i.test(f)) ? 5 : 0
+    }
+  };
+
+  current.whiskeyLogId = logEntry.id;
+
+  const existingIndex = tastingHistory.findIndex(entry =>
+    entry.id === logEntry.id || entry.whiskeyIqId === current.id
+  );
+
+  if (existingIndex >= 0) {
+    tastingHistory[existingIndex] = {
+      ...tastingHistory[existingIndex],
+      ...logEntry,
+      createdAt: tastingHistory[existingIndex].createdAt || logEntry.createdAt
+    };
+  } else {
+    tastingHistory.unshift(logEntry);
+  }
+
+  try {
+    localStorage.setItem(TASTING_HISTORY_KEY, JSON.stringify(tastingHistory));
+  } catch (error) {
+    console.error("Whiskey Log save failed:", error);
+    alert("Could not save this to Whiskey Log. Browser storage may be full.");
+    return;
+  }
+
+  upsertBottle(false);
+
+  window.location.href = "history.html";
+}
 function saveProgressAndClose() {
   if (current && !isBlankBottle(current)) {
     const infoStepActive = document.getElementById("stepInfo")?.classList.contains("active");
