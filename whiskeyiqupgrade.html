@@ -4077,13 +4077,13 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     probe.height = 2600;
     const mctx = probe.getContext("2d");
 
-    let y = card.image ? 665 : 250;
+    let y = card.image ? 689 : 274;
 
     mctx.font = "bold 56px Georgia";
     const nameLines = getWrappedLines(mctx, card.name || "Untitled Bottle", 720, 2);
     y += nameLines.length * 60;
 
-    y += 26;  // gap after name
+    y += 2;  // keeps divider about where it was, but lowers the bottle name
     y += 48;  // score label
     y += 93;  // big score
     y += 104; // gap before icon row
@@ -4127,7 +4127,7 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
   ctx.stroke();
 
   function drawRest() {
-    let y = card.image ? 665 : 250;
+    let y = card.image ? 689 : 274;
 
     // Bottle name
     ctx.fillStyle = "#101511";
@@ -4137,7 +4137,7 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
     drawWrappedLines(ctx, nameLines, w / 2, y, 60);
 
     y += nameLines.length * 60;
-    y += 26;
+    y += 2;
 
     // Divider
     ctx.strokeStyle = "#b98a3f";
