@@ -4246,7 +4246,7 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
     Canvas textBaseline="middle" still looks slightly high visually,
     so this gives it the same optical center as the webpage.
   */
-  const opticalCenterNudge = 8;
+  const opticalCenterNudge = -6;
   const visualCenterY = rowCenterY + opticalCenterNudge;
 
   if (!measureOnly) {
