@@ -3871,9 +3871,11 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
     ctx.fillText("/100", w / 2 + 88, y - 5);
 
     // Score icon row
-    y += 104;
+// Raised slightly so Aroma → Value sits more centered between the score and the green divider line.
+// The extra amount is added back after the row so the Type/Proof line stays in the same place.
+y += 92;
 
-    categories.forEach((cat, i) => {
+categories.forEach((cat, i) => {
       const x = 112 + i * 135;
       const pct = pctFor(cat, card) / 100;
 
@@ -3900,7 +3902,7 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
       ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
     });
 
-    y += 118;
+    y += 130;
 
    y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y);
     y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
