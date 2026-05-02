@@ -3905,12 +3905,20 @@ categories.forEach((cat, i) => {
     y += 130;
 
    y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y);
-    y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
-    y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
-    y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
+y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
+y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
+y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
 
-    // Footer directly under content
-    const footerY = y + 18;
+// Bottom divider under IQ Insight, matching the website detail-row line
+ctx.strokeStyle = "rgba(6,76,53,.16)";
+ctx.lineWidth = 7;
+ctx.beginPath();
+ctx.moveTo(95, y - 30);
+ctx.lineTo(805, y - 30);
+ctx.stroke();
+
+// Footer directly under content
+const footerY = y + 18;
 
     ctx.fillStyle = "#064c35";
     ctx.fillRect(40, footerY, w - 80, footerHeight);
