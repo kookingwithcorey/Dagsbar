@@ -3535,16 +3535,16 @@ function upsertBottle(shouldSyncInfo = true) {
               <div class="share-logo">
                 <div class="share-logo-line"></div>
                 <div>
- <div class="barrel-mark">
+<div class="barrel-mark">
   <svg viewBox="0 0 110 58" aria-hidden="true">
-    <!-- wider barrel body -->
+    <!-- barrel body: skinny top, wider bottom -->
     <path
-      d="M18 18
-         C23 10 36 7 55 7
-         C74 7 87 10 92 18
-         L86 43
-         C82 51 70 54 55 54
-         C40 54 28 51 24 43
+      d="M35 18
+         C39 12 46 9 55 9
+         C64 9 71 12 75 18
+         L92 43
+         C86 51 72 54 55 54
+         C38 54 24 51 18 43
          Z"
       fill="none"
       stroke="currentColor"
@@ -3553,31 +3553,31 @@ function upsertBottle(shouldSyncInfo = true) {
       stroke-linejoin="round"
     />
 
-    <!-- clean top oval, no inside lines -->
-   <ellipse
-  cx="55"
-  cy="17"
-  rx="31"
-  ry="6"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="4"
-/>
+    <!-- top oval ring stays on top -->
+    <ellipse
+      cx="55"
+      cy="17"
+      rx="22"
+      ry="5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+    />
 
-    <!-- one horizontal barrel band only -->
+    <!-- lower barrel band, wider to match the bottom shape -->
     <path
-      d="M23 33
-         C35 37 75 37 87 33"
+      d="M24 35
+         C38 40 72 40 86 35"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- 3 vertical stave lines, kept out of the oval -->
+    <!-- curved stave lines following wider-bottom shape -->
     <path
-      d="M41 23
-         C39 33 39 43 42 51"
+      d="M42 23
+         C39 33 38 43 42 51"
       fill="none"
       stroke="currentColor"
       stroke-width="3"
@@ -3585,7 +3585,7 @@ function upsertBottle(shouldSyncInfo = true) {
     />
 
     <path
-      d="M55 24
+      d="M55 23
          V54"
       fill="none"
       stroke="currentColor"
@@ -3594,8 +3594,8 @@ function upsertBottle(shouldSyncInfo = true) {
     />
 
     <path
-      d="M69 23
-         C71 33 71 43 68 51"
+      d="M68 23
+         C71 33 72 43 68 51"
       fill="none"
       stroke="currentColor"
       stroke-width="3"
