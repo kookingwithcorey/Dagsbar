@@ -1054,10 +1054,11 @@
     }
 
     .share-logo-line {
-      height: 2px;
-      width: 120px;
-      background: #b98a3f;
-    }
+  height: 4px;
+  width: 120px;
+  background: #b98a3f;
+  border-radius: 999px;
+}
 
     .share-logo-text {
       font-family: Georgia, serif;
@@ -3537,78 +3538,74 @@ function upsertBottle(shouldSyncInfo = true) {
                 <div>
 <div class="barrel-mark">
   <svg viewBox="0 0 110 58" aria-hidden="true">
-    <!-- barrel body: narrow top, wider bottom, curved outer sides -->
-    <path
-      d="M35 18
-         C39 12 46 9 55 9
-         C64 9 71 12 75 18
-         C84 29 91 38 92 43
-         C86 51 72 54 55 54
-         C38 54 24 51 18 43
-         C19 38 26 29 35 18Z"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="4.4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-
-    <!-- top oval ring -->
+    <!-- clean top oval ring - no stave lines pass through it -->
     <ellipse
       cx="55"
-      cy="17"
-      rx="22"
-      ry="5"
+      cy="14"
+      rx="30"
+      ry="6"
       fill="none"
       stroke="currentColor"
-      stroke-width="4.4"
+      stroke-width="5"
     />
 
-    <!-- upper barrel band moved higher -->
+    <!-- thick upper barrel band, moved higher -->
     <path
-      d="M29 27
-         C42 31 68 31 81 27"
+      d="M27 27
+         C39 31 71 31 83 27"
       fill="none"
       stroke="currentColor"
-      stroke-width="4.4"
+      stroke-width="7"
       stroke-linecap="round"
     />
 
-    <!-- lower barrel band -->
+    <!-- left outside stave: slight curve, narrow top to wider bottom -->
     <path
-      d="M24 37
-         C38 42 72 42 86 37"
+      d="M30 20
+         C25 30 22 40 21 51"
       fill="none"
       stroke="currentColor"
-      stroke-width="4.4"
+      stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- curved inner stave lines -->
+    <!-- inner left stave: subtle curve -->
     <path
-      d="M42 22
-         C39 32 39 43 42 51"
+      d="M43 21
+         C40 32 39 42 39 51"
       fill="none"
       stroke="currentColor"
-      stroke-width="3.2"
+      stroke-width="4"
       stroke-linecap="round"
     />
 
+    <!-- center stave: straight -->
     <path
-      d="M55 22
-         C54 33 54 44 55 54"
+      d="M55 21
+         L55 51"
       fill="none"
       stroke="currentColor"
-      stroke-width="3.2"
+      stroke-width="4"
       stroke-linecap="round"
     />
 
+    <!-- inner right stave: subtle curve -->
     <path
-      d="M68 22
-         C71 32 71 43 68 51"
+      d="M67 21
+         C70 32 71 42 71 51"
       fill="none"
       stroke="currentColor"
-      stroke-width="3.2"
+      stroke-width="4"
+      stroke-linecap="round"
+    />
+
+    <!-- right outside stave: slight curve, narrow top to wider bottom -->
+    <path
+      d="M80 20
+         C85 30 88 40 89 51"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
       stroke-linecap="round"
     />
   </svg>
