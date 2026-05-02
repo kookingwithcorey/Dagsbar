@@ -1945,23 +1945,23 @@ input[type="range"]::-moz-range-thumb {
 
 .detail-duo .detail-row .detail-label {
   color: #9d742b !important;
-  font-size: 19px !important;
+  font-size: 22px !important;
   font-weight: 1000 !important;
-  letter-spacing: .045em !important;
+  letter-spacing: .035em !important;
   text-transform: uppercase !important;
 }
 
 .detail-duo .detail-row .detail-value {
   color: #101511 !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
+  font-size: 27px !important;
+  font-weight: 900 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
 .detail-duo .detail-row .detail-value.short-value {
-  font-size: 22px !important;
-  font-weight: 800 !important;
+  font-size: 27px !important;
+  font-weight: 900 !important;
   line-height: 1 !important;
 }
 
@@ -1981,15 +1981,15 @@ input[type="range"]::-moz-range-thumb {
   }
 
   .detail-duo .detail-row .detail-label {
-    font-size: 14px !important;
-    letter-spacing: .025em !important;
-  }
+  font-size: 16px !important;
+  letter-spacing: .015em !important;
+}
 
-  .detail-duo .detail-row .detail-value,
-  .detail-duo .detail-row .detail-value.short-value {
-    font-size: 17px !important;
-    font-weight: 800 !important;
-  }
+.detail-duo .detail-row .detail-value,
+.detail-duo .detail-row .detail-value.short-value {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
 }
 
 @media (max-width: 420px) {
@@ -4138,10 +4138,10 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
 
     const leftCenter = 272;
     const rightCenter = 628;
-    const labelValueGap = 8;
+const labelValueGap = 10;
 
-    const labelFont = "900 23px Arial, Helvetica, sans-serif";
-    const valueFont = "600 28px Arial, Helvetica, sans-serif";
+const labelFont = "900 28px Arial, Helvetica, sans-serif";
+const valueFont = "900 34px Arial, Helvetica, sans-serif";
 
     function drawCenteredPair(label, value, centerX) {
       const safeValue = String(value || "N/A");
