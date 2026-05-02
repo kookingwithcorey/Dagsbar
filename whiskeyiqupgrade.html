@@ -4195,34 +4195,46 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
   }
 
   const rowHeight = longField
-    ? Math.max(54, (lines.length * lineHeight) + 6)
-    : 54;
+    ? Math.max(66, (lines.length * lineHeight) + 22)
+    : 66;
+
+  const topLineY = y - 30;
+  const rowCenterY = topLineY + rowHeight / 2;
 
   if (!measureOnly) {
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
     ctx.beginPath();
-    ctx.moveTo(95, y - 30);
-    ctx.lineTo(805, y - 30);
+    ctx.moveTo(95, topLineY);
+    ctx.lineTo(805, topLineY);
     ctx.stroke();
 
-    ctx.textBaseline = "alphabetic";
+    ctx.textBaseline = "middle";
 
+    // Label vertically centered between the divider lines
     ctx.textAlign = "left";
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText(label, 100, y);
+    ctx.fillText(label, 100, rowCenterY);
 
     ctx.fillStyle = "#101511";
     ctx.textAlign = "left";
 
     if (longField) {
       ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
-      drawWrappedLines(ctx, lines, 335, y, lineHeight);
+
+      const textBlockHeight = (lines.length - 1) * lineHeight;
+      const firstLineY = rowCenterY - textBlockHeight / 2;
+
+      lines.forEach((line, i) => {
+        ctx.fillText(line, 335, firstLineY + i * lineHeight);
+      });
     } else {
       ctx.font = "600 28px Arial, Helvetica, sans-serif";
-      ctx.fillText(text, 335, y);
+      ctx.fillText(text, 335, rowCenterY);
     }
+
+    ctx.textBaseline = "alphabetic";
   }
 
   return y + rowHeight + 26;
