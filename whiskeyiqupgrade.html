@@ -1910,7 +1910,7 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.16 !important;
 }
 
-/* Type + Proof same line on final result card - balanced web/mobile */
+/* Type + Proof same line on final result card - balanced web/mobile with center divider */
 .detail-duo {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
@@ -1918,13 +1918,28 @@ input[type="range"]::-moz-range-thumb {
   border-bottom: 7px solid rgba(6,76,53,.14) !important;
   min-height: 76px !important;
   align-items: center !important;
+  position: relative !important;
+}
+
+/* Center vertical divider between TYPE and PROOF */
+.detail-duo::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  bottom: 14px;
+  width: 7px;
+  border-radius: 999px;
+  background: rgba(6,76,53,.14);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .detail-duo .detail-row {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important;
+  gap: 10px !important;
   border-bottom: 0 !important;
   min-height: 76px !important;
   padding: 0 !important;
@@ -1974,6 +1989,12 @@ input[type="range"]::-moz-range-thumb {
     align-items: center !important;
   }
 
+  .detail-duo::before {
+    top: 12px;
+    bottom: 12px;
+    width: 6px;
+  }
+
   .detail-duo .detail-row {
     min-height: 68px !important;
     gap: 5px !important;
@@ -1981,15 +2002,15 @@ input[type="range"]::-moz-range-thumb {
   }
 
   .detail-duo .detail-row .detail-label {
-  font-size: 16px !important;
-  letter-spacing: .015em !important;
-}
+    font-size: 16px !important;
+    letter-spacing: .015em !important;
+  }
 
-.detail-duo .detail-row .detail-value,
-.detail-duo .detail-row .detail-value.short-value {
-  font-size: 20px !important;
-  font-weight: 900 !important;
-}
+  .detail-duo .detail-row .detail-value,
+  .detail-duo .detail-row .detail-value.short-value {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+  }
 }
 
 @media (max-width: 420px) {
@@ -4127,6 +4148,7 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
   const rowCenterY = (topLineY + bottomLineY) / 2;
 
   if (!measureOnly) {
+    // Top horizontal divider
     ctx.strokeStyle = "rgba(6,76,53,.16)";
     ctx.lineWidth = 7;
     ctx.beginPath();
@@ -4134,14 +4156,25 @@ function drawTypeProofDuo(ctx, typeValue, proofValue, y, measureOnly = false) {
     ctx.lineTo(805, topLineY);
     ctx.stroke();
 
+    // Center vertical divider between TYPE and PROOF.
+    // Same color as the horizontal lines, but does not touch top or bottom.
+    ctx.strokeStyle = "rgba(6,76,53,.16)";
+    ctx.lineWidth = 7;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(450, topLineY + 16);
+    ctx.lineTo(450, topLineY + rowHeight - 16);
+    ctx.stroke();
+    ctx.lineCap = "butt";
+
     ctx.textBaseline = "middle";
 
     const leftCenter = 272;
     const rightCenter = 628;
-const labelValueGap = 10;
+    const labelValueGap = 10;
 
-const labelFont = "900 28px Arial, Helvetica, sans-serif";
-const valueFont = "900 34px Arial, Helvetica, sans-serif";
+    const labelFont = "900 28px Arial, Helvetica, sans-serif";
+    const valueFont = "900 34px Arial, Helvetica, sans-serif";
 
     function drawCenteredPair(label, value, centerX) {
       const safeValue = String(value || "N/A");
