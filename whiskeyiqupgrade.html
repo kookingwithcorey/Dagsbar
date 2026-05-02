@@ -1009,6 +1009,55 @@
       background: var(--green);
       border-color: var(--green);
     }
+    .custom-flavor-add {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.custom-flavor-add input {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.45);
+  color: var(--text);
+  padding: 10px 13px;
+  outline: none;
+  width: 100%;
+  font-weight: 800;
+}
+
+html[data-theme="dark"] .custom-flavor-add input {
+  background: rgba(255,255,255,.06);
+}
+
+.custom-flavor-add button {
+  border: 1px solid rgba(15,139,107,.65);
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  padding: 10px 13px;
+  font-size: 12px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.custom-flavor-chip {
+  position: relative;
+  padding-right: 24px !important;
+}
+
+.custom-flavor-chip::after {
+  content: "×";
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-52%);
+  font-size: 14px;
+  font-weight: 1000;
+  opacity: .9;
+}
 
     .rank-actions {
       display: flex;
@@ -3030,22 +3079,23 @@ recommend: `
     }
 
     function blankBottle() {
-      const scores = {};
-      categories.forEach(cat => scores[cat.key] = 0);
-      return {
-        id: uid(),
-        name: "",
-        proof: "",
-        type: "",
-        image: "",
-        notes: "",
-        flavorProfile: "",
-        flavors: [],
-        scores,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-    }
+  const scores = {};
+  categories.forEach(cat => scores[cat.key] = 0);
+  return {
+    id: uid(),
+    name: "",
+    proof: "",
+    type: "",
+    image: "",
+    notes: "",
+    flavorProfile: "",
+    flavors: [],
+    customFlavors: [],
+    scores,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+}
 
     function escapeHtml(value) {
       return String(value || "")
@@ -3095,6 +3145,22 @@ function normalizeBottleShape(bottle) {
 
   merged.scores = { ...base.scores, ...(bottle?.scores || {}) };
   merged.flavors = Array.isArray(bottle?.flavors) ? bottle.flavors : [];
+
+  const standardFlavorKeys = flavorBank.map(f => f.toLowerCase());
+
+  const savedCustomFlavors = Array.isArray(bottle?.customFlavors)
+    ? bottle.customFlavors
+    : [];
+
+  const selectedCustomFlavors = merged.flavors.filter(flavor =>
+    !standardFlavorKeys.includes(String(flavor).toLowerCase())
+  );
+
+  merged.customFlavors = [...new Set(
+    [...savedCustomFlavors, ...selectedCustomFlavors]
+      .map(flavor => String(flavor || "").trim())
+      .filter(Boolean)
+  )];
 
   return merged;
 }
@@ -3296,14 +3362,37 @@ function resetModalScroll() {
           </div>
         </div>
 
-        <div class="field">
+               <div class="field">
           <label>Flavor Notes</label>
+
           <div class="flavor-row">
             ${flavorBank.map(flavor => `
-              <button class="flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}" onclick="toggleFlavor('${flavor}')">${flavor}</button>
+              <button
+                class="flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}"
+                onclick="toggleFlavor('${flavor}')"
+                type="button"
+              >${flavor}</button>
+            `).join("")}
+
+            ${(current.customFlavors || []).map(flavor => `
+              <button
+                class="flavor-chip custom-flavor-chip active"
+                onclick="removeCustomFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+                type="button"
+                title="Tap to remove"
+              >${escapeHtml(flavor)}</button>
             `).join("")}
           </div>
-          <input id="flavorProfile" type="text" placeholder="Example: honey, smoke, pepper, citrus, leather, vanilla" value="${escapeHtml(current.flavorProfile || "")}" oninput="current.flavorProfile = this.value" />
+
+          <div class="custom-flavor-add">
+            <input
+              id="customFlavorInput"
+              type="text"
+              placeholder="Add custom flavor..."
+              onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
+            />
+            <button type="button" onclick="addCustomFlavor()">Add Flavor</button>
+          </div>
         </div>
 
         <div class="field">
@@ -3433,13 +3522,75 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
   }
 }
 
-    function toggleFlavor(flavor) {
-      if (!current.flavors) current.flavors = [];
-      if (current.flavors.includes(flavor)) current.flavors = current.flavors.filter(f => f !== flavor);
-      else current.flavors.push(flavor);
-      current.flavorProfile = current.flavors.join(", ");
-      renderRank();
-    }
+    function syncFlavorProfile() {
+  if (!current) return;
+  current.flavors = [...new Set((current.flavors || []).filter(Boolean))];
+  current.flavorProfile = current.flavors.join(", ");
+  current.updatedAt = new Date().toISOString();
+}
+
+function toggleFlavor(flavor) {
+  if (!current.flavors) current.flavors = [];
+
+  if (current.flavors.includes(flavor)) {
+    current.flavors = current.flavors.filter(f => f !== flavor);
+  } else {
+    current.flavors.push(flavor);
+  }
+
+  syncFlavorProfile();
+  renderRank();
+}
+
+function addCustomFlavor() {
+  if (!current) return;
+
+  const input = document.getElementById("customFlavorInput");
+  const flavor = String(input?.value || "").trim();
+
+  if (!flavor) return;
+
+  if (!current.customFlavors) current.customFlavors = [];
+  if (!current.flavors) current.flavors = [];
+
+  const allKnownFlavors = [...flavorBank, ...current.customFlavors];
+  const exists = allKnownFlavors.some(item =>
+    String(item).toLowerCase() === flavor.toLowerCase()
+  );
+
+  if (!exists) {
+    current.customFlavors.push(flavor);
+  }
+
+  const alreadySelected = current.flavors.some(item =>
+    String(item).toLowerCase() === flavor.toLowerCase()
+  );
+
+  if (!alreadySelected) {
+    current.flavors.push(flavor);
+  }
+
+  syncFlavorProfile();
+
+  if (input) input.value = "";
+
+  renderRank();
+}
+
+function removeCustomFlavor(flavor) {
+  if (!current) return;
+
+  current.customFlavors = (current.customFlavors || []).filter(item =>
+    String(item).toLowerCase() !== String(flavor).toLowerCase()
+  );
+
+  current.flavors = (current.flavors || []).filter(item =>
+    String(item).toLowerCase() !== String(flavor).toLowerCase()
+  );
+
+  syncFlavorProfile();
+  renderRank();
+}
 
    function iqInsight(bottle) {
   const score = totalScore(bottle);
