@@ -4195,11 +4195,26 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
   }
 
   const rowHeight = longField
-    ? Math.max(66, (lines.length * lineHeight) + 22)
-    : 66;
+    ? Math.max(72, (lines.length * lineHeight) + 30)
+    : 72;
 
   const topLineY = y - 30;
-  const rowCenterY = topLineY + rowHeight / 2;
+
+  /*
+    The next divider is drawn by the next row at:
+    nextY - 30.
+    Since this function returns y + rowHeight + 26,
+    the visual bottom divider is topLineY + rowHeight + 26.
+  */
+  const bottomLineY = topLineY + rowHeight + 26;
+  const rowCenterY = (topLineY + bottomLineY) / 2;
+
+  /*
+    Canvas textBaseline="middle" still looks slightly high visually,
+    so this gives it the same optical center as the webpage.
+  */
+  const opticalCenterNudge = 8;
+  const visualCenterY = rowCenterY + opticalCenterNudge;
 
   if (!measureOnly) {
     ctx.strokeStyle = "rgba(6,76,53,.16)";
@@ -4211,11 +4226,11 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
 
     ctx.textBaseline = "middle";
 
-    // Label vertically centered between the divider lines
+    // Label vertically centered between divider lines
     ctx.textAlign = "left";
     ctx.fillStyle = "#9d742b";
     ctx.font = "900 23px Arial, Helvetica, sans-serif";
-    ctx.fillText(label, 100, rowCenterY);
+    ctx.fillText(label, 100, visualCenterY);
 
     ctx.fillStyle = "#101511";
     ctx.textAlign = "left";
@@ -4224,14 +4239,14 @@ function drawDetail(ctx, label, value, y, measureOnly = false) {
       ctx.font = `800 ${fontSize}px Arial, Helvetica, sans-serif`;
 
       const textBlockHeight = (lines.length - 1) * lineHeight;
-      const firstLineY = rowCenterY - textBlockHeight / 2;
+      const firstLineY = visualCenterY - textBlockHeight / 2;
 
       lines.forEach((line, i) => {
         ctx.fillText(line, 335, firstLineY + i * lineHeight);
       });
     } else {
       ctx.font = "600 28px Arial, Helvetica, sans-serif";
-      ctx.fillText(text, 335, rowCenterY);
+      ctx.fillText(text, 335, visualCenterY);
     }
 
     ctx.textBaseline = "alphabetic";
