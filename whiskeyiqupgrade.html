@@ -3535,50 +3535,32 @@ function upsertBottle(shouldSyncInfo = true) {
             <div class="share-inner">
               <div class="share-logo">
                 <div class="share-logo-line"></div>
-                <div><div class="barrel-mark">
+                <div>
+               <div class="barrel-mark">
   <svg viewBox="0 0 110 58" aria-hidden="true">
-    <!-- top oval: same visual width as outside stave connection points -->
-    <ellipse
-      cx="55"
-      cy="13"
-      rx="24"
-      ry="5.5"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="5"
-    />
+    <!-- five staves drawn first so the oval can sit cleanly on top -->
 
-    <!-- thick curved barrel band -->
+    <!-- left outside stave: slight curve, narrow top to slightly wider bottom -->
     <path
-      d="M28 30
-         C40 34 70 34 82 30"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="7"
-      stroke-linecap="round"
-    />
-
-    <!-- outside left stave: connected to oval edge, curved slightly outward -->
-    <path
-      d="M31 18
-         C27 29 24 40 23 51"
+      d="M30 18
+         C25 30 23 40 22 51"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- inner left stave -->
+    <!-- inner left stave: subtle curve -->
     <path
-      d="M43 18
-         C41 30 40 41 40 51"
+      d="M42 18
+         C40 31 39 41 39 51"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- center stave -->
+    <!-- center stave: straight -->
     <path
       d="M55 18
          L55 51"
@@ -3588,24 +3570,45 @@ function upsertBottle(shouldSyncInfo = true) {
       stroke-linecap="round"
     />
 
-    <!-- inner right stave -->
+    <!-- inner right stave: subtle curve -->
     <path
-      d="M67 18
-         C69 30 70 41 70 51"
+      d="M68 18
+         C70 31 71 41 71 51"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
     />
 
-    <!-- outside right stave: connected to oval edge, curved slightly outward -->
+    <!-- right outside stave: slight curve, narrow top to slightly wider bottom -->
     <path
-      d="M79 18
-         C83 29 86 40 87 51"
+      d="M80 18
+         C85 30 87 40 88 51"
       fill="none"
       stroke="currentColor"
       stroke-width="4"
       stroke-linecap="round"
+    />
+
+    <!-- thick barrel band, moved slightly down -->
+    <path
+      d="M28 30
+         C40 34 70 34 82 30"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="7"
+      stroke-linecap="round"
+    />
+
+    <!-- clean top oval ring drawn last to cover stave overlap -->
+    <ellipse
+      cx="55"
+      cy="13"
+      rx="25"
+      ry="5.5"
+      fill="#fffaf1"
+      stroke="currentColor"
+      stroke-width="5"
     />
   </svg>
 </div>
