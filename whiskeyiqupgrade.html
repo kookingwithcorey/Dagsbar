@@ -1600,37 +1600,25 @@ html[data-theme="dark"] .custom-flavor-add input {
 }
 
 /* Top bottle stat */
-.top-bottle-score-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
+
 .top-bottle-rank-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-  max-height: 118px;
-  overflow-y: auto;
-  padding-right: 3px;
 }
 
 .top-bottle-rank-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-columns: auto auto minmax(42px, 1fr) auto;
   align-items: center;
   gap: 8px;
+  width: 100%;
 }
 
 .top-bottle-rank-num {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background: var(--green);
   color: #fff;
@@ -1638,16 +1626,32 @@ html[data-theme="dark"] .custom-flavor-add input {
   place-items: center;
   font-size: 12px;
   font-weight: 1000;
+  line-height: 1;
 }
 
 .top-bottle-rank-name {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--text);
+  color: var(--muted);
   font-size: 14px;
   font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-bottle-rank-bar {
+  height: 7px;
+  width: 100%;
+  border-radius: 999px;
+  background: rgba(6,76,53,.10);
+  overflow: hidden;
+}
+
+.top-bottle-rank-fill {
+  height: 100%;
+  width: var(--scorePct);
+  background: linear-gradient(90deg, var(--green-2), var(--green));
+  border-radius: inherit;
 }
 
 .top-bottle-rank-score {
@@ -1662,26 +1666,6 @@ html[data-theme="dark"] .custom-flavor-add input {
   font-weight: 1000;
 }
 
-.top-bottle-score-row span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 15px;
-  font-weight: 900;
-  color: var(--muted);
-}
-
-.top-bottle-score-row strong {
-  min-width: 46px;
-  height: 36px;
-  border-radius: 999px;
-  background: rgba(15,139,107,.12);
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  font-weight: 1000;
-}
 
 /* Bottle photo */
 .photo-bubble {
@@ -4994,13 +4978,22 @@ function dashboardShare(id) {
   document.getElementById("statBest").textContent = totalScore(best);
   document.getElementById("statAverage").textContent = Math.round(avg);
 
-  const rankedBottles = sorted.map((bottle, index) => `
-  <div class="top-bottle-rank-row">
-    <div class="top-bottle-rank-num">${index + 1}</div>
-    <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
-    <div class="top-bottle-rank-score">${totalScore(bottle)}</div>
-  </div>
-`).join("");
+const rankedBottles = sorted.map((bottle, index) => {
+  const score = totalScore(bottle);
+
+  return `
+    <div class="top-bottle-rank-row">
+      <div class="top-bottle-rank-num">${index + 1}</div>
+      <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+
+      <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
+        <div class="top-bottle-rank-fill"></div>
+      </div>
+
+      <div class="top-bottle-rank-score">${score}</div>
+    </div>
+  `;
+}).join("");
 
 document.getElementById("statTopBottle").innerHTML = `
   <div class="top-bottle-rank-list">
