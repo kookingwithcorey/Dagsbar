@@ -3142,9 +3142,20 @@ recommend: `
   }
 }
 
-    function saveBottles() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(bottles));
-    }
+   function saveBottles() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(bottles));
+    return true;
+  } catch (error) {
+    console.error("Whiskey IQ save failed:", error);
+
+    alert(
+      "This photo is still too large for browser storage. Try a smaller image, or delete a few saved bottle photos."
+    );
+
+    return false;
+  }
+}
 
 function normalizeBottleShape(bottle) {
   const base = blankBottle();
@@ -3233,7 +3244,7 @@ resetModalScroll();
       renderRank();
     }
 
-   function showShare() {
+  function showShare() {
   document.body.classList.add("share-view");
   document.body.classList.remove("rank-view");
 
@@ -3241,7 +3252,11 @@ resetModalScroll();
     current = normalizeBottleShape(current);
   }
 
-  upsertBottle(false);
+  const saved = upsertBottle(false);
+
+  if (!saved && !isBlankBottle(current)) {
+    return;
+  }
 
   document.getElementById("stepInfo").classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
@@ -3658,7 +3673,7 @@ function removeCustomFlavor(flavor) {
 }
 
 function upsertBottle(shouldSyncInfo = true) {
-  if (!current) return;
+  if (!current) return false;
 
   current = normalizeBottleShape(current);
 
@@ -3667,7 +3682,7 @@ function upsertBottle(shouldSyncInfo = true) {
   }
 
   if (isBlankBottle(current)) {
-    return;
+    return false;
   }
 
   if (!current.name) current.name = "Untitled Bottle";
@@ -3676,6 +3691,7 @@ function upsertBottle(shouldSyncInfo = true) {
   current.iqInsight = iqInsight(current);
   current.updatedAt = new Date().toISOString();
 
+  const previousBottles = JSON.parse(JSON.stringify(bottles));
   const index = bottles.findIndex(b => b.id === current.id);
 
   if (index >= 0) {
@@ -3684,8 +3700,16 @@ function upsertBottle(shouldSyncInfo = true) {
     bottles.unshift(JSON.parse(JSON.stringify(current)));
   }
 
-  saveBottles();
+  const saved = saveBottles();
+
+  if (!saved) {
+    bottles = previousBottles;
+    renderLog();
+    return false;
+  }
+
   renderLog();
+  return true;
 }
 
     function renderShare() {
@@ -3877,49 +3901,134 @@ function upsertBottle(shouldSyncInfo = true) {
         </div>
       `;
     }
-
-    function loadShareImage(event) {
-  const file = event.target.files?.[0];
-  if (!file || !current) return;
+function compressImageFile(file, callback) {
+  if (!file || !file.type.startsWith("image/")) {
+    alert("Please choose a valid image file.");
+    return;
+  }
 
   const reader = new FileReader();
 
-  reader.onload = e => {
-    current.image = e.target.result;
-    current.updatedAt = new Date().toISOString();
+  reader.onload = event => {
+    const img = new Image();
 
-    upsertBottle(false);
-    renderShare();
+    img.onload = () => {
+      try {
+        const maxWidth = 900;
+        const maxHeight = 900;
+
+        let width = img.naturalWidth || img.width;
+        let height = img.naturalHeight || img.height;
+
+        if (!width || !height) {
+          alert("This image could not be processed. Try a different photo.");
+          return;
+        }
+
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#fffaf1";
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.68);
+
+        if (!compressedDataUrl || compressedDataUrl.length < 100) {
+          alert("This image could not be compressed. Try another photo.");
+          return;
+        }
+
+        callback(compressedDataUrl);
+      } catch (error) {
+        console.error("Image compression failed:", error);
+        alert("This image could not be processed. Try another photo.");
+      }
+    };
+
+    img.onerror = () => {
+      alert("This photo format may not be supported by the browser. Try saving it as JPG or PNG first.");
+    };
+
+    img.src = event.target.result;
+  };
+
+  reader.onerror = () => {
+    alert("This image could not be read. Try another photo.");
   };
 
   reader.readAsDataURL(file);
 }
+
+function loadShareImage(event) {
+  const file = event.target.files?.[0];
+
+  if (!file || !current) {
+    event.target.value = "";
+    return;
+  }
+
+  compressImageFile(file, compressedImage => {
+    current.image = compressedImage;
+    current.updatedAt = new Date().toISOString();
+
+    const saved = upsertBottle(false);
+
+    if (saved) {
+      renderShare();
+    }
+
+    event.target.value = "";
+  });
+}
+
 function loadBottleInfoImage(event) {
   const file = event.target.files?.[0];
-  if (!file || !current) return;
 
-  const reader = new FileReader();
+  if (!file || !current) {
+    event.target.value = "";
+    return;
+  }
 
-  reader.onload = e => {
-    current.image = e.target.result;
+  compressImageFile(file, compressedImage => {
+    current.image = compressedImage;
     current.updatedAt = new Date().toISOString();
-    fillInfo();
-  };
 
-  reader.readAsDataURL(file);
+    fillInfo();
+
+    event.target.value = "";
+  });
 }
 
 function saveProgressAndClose() {
   if (current && !isBlankBottle(current)) {
     const infoStepActive = document.getElementById("stepInfo")?.classList.contains("active");
-    upsertBottle(infoStepActive);
+    const saved = upsertBottle(infoStepActive);
+
+    if (!saved) {
+      return;
+    }
   }
 
   closeBottle();
   location.hash = "dashboard";
 }
-   function saveAndHome() {
-  upsertBottle(false);
+  function saveAndHome() {
+  const saved = upsertBottle(false);
+
+  if (!saved && !isBlankBottle(current)) {
+    return;
+  }
+
   closeBottle();
   location.hash = "dashboard";
 }
