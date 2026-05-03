@@ -3254,6 +3254,73 @@ html[data-theme="dark"] .taster-pill {
     font-size: 13px;
   }
 } 
+/* =========================================================
+   MOBILE GROUP TASTER TIGHTENING
+   Pulls taster pills closer to bottle title and score card
+   ========================================================= */
+
+@media (max-width: 720px) {
+  /* Tighten the right-side mobile ranking page */
+  #stepRank.active .rank-page {
+    display: block !important;
+    padding: 10px !important;
+    min-height: calc(100dvh - 92px) !important;
+  }
+
+  /* Tighten bottle title/header */
+  #stepRank.active .rank-header {
+    margin-bottom: 8px !important;
+    align-items: center !important;
+  }
+
+  #stepRank.active .rank-title {
+    font-size: 30px !important;
+    line-height: .95 !important;
+  }
+
+  /* Taster pill row: same pill look, less wasted space */
+  #stepRank.active .group-taster-switch,
+  #stepRank.active .group-taster-row,
+  #stepRank.active .taster-toggle-row,
+  #stepRank.active .taster-pill-row {
+    margin-top: 4px !important;
+    margin-bottom: 10px !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  /* Keep pills same size/look */
+  #stepRank.active .group-taster-pill,
+  #stepRank.active .taster-pill,
+  #stepRank.active .taster-toggle {
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+
+  /* Pull score card closer to taster pills */
+  #stepRank.active .rank-score-card {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Remove extra top spacing from flavor section */
+  #stepRank.active .field:first-of-type {
+    margin-top: 0 !important;
+  }
+}
   </style>
 </head>
 
