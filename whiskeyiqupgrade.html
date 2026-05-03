@@ -2731,6 +2731,235 @@ input[type="range"]::-moz-range-thumb {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
+/* =========================================================
+   GROUP SESSION MODE
+   Adds 2-4 taster scoring, active taster pills, and breakdown
+   ========================================================= */
+
+.group-session-card {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255,255,255,.32);
+  padding: 14px;
+}
+
+html[data-theme="dark"] .group-session-card {
+  background: rgba(255,255,255,.06);
+}
+
+.group-session-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.group-session-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.group-session-copy {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+.group-toggle-btn {
+  border: 1px solid rgba(15,139,107,.65);
+  border-radius: 999px;
+  background: rgba(15,139,107,.1);
+  color: var(--green);
+  padding: 9px 12px;
+  font-size: 12px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.group-toggle-btn.active {
+  background: var(--green);
+  color: #fff;
+}
+
+.group-taster-list {
+  display: grid;
+  gap: 8px;
+}
+
+.group-taster-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.group-taster-row input {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.45);
+  color: var(--text);
+  padding: 10px 13px;
+  outline: none;
+  font-weight: 900;
+}
+
+html[data-theme="dark"] .group-taster-row input {
+  background: rgba(255,255,255,.06);
+}
+
+.group-remove-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(180,35,42,.35);
+  background: rgba(180,35,42,.1);
+  color: var(--danger);
+  font-weight: 1000;
+}
+
+.group-add-btn {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px dashed rgba(15,139,107,.65);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--green);
+  padding: 10px 12px;
+  font-weight: 1000;
+}
+
+.group-add-btn:disabled,
+.group-remove-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.taster-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 10px;
+}
+
+.taster-pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.34);
+  color: var(--muted);
+  padding: 8px 11px;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+html[data-theme="dark"] .taster-pill {
+  background: rgba(255,255,255,.06);
+}
+
+.taster-pill.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.group-breakdown {
+  border-top: 7px solid rgba(6,76,53,.14);
+  padding: 14px 0 8px;
+}
+
+.group-breakdown-title {
+  color: #9d742b;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 16px;
+  font-weight: 1000;
+  margin-bottom: 12px;
+}
+
+.group-breakdown-row {
+  display: grid;
+  grid-template-columns: minmax(82px, .8fr) minmax(120px, 1fr) 48px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 9px;
+}
+
+.group-breakdown-name {
+  color: #101511;
+  font-size: 15px;
+  font-weight: 1000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-breakdown-bar {
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(6,76,53,.13);
+  overflow: hidden;
+}
+
+.group-breakdown-fill {
+  height: 100%;
+  width: var(--scorePct);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f8b6b, #064c35);
+}
+
+.group-breakdown-score {
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(15,139,107,.12);
+  color: #064c35;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+.group-average-row {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid rgba(6,76,53,.16);
+}
+
+.group-average-row .group-breakdown-name,
+.group-average-row .group-breakdown-score {
+  color: #064c35;
+}
+
+@media (max-width: 720px) {
+  .group-session-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .group-toggle-btn {
+    width: 100%;
+  }
+
+  .taster-picker {
+    margin-bottom: 7px;
+  }
+
+  .taster-pill {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .group-breakdown-row {
+    grid-template-columns: minmax(70px, .7fr) minmax(100px, 1fr) 42px;
+    gap: 7px;
+  }
+
+  .group-breakdown-name {
+    font-size: 13px;
+  }
+}    
   </style>
 </head>
 
@@ -2765,8 +2994,8 @@ input[type="range"]::-moz-range-thumb {
         <div class="kicker">DAGS Bottle Rating System</div>
         <h1>Rate every pour with <span>Whiskey IQ.</span></h1>
         <p>
-          Add name, proof, and type. Score each category from the left-side ranking tabs,
-          then create a shareable Whiskey IQ card with your custom IQ Insight.
+          Add name, proof, and type. Score solo or start a group session with 2–4 tasters,
+then create a shareable Whiskey IQ card with your final IQ Insight.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" onclick="openBottle()">Add Bottle</button>
@@ -2896,8 +3125,10 @@ input[type="range"]::-moz-range-thumb {
     </svg>
   </button>
 
-  <div id="bottleImagePreview" class="bottle-image-preview"></div>
+   <div id="bottleImagePreview" class="bottle-image-preview"></div>
 </div>
+
+<div id="groupSessionMount"></div>
 
             <div class="rank-actions">
               <span></span>
@@ -3103,8 +3334,9 @@ recommend: `
     function svgIcon(type) {
       return `<svg viewBox="0 0 64 64">${iconPath(type)}</svg>`;
     }
-    function displayIconFor(cat, bottle = current) {
-  const value = Number(bottle?.scores?.[cat.key] || 0);
+   function displayIconFor(cat, bottle = current, scoreSet = null) {
+  const scores = scoreSet || scoreSetForBottle(bottle);
+  const value = Number(scores?.[cat.key] || 0);
 
   if (cat.key === "recommend") {
     return value > 3 ? "recommend" : "recommendNo";
@@ -3121,9 +3353,23 @@ recommend: `
       return Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
 
-    function blankBottle() {
+   function blankScores() {
   const scores = {};
   categories.forEach(cat => scores[cat.key] = 0);
+  return scores;
+}
+
+function blankTaster(name = "Taster") {
+  return {
+    id: uid(),
+    name,
+    scores: blankScores(),
+    notes: "",
+    flavors: []
+  };
+}
+
+function blankBottle() {
   return {
     id: uid(),
     name: "",
@@ -3134,12 +3380,173 @@ recommend: `
     flavorProfile: "",
     flavors: [],
     customFlavors: [],
-    scores,
+    scores: blankScores(),
+    groupSession: {
+      enabled: false,
+      activeTasterId: "",
+      tasters: []
+    },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 }
 
+function ensureGroupSessionShape(bottle) {
+  if (!bottle.groupSession) {
+    bottle.groupSession = {
+      enabled: false,
+      activeTasterId: "",
+      tasters: []
+    };
+  }
+
+  if (!Array.isArray(bottle.groupSession.tasters)) {
+    bottle.groupSession.tasters = [];
+  }
+
+  bottle.groupSession.tasters = bottle.groupSession.tasters.map((taster, index) => ({
+    id: taster.id || uid(),
+    name: String(taster.name || `Taster ${index + 1}`).trim() || `Taster ${index + 1}`,
+    scores: { ...blankScores(), ...(taster.scores || {}) },
+    notes: taster.notes || "",
+    flavors: Array.isArray(taster.flavors) ? taster.flavors : []
+  }));
+
+  if (
+    bottle.groupSession.enabled &&
+    bottle.groupSession.tasters.length &&
+    !bottle.groupSession.tasters.some(taster => taster.id === bottle.groupSession.activeTasterId)
+  ) {
+    bottle.groupSession.activeTasterId = bottle.groupSession.tasters[0].id;
+  }
+
+  if (!bottle.groupSession.enabled) {
+    bottle.groupSession.activeTasterId = bottle.groupSession.activeTasterId || "";
+  }
+
+  return bottle;
+}
+
+function isGroupMode(bottle = current) {
+  return Boolean(bottle?.groupSession?.enabled && bottle.groupSession.tasters?.length >= 2);
+}
+
+function getGroupTasters(bottle = current) {
+  return bottle?.groupSession?.tasters || [];
+}
+
+function getActiveTaster() {
+  if (!current?.groupSession?.enabled) return null;
+
+  const tasters = getGroupTasters(current);
+
+  if (!tasters.length) return null;
+
+  let active = tasters.find(taster => taster.id === current.groupSession.activeTasterId);
+
+  if (!active) {
+    active = tasters[0];
+    current.groupSession.activeTasterId = active.id;
+  }
+
+  return active;
+}
+
+function activeScoreSet() {
+  const activeTaster = getActiveTaster();
+  return activeTaster ? activeTaster.scores : current.scores;
+}
+
+function activeFlavorList() {
+  const activeTaster = getActiveTaster();
+  return activeTaster ? activeTaster.flavors : current.flavors;
+}
+
+function setActiveFlavorList(flavors) {
+  const clean = [...new Set((flavors || []).filter(Boolean))];
+  const activeTaster = getActiveTaster();
+
+  if (activeTaster) {
+    activeTaster.flavors = clean;
+  } else {
+    current.flavors = clean;
+  }
+
+  current.flavorProfile = current.flavors.join(", ");
+  current.updatedAt = new Date().toISOString();
+}
+
+function activeNotes() {
+  const activeTaster = getActiveTaster();
+  return activeTaster ? activeTaster.notes : current.notes;
+}
+
+function setActiveNotes(value) {
+  const activeTaster = getActiveTaster();
+
+  if (activeTaster) {
+    activeTaster.notes = value;
+  } else {
+    current.notes = value;
+  }
+
+  current.updatedAt = new Date().toISOString();
+}
+
+function personScore(taster) {
+  return categories.reduce((sum, cat) => sum + Number(taster?.scores?.[cat.key] || 0), 0);
+}
+
+function groupCategoryAverage(bottle, key) {
+  const tasters = getGroupTasters(bottle).filter(taster => taster?.scores);
+
+  if (!isGroupMode(bottle) || !tasters.length) {
+    return Number(bottle?.scores?.[key] || 0);
+  }
+
+  const avg = tasters.reduce((sum, taster) => sum + Number(taster.scores?.[key] || 0), 0) / tasters.length;
+  return Math.round(avg);
+}
+
+function scoreSetForBottle(bottle) {
+  if (!isGroupMode(bottle)) {
+    return bottle?.scores || blankScores();
+  }
+
+  const averaged = {};
+  categories.forEach(cat => {
+    averaged[cat.key] = groupCategoryAverage(bottle, cat.key);
+  });
+
+  return averaged;
+}
+
+function groupFlavorSummary(bottle = current) {
+  if (!isGroupMode(bottle)) {
+    return bottle?.flavorProfile || "No flavor profile added.";
+  }
+
+  const flavors = getGroupTasters(bottle)
+    .flatMap(taster => taster.flavors || [])
+    .filter(Boolean);
+
+  return [...new Set(flavors)].join(", ") || "No flavor profile added.";
+}
+
+function groupNotesSummary(bottle = current) {
+  if (!isGroupMode(bottle)) {
+    return bottle?.notes || "No tasting notes added.";
+  }
+
+  const notes = getGroupTasters(bottle)
+    .map(taster => {
+      const note = String(taster.notes || "").trim();
+      return note ? `${taster.name}: ${note}` : "";
+    })
+    .filter(Boolean);
+
+  return notes.join(" | ") || "No tasting notes added.";
+}
     function escapeHtml(value) {
       return String(value || "")
         .replaceAll("&", "&amp;")
@@ -3149,14 +3556,21 @@ recommend: `
         .replaceAll("'", "&#039;");
     }
 
-    function totalScore(bottle) {
-      return categories.reduce((sum, cat) => sum + Number(bottle?.scores?.[cat.key] || 0), 0);
-    }
+ function totalScore(bottle) {
+  if (!bottle) return 0;
 
-    function pctFor(cat, bottle = current) {
-      const value = Number(bottle?.scores?.[cat.key] || 0);
-      return Math.max(0, Math.min(100, Math.round((value / cat.max) * 100)));
-    }
+  const scores = scoreSetForBottle(bottle);
+
+  return categories.reduce((sum, cat) => {
+    return sum + Number(scores?.[cat.key] || 0);
+  }, 0);
+}
+
+function pctFor(cat, bottle = current, scoreSet = null) {
+  const scores = scoreSet || scoreSetForBottle(bottle);
+  const value = Number(scores?.[cat.key] || 0);
+  return Math.max(0, Math.min(100, Math.round((value / cat.max) * 100)));
+}
 
     function loadTheme() {
       document.documentElement.setAttribute("data-theme", localStorage.getItem(THEME_KEY) || "light");
@@ -3216,6 +3630,8 @@ function normalizeBottleShape(bottle) {
       .filter(Boolean)
   )];
 
+  ensureGroupSessionShape(merged);
+
   return merged;
 }
 
@@ -3266,19 +3682,34 @@ document.body.classList.remove("share-view");
   resetModalScroll();
 }
 
-    function showRank() {document.body.classList.add("rank-view");
-document.body.classList.remove("share-view");
-resetModalScroll();
-      
-      syncBottle();
-      if (!current.name) current.name = "Untitled Bottle";
-      document.getElementById("stepInfo").classList.remove("active");
-      document.getElementById("stepRank").classList.add("active");
-      document.getElementById("stepShare").classList.remove("active");
-      document.getElementById("modalTitle").textContent = current.name || "Whiskey IQ";
-      document.getElementById("modalSub").textContent = "Use the left tabs to move through each ranking.";
-      renderRank();
-    }
+  function showRank() {
+  document.body.classList.add("rank-view");
+  document.body.classList.remove("share-view");
+  resetModalScroll();
+
+  syncBottle();
+  if (!current.name) current.name = "Untitled Bottle";
+
+  ensureGroupSessionShape(current);
+
+  if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
+    current.groupSession.tasters = [
+      blankTaster("Taster 1"),
+      blankTaster("Taster 2")
+    ];
+    current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
+  }
+
+  document.getElementById("stepInfo").classList.remove("active");
+  document.getElementById("stepRank").classList.add("active");
+  document.getElementById("stepShare").classList.remove("active");
+  document.getElementById("modalTitle").textContent = current.name || "Whiskey IQ";
+  document.getElementById("modalSub").textContent = isGroupMode(current)
+    ? "Toggle each taster, then score their pour."
+    : "Use the left tabs to move through each ranking.";
+
+  renderRank();
+}
 
   function showShare() {
   document.body.classList.add("share-view");
@@ -3319,162 +3750,322 @@ resetModalScroll();
       preview.innerHTML = "";
     }
   }
+
+  renderGroupSessionPanel();
+}
+
+function syncBottle() {
+  if (!current) return;
+  current.name = document.getElementById("bottleName").value.trim();
+  current.proof = document.getElementById("bottleProof").value.trim();
+  current.type = document.getElementById("bottleType").value.trim();
+  current.updatedAt = new Date().toISOString();
+}
+
+function renderGroupSessionPanel() {
+  const mount = document.getElementById("groupSessionMount");
+  if (!mount || !current) return;
+
+  ensureGroupSessionShape(current);
+
+  const enabled = Boolean(current.groupSession.enabled);
+  const tasters = getGroupTasters(current);
+
+  mount.innerHTML = `
+    <div class="group-session-card">
+      <div class="group-session-head">
+        <div>
+          <div class="group-session-title">Group Session</div>
+          <div class="group-session-copy">Add 2–4 people. Each person gets their own score, then Whiskey IQ averages the final card.</div>
+        </div>
+
+        <button
+          class="group-toggle-btn ${enabled ? "active" : ""}"
+          type="button"
+          onclick="toggleGroupSession()"
+        >
+          ${enabled ? "Group On" : "Start Group"}
+        </button>
+      </div>
+
+      ${
+        enabled
+          ? `<div class="group-taster-list">
+              ${tasters.map((taster, index) => `
+                <div class="group-taster-row">
+                  <input
+                    type="text"
+                    value="${escapeHtml(taster.name)}"
+                    placeholder="Taster ${index + 1}"
+                    oninput="updateGroupTasterName('${taster.id}', this.value)"
+                  />
+                  <button
+                    class="group-remove-btn"
+                    type="button"
+                    onclick="removeGroupTaster('${taster.id}')"
+                    ${tasters.length <= 2 ? "disabled" : ""}
+                    aria-label="Remove taster"
+                  >×</button>
+                </div>
+              `).join("")}
+
+              <button
+                class="group-add-btn"
+                type="button"
+                onclick="addGroupTaster()"
+                ${tasters.length >= 4 ? "disabled" : ""}
+              >
+                + Add Taster
+              </button>
+            </div>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function toggleGroupSession() {
+  if (!current) return;
+
+  ensureGroupSessionShape(current);
+
+  current.groupSession.enabled = !current.groupSession.enabled;
+
+  if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
+    current.groupSession.tasters = [
+      blankTaster("Taster 1"),
+      blankTaster("Taster 2")
+    ];
+
+    current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
+  }
+
+  current.updatedAt = new Date().toISOString();
+
+  renderGroupSessionPanel();
+}
+
+function addGroupTaster() {
+  if (!current) return;
+
+  ensureGroupSessionShape(current);
+
+  if (current.groupSession.tasters.length >= 4) return;
+
+  current.groupSession.tasters.push(blankTaster(`Taster ${current.groupSession.tasters.length + 1}`));
+
+  if (!current.groupSession.activeTasterId) {
+    current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
+  }
+
+  current.updatedAt = new Date().toISOString();
+
+  renderGroupSessionPanel();
+}
+
+function removeGroupTaster(id) {
+  if (!current) return;
+
+  ensureGroupSessionShape(current);
+
+  if (current.groupSession.tasters.length <= 2) return;
+
+  current.groupSession.tasters = current.groupSession.tasters.filter(taster => taster.id !== id);
+
+  if (!current.groupSession.tasters.some(taster => taster.id === current.groupSession.activeTasterId)) {
+    current.groupSession.activeTasterId = current.groupSession.tasters[0]?.id || "";
+  }
+
+  current.updatedAt = new Date().toISOString();
+
+  renderGroupSessionPanel();
+}
+
+function updateGroupTasterName(id, value) {
+  if (!current) return;
+
+  const taster = getGroupTasters(current).find(item => item.id === id);
+  if (!taster) return;
+
+  taster.name = String(value || "").trim() || "Taster";
+  current.updatedAt = new Date().toISOString();
+}
+
+function setActiveTaster(id) {
+  if (!current?.groupSession?.enabled) return;
+
+  current.groupSession.activeTasterId = id;
+  current.updatedAt = new Date().toISOString();
+
+  renderRank();
 }
 function resetModalScroll() {
   const modal = document.querySelector(".modal");
   if (modal) modal.scrollTop = 0;
-}
-
-    function syncBottle() {
-      if (!current) return;
-      current.name = document.getElementById("bottleName").value.trim();
-      current.proof = document.getElementById("bottleProof").value.trim();
-      current.type = document.getElementById("bottleType").value.trim();
-      current.updatedAt = new Date().toISOString();
-    }
+}    
 
     function renderRank() {
-      const tabs = document.getElementById("rankTabs");
-      const page = document.getElementById("rankPage");
+  const tabs = document.getElementById("rankTabs");
+  const page = document.getElementById("rankPage");
 
-      tabs.innerHTML = categories.map((cat, index) => `
-        <button class="rank-tab ${index === activeRank ? "active" : ""}" onclick="setRank(${index})">
-          <span>
-            ${cat.label}
-            <strong>${Number(current.scores[cat.key] || 0)}</strong>
-            <small>/${cat.max}</small>
-          </span>
-        </button>
-      `).join("") + `
-        <button class="rank-tab results-tab" onclick="showShare()">
-          <span>Results<strong>${totalScore(current)}</strong><small>/100</small></span>
-        </button>
-      `;
+  const workingScores = activeScoreSet();
 
-      const cat = categories[activeRank];
-      const value = Number(current.scores[cat.key] || 0);
-      const rangePct = pctFor(cat);
+  tabs.innerHTML = categories.map((cat, index) => `
+    <button class="rank-tab ${index === activeRank ? "active" : ""}" onclick="setRank(${index})">
+      <span>
+        ${cat.label}
+        <strong>${Number(workingScores[cat.key] || 0)}</strong>
+        <small>/${cat.max}</small>
+      </span>
+    </button>
+  `).join("") + `
+    <button class="rank-tab results-tab" onclick="showShare()">
+      <span>Results<strong>${totalScore(current)}</strong><small>/100</small></span>
+    </button>
+  `;
 
-      page.innerHTML = `
-       <div class="rank-header">
-  <button class="icon-btn" onclick="showInfo()" aria-label="Back">
-    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
-  </button>
-  <div class="rank-title">${escapeHtml(current.name || "Whiskey IQ")}</div>
-  <span class="rank-header-spacer"></span>
-</div>
+  const cat = categories[activeRank];
+  const value = Number(workingScores[cat.key] || 0);
+  const rangePct = pctFor(cat, current, workingScores);
+  const activeFlavors = activeFlavorList();
+  const currentNotes = activeNotes();
 
-        <div class="rank-score-card">
-          <div class="score-row">
-            <div class="real-icon-ring" style="--pct:${rangePct}%;">
-              <div class="real-icon-inner">${svgIcon(displayIconFor(cat, current))}</div>
-            </div>
-
-            <div class="rank-score-main">
-              <div class="score-name">
-                <h3>${cat.label}</h3>
-                <strong>${value}<span> /${cat.max}</span></strong>
-              </div>
-              <div class="rank-help">${cat.help}</div>
-
-              ${
-  cat.choices
-    ? ""
-    : `<div class="range-wrap">
-        <input
-          class="score-range"
-          type="range"
-          min="0"
-          max="${cat.max}"
-          step="1"
-          value="${value}"
-          style="--rangePct:${rangePct}%;"
-          oninput="setScore('${cat.key}', this.value, this, false)"
-        />
-        <input
-          class="num-input"
-          type="number"
-          inputmode="numeric"
-          min="0"
-          max="${cat.max}"
-          step="1"
-          value="${value}"
-          onfocus="this.dataset.editing='true'"
-          oninput="updateScorePreview('${cat.key}', this.value, this)"
-          onblur="commitScoreInput('${cat.key}', this.value)"
-          onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
-        />
+  const tasterPicker = isGroupMode(current)
+    ? `<div class="taster-picker">
+        ${getGroupTasters(current).map(taster => `
+          <button
+            class="taster-pill ${taster.id === current.groupSession.activeTasterId ? "active" : ""}"
+            type="button"
+            onclick="setActiveTaster('${taster.id}')"
+          >${escapeHtml(taster.name)}</button>
+        `).join("")}
       </div>`
-}
+    : "";
 
-              ${
-                cat.choices
-                  ? `<div class="choice-row">
-                      ${cat.choices.map(choice => `
-                        <button class="choice ${value === choice.value ? "active" : ""}" onclick="setScore('${cat.key}', ${choice.value})">${choice.label}</button>
-                      `).join("")}
-                    </div>`
-                  : ""
-              }
-            </div>
+  page.innerHTML = `
+    <div class="rank-header">
+      <button class="icon-btn" onclick="showInfo()" aria-label="Back">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
+      </button>
+      <div class="rank-title">${escapeHtml(current.name || "Whiskey IQ")}</div>
+      <span class="rank-header-spacer"></span>
+    </div>
+
+    ${tasterPicker}
+
+    <div class="rank-score-card">
+      <div class="score-row">
+        <div class="real-icon-ring" style="--pct:${rangePct}%;">
+          <div class="real-icon-inner">${svgIcon(displayIconFor(cat, current, workingScores))}</div>
+        </div>
+
+        <div class="rank-score-main">
+          <div class="score-name">
+            <h3>${cat.label}</h3>
+            <strong>${value}<span> /${cat.max}</span></strong>
           </div>
-        </div>
+          <div class="rank-help">${cat.help}</div>
 
-               <div class="field">
-          <label>Flavor Notes</label>
-
-          <div class="flavor-row">
-            ${flavorBank.map(flavor => `
-              <button
-                class="flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}"
-                onclick="toggleFlavor('${flavor}')"
-                type="button"
-              >${flavor}</button>
-            `).join("")}
-
-            ${(current.customFlavors || []).map(flavor => `
-  <button
-    class="flavor-chip custom-flavor-chip active"
-    onclick="removeCustomFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
-    type="button"
-    title="Tap to remove"
-  >${escapeHtml(flavor)}</button>
-`).join("")}
-
-<button
-  class="flavor-chip custom-flavor-toggle"
-  type="button"
-  onclick="toggleCustomFlavorInput()"
->+ Flavor</button>
-</div>
-
-<div id="customFlavorAdd" class="custom-flavor-add">
-  <input
-    id="customFlavorInput"
-    type="text"
-    placeholder="Add custom flavor..."
-    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
-  />
-  <button type="button" onclick="addCustomFlavor()">Add</button>
-</div>
-        </div>
-
-        <div class="field">
-          <label>Tasting Notes</label>
-          <textarea id="rankNotes" placeholder="Add tasting notes here..." oninput="current.notes = this.value">${escapeHtml(current.notes || "")}</textarea>
-        </div>
-
-        <div class="rank-actions">
-          <button class="btn" onclick="prevRank()">Back</button>
           ${
-            activeRank === categories.length - 1
-              ? `<button class="btn btn-primary" onclick="showShare()">Complete</button>`
-              : `<button class="btn btn-primary" onclick="nextRank()">Next</button>`
+            cat.choices
+              ? ""
+              : `<div class="range-wrap">
+                  <input
+                    class="score-range"
+                    type="range"
+                    min="0"
+                    max="${cat.max}"
+                    step="1"
+                    value="${value}"
+                    style="--rangePct:${rangePct}%;"
+                    oninput="setScore('${cat.key}', this.value, this, false)"
+                  />
+                  <input
+                    class="num-input"
+                    type="number"
+                    inputmode="numeric"
+                    min="0"
+                    max="${cat.max}"
+                    step="1"
+                    value="${value}"
+                    onfocus="this.dataset.editing='true'"
+                    oninput="updateScorePreview('${cat.key}', this.value, this)"
+                    onblur="commitScoreInput('${cat.key}', this.value)"
+                    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
+                  />
+                </div>`
+          }
+
+          ${
+            cat.choices
+              ? `<div class="choice-row">
+                  ${cat.choices.map(choice => `
+                    <button class="choice ${value === choice.value ? "active" : ""}" onclick="setScore('${cat.key}', ${choice.value})">${choice.label}</button>
+                  `).join("")}
+                </div>`
+              : ""
           }
         </div>
-      `;
-    }
+      </div>
+    </div>
 
+    <div class="field">
+      <label>Flavor Notes${isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
+
+      <div class="flavor-row">
+        ${flavorBank.map(flavor => `
+          <button
+            class="flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
+            onclick="toggleFlavor('${flavor}')"
+            type="button"
+          >${flavor}</button>
+        `).join("")}
+
+        ${(current.customFlavors || []).map(flavor => `
+          <button
+            class="flavor-chip custom-flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
+            onclick="toggleFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+            type="button"
+          >${escapeHtml(flavor)}</button>
+        `).join("")}
+
+        <button
+          class="flavor-chip custom-flavor-toggle"
+          type="button"
+          onclick="toggleCustomFlavorInput()"
+        >+ Flavor</button>
+      </div>
+
+      <div id="customFlavorAdd" class="custom-flavor-add">
+        <input
+          id="customFlavorInput"
+          type="text"
+          placeholder="Add custom flavor..."
+          onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
+        />
+        <button type="button" onclick="addCustomFlavor()">Add</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tasting Notes${isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
+      <textarea
+        id="rankNotes"
+        placeholder="Add tasting notes here..."
+        oninput="setActiveNotes(this.value)"
+      >${escapeHtml(currentNotes || "")}</textarea>
+    </div>
+
+    <div class="rank-actions">
+      <button class="btn" onclick="prevRank()">Back</button>
+      ${
+        activeRank === categories.length - 1
+          ? `<button class="btn btn-primary" onclick="showShare()">Complete</button>`
+          : `<button class="btn btn-primary" onclick="nextRank()">Next</button>`
+      }
+    </div>
+  `;
+}
     function setRank(index) {
       activeRank = index;
       renderRank();
@@ -3504,7 +4095,10 @@ function resetModalScroll() {
 function updateScorePreview(key, raw, inputEl) {
   const { cat, value } = normalizeScoreValue(key, raw);
 
-  current.scores[key] = value;
+  const scores = activeScoreSet();
+  scores[key] = value;
+
+  current.updatedAt = new Date().toISOString();
 
   const page = document.getElementById("rankPage");
   const tabs = document.getElementById("rankTabs");
@@ -3531,6 +4125,11 @@ function updateScorePreview(key, raw, inputEl) {
     iconRing.style.setProperty("--pct", rangePct + "%");
   }
 
+  const iconInner = page.querySelector(".real-icon-inner");
+  if (iconInner) {
+    iconInner.innerHTML = svgIcon(displayIconFor(cat, current, scores));
+  }
+
   const scoreStrong = page.querySelector(".score-name strong");
   if (scoreStrong) {
     scoreStrong.innerHTML = `${value}<span> /${cat.max}</span>`;
@@ -3545,16 +4144,17 @@ function updateScorePreview(key, raw, inputEl) {
   if (resultsTab) {
     resultsTab.textContent = totalScore(current);
   }
-    page.querySelectorAll(".choice").forEach(choice => {
+
+  page.querySelectorAll(".choice").forEach(choice => {
     const choiceText = choice.textContent.trim();
 
-   if (cat.key === "drinkAgain") {
-  choice.classList.toggle(
-    "active",
-    (choiceText === "No" && value === 0) ||
-    (choiceText === "Yes" && value === 5)
-  );
-}
+    if (cat.key === "drinkAgain") {
+      choice.classList.toggle(
+        "active",
+        (choiceText === "No" && value === 0) ||
+        (choiceText === "Yes" && value === 5)
+      );
+    }
 
     if (cat.key === "recommend") {
       choice.classList.toggle(
@@ -3565,7 +4165,6 @@ function updateScorePreview(key, raw, inputEl) {
     }
   });
 }
-
 function commitScoreInput(key, raw) {
   const { value } = normalizeScoreValue(key, raw);
 
@@ -3586,25 +4185,38 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
   }
 }
 
-    function syncFlavorProfile() {
+  function syncFlavorProfile() {
   if (!current) return;
-  current.flavors = [...new Set((current.flavors || []).filter(Boolean))];
-  current.flavorProfile = current.flavors.join(", ");
+
+  const activeTaster = getActiveTaster();
+
+  if (activeTaster) {
+    activeTaster.flavors = [...new Set((activeTaster.flavors || []).filter(Boolean))];
+  } else {
+    current.flavors = [...new Set((current.flavors || []).filter(Boolean))];
+    current.flavorProfile = current.flavors.join(", ");
+  }
+
   current.updatedAt = new Date().toISOString();
 }
 
 function toggleFlavor(flavor) {
-  if (!current.flavors) current.flavors = [];
+  if (!current) return;
 
-  if (current.flavors.includes(flavor)) {
-    current.flavors = current.flavors.filter(f => f !== flavor);
+  const flavors = activeFlavorList();
+
+  let nextFlavors;
+
+  if (flavors.includes(flavor)) {
+    nextFlavors = flavors.filter(f => f !== flavor);
   } else {
-    current.flavors.push(flavor);
+    nextFlavors = [...flavors, flavor];
   }
 
-  syncFlavorProfile();
+  setActiveFlavorList(nextFlavors);
   renderRank();
 }
+
 function toggleCustomFlavorInput() {
   const wrap = document.getElementById("customFlavorAdd");
   const input = document.getElementById("customFlavorInput");
@@ -3617,6 +4229,7 @@ function toggleCustomFlavorInput() {
     setTimeout(() => input.focus(), 50);
   }
 }
+
 function addCustomFlavor() {
   if (!current) return;
 
@@ -3626,7 +4239,6 @@ function addCustomFlavor() {
   if (!flavor) return;
 
   if (!current.customFlavors) current.customFlavors = [];
-  if (!current.flavors) current.flavors = [];
 
   const allKnownFlavors = [...flavorBank, ...current.customFlavors];
   const exists = allKnownFlavors.some(item =>
@@ -3637,15 +4249,14 @@ function addCustomFlavor() {
     current.customFlavors.push(flavor);
   }
 
-  const alreadySelected = current.flavors.some(item =>
+  const flavors = activeFlavorList();
+  const alreadySelected = flavors.some(item =>
     String(item).toLowerCase() === flavor.toLowerCase()
   );
 
   if (!alreadySelected) {
-    current.flavors.push(flavor);
+    setActiveFlavorList([...flavors, flavor]);
   }
-
-  syncFlavorProfile();
 
   if (input) input.value = "";
 
@@ -3663,14 +4274,19 @@ function removeCustomFlavor(flavor) {
     String(item).toLowerCase() !== String(flavor).toLowerCase()
   );
 
+  getGroupTasters(current).forEach(taster => {
+    taster.flavors = (taster.flavors || []).filter(item =>
+      String(item).toLowerCase() !== String(flavor).toLowerCase()
+    );
+  });
+
   syncFlavorProfile();
   renderRank();
 }
-
-   function iqInsight(bottle) {
+  function iqInsight(bottle) {
   const score = totalScore(bottle);
 
-  const flavorSource = bottle.flavorProfile || "the listed flavor profile";
+  const flavorSource = groupFlavorSummary(bottle) || "the listed flavor profile";
   const flavor = String(flavorSource)
     .split(",")
     .map(item => item.trim())
@@ -3684,16 +4300,20 @@ function removeCustomFlavor(flavor) {
   else if (score >= 70) quality = "Solid pour with clear highlights.";
   else if (score >= 60) quality = "Decent pour, best for the right occasion.";
 
+  const scores = scoreSetForBottle(bottle);
+
   const best = [...categories]
-    .sort((a, b) => Number(bottle.scores[b.key] || 0) / b.max - Number(bottle.scores[a.key] || 0) / a.max)
+    .sort((a, b) => Number(scores[b.key] || 0) / b.max - Number(scores[a.key] || 0) / a.max)
     .slice(0, 2)
     .map(cat => cat.label.toLowerCase())
     .join(" and ");
 
-  return `${quality} Leans toward ${flavor}. Best areas: ${best}.`;
+  const groupText = isGroupMode(bottle) ? " Group average used for final Whiskey IQ." : "";
+
+  return `${quality} Leans toward ${flavor}. Best areas: ${best}.${groupText}`;
 }
 
-   function isBlankBottle(bottle) {
+ function isBlankBottle(bottle) {
   if (!bottle) return true;
 
   const hasName = Boolean(String(bottle.name || "").trim());
@@ -3705,7 +4325,19 @@ function removeCustomFlavor(flavor) {
   const hasFlavors = Array.isArray(bottle.flavors) && bottle.flavors.length > 0;
   const hasScores = categories.some(cat => Number(bottle.scores?.[cat.key] || 0) > 0);
 
-  return !hasName && !hasProof && !hasType && !hasImage && !hasNotes && !hasFlavorProfile && !hasFlavors && !hasScores;
+  const hasGroupData = Boolean(
+    bottle.groupSession?.enabled &&
+    bottle.groupSession.tasters?.some(taster => {
+      const tasterHasName = Boolean(String(taster.name || "").trim());
+      const tasterHasNotes = Boolean(String(taster.notes || "").trim());
+      const tasterHasFlavors = Array.isArray(taster.flavors) && taster.flavors.length > 0;
+      const tasterHasScores = categories.some(cat => Number(taster.scores?.[cat.key] || 0) > 0);
+
+      return tasterHasName || tasterHasNotes || tasterHasFlavors || tasterHasScores;
+    })
+  );
+
+  return !hasName && !hasProof && !hasType && !hasImage && !hasNotes && !hasFlavorProfile && !hasFlavors && !hasScores && !hasGroupData;
 }
 
 function upsertBottle(shouldSyncInfo = true) {
@@ -3747,22 +4379,59 @@ function upsertBottle(shouldSyncInfo = true) {
   renderLog();
   return true;
 }
+function renderGroupBreakdownHtml(bottle) {
+  if (!isGroupMode(bottle)) return "";
 
+  const rows = getGroupTasters(bottle).map(taster => {
+    const score = personScore(taster);
+
+    return `
+      <div class="group-breakdown-row">
+        <div class="group-breakdown-name">${escapeHtml(taster.name)}</div>
+        <div class="group-breakdown-bar" style="--scorePct:${score}%;">
+          <div class="group-breakdown-fill"></div>
+        </div>
+        <div class="group-breakdown-score">${score}</div>
+      </div>
+    `;
+  }).join("");
+
+  const average = totalScore(bottle);
+
+  return `
+    <div class="group-breakdown">
+      <div class="group-breakdown-title">Group Breakdown</div>
+
+      ${rows}
+
+      <div class="group-breakdown-row group-average-row">
+        <div class="group-breakdown-name">Average</div>
+        <div class="group-breakdown-bar" style="--scorePct:${average}%;">
+          <div class="group-breakdown-fill"></div>
+        </div>
+        <div class="group-breakdown-score">${average}</div>
+      </div>
+    </div>
+  `;
+}
     function renderShare() {
       const score = totalScore(current);
       const summary = iqInsight(current);
-      const flavorProfile = current.flavorProfile || "No flavor profile added.";
-      const notes = current.notes || "No tasting notes added.";
+const flavorProfile = groupFlavorSummary(current);
+const notes = groupNotesSummary(current);
+const groupBreakdown = renderGroupBreakdownHtml(current);
 
-      const scoreCards = categories.map(cat => `
-        <div class="share-score">
-          <div class="share-ring" style="--pct:${pctFor(cat)}%;">
-           <div class="share-ring-inner">${svgIcon(displayIconFor(cat, current))}</div>
-          </div>
-          <div class="share-score-name">${cat.label}</div>
-          <div class="share-score-num">${Number(current.scores[cat.key] || 0)}/${cat.max}</div>
-        </div>
-      `).join("");
+      const finalScores = scoreSetForBottle(current);
+
+const scoreCards = categories.map(cat => `
+  <div class="share-score">
+   <div class="share-ring" style="--pct:${pctFor(cat, current, finalScores)}%;">
+     <div class="share-ring-inner">${svgIcon(displayIconFor(cat, current, finalScores))}</div>
+    </div>
+    <div class="share-score-name">${cat.label}</div>
+    <div class="share-score-num">${Number(finalScores[cat.key] || 0)}/${cat.max}</div>
+  </div>
+`).join("");
 
       document.getElementById("shareOutput").innerHTML = `
         <div class="share-layout">
@@ -3864,6 +4533,7 @@ function upsertBottle(shouldSyncInfo = true) {
               <div class="big-score">${score}<span>/100</span></div>
 
               <div class="share-scores">${scoreCards}</div>
+${groupBreakdown}
 
             <div class="share-details">
   <div class="detail-duo">
@@ -4044,6 +4714,17 @@ function loadBottleInfoImage(event) {
     event.target.value = "";
   });
 }
+function renderPlainGroupBreakdown(bottle) {
+  if (!isGroupMode(bottle)) return "";
+
+  const rows = getGroupTasters(bottle).map(taster => {
+    return `${taster.name}: ${personScore(taster)}/100`;
+  });
+
+  rows.push(`Group Average: ${totalScore(bottle)}/100`);
+
+  return `Group Breakdown:\n${rows.join("\n")}`;
+}
 function saveToWhiskeyLog() {
   if (!current) return;
 
@@ -4067,9 +4748,20 @@ function saveToWhiskeyLog() {
   }
 
   const now = new Date().toISOString();
-  const score = totalScore(current);
-  const summary = iqInsight(current);
-  const flavorProfile = current.flavorProfile || "";
+ const score = totalScore(current);
+const summary = iqInsight(current);
+const finalScores = scoreSetForBottle(current);
+
+const rawFlavorProfile = groupFlavorSummary(current);
+const flavorProfile = rawFlavorProfile === "No flavor profile added." ? "" : rawFlavorProfile;
+
+const rawNotesSummary = groupNotesSummary(current);
+const notesSummary = rawNotesSummary === "No tasting notes added." ? "" : rawNotesSummary;
+
+const selectedFlavors = flavorProfile
+  .split(",")
+  .map(item => item.trim())
+  .filter(Boolean);
 
   const logEntry = {
     id: current.whiskeyLogId || ("wiq-" + current.id),
@@ -4090,41 +4782,41 @@ function saveToWhiskeyLog() {
     price: "",
     rating: `${score}/100 Whiskey IQ`,
 
-    nose: `Aroma: ${Number(current.scores?.aroma || 0)}/25`,
-    palate: `Flavor: ${Number(current.scores?.flavor || 0)}/30. Flavor Notes: ${flavorProfile || "None added."}`,
-    finish: `Finish: ${Number(current.scores?.finish || 0)}/25`,
-    other: [
-      `Drink Again: ${Number(current.scores?.drinkAgain || 0)}/5`,
-      `Recommend: ${Number(current.scores?.recommend || 0)}/5`,
-      `Value: ${Number(current.scores?.value || 0)}/10`,
-      current.notes ? `Tasting Notes: ${current.notes}` : "",
-      `IQ Insight: ${summary}`
-    ].filter(Boolean).join("\n\n"),
+   nose: `Aroma: ${Number(finalScores?.aroma || 0)}/25`,
+palate: `Flavor: ${Number(finalScores?.flavor || 0)}/30. Flavor Notes: ${flavorProfile || "None added."}`,
+finish: `Finish: ${Number(finalScores?.finish || 0)}/25`,
+other: [
+  `Drink Again: ${Number(finalScores?.drinkAgain || 0)}/5`,
+  `Recommend: ${Number(finalScores?.recommend || 0)}/5`,
+  `Value: ${Number(finalScores?.value || 0)}/10`,
+  notesSummary ? `Tasting Notes: ${notesSummary}` : "",
+  isGroupMode(current) ? renderPlainGroupBreakdown(current) : "",
+  `IQ Insight: ${summary}`
+].filter(Boolean).join("\n\n"),
 
-    notes: current.notes || "",
-    iqInsight: summary,
-    whiskeyIqScore: score,
-    flavorProfile: flavorProfile,
+notes: notesSummary || "",
+iqInsight: summary,
+whiskeyIqScore: score,
+flavorProfile: flavorProfile,
 
-    flavorsText: flavorProfile,
-    selectedFlavors: current.flavors || [],
+flavorsText: flavorProfile,
+selectedFlavors: selectedFlavors,
 
-    scores: current.scores || {},
-
+scores: finalScores || {},
     flavors: {
-      smoky: 0,
-      spicy: current.flavors?.some(f => /spice|pepper/i.test(f)) ? 5 : 0,
-      herbal: current.flavors?.some(f => /mint|herbal/i.test(f)) ? 4 : 0,
-      fullBody: score >= 80 ? 4 : score >= 70 ? 3 : 2,
-      rich: current.flavors?.some(f => /chocolate|coffee|caramel|crème|creme/i.test(f)) ? 5 : 0,
-      sweet: current.flavors?.some(f => /vanilla|caramel|honey|cherry|fruit/i.test(f)) ? 5 : 0,
-      vanilla: current.flavors?.some(f => /vanilla/i.test(f)) ? 5 : 0,
-      creamy: current.flavors?.some(f => /crème|creme/i.test(f)) ? 4 : 0,
-      oaky: current.flavors?.some(f => /oak|leather/i.test(f)) ? 5 : 0,
-      tart: current.flavors?.some(f => /citrus/i.test(f)) ? 4 : 0,
-      fruity: current.flavors?.some(f => /fruit|cherry|citrus/i.test(f)) ? 5 : 0,
-      floral: current.flavors?.some(f => /floral/i.test(f)) ? 5 : 0
-    }
+  smoky: selectedFlavors.some(f => /smoke|smoky/i.test(f)) ? 5 : 0,
+  spicy: selectedFlavors.some(f => /spice|pepper/i.test(f)) ? 5 : 0,
+  herbal: selectedFlavors.some(f => /mint|herbal/i.test(f)) ? 4 : 0,
+  fullBody: score >= 80 ? 4 : score >= 70 ? 3 : 2,
+  rich: selectedFlavors.some(f => /chocolate|coffee|caramel|crème|creme/i.test(f)) ? 5 : 0,
+  sweet: selectedFlavors.some(f => /vanilla|caramel|honey|cherry|fruit/i.test(f)) ? 5 : 0,
+  vanilla: selectedFlavors.some(f => /vanilla/i.test(f)) ? 5 : 0,
+  creamy: selectedFlavors.some(f => /crème|creme/i.test(f)) ? 4 : 0,
+  oaky: selectedFlavors.some(f => /oak|leather/i.test(f)) ? 5 : 0,
+  tart: selectedFlavors.some(f => /citrus/i.test(f)) ? 4 : 0,
+  fruity: selectedFlavors.some(f => /fruit|cherry|citrus/i.test(f)) ? 5 : 0,
+  floral: selectedFlavors.some(f => /floral/i.test(f)) ? 5 : 0
+}
   };
 
   current.whiskeyLogId = logEntry.id;
@@ -4211,12 +4903,16 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     ctx.fillText(line, x, y + (i * lineHeight));
   });
 }
-    function createShareCanvas(callback) {
+ function createShareCanvas(callback) {
   const card = current;
   const scale = 2;
   const w = 900;
   const footerHeight = 114;
 
+  const finalScores = scoreSetForBottle(card);
+  const finalFlavorProfile = groupFlavorSummary(card);
+  const finalNotes = groupNotesSummary(card);
+  const finalInsight = iqInsight(card);
   function measureCanvasHeight() {
     const probe = document.createElement("canvas");
     probe.width = w;
@@ -4236,9 +4932,9 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     y += 118; // icon row block
 
 y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
-    y = drawDetail(mctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y, true);
-    y = drawDetail(mctx, "TASTING NOTES", card.notes || "No tasting notes added.", y, true);
-    y = drawDetail(mctx, "IQ INSIGHT", iqInsight(card), y, true);
+   y = drawDetail(mctx, "FLAVOR NOTES", finalFlavorProfile, y, true);
+y = drawDetail(mctx, "TASTING NOTES", finalNotes, y, true);
+y = drawDetail(mctx, "IQ INSIGHT", finalInsight, y, true);
 
     return y + 20 + footerHeight + 40;
   }
@@ -4314,9 +5010,10 @@ y = drawTypeProofDuo(mctx, card.type || "N/A", card.proof || "N/A", y, true);
 // The extra amount is added back after the row so the Type/Proof line stays in the same place.
 y += 92;
 
+    
 categories.forEach((cat, i) => {
       const x = 112 + i * 135;
-      const pct = pctFor(cat, card) / 100;
+     const pct = pctFor(cat, card, finalScores) / 100;
 
       ctx.strokeStyle = "rgba(6,76,53,.18)";
       ctx.lineWidth = 6;
@@ -4330,7 +5027,7 @@ categories.forEach((cat, i) => {
       ctx.arc(x, y, 30, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
       ctx.stroke();
 
-      drawCanvasScoreIcon(ctx, displayIconFor(cat, card), x, y);
+      drawCanvasScoreIcon(ctx, displayIconFor(cat, card, finalScores), x, y);
 
       ctx.fillStyle = "#101511";
       ctx.textAlign = "center";
@@ -4338,16 +5035,15 @@ categories.forEach((cat, i) => {
       ctx.fillText(cat.label, x, y + 55);
 
       ctx.font = "bold 18px Arial";
-      ctx.fillText(`${card.scores[cat.key] || 0}/${cat.max}`, x, y + 80);
+     ctx.fillText(`${finalScores[cat.key] || 0}/${cat.max}`, x, y + 80);
     });
 
     y += 130;
 
    y = drawTypeProofDuo(ctx, card.type || "N/A", card.proof || "N/A", y);
-y = drawDetail(ctx, "FLAVOR NOTES", card.flavorProfile || "No flavor profile added.", y);
-y = drawDetail(ctx, "TASTING NOTES", card.notes || "No tasting notes added.", y);
-y = drawDetail(ctx, "IQ INSIGHT", iqInsight(card), y);
-
+y = drawDetail(ctx, "FLAVOR NOTES", finalFlavorProfile, y);
+y = drawDetail(ctx, "TASTING NOTES", finalNotes, y);
+y = drawDetail(ctx, "IQ INSIGHT", finalInsight, y);
 // Bottom divider under IQ Insight, matching the website detail-row line
 ctx.strokeStyle = "rgba(6,76,53,.16)";
 ctx.lineWidth = 7;
@@ -4880,15 +5576,16 @@ function toggleDashboardView() {
     return;
   }
 
-  grid.innerHTML = filtered.map(bottle => {
+ grid.innerHTML = filtered.map(bottle => {
     const score = totalScore(bottle);
     const hasImage = Boolean(bottle.image);
+    const dashboardScores = scoreSetForBottle(bottle);
 
     const mini = categories.map(cat => `
       <div class="mini-score">
-        ${svgIcon(displayIconFor(cat, bottle))}
+       ${svgIcon(displayIconFor(cat, bottle, dashboardScores))}
         <div class="mini-label">${cat.label}</div>
-        <div class="mini-value">${Number(bottle.scores?.[cat.key] || 0)}/${cat.max}</div>
+        <div class="mini-value">${Number(dashboardScores?.[cat.key] || 0)}/${cat.max}</div>
       </div>
     `).join("");
 
