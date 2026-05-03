@@ -3009,6 +3009,251 @@ html[data-theme="dark"] .taster-pill {
     font-size: 10.5px !important;
   }
 }
+   /* =========================================================
+   GROUP SESSION RESULT BREAKDOWN
+   Person scores, category bars, group averages
+   ========================================================= */
+
+.group-breakdown {
+  margin: 18px 0 20px;
+  border-top: 7px solid rgba(6,76,53,.14);
+  padding-top: 18px;
+}
+
+.group-breakdown-title {
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #064c35;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+
+.group-breakdown-sub {
+  text-align: center;
+  color: rgba(16,21,17,.68);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-bottom: 16px;
+}
+
+.group-person-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.group-person-card {
+  border: 2px solid rgba(6,76,53,.18);
+  border-radius: 18px;
+  background: rgba(255,255,255,.42);
+  padding: 12px;
+}
+
+.group-person-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.group-person-name {
+  min-width: 0;
+  color: #101511;
+  font-size: 16px;
+  font-weight: 1000;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-person-score {
+  min-width: 54px;
+  height: 34px;
+  border-radius: 999px;
+  background: #064c35;
+  color: #fffaf1;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 1000;
+}
+
+.group-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-bar-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 48px;
+  gap: 8px;
+  align-items: center;
+}
+
+.group-bar-label {
+  color: #9d742b;
+  font-size: 10px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .035em;
+  line-height: 1;
+}
+
+.group-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(6,76,53,.12);
+  overflow: hidden;
+}
+
+.group-bar-fill {
+  height: 100%;
+  width: var(--pct);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f8b6b, #064c35);
+}
+
+.group-bar-value {
+  color: #101511;
+  font-size: 11px;
+  font-weight: 1000;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.group-avg-panel,
+.group-insight-panel {
+  border: 2px solid rgba(6,76,53,.18);
+  border-radius: 18px;
+  background: rgba(255,255,255,.42);
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.group-avg-title,
+.group-insight-title {
+  color: #064c35;
+  font-size: 13px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-bottom: 10px;
+}
+
+.group-avg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.group-avg-item {
+  border: 1px solid rgba(6,76,53,.14);
+  border-radius: 14px;
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.group-avg-label {
+  color: #9d742b;
+  font-size: 9px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 4px;
+}
+
+.group-avg-value {
+  color: #101511;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+.group-insight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.group-insight-line {
+  color: #101511;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.group-insight-line strong {
+  color: #064c35;
+}
+
+/* Mobile group breakdown */
+@media (max-width: 720px) {
+  .group-breakdown {
+    margin: 14px 0 16px;
+    padding-top: 14px;
+  }
+
+  .group-breakdown-title {
+    font-size: 26px;
+  }
+
+  .group-breakdown-sub {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .group-person-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .group-person-card {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .group-person-name {
+    font-size: 15px;
+  }
+
+  .group-person-score {
+    min-width: 50px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .group-bar-row {
+    grid-template-columns: 68px minmax(0, 1fr) 44px;
+    gap: 7px;
+  }
+
+  .group-bar-label {
+    font-size: 9px;
+  }
+
+  .group-bar-track {
+    height: 7px;
+  }
+
+  .group-bar-value {
+    font-size: 10px;
+  }
+
+  .group-avg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .group-insight-line {
+    font-size: 13px;
+  }
+} 
   </style>
 </head>
 
@@ -4449,60 +4694,254 @@ function upsertBottle(shouldSyncInfo = true) {
   renderLog();
   return true;
 }
-function renderGroupBreakdownHtml(bottle) {
-  if (!isGroupMode(bottle)) return "";
 
-  const rows = getGroupTasters(bottle).map(taster => {
-    const score = personScore(taster);
+    function getGroupPeople(bottle = current) {
+  const session = bottle?.groupSession || {};
+
+  const rawPeople =
+    session.people ||
+    session.tasters ||
+    session.participants ||
+    bottle?.groupPeople ||
+    [];
+
+  if (!session.enabled && !session.active && !Array.isArray(rawPeople)) {
+    return [];
+  }
+
+  if (!Array.isArray(rawPeople)) return [];
+
+  return rawPeople
+    .map((person, index) => {
+      const name =
+        person.name ||
+        person.label ||
+        person.personName ||
+        `Taster ${index + 1}`;
+
+      const scores =
+        person.scores ||
+        person.categoryScores ||
+        person.answers ||
+        {};
+
+      return {
+        ...person,
+        name,
+        scores
+      };
+    })
+    .filter(person => {
+      const hasName = Boolean(String(person.name || "").trim());
+      const hasAnyScore = categories.some(cat => Number(person.scores?.[cat.key] || 0) > 0);
+      return hasName || hasAnyScore;
+    });
+}
+
+function personCategoryScore(person, cat) {
+  return Number(person?.scores?.[cat.key] || 0);
+}
+
+function personTotalScore(person) {
+  return categories.reduce((sum, cat) => sum + personCategoryScore(person, cat), 0);
+}
+
+function getGroupCategoryAverage(cat, people = getGroupPeople()) {
+  if (!people.length) return Number(current?.scores?.[cat.key] || 0);
+
+  const total = people.reduce((sum, person) => sum + personCategoryScore(person, cat), 0);
+  return total / people.length;
+}
+
+function getGroupTotalAverage(people = getGroupPeople()) {
+  if (!people.length) return totalScore(current);
+
+  const total = people.reduce((sum, person) => sum + personTotalScore(person), 0);
+  return Math.round(total / people.length);
+}
+
+function getGroupBreakdownData(bottle = current) {
+  const people = getGroupPeople(bottle);
+  const enabled = people.length >= 2;
+
+  if (!enabled) {
+    return {
+      enabled: false,
+      people: [],
+      groupTotal: totalScore(bottle),
+      categoryAverages: {}
+    };
+  }
+
+  const categoryAverages = {};
+  categories.forEach(cat => {
+    categoryAverages[cat.key] = getGroupCategoryAverage(cat, people);
+  });
+
+  const groupTotal = Math.round(
+    people.reduce((sum, person) => sum + personTotalScore(person), 0) / people.length
+  );
+
+  return {
+    enabled: true,
+    people,
+    groupTotal,
+    categoryAverages
+  };
+}
+
+function getGroupAgreementNotes(groupData) {
+  if (!groupData?.enabled || groupData.people.length < 2) return [];
+
+  const spreadRows = categories.map(cat => {
+    const values = groupData.people.map(person => personCategoryScore(person, cat));
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+
+    return {
+      cat,
+      spread: max - min,
+      max,
+      min
+    };
+  });
+
+  const biggest = [...spreadRows].sort((a, b) => b.spread - a.spread)[0];
+  const closest = [...spreadRows].sort((a, b) => a.spread - b.spread)[0];
+
+  const highestPerson = [...groupData.people].sort((a, b) => personTotalScore(b) - personTotalScore(a))[0];
+  const lowestPerson = [...groupData.people].sort((a, b) => personTotalScore(a) - personTotalScore(b))[0];
+
+  return [
+    `<strong>Group average:</strong> ${groupData.groupTotal}/100`,
+    `<strong>Highest taster:</strong> ${escapeHtml(highestPerson.name)} at ${personTotalScore(highestPerson)}/100`,
+    `<strong>Lowest taster:</strong> ${escapeHtml(lowestPerson.name)} at ${personTotalScore(lowestPerson)}/100`,
+    `<strong>Biggest difference:</strong> ${biggest.cat.label} had a ${biggest.spread}-point spread`,
+    `<strong>Closest agreement:</strong> ${closest.cat.label} had a ${closest.spread}-point spread`
+  ];
+}
+
+function renderGroupBreakdown(bottle = current) {
+  const groupData = getGroupBreakdownData(bottle);
+
+  if (!groupData.enabled) return "";
+
+  const personCards = groupData.people.map(person => {
+    const total = personTotalScore(person);
+
+    const bars = categories.map(cat => {
+      const value = personCategoryScore(person, cat);
+      const pct = Math.max(0, Math.min(100, Math.round((value / cat.max) * 100)));
+
+      return `
+        <div class="group-bar-row">
+          <div class="group-bar-label">${escapeHtml(cat.label)}</div>
+          <div class="group-bar-track">
+            <div class="group-bar-fill" style="--pct:${pct}%;"></div>
+          </div>
+          <div class="group-bar-value">${value}/${cat.max}</div>
+        </div>
+      `;
+    }).join("");
 
     return `
-      <div class="group-breakdown-row">
-        <div class="group-breakdown-name">${escapeHtml(taster.name)}</div>
-        <div class="group-breakdown-bar" style="--scorePct:${score}%;">
-          <div class="group-breakdown-fill"></div>
+      <div class="group-person-card">
+        <div class="group-person-head">
+          <div class="group-person-name">${escapeHtml(person.name)}</div>
+          <div class="group-person-score">${total}</div>
         </div>
-        <div class="group-breakdown-score">${score}</div>
+
+        <div class="group-bar-list">
+          ${bars}
+        </div>
       </div>
     `;
   }).join("");
 
-  const average = totalScore(bottle);
+  const avgItems = categories.map(cat => {
+    const avg = groupData.categoryAverages[cat.key] || 0;
+    const cleanAvg = Number.isInteger(avg) ? avg : avg.toFixed(1);
+
+    return `
+      <div class="group-avg-item">
+        <div class="group-avg-label">${escapeHtml(cat.label)}</div>
+        <div class="group-avg-value">${cleanAvg}/${cat.max}</div>
+      </div>
+    `;
+  }).join("");
+
+  const notes = getGroupAgreementNotes(groupData).map(note => `
+    <div class="group-insight-line">${note}</div>
+  `).join("");
 
   return `
     <div class="group-breakdown">
-      <div class="group-breakdown-title">Group Breakdown</div>
+      <div class="group-breakdown-title">Group Score Breakdown</div>
+      <div class="group-breakdown-sub">Each taster’s answers and group averages</div>
 
-      ${rows}
+      <div class="group-person-grid">
+        ${personCards}
+      </div>
 
-      <div class="group-breakdown-row group-average-row">
-        <div class="group-breakdown-name">Average</div>
-        <div class="group-breakdown-bar" style="--scorePct:${average}%;">
-          <div class="group-breakdown-fill"></div>
+      <div class="group-avg-panel">
+        <div class="group-avg-title">Group Category Averages</div>
+        <div class="group-avg-grid">
+          ${avgItems}
         </div>
-        <div class="group-breakdown-score">${average}</div>
+      </div>
+
+      <div class="group-insight-panel">
+        <div class="group-insight-title">Group Notes</div>
+        <div class="group-insight-list">
+          ${notes}
+        </div>
       </div>
     </div>
   `;
 }
+
+function scoreForShareCategory(cat, bottle = current) {
+  const groupData = getGroupBreakdownData(bottle);
+
+  if (!groupData.enabled) {
+    return Number(bottle?.scores?.[cat.key] || 0);
+  }
+
+  return groupData.categoryAverages[cat.key] || 0;
+}
+
+function pctForShareCategory(cat, bottle = current) {
+  const value = scoreForShareCategory(cat, bottle);
+  return Math.max(0, Math.min(100, Math.round((value / cat.max) * 100)));
+}
+
+function formatShareScoreValue(value) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
     function renderShare() {
-      const score = totalScore(current);
-      const summary = iqInsight(current);
-const flavorProfile = groupFlavorSummary(current);
-const notes = groupNotesSummary(current);
-const groupBreakdown = renderGroupBreakdownHtml(current);
+     const groupData = getGroupBreakdownData(current);
+const score = groupData.enabled ? groupData.groupTotal : totalScore(current);
+const summary = iqInsight(current);
+const flavorProfile = current.flavorProfile || "No flavor profile added.";
+const notes = current.notes || "No tasting notes added.";
+const groupBreakdownHtml = renderGroupBreakdown(current);
 
       const finalScores = scoreSetForBottle(current);
 
-const scoreCards = categories.map(cat => `
-  <div class="share-score">
-   <div class="share-ring" style="--pct:${pctFor(cat, current, finalScores)}%;">
-     <div class="share-ring-inner">${svgIcon(displayIconFor(cat, current, finalScores))}</div>
-    </div>
-    <div class="share-score-name">${cat.label}</div>
-    <div class="share-score-num">${Number(finalScores[cat.key] || 0)}/${cat.max}</div>
-  </div>
-`).join("");
+const scoreCards = categories.map(cat => {
+  const categoryValue = scoreForShareCategory(cat, current);
+  const cleanValue = formatShareScoreValue(categoryValue);
 
+  return `
+    <div class="share-score">
+      <div class="share-ring" style="--pct:${pctForShareCategory(cat, current)}%;">
+       <div class="share-ring-inner">${svgIcon(displayIconFor(cat, current))}</div>
+      </div>
+      <div class="share-score-name">${cat.label}</div>
+      <div class="share-score-num">${cleanValue}/${cat.max}</div>
+    </div>
+  `;
+}).join("");
       document.getElementById("shareOutput").innerHTML = `
         <div class="share-layout">
           <div class="share-card" id="shareCard">
@@ -4602,8 +5041,9 @@ const scoreCards = categories.map(cat => `
               <div class="score-label">Whiskey IQ Score</div>
               <div class="big-score">${score}<span>/100</span></div>
 
-              <div class="share-scores">${scoreCards}</div>
-${groupBreakdown}
+             <div class="share-scores">${scoreCards}</div>
+
+${groupBreakdownHtml}
 
             <div class="share-details">
   <div class="detail-duo">
@@ -5647,7 +6087,8 @@ function toggleDashboardView() {
   }
 
  grid.innerHTML = filtered.map(bottle => {
-    const score = totalScore(bottle);
+    const groupData = getGroupBreakdownData(bottle);
+const score = groupData.enabled ? groupData.groupTotal : totalScore(bottle);
     const hasImage = Boolean(bottle.image);
     const dashboardScores = scoreSetForBottle(bottle);
 
@@ -5738,15 +6179,19 @@ function dashboardShare(id) {
     return;
   }
 
-  const sorted = [...bottles].sort((a, b) => totalScore(b) - totalScore(a));
-  const best = sorted[0];
-  const avg = bottles.reduce((sum, bottle) => sum + totalScore(bottle), 0) / bottles.length;
+ const bottleDisplayScore = bottle => {
+  const groupData = getGroupBreakdownData(bottle);
+  return groupData.enabled ? groupData.groupTotal : totalScore(bottle);
+};
 
-  document.getElementById("statBest").textContent = totalScore(best);
+const sorted = [...bottles].sort((a, b) => bottleDisplayScore(b) - bottleDisplayScore(a));
+const best = sorted[0];
+const avg = bottles.reduce((sum, bottle) => sum + bottleDisplayScore(bottle), 0) / bottles.length;
+  document.getElementById("statBest").textContent = bottleDisplayScore(best);
   document.getElementById("statAverage").textContent = Math.round(avg);
 
 const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
-  const score = totalScore(bottle);
+ const score = bottleDisplayScore(bottle);
 
   return `
     <div class="top-bottle-rank-row">
