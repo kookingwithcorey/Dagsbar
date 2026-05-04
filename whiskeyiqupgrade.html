@@ -1065,6 +1065,85 @@ html[data-theme="dark"] .custom-flavor-add input {
   content: none !important;
   display: none !important;
 }
+/* =========================================================
+   CUSTOM FLAVOR EDIT MODAL
+   Press-and-hold custom tag to edit/delete current bottle tag
+   ========================================================= */
+
+.custom-flavor-edit-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(12px);
+}
+
+.custom-flavor-edit-backdrop.active {
+  display: flex;
+}
+
+.custom-flavor-edit-card {
+  width: min(420px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  padding: 18px;
+}
+
+.custom-flavor-edit-card h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.custom-flavor-edit-card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.custom-flavor-edit-card input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255,255,255,.45);
+  color: var(--text);
+  padding: 12px 13px;
+  outline: none;
+  font-weight: 800;
+}
+
+html[data-theme="dark"] .custom-flavor-edit-card input {
+  background: rgba(255,255,255,.06);
+}
+
+.custom-flavor-edit-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.custom-flavor-edit-actions .btn {
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .custom-flavor-edit-actions {
+    grid-template-columns: 1fr;
+  }
+}
 
     .rank-actions {
       display: flex;
@@ -3511,7 +3590,25 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
       </div>
     </div>
   </div>
+<div id="customFlavorEditBackdrop" class="custom-flavor-edit-backdrop">
+  <div class="custom-flavor-edit-card">
+    <h3>Edit Tag</h3>
+    <p>This only updates or deletes the custom flavor tag on the current bottle.</p>
 
+    <input
+      id="customFlavorEditInput"
+      type="text"
+      placeholder="Example: Banana Bread"
+      onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveCustomFlavorEdit(); }"
+    />
+
+    <div class="custom-flavor-edit-actions">
+      <button class="btn" type="button" onclick="closeCustomFlavorEditor()">Cancel</button>
+      <button class="btn btn-danger" type="button" onclick="deleteCustomFlavorFromEditor()">Delete Tag</button>
+      <button class="btn btn-primary" type="button" onclick="saveCustomFlavorEdit()">Save Tag</button>
+    </div>
+  </div>
+</div>
   <script>
     const STORAGE_KEY = "dags_whiskey_iq_share_photo_v1";
     const VIEW_KEY = "dags_whiskey_iq_view_v2";
@@ -4399,13 +4496,18 @@ function resetModalScroll() {
           >${flavor}</button>
         `).join("")}
 
-        ${(current.customFlavors || []).map(flavor => `
-          <button
-            class="flavor-chip custom-flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
-            onclick="toggleFlavor(decodeURIComponent('${encodeURIComponent(flavor)}'))"
-            type="button"
-          >${escapeHtml(flavor)}</button>
-        `).join("")}
+${(current.customFlavors || []).map(flavor => `
+  <button
+    class="flavor-chip custom-flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}"
+    onclick="toggleCustomFlavorSelection(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+    onpointerdown="startCustomFlavorHold(event, decodeURIComponent('${encodeURIComponent(flavor)}'))"
+    onpointerup="cancelCustomFlavorHold()"
+    onpointerleave="cancelCustomFlavorHold()"
+    onpointercancel="cancelCustomFlavorHold()"
+    type="button"
+    title="Tap to check/uncheck. Press and hold to edit or delete."
+  >${escapeHtml(flavor)}</button>
+`).join("")}
 
         <button
           class="flavor-chip custom-flavor-toggle"
@@ -4665,6 +4767,149 @@ function removeCustomFlavor(flavor) {
   syncFlavorProfile();
   renderRank();
 }
+function toggleCustomFlavorSelection(flavor) {
+  if (!current) return;
+
+  const cleanFlavor = String(flavor || "").trim();
+  if (!cleanFlavor) return;
+
+  if (!current.flavors) current.flavors = [];
+
+  const exists = current.flavors.some(item =>
+    String(item).toLowerCase() === cleanFlavor.toLowerCase()
+  );
+
+  if (exists) {
+    current.flavors = current.flavors.filter(item =>
+      String(item).toLowerCase() !== cleanFlavor.toLowerCase()
+    );
+  } else {
+    current.flavors.push(cleanFlavor);
+  }
+
+  syncFlavorProfile();
+  renderRank();
+}
+let customFlavorHoldTimer = null;
+let customFlavorHoldTriggered = false;
+let customFlavorEditingOldValue = "";
+
+function startCustomFlavorHold(event, flavor) {
+  customFlavorHoldTriggered = false;
+
+  if (customFlavorHoldTimer) {
+    clearTimeout(customFlavorHoldTimer);
+  }
+
+  customFlavorHoldTimer = setTimeout(() => {
+    customFlavorHoldTriggered = true;
+    openCustomFlavorEditor(flavor);
+  }, 550);
+}
+
+function cancelCustomFlavorHold() {
+  if (customFlavorHoldTimer) {
+    clearTimeout(customFlavorHoldTimer);
+    customFlavorHoldTimer = null;
+  }
+}
+
+function openCustomFlavorEditor(flavor) {
+  customFlavorEditingOldValue = String(flavor || "").trim();
+
+  const backdrop = document.getElementById("customFlavorEditBackdrop");
+  const input = document.getElementById("customFlavorEditInput");
+
+  if (!backdrop || !input || !customFlavorEditingOldValue) return;
+
+  input.value = customFlavorEditingOldValue;
+  backdrop.classList.add("active");
+
+  setTimeout(() => {
+    input.focus();
+    input.select();
+  }, 80);
+}
+
+function closeCustomFlavorEditor() {
+  const backdrop = document.getElementById("customFlavorEditBackdrop");
+  const input = document.getElementById("customFlavorEditInput");
+
+  if (backdrop) backdrop.classList.remove("active");
+  if (input) input.value = "";
+
+  customFlavorEditingOldValue = "";
+  customFlavorHoldTriggered = false;
+  cancelCustomFlavorHold();
+}
+
+function saveCustomFlavorEdit() {
+  if (!current) return;
+
+  const input = document.getElementById("customFlavorEditInput");
+  const newFlavor = String(input?.value || "").trim();
+  const oldFlavor = String(customFlavorEditingOldValue || "").trim();
+
+  if (!newFlavor || !oldFlavor) return;
+
+  const duplicateExists = (current.customFlavors || []).some(flavor =>
+    String(flavor).toLowerCase() === newFlavor.toLowerCase() &&
+    String(flavor).toLowerCase() !== oldFlavor.toLowerCase()
+  );
+
+  if (duplicateExists) {
+    alert("That custom flavor already exists on this bottle.");
+    return;
+  }
+
+  current.customFlavors = (current.customFlavors || []).map(flavor =>
+    String(flavor).toLowerCase() === oldFlavor.toLowerCase()
+      ? newFlavor
+      : flavor
+  );
+
+  current.flavors = (current.flavors || []).map(flavor =>
+    String(flavor).toLowerCase() === oldFlavor.toLowerCase()
+      ? newFlavor
+      : flavor
+  );
+
+  syncFlavorProfile();
+  closeCustomFlavorEditor();
+  renderRank();
+}
+
+function deleteCustomFlavorFromEditor() {
+  if (!current) return;
+
+  const oldFlavor = String(customFlavorEditingOldValue || "").trim();
+  if (!oldFlavor) return;
+
+  const shouldDelete = confirm(`Delete "${oldFlavor}" from this bottle?`);
+  if (!shouldDelete) return;
+
+  current.customFlavors = (current.customFlavors || []).filter(flavor =>
+    String(flavor).toLowerCase() !== oldFlavor.toLowerCase()
+  );
+
+  current.flavors = (current.flavors || []).filter(flavor =>
+    String(flavor).toLowerCase() !== oldFlavor.toLowerCase()
+  );
+
+  syncFlavorProfile();
+  closeCustomFlavorEditor();
+  renderRank();
+}
+
+document.addEventListener("click", event => {
+  const backdrop = document.getElementById("customFlavorEditBackdrop");
+
+  if (!backdrop || !backdrop.classList.contains("active")) return;
+
+  if (event.target.id === "customFlavorEditBackdrop") {
+    closeCustomFlavorEditor();
+  }
+});
   function iqInsight(bottle) {
   const score = totalScore(bottle);
 
