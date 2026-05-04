@@ -1056,6 +1056,67 @@ html[data-theme="dark"] .custom-flavor-add input {
   font-weight: 1000;
   white-space: nowrap;
 }
+/* Smart flavor typo suggestion */
+.custom-flavor-suggestion {
+  display: none;
+  margin-top: 8px;
+  border: 1px solid rgba(15,139,107,.28);
+  border-radius: 18px;
+  background: rgba(15,139,107,.08);
+  padding: 10px;
+  color: var(--text);
+}
+
+.custom-flavor-suggestion.active {
+  display: block;
+}
+
+.custom-flavor-suggestion-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.custom-flavor-suggestion-title strong {
+  color: var(--green);
+}
+
+.custom-flavor-suggestion-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.custom-flavor-suggestion-actions button {
+  border: 1px solid rgba(15,139,107,.45);
+  border-radius: 999px;
+  background: rgba(255,255,255,.38);
+  color: var(--green);
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 1000;
+}
+
+.custom-flavor-suggestion-actions button.primary {
+  background: var(--green);
+  color: #fff;
+}
+
+html[data-theme="dark"] .custom-flavor-suggestion {
+  background: rgba(255,255,255,.06);
+}
+
+html[data-theme="dark"] .custom-flavor-suggestion-actions button {
+  background: rgba(255,255,255,.08);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .custom-flavor-suggestion-actions button.primary {
+  background: var(--green);
+  color: #fff;
+}
 
 .custom-flavor-chip {
   position: relative;
@@ -3815,7 +3876,7 @@ recommend: `
   return scores;
 }
 
-function blankTaster(name = "Taster") {
+function blankTaster(name = "") {
   return {
     id: uid(),
     name,
@@ -3862,7 +3923,7 @@ function ensureGroupSessionShape(bottle) {
 
   bottle.groupSession.tasters = bottle.groupSession.tasters.map((taster, index) => ({
     id: taster.id || uid(),
-    name: String(taster.name || `Taster ${index + 1}`).trim() || `Taster ${index + 1}`,
+    name: String(taster.name || "").trim(),
     scores: { ...blankScores(), ...(taster.scores || {}) },
     notes: taster.notes || "",
     flavors: Array.isArray(taster.flavors) ? taster.flavors : []
@@ -3997,7 +4058,8 @@ function groupNotesSummary(bottle = current) {
   const notes = getGroupTasters(bottle)
     .map(taster => {
       const note = String(taster.notes || "").trim();
-      return note ? `${taster.name}: ${note}` : "";
+      const fallbackName = taster.name || `Taster ${getGroupTasters(bottle).indexOf(taster) + 1}`;
+return note ? `${fallbackName}: ${note}` : "";
     })
     .filter(Boolean);
 
@@ -4162,9 +4224,9 @@ document.body.classList.remove("share-view");
 
   if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
     current.groupSession.tasters = [
-      blankTaster("Taster 1"),
-      blankTaster("Taster 2")
-    ];
+  blankTaster(""),
+  blankTaster("")
+];
     current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
   }
 
@@ -4301,9 +4363,9 @@ function toggleGroupSession() {
 
   if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
     current.groupSession.tasters = [
-      blankTaster("Taster 1"),
-      blankTaster("Taster 2")
-    ];
+  blankTaster(""),
+  blankTaster("")
+];
 
     current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
   }
@@ -4320,7 +4382,7 @@ function addGroupTaster() {
 
   if (current.groupSession.tasters.length >= 4) return;
 
-  current.groupSession.tasters.push(blankTaster(`Taster ${current.groupSession.tasters.length + 1}`));
+  current.groupSession.tasters.push(blankTaster(""));
 
   if (!current.groupSession.activeTasterId) {
     current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
@@ -4355,7 +4417,7 @@ function updateGroupTasterName(id, value) {
   const taster = getGroupTasters(current).find(item => item.id === id);
   if (!taster) return;
 
-  taster.name = String(value || "").trim() || "Taster";
+  taster.name = String(value || "").trim();
   current.updatedAt = new Date().toISOString();
 }
 
@@ -4410,7 +4472,7 @@ function resetModalScroll() {
             class="taster-pill ${taster.id === current.groupSession.activeTasterId ? "active" : ""}"
             type="button"
             onclick="setActiveTaster('${taster.id}')"
-          >${escapeHtml(taster.name)}</button>
+          >${escapeHtml(taster.name || `Taster ${getGroupTasters(current).indexOf(taster) + 1}`)}</button>
         `).join("")}
       </div>`
     : "";
@@ -4496,8 +4558,8 @@ function resetModalScroll() {
 
 ${(current.customFlavors || []).map(flavor => `
   <button
-    class="flavor-chip custom-flavor-chip ${current.flavors.includes(flavor) ? "active" : ""}"
-    onclick="toggleCustomFlavorSelection(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+   class="flavor-chip custom-flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
+onclick="handleCustomFlavorTap(decodeURIComponent('${encodeURIComponent(flavor)}'))"
     onpointerdown="startCustomFlavorHold(event, decodeURIComponent('${encodeURIComponent(flavor)}'))"
     onpointerup="cancelCustomFlavorHold()"
     onpointerleave="cancelCustomFlavorHold()"
@@ -4514,15 +4576,18 @@ ${(current.customFlavors || []).map(flavor => `
         >+ Flavor</button>
       </div>
 
-      <div id="customFlavorAdd" class="custom-flavor-add">
-        <input
-          id="customFlavorInput"
-          type="text"
-          placeholder="Add custom flavor..."
-          onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
-        />
-        <button type="button" onclick="addCustomFlavor()">Add</button>
-      </div>
+<div id="customFlavorAdd" class="custom-flavor-add">
+  <input
+    id="customFlavorInput"
+    type="text"
+    placeholder="Add custom flavor..."
+    oninput="handleCustomFlavorTyping()"
+    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
+  />
+  <button type="button" onclick="addCustomFlavor()">Add</button>
+</div>
+
+<div id="customFlavorSuggestion" class="custom-flavor-suggestion" aria-live="polite"></div>
     </div>
 
     <div class="field">
@@ -4698,6 +4763,200 @@ function toggleFlavor(flavor) {
   setActiveFlavorList(nextFlavors);
   renderRank();
 }
+function normalizeFlavorText(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function levenshteinDistance(a, b) {
+  const left = normalizeFlavorText(a);
+  const right = normalizeFlavorText(b);
+
+  if (!left || !right) return 999;
+  if (left === right) return 0;
+
+  const matrix = Array.from({ length: left.length + 1 }, () =>
+    Array(right.length + 1).fill(0)
+  );
+
+  for (let i = 0; i <= left.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= right.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= left.length; i++) {
+    for (let j = 1; j <= right.length; j++) {
+      const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return matrix[left.length][right.length];
+}
+
+function getFlavorSuggestionOptions() {
+  const currentCustom = Array.isArray(current?.customFlavors)
+    ? current.customFlavors
+    : [];
+
+  return [...new Set([...flavorBank, ...currentCustom])]
+    .map(item => String(item || "").trim())
+    .filter(Boolean);
+}
+
+function findFlavorSuggestion(rawFlavor) {
+  const typed = String(rawFlavor || "").trim();
+
+  if (typed.length < 3) return null;
+
+  const normalizedTyped = normalizeFlavorText(typed);
+  const options = getFlavorSuggestionOptions();
+
+  const exactMatch = options.find(option =>
+    normalizeFlavorText(option) === normalizedTyped
+  );
+
+  if (exactMatch) return null;
+
+  let best = null;
+
+  options.forEach(option => {
+    const normalizedOption = normalizeFlavorText(option);
+    const distance = levenshteinDistance(typed, option);
+
+    const closeByDistance =
+      normalizedTyped.length <= 5
+        ? distance <= 1
+        : distance <= 2;
+
+    const closeByContains =
+      normalizedOption.includes(normalizedTyped) ||
+      normalizedTyped.includes(normalizedOption);
+
+    if (closeByDistance || closeByContains) {
+      if (!best || distance < best.distance) {
+        best = { label: option, distance };
+      }
+    }
+  });
+
+  return best?.label || null;
+}
+
+function handleCustomFlavorTyping() {
+  const input = document.getElementById("customFlavorInput");
+  const suggestionBox = document.getElementById("customFlavorSuggestion");
+
+  if (!input || !suggestionBox) return;
+
+  const typed = input.value.trim();
+  const suggestion = findFlavorSuggestion(typed);
+
+  if (!typed || !suggestion) {
+    suggestionBox.classList.remove("active");
+    suggestionBox.innerHTML = "";
+    return;
+  }
+
+  const encodedSuggestion = encodeURIComponent(suggestion);
+  const encodedTyped = encodeURIComponent(typed);
+
+  suggestionBox.classList.add("active");
+  suggestionBox.innerHTML = `
+    <div class="custom-flavor-suggestion-title">
+      Did you mean <strong>${escapeHtml(suggestion)}</strong>?
+    </div>
+
+    <div class="custom-flavor-suggestion-actions">
+      <button class="primary" type="button" onclick="useFlavorSuggestion(decodeURIComponent('${encodedSuggestion}'))">
+        Use ${escapeHtml(suggestion)}
+      </button>
+
+      <button type="button" onclick="keepCustomFlavorSuggestion(decodeURIComponent('${encodedTyped}'))">
+        Keep Custom
+      </button>
+
+      <button type="button" onclick="clearFlavorSuggestion()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+function clearFlavorSuggestion() {
+  const suggestionBox = document.getElementById("customFlavorSuggestion");
+
+  if (!suggestionBox) return;
+
+  suggestionBox.classList.remove("active");
+  suggestionBox.innerHTML = "";
+}
+
+function useFlavorSuggestion(suggestion) {
+  if (!current) return;
+
+  const cleanSuggestion = String(suggestion || "").trim();
+
+  if (!cleanSuggestion) return;
+
+  if (!current.flavors) current.flavors = [];
+  if (!current.customFlavors) current.customFlavors = [];
+
+  const isStandardFlavor = flavorBank.some(flavor =>
+    normalizeFlavorText(flavor) === normalizeFlavorText(cleanSuggestion)
+  );
+
+  const matchingStandardFlavor = flavorBank.find(flavor =>
+    normalizeFlavorText(flavor) === normalizeFlavorText(cleanSuggestion)
+  );
+
+  const finalFlavor = matchingStandardFlavor || cleanSuggestion;
+
+  const activeFlavors = activeFlavorList();
+
+const alreadySelected = activeFlavors.some(flavor =>
+  normalizeFlavorText(flavor) === normalizeFlavorText(finalFlavor)
+);
+
+if (!alreadySelected) {
+  setActiveFlavorList([...activeFlavors, finalFlavor]);
+}
+
+  if (!isStandardFlavor) {
+    const alreadyCustom = current.customFlavors.some(flavor =>
+      normalizeFlavorText(flavor) === normalizeFlavorText(finalFlavor)
+    );
+
+    if (!alreadyCustom) {
+      current.customFlavors.push(finalFlavor);
+    }
+  }
+
+  syncFlavorProfile();
+
+  const input = document.getElementById("customFlavorInput");
+  if (input) input.value = "";
+
+  clearFlavorSuggestion();
+  renderRank();
+}
+
+function keepCustomFlavorSuggestion(customFlavor) {
+  const input = document.getElementById("customFlavorInput");
+
+  if (input) {
+    input.value = customFlavor;
+  }
+
+  addCustomFlavor(true);
+}
 
 function toggleCustomFlavorInput() {
   const wrap = document.getElementById("customFlavorAdd");
@@ -4712,7 +4971,7 @@ function toggleCustomFlavorInput() {
   }
 }
 
-function addCustomFlavor() {
+function addCustomFlavor(forceCustom = false) {
   if (!current) return;
 
   const input = document.getElementById("customFlavorInput");
@@ -4720,28 +4979,47 @@ function addCustomFlavor() {
 
   if (!flavor) return;
 
+  const suggestion = findFlavorSuggestion(flavor);
+
+  if (suggestion && !forceCustom) {
+    handleCustomFlavorTyping();
+    return;
+  }
+
   if (!current.customFlavors) current.customFlavors = [];
+  if (!current.flavors) current.flavors = [];
 
-  const allKnownFlavors = [...flavorBank, ...current.customFlavors];
-  const exists = allKnownFlavors.some(item =>
-    String(item).toLowerCase() === flavor.toLowerCase()
+  const standardMatch = flavorBank.find(item =>
+    normalizeFlavorText(item) === normalizeFlavorText(flavor)
   );
 
-  if (!exists) {
-    current.customFlavors.push(flavor);
-  }
+  const finalFlavor = standardMatch || flavor;
 
-  const flavors = activeFlavorList();
-  const alreadySelected = flavors.some(item =>
-    String(item).toLowerCase() === flavor.toLowerCase()
+  const isStandardFlavor = Boolean(standardMatch);
+
+  const alreadyCustom = current.customFlavors.some(item =>
+    normalizeFlavorText(item) === normalizeFlavorText(finalFlavor)
   );
 
-  if (!alreadySelected) {
-    setActiveFlavorList([...flavors, flavor]);
+  if (!isStandardFlavor && !alreadyCustom) {
+    current.customFlavors.push(finalFlavor);
   }
+
+ const activeFlavors = activeFlavorList();
+
+const alreadySelected = activeFlavors.some(item =>
+  normalizeFlavorText(item) === normalizeFlavorText(finalFlavor)
+);
+
+if (!alreadySelected) {
+  setActiveFlavorList([...activeFlavors, finalFlavor]);
+}
+
+  syncFlavorProfile();
 
   if (input) input.value = "";
 
+  clearFlavorSuggestion();
   renderRank();
 }
 
@@ -4765,27 +5043,32 @@ function removeCustomFlavor(flavor) {
   syncFlavorProfile();
   renderRank();
 }
+function handleCustomFlavorTap(flavor) {
+  if (customFlavorHoldTriggered) {
+    customFlavorHoldTriggered = false;
+    return;
+  }
+
+  toggleCustomFlavorSelection(flavor);
+}
+
 function toggleCustomFlavorSelection(flavor) {
   if (!current) return;
 
   const cleanFlavor = String(flavor || "").trim();
   if (!cleanFlavor) return;
 
-  if (!current.flavors) current.flavors = [];
+  const flavors = activeFlavorList();
 
-  const exists = current.flavors.some(item =>
-    String(item).toLowerCase() === cleanFlavor.toLowerCase()
+  const exists = flavors.some(item =>
+    normalizeFlavorText(item) === normalizeFlavorText(cleanFlavor)
   );
 
-  if (exists) {
-    current.flavors = current.flavors.filter(item =>
-      String(item).toLowerCase() !== cleanFlavor.toLowerCase()
-    );
-  } else {
-    current.flavors.push(cleanFlavor);
-  }
+  const nextFlavors = exists
+    ? flavors.filter(item => normalizeFlavorText(item) !== normalizeFlavorText(cleanFlavor))
+    : [...flavors, cleanFlavor];
 
-  syncFlavorProfile();
+  setActiveFlavorList(nextFlavors);
   renderRank();
 }
 let customFlavorHoldTimer = null;
@@ -4871,6 +5154,13 @@ function saveCustomFlavorEdit() {
       ? newFlavor
       : flavor
   );
+  getGroupTasters(current).forEach(taster => {
+  taster.flavors = (taster.flavors || []).map(flavor =>
+    String(flavor).toLowerCase() === oldFlavor.toLowerCase()
+      ? newFlavor
+      : flavor
+  );
+});
 
   syncFlavorProfile();
   closeCustomFlavorEditor();
@@ -4893,6 +5183,11 @@ function deleteCustomFlavorFromEditor() {
   current.flavors = (current.flavors || []).filter(flavor =>
     String(flavor).toLowerCase() !== oldFlavor.toLowerCase()
   );
+  getGroupTasters(current).forEach(taster => {
+  taster.flavors = (taster.flavors || []).filter(flavor =>
+    String(flavor).toLowerCase() !== oldFlavor.toLowerCase()
+  );
+});
 
   syncFlavorProfile();
   closeCustomFlavorEditor();
@@ -5232,8 +5527,8 @@ function formatShareScoreValue(value) {
      const groupData = getGroupBreakdownData(current);
 const score = groupData.enabled ? groupData.groupTotal : totalScore(current);
 const summary = iqInsight(current);
-const flavorProfile = current.flavorProfile || "No flavor profile added.";
-const notes = current.notes || "No tasting notes added.";
+const flavorProfile = groupFlavorSummary(current);
+const notes = groupNotesSummary(current);
 const groupBreakdownHtml = renderGroupBreakdown(current);
 
       const finalScores = scoreSetForBottle(current);
@@ -5537,8 +5832,9 @@ function loadBottleInfoImage(event) {
 function renderPlainGroupBreakdown(bottle) {
   if (!isGroupMode(bottle)) return "";
 
-  const rows = getGroupTasters(bottle).map(taster => {
-    return `${taster.name}: ${personScore(taster)}/100`;
+  const rows = getGroupTasters(bottle).map((taster, index) => {
+    const name = taster.name || `Taster ${index + 1}`;
+    return `${name}: ${personScore(taster)}/100`;
   });
 
   rows.push(`Group Average: ${totalScore(bottle)}/100`);
