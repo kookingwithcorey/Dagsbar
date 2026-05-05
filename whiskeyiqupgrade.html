@@ -1828,37 +1828,40 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
     grid-row: 1 / span 2;
   }
 }
-/* Top 3 trophy icons for Top Bottle dashboard */
-.top-bottle-rank-trophy {
+/* Top 3 icons for Top Bottle dashboard */
+.top-bottle-rank-medal {
   width: 26px;
   height: 26px;
   display: grid;
   place-items: center;
-  font-size: 20px;
   line-height: 1;
+  flex: 0 0 auto;
+}
+
+.top-bottle-rank-medal.gold {
+  font-size: 21px;
   filter: drop-shadow(0 3px 5px rgba(0,0,0,.16));
 }
 
-.top-bottle-rank-trophy.gold {
-  color: #d4a017;
-}
-
-.top-bottle-rank-trophy.silver {
-  color: #a9b0b8;
-}
-
-.top-bottle-rank-trophy.bronze {
-  color: #b87333;
-}
-
-.top-bottle-rank-trophy.standard {
-  width: 22px;
-  height: 22px;
+.top-bottle-rank-medal.silver,
+.top-bottle-rank-medal.bronze,
+.top-bottle-rank-medal.standard {
   border-radius: 999px;
-  background: var(--green);
   color: #fff;
   font-size: 12px;
   font-weight: 1000;
+}
+
+.top-bottle-rank-medal.silver {
+  background: #a9b0b8;
+}
+
+.top-bottle-rank-medal.bronze {
+  background: #b87333;
+}
+
+.top-bottle-rank-medal.standard {
+  background: var(--green);
 }
 /* Bottle photo */
 .photo-bubble {
@@ -6980,7 +6983,7 @@ const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
 
   return `
     <div class="top-bottle-rank-row">
-    <div class="top-bottle-rank-trophy ${
+    <div class="top-bottle-rank-medal ${
   index === 0 ? "gold" :
   index === 1 ? "silver" :
   index === 2 ? "bronze" :
@@ -6988,11 +6991,10 @@ const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
 }">
   ${
     index === 0 ? "🏆" :
-    index === 1 ? "🏆" :
-    index === 2 ? "🏆" :
     index + 1
   }
 </div>
+
       <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
 
       <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
