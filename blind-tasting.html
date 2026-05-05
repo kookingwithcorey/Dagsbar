@@ -1426,9 +1426,9 @@ nav {
 
   <div class="group-result-card">
     <div class="group-result-head">
-      <div class="group-result-title">Group Average</div>
-      <div class="group-result-sub">All active tasters combined</div>
-    </div>
+  <div class="group-result-title" id="resultsBreakdownTitle">Score Breakdown</div>
+  <div class="group-result-sub" id="resultsBreakdownSub">Solo blind tasting results</div>
+</div>
 
     <table class="group-average-table">
       <thead>
@@ -1436,7 +1436,7 @@ nav {
           <th>Rank</th>
           <th>Bottle</th>
           <th>Average</th>
-          <th>Tasters</th>
+          <th id="resultsTastersHeader">Mode</th>
         </tr>
       </thead>
       <tbody id="groupAverageBody">
@@ -2173,6 +2173,22 @@ function renderGroupResults() {
 
   const ranking = buildGroupRanking();
   const groupWinnerPill = document.getElementById("groupWinnerPill");
+  const breakdownTitle = document.getElementById("resultsBreakdownTitle");
+if (breakdownTitle) {
+  breakdownTitle.textContent = isGroupMode ? "Group Average" : "Score Breakdown";
+}
+
+const breakdownSub = document.getElementById("resultsBreakdownSub");
+if (breakdownSub) {
+  breakdownSub.textContent = isGroupMode
+    ? "All active tasters combined"
+    : "Solo blind tasting results";
+}
+
+const tastersHeader = document.getElementById("resultsTastersHeader");
+if (tastersHeader) {
+  tastersHeader.textContent = isGroupMode ? "Tasters" : "Mode";
+}
 
   if (groupWinnerPill) {
     const label = isGroupMode ? "Group Winner" : "Winner";
