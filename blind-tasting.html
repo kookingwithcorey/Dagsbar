@@ -945,6 +945,9 @@ nav {
   stroke-linejoin: round;
   flex: 0 0 auto;
 }
+    .solo-hide-column {
+  display: none;
+}
    /* Print styles – force one-page fit */
 @media print {
   /* Control printer page size + margins */
@@ -1429,19 +1432,18 @@ nav {
   <div class="group-result-title" id="resultsBreakdownTitle">Score Breakdown</div>
   <div class="group-result-sub" id="resultsBreakdownSub">Solo blind tasting results</div>
 </div>
-
     <table class="group-average-table">
       <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Bottle</th>
-          <th>Average</th>
-          <th id="resultsTastersHeader">Mode</th>
-        </tr>
+      <tr>
+  <th>Rank</th>
+  <th>Bottle</th>
+ <th id="resultsScoreHeader">Score</th>
+  <th id="resultsTastersHeader">Tasters</th>
+</tr>
       </thead>
       <tbody id="groupAverageBody">
         <tr>
-          <td colspan="4">Complete the flight to see group averages.</td>
+          <td colspan="4">Complete the flight to see results.</td>
         </tr>
       </tbody>
     </table>
@@ -2173,21 +2175,26 @@ function renderGroupResults() {
 
   const ranking = buildGroupRanking();
   const groupWinnerPill = document.getElementById("groupWinnerPill");
+
   const breakdownTitle = document.getElementById("resultsBreakdownTitle");
-if (breakdownTitle) {
-  breakdownTitle.textContent = isGroupMode ? "Group Average" : "Score Breakdown";
-}
+  if (breakdownTitle) {
+    breakdownTitle.textContent = isGroupMode ? "Group Average" : "Score Breakdown";
+  }
 
-const breakdownSub = document.getElementById("resultsBreakdownSub");
-if (breakdownSub) {
-  breakdownSub.textContent = isGroupMode
-    ? "All active tasters combined"
-    : "Solo blind tasting results";
-}
+  const breakdownSub = document.getElementById("resultsBreakdownSub");
+  if (breakdownSub) {
+    breakdownSub.textContent = isGroupMode
+      ? "All active tasters combined"
+      : "Solo blind tasting results";
+  }
 
-const tastersHeader = document.getElementById("resultsTastersHeader");
-if (tastersHeader) {
-  tastersHeader.textContent = isGroupMode ? "Tasters" : "Mode";
+  const tastersHeader = document.getElementById("resultsTastersHeader");
+  if (tastersHeader) {
+    tastersHeader.classList.toggle("solo-hide-column", !isGroupMode);
+  }
+  const scoreHeader = document.getElementById("resultsScoreHeader");
+if (scoreHeader) {
+  scoreHeader.textContent = isGroupMode ? "Average Score" : "Score";
 }
 
   if (groupWinnerPill) {
@@ -2200,14 +2207,18 @@ if (tastersHeader) {
   const averageBody = document.getElementById("groupAverageBody");
   if (averageBody) {
     if (!ranking.length) {
-      averageBody.innerHTML = `<tr><td colspan="4">Add scores to see results.</td></tr>`;
+      averageBody.innerHTML = `
+        <tr>
+          <td colspan="4">Add scores to see results.</td>
+        </tr>
+      `;
     } else {
       averageBody.innerHTML = ranking.map((item, index) => `
         <tr>
           <td>${index + 1}</td>
           <td><strong>${item.name}</strong> <span class="muted-small">(${item.letter})</span></td>
           <td>${item.score.toFixed(1)}/10</td>
-          <td>${isGroupMode ? item.tasters : "Solo"}</td>
+          <td class="${isGroupMode ? "" : "solo-hide-column"}">${item.tasters}</td>
         </tr>
       `).join("");
     }
@@ -2250,70 +2261,89 @@ if (tastersHeader) {
   const scorecards = document.getElementById("scorecards");
   if (scorecards) {
     scorecards.innerHTML = GROUP_BOTTLES.map(letter => {
-      const rankingItem = ranking.find(item => item.letter === letter);
+      const revealName = getRevealName(letter);
 
-      const lines = isGroupMode
-        ? Array.from({ length: groupTasterCount }, (_, i) => {
-            const avg = getBottleAverageForTaster(i, letter);
-            return `<div class="metric-line">${getTasterName(i)}: ${avg === null ? "--" : avg.toFixed(1)}/10</div>`;
-          }).join("")
-        : `<div class="metric-line">Solo Score: ${rankingItem && rankingItem.score !== null ? rankingItem.score.toFixed(1) : "--"}/10</div>`;
+      if (isGroupMode) {
+        const scores = [];
+
+        for (let i = 0; i < groupTasterCount; i++) {
+          const avg = getBottleAverageForTaster(i, letter);
+          if (avg !== null) scores.push(avg);
+        }
+
+        const groupAvg = scores.length
+          ? scores.reduce((sum, n) => sum + n, 0) / scores.length
+          : null;
+
+        return `
+          <div class="scorecard">
+            <div class="scorecard-header">
+              <div>
+                <div class="scorecard-label">${letter}</div>
+                <div class="scorecard-sub">${revealName}</div>
+              </div>
+              <strong>${groupAvg === null ? "--" : groupAvg.toFixed(1)}</strong>
+            </div>
+            <div class="metric-line">Tasters scored: ${scores.length}</div>
+          </div>
+        `;
+      }
+
+      const result = computeOverallForBottle(letter);
 
       return `
         <div class="scorecard">
           <div class="scorecard-header">
             <div>
               <div class="scorecard-label">${letter}</div>
-              <div class="scorecard-sub">${getRevealName(letter)}</div>
+              <div class="scorecard-sub">${revealName}</div>
             </div>
-            <strong>${rankingItem && rankingItem.score !== null ? rankingItem.score.toFixed(1) : "--"}</strong>
+            <strong>${result.overall === null ? "--" : result.overall.toFixed(1)}</strong>
           </div>
-          ${lines}
+          <div class="metric-line">Nose: ${result.scores.nose ?? "--"}</div>
+          <div class="metric-line">Palate: ${result.scores.palate ?? "--"}</div>
+          <div class="metric-line">Finish: ${result.scores.finish ?? "--"}</div>
         </div>
       `;
     }).join("");
   }
-
-  resultsCard?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function getCurrentBlindFlightEntry() {
-  saveCurrentTasterInputs();
+  renderGroupResults();
 
   const ranking = buildGroupRanking();
+  const winner = ranking[0];
 
-  let winnerText = "";
-  if (ranking.length) {
-    const winner = ranking[0];
-    winnerText = `${isGroupMode ? "Group Winner" : "Winner"}: ${winner.name} (${winner.score.toFixed(1)}/10)`;
-  }
+  const bottleSummary = GROUP_BOTTLES.map(letter => {
+    const name = getRevealName(letter);
 
-  const summary = GROUP_BOTTLES.map((letter) => {
-    const revealName = getRevealName(letter);
-    const item = ranking.find(r => r.letter === letter);
-    const score = item && item.score !== null
-      ? `${item.score.toFixed(1)}/10`
-      : "no score";
+    if (isGroupMode) {
+      const scores = [];
 
-    const breakdown = isGroupMode
-      ? Array.from({ length: groupTasterCount }, (_, i) => {
-          const avg = getBottleAverageForTaster(i, letter);
-          return `${getTasterName(i)}: ${avg === null ? "--" : avg.toFixed(1)}/10`;
-        }).join(", ")
-      : "Solo tasting";
+      for (let i = 0; i < groupTasterCount; i++) {
+        const avg = getBottleAverageForTaster(i, letter);
+        if (avg !== null) scores.push(avg);
+      }
 
-    return `${revealName} (${letter}): ${score} — ${breakdown}`;
-  }).join(" | ");
+      const avg = scores.length
+        ? scores.reduce((sum, n) => sum + n, 0) / scores.length
+        : null;
+
+      return `${letter}: ${name} — ${avg === null ? "--" : avg.toFixed(1)}/10`;
+    }
+
+    const result = computeOverallForBottle(letter);
+    return `${letter}: ${name} — ${result.overall === null ? "--" : result.overall.toFixed(1)}/10`;
+  }).join("\n");
 
   return {
     id: Date.now(),
-    createdAt: new Date().toISOString(),
-    title: isGroupMode ? "Group Blind Flight" : "Blind Flight",
-    rating: winnerText,
-    nose: "",
-    palate: "",
-    finish: "",
-    other: summary
+    date: new Date().toISOString(),
+    type: "blind",
+    title: isGroupMode ? "Group Blind Tasting" : "Blind Tasting",
+    rating: winner ? `${winner.name} won with ${winner.score.toFixed(1)}/10` : "",
+    other: bottleSummary
   };
 }
 
@@ -2321,7 +2351,6 @@ function getCurrentBlindFlightEntry() {
 document.getElementById("openGroupSetupBtn")?.addEventListener("click", openGroupSetup);
 document.getElementById("cancelGroupSetupBtn")?.addEventListener("click", closeGroupSetup);
 document.getElementById("addSetupTasterBtn")?.addEventListener("click", addSetupTaster);
-document.getElementById("startBtn")?.addEventListener("click", start);
 document.getElementById("editGroupSetupBtn")?.addEventListener("click", editGroupSetup);
 document.getElementById("exitGroupModeBtn")?.addEventListener("click", exitGroupMode);
 document.getElementById("prevTasterBtn")?.addEventListener("click", () => nextTaster(-1));
@@ -2350,6 +2379,7 @@ document.getElementById("completeBtn")?.addEventListener("click", renderGroupRes
 document.getElementById("clearBtn")?.addEventListener("click", () => {
   groupScores.forEach((taster, index) => {
     taster.name = `Taster ${index + 1}`;
+    taster.setupName = "";
 
     GROUP_BOTTLES.forEach(letter => {
       taster.bottles[letter] = {
@@ -2393,6 +2423,9 @@ document.getElementById("clearBtn")?.addEventListener("click", () => {
   const groupWinnerPill = document.getElementById("groupWinnerPill");
   if (groupWinnerPill) groupWinnerPill.textContent = "Winner: --";
 });
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
