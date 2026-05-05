@@ -1828,6 +1828,56 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
     grid-row: 1 / span 2;
   }
 }
+/* Best Score bottle name centered in open card space */
+#statBest,
+#statWorst {
+  width: 100%;
+}
+
+.best-score-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.best-score-number {
+  font-family: Georgia, serif;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--text);
+}
+
+.best-score-name {
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+  color: var(--text);
+  font-size: clamp(22px, 5.2vw, 32px);
+  font-weight: 1000;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+
+@media (max-width: 420px) {
+  .best-score-layout {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .best-score-number {
+    font-size: 40px;
+  }
+
+  .best-score-name {
+    font-size: clamp(20px, 5.6vw, 26px);
+  }
+}
 /* Top 3 icons for Top Bottle dashboard */
 .top-bottle-rank-medal {
   width: 26px;
@@ -3657,12 +3707,12 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
         </div>
 
         <div class="stat-card">
-          <div>
-            <div class="stat-label">Average</div>
-            <div class="stat-value" id="statAverage">—</div>
-          </div>
-          <div class="stat-note">Average of all saved cards.</div>
-        </div>
+  <div>
+    <div class="stat-label">Worst Score</div>
+    <div class="stat-value" id="statWorst">—</div>
+  </div>
+  <div class="stat-note">Lowest Whiskey IQ ranking.</div>
+</div>
 
         <div class="stat-card">
           <div>
@@ -6962,7 +7012,7 @@ function dashboardShare(id) {
 
   if (!bottles.length) {
     document.getElementById("statBest").textContent = "—";
-    document.getElementById("statAverage").textContent = "—";
+    document.getElementById("statWorst").textContent = "—";
     document.getElementById("statTopBottle").textContent = "Add your first bottle to begin.";
     return;
   }
@@ -6974,9 +7024,21 @@ function dashboardShare(id) {
 
 const sorted = [...bottles].sort((a, b) => bottleDisplayScore(b) - bottleDisplayScore(a));
 const best = sorted[0];
-const avg = bottles.reduce((sum, bottle) => sum + bottleDisplayScore(bottle), 0) / bottles.length;
-  document.getElementById("statBest").textContent = bottleDisplayScore(best);
-  document.getElementById("statAverage").textContent = Math.round(avg);
+const worst = [...bottles].sort((a, b) => bottleDisplayScore(a) - bottleDisplayScore(b))[0];
+
+document.getElementById("statBest").innerHTML = `
+  <div class="best-score-layout">
+    <div class="best-score-number">${bottleDisplayScore(best)}</div>
+    <div class="best-score-name">${escapeHtml(best.name || "Untitled Bottle")}</div>
+  </div>
+`;
+
+document.getElementById("statWorst").innerHTML = `
+  <div class="best-score-layout">
+    <div class="best-score-number">${bottleDisplayScore(worst)}</div>
+    <div class="best-score-name">${escapeHtml(worst.name || "Untitled Bottle")}</div>
+  </div>
+`;
 
 const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
  const score = bottleDisplayScore(bottle);
