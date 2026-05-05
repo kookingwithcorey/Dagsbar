@@ -3461,6 +3461,85 @@ html[data-theme="dark"] .taster-pill {
     margin-top: 0 !important;
   }
 }
+/* =========================================================
+   MOBILE TASTER ARROW SWITCHER
+   Replaces scrolling taster pills on mobile with centered name + arrows
+   Desktop keeps the normal pill row
+   ========================================================= */
+
+.mobile-taster-switcher {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  #stepRank.active .taster-picker {
+    display: none !important;
+  }
+
+  #stepRank.active .mobile-taster-switcher {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
+  }
+
+  .mobile-taster-arrow {
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.36);
+    color: var(--green);
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    font-weight: 1000;
+    line-height: 1;
+  }
+
+  html[data-theme="dark"] .mobile-taster-arrow {
+    background: rgba(255,255,255,.07);
+  }
+
+  .mobile-taster-current {
+    min-width: 0;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid rgba(15,139,107,.55);
+    background: var(--green);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    padding: 0 14px;
+    text-align: center;
+    box-shadow: 0 10px 22px rgba(15,139,107,.14);
+  }
+
+  .mobile-taster-name {
+    max-width: 100%;
+    font-size: 15px;
+    font-weight: 1000;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-taster-count {
+    margin-top: 3px;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    opacity: .72;
+  }
+
+  #stepRank.active .rank-score-card {
+    margin-top: 0 !important;
+  }
+}
   </style>
 </head>
 
@@ -4429,6 +4508,23 @@ function setActiveTaster(id) {
 
   renderRank();
 }
+function moveActiveTaster(direction) {
+  if (!current?.groupSession?.enabled) return;
+
+  const tasters = getGroupTasters(current);
+  if (!tasters.length) return;
+
+  let index = tasters.findIndex(taster => taster.id === current.groupSession.activeTasterId);
+
+  if (index < 0) index = 0;
+
+  const nextIndex = (index + direction + tasters.length) % tasters.length;
+
+  current.groupSession.activeTasterId = tasters[nextIndex].id;
+  current.updatedAt = new Date().toISOString();
+
+  renderRank();
+}
 function resetModalScroll() {
   const modal = document.querySelector(".modal");
   if (modal) modal.scrollTop = 0;
@@ -4465,16 +4561,46 @@ function resetModalScroll() {
   const activeFlavors = activeFlavorList();
   const currentNotes = activeNotes();
 
+   const groupTasters = getGroupTasters(current);
+  const activeTasterIndex = groupTasters.findIndex(taster => taster.id === current.groupSession.activeTasterId);
+  const safeActiveIndex = activeTasterIndex >= 0 ? activeTasterIndex : 0;
+  const activeTasterName = groupTasters[safeActiveIndex]?.name || `Taster ${safeActiveIndex + 1}`;
+
   const tasterPicker = isGroupMode(current)
-    ? `<div class="taster-picker">
-        ${getGroupTasters(current).map(taster => `
+    ? `
+      <div class="taster-picker">
+        ${groupTasters.map((taster, index) => `
           <button
             class="taster-pill ${taster.id === current.groupSession.activeTasterId ? "active" : ""}"
             type="button"
             onclick="setActiveTaster('${taster.id}')"
-          >${escapeHtml(taster.name || `Taster ${getGroupTasters(current).indexOf(taster) + 1}`)}</button>
+          >${escapeHtml(taster.name || `Taster ${index + 1}`)}</button>
         `).join("")}
-      </div>`
+      </div>
+
+      <div class="mobile-taster-switcher">
+        <button
+          class="mobile-taster-arrow"
+          type="button"
+          onclick="moveActiveTaster(-1)"
+          aria-label="Previous taster"
+        >‹</button>
+
+        <div class="mobile-taster-current">
+          <div>
+            <div class="mobile-taster-name">${escapeHtml(activeTasterName)}</div>
+            <div class="mobile-taster-count">Taster ${safeActiveIndex + 1} of ${groupTasters.length}</div>
+          </div>
+        </div>
+
+        <button
+          class="mobile-taster-arrow"
+          type="button"
+          onclick="moveActiveTaster(1)"
+          aria-label="Next taster"
+        >›</button>
+      </div>
+    `
     : "";
 
   page.innerHTML = `
