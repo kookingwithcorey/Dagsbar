@@ -534,21 +534,26 @@ nav a:hover {
 
   .header-inner {
     align-items: flex-start;
-    padding: 18px 58px 16px 16px;
+    padding: 18px 16px 16px 16px;
     border-radius: 24px;
+  }
+
+  .logo {
+    width: 100%;
+    padding-right: 52px;
   }
 
   nav {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
+    gap: 8px;
     width: 100%;
   }
 
   nav a {
     width: 100%;
     min-width: 0;
-    padding: 11px 3px;
+    padding: 11px 4px;
     font-size: 0.5rem;
     letter-spacing: 0.055em;
     line-height: 1.1;
@@ -625,8 +630,10 @@ html[data-theme="light"] .theme-toggle .sun-icon {
         height: 120px;
       }
     }
-   @media (max-width: 830px) {
+@media (max-width: 830px) {
   .theme-toggle {
+    top: 14px;
+    right: 14px;
     width: 40px;
     height: 40px;
   }
@@ -660,8 +667,6 @@ html[data-theme="light"] .theme-toggle .sun-icon {
   <a href="history.html">Logbook</a>
   <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
   <a href="https://dramhub.lovable.app" target="_blank" rel="noopener noreferrer">Dramhub</a>
-
-  
 </nav>
 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
   <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
