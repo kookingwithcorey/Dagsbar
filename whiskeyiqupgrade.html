@@ -1805,69 +1805,7 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
   font-size: 14px;
   font-weight: 1000;
 }
-/* Top 5 bottle score details */
-.top-bottle-rank-row {
-  grid-template-columns: auto minmax(0, 1fr) !important;
-  align-items: start !important;
-  gap: 10px !important;
-}
 
-.top-bottle-rank-main {
-  min-width: 0;
-  width: 100%;
-}
-
-.top-bottle-rank-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.top-bottle-rank-head .top-bottle-rank-name {
-  font-size: 14px;
-}
-
-.top-bottle-score-row {
-  display: grid;
-  grid-template-columns: repeat(6, auto);
-  justify-content: space-between;
-  gap: 7px;
-  margin: 0 0 8px;
-  width: 100%;
-}
-
-.top-bottle-score-chip {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 3px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 1000;
-  white-space: nowrap;
-}
-
-.top-bottle-score-chip span {
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 1000;
-}
-
-@media (max-width: 520px) {
-  .top-bottle-score-row {
-    gap: 5px;
-  }
-
-  .top-bottle-score-chip {
-    font-size: 10px;
-    gap: 2px;
-  }
-
-  .top-bottle-score-chip span {
-    font-size: 11px;
-  }
-}
 
 /* Bottle photo */
 .photo-bubble {
@@ -6859,40 +6797,18 @@ const avg = bottles.reduce((sum, bottle) => sum + bottleDisplayScore(bottle), 0)
   document.getElementById("statAverage").textContent = Math.round(avg);
 
 const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
-  const score = bottleDisplayScore(bottle);
-  const scores = scoreSetForBottle(bottle);
-
-  const scoreChips = [
-    { label: "A", value: Number(scores?.aroma || 0) },
-    { label: "F", value: Number(scores?.flavor || 0) },
-    { label: "Fi", value: Number(scores?.finish || 0) },
-    { label: "Ag", value: Number(scores?.drinkAgain || 0) },
-    { label: "Re", value: Number(scores?.recommend || 0) },
-    { label: "V", value: Number(scores?.value || 0) }
-  ].map(item => `
-    <div class="top-bottle-score-chip">
-      ${item.label} <span>${item.value}</span>
-    </div>
-  `).join("");
+ const score = bottleDisplayScore(bottle);
 
   return `
     <div class="top-bottle-rank-row">
       <div class="top-bottle-rank-num">${index + 1}</div>
+      <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
 
-      <div class="top-bottle-rank-main">
-        <div class="top-bottle-rank-head">
-          <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
-          <div class="top-bottle-rank-score">${score}</div>
-        </div>
-
-        <div class="top-bottle-score-row">
-          ${scoreChips}
-        </div>
-
-        <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
-          <div class="top-bottle-rank-fill"></div>
-        </div>
+      <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
+        <div class="top-bottle-rank-fill"></div>
       </div>
+
+      <div class="top-bottle-rank-score">${score}</div>
     </div>
   `;
 }).join("");
