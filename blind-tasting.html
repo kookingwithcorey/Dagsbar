@@ -5,7 +5,8 @@
   <title>DAGS | Blind Tasting</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Radar chart library -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
       --bg: #050608;
@@ -617,7 +618,333 @@ nav {
       font-size: 0.72rem;
       color: var(--muted);
     }
+    /* OPTIONAL GROUP BLIND TASTING FLOW */
+.group-mode-launch {
+  margin: 0 0 14px;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.group-setup-card,
+.group-active-card {
+  display: none;
+  margin: 0 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  padding: 12px;
+  gap: 12px;
+}
+
+.group-setup-card.active,
+.group-active-card.active {
+  display: grid;
+}
+
+.group-setup-head,
+.group-active-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.group-setup-title,
+.group-active-title {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.group-setup-sub,
+.group-active-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.group-taster-list {
+  display: grid;
+  gap: 8px;
+}
+
+.group-taster-input-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.group-taster-input-row label {
+  font-size: 0.76rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.group-taster-input-row input {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.025);
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.group-taster-input-row input:focus {
+  border-color: var(--accent-soft);
+  box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.25);
+}
+.group-taster-input-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30px;
+  gap: 6px;
+  align-items: center;
+}
+
+.group-taster-input-wrap input::placeholder {
+  color: rgba(163, 172, 185, 0.58);
+}
+
+.remove-taster-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 999px;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.remove-taster-btn:hover {
+  background: rgba(180, 35, 35, 0.16);
+  border-color: rgba(180, 35, 35, 0.45);
+  color: #fff;
+}
+
+.group-setup-actions,
+.group-active-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.taster-pill-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.taster-pill {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.28);
+  color: var(--muted);
+  padding: 7px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.taster-pill.active {
+  border-color: var(--accent-soft);
+  background: rgba(15, 139, 107, 0.22);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(15, 139, 107, 0.35);
+}
+
+.taster-arrow-control {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.taster-arrow-name {
+  min-width: 130px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.group-results-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.group-result-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.025);
+  padding: 10px 12px;
+}
+
+.group-result-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.group-result-title {
+  font-weight: 700;
+  color: #fff;
+}
+
+.group-result-sub {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.group-rank-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.group-rank-list strong {
+  color: var(--text);
+}
+
+.group-average-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.group-average-table th,
+.group-average-table td {
+  padding: 8px 7px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: left;
+}
+
+.group-average-table th {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.group-average-table td {
+  color: var(--text);
+}
+
+.group-winner-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--accent-soft);
+  background: rgba(15, 139, 107, 0.16);
+  color: #fff;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .group-mode-launch {
+    justify-content: stretch;
+  }
+
+  .group-mode-launch button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .taster-pill-row {
+    display: none;
+  }
+
+  .taster-arrow-control {
+    display: flex;
+  }
+
+  .group-taster-input-row {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+}
+  .card-header-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.card-copy {
+  min-width: 0;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+}
+
+.group-pill-small {
+  padding: 4px 8px;
+  font-size: 0.68rem;
+  line-height: 1;
+  border-radius: 999px;
+  white-space: nowrap;
+  background: rgba(15, 139, 107, 0.12);
+  border-color: var(--accent-soft);
+  color: var(--text);
+  align-self: center;
+  transform: translateY(-1px);
+}
+
+.group-pill-small:hover {
+  background: rgba(15, 139, 107, 0.22);
+}
+
+.header-button-row {
+  justify-content: flex-start;
+}
+
+@media (max-width: 700px) {
+  .title-row {
+    align-items: flex-start;
+  }
+
+  .group-pill-small {
+    margin-top: 4px;
+  }
+
+  .header-button-row {
+    width: 100%;
+  }
+}
+.share-icon-btn {
+  gap: 7px;
+}
+
+.share-icon {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
    /* Print styles – force one-page fit */
 @media print {
   /* Control printer page size + margins */
@@ -728,21 +1055,91 @@ nav {
     </header>
 
     <main class="card" id="blindCard">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Blind Tasting Flight</div>
-          <div class="card-subtitle">
-            Three pours labeled <strong>A, B, C</strong>. For each bottle, score Nose, Palate, and Finish (1–10),
-            set your 1–5 flavor chart, then complete the flight to see the winner.
-          </div>
-        </div>
-        <div class="button-row">
-          <button type="button" id="completeBtn">Complete Flight</button>
-          <button type="button" id="printBtn" class="btn-secondary">Print</button>
-          <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
-        </div>
-      </div>
+     <div class="card-header card-header-layout">
+  <div class="card-copy">
+    <div class="title-row">
+      <div class="card-title">Blind Tasting Flight</div>
 
+      <button type="button" id="openGroupSetupBtn" class="btn-secondary group-pill-small">
+        Group Blind Taste
+      </button>
+    </div>
+
+    <div class="card-subtitle">
+      Three pours labeled <strong>A, B, C</strong>. For each bottle, score Nose, Palate, and Finish (1–10),
+      set your 1–5 flavor chart, then complete the flight to see the winner.
+    </div>
+  </div>
+
+  <div class="button-row header-button-row">
+    <button type="button" id="completeBtn">Complete Flight</button>
+    <button type="button" id="saveBtn" class="btn-secondary">Save to Logbook</button>
+   <button type="button" id="shareBtn" class="btn-secondary share-icon-btn" aria-label="Share blind tasting results">
+  <svg viewBox="0 0 24 24" class="share-icon" aria-hidden="true">
+    <circle cx="18" cy="5" r="2.5"></circle>
+    <circle cx="6" cy="12" r="2.5"></circle>
+    <circle cx="18" cy="19" r="2.5"></circle>
+    <path d="M8.3 11l9.4-5.4"></path>
+    <path d="M8.3 13l9.4 5.4"></path>
+  </svg>
+  <span>Share</span>
+</button>
+    <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
+  </div>
+</div>
+<div class="group-mode-launch" id="groupModeLaunch" style="display:none;"></div>
+<div class="group-setup-card" id="groupSetupCard">
+  <div class="group-setup-head">
+    <div>
+      <div class="group-setup-title">Group Blind Taste Setup</div>
+      <div class="group-setup-sub">
+        Start with 1–2 tasters. Add more only if needed.
+      </div>
+    </div>
+    <button type="button" id="cancelGroupSetupBtn" class="btn-secondary">Cancel</button>
+  </div>
+
+  <div class="group-taster-list" id="groupTasterList">
+    <div class="group-taster-input-row" data-setup-taster-row="0">
+      <label>Taster 1</label>
+      <input type="text" data-setup-taster-name="0" value="Taster 1" />
+    </div>
+
+    <div class="group-taster-input-row" data-setup-taster-row="1">
+      <label>Taster 2</label>
+      <input type="text" data-setup-taster-name="1" value="Taster 2" />
+    </div>
+  </div>
+
+  <div class="group-setup-actions">
+    <button type="button" id="addSetupTasterBtn" class="btn-secondary">Add Taster</button>
+   <button type="button" id="startGroupTastingBtn">Start Group Tasting</button>
+  </div>
+</div>
+
+<div class="group-active-card" id="groupActiveCard">
+  <div class="group-active-head">
+    <div>
+      <div class="group-active-title">Group Blind Taste</div>
+      <div class="group-active-note" id="activeTasterNote">
+        Taster 1 is scoring Bottle A/B/C.
+      </div>
+    </div>
+
+    <div class="group-active-actions">
+      <button type="button" id="editGroupSetupBtn" class="btn-secondary">Edit Tasters</button>
+      <button type="button" id="exitGroupModeBtn" class="btn-secondary">Exit Group</button>
+    </div>
+  </div>
+
+  <div class="taster-pill-row" id="tasterPillRow"></div>
+
+  <div class="taster-arrow-control">
+    <button type="button" class="arrow-btn" id="prevTasterBtn" aria-label="Previous taster">&#8249;</button>
+    <div class="taster-arrow-name" id="activeTasterName">Taster 1</div>
+    <button type="button" class="arrow-btn" id="nextTasterBtn" aria-label="Next taster">&#8250;</button>
+  </div>
+</div>
       <div class="bottle-selector">
         <div class="bottle-pills">
           <div class="pill active" data-bottle="A">A</div>
@@ -1001,40 +1398,61 @@ nav {
     </main>
 
     <!-- Results / scorecard -->
-    <section class="results-card" id="resultsCard" style="display:none;">
-      <div class="results-header">
-        <div>
-          <div class="results-title">Blind Flight Results</div>
-          <div class="muted-small">
-            Ordered by overall score (average of Nose, Palate, Finish). Use this as your scorecard when you reveal the bottles.
-          </div>
-        </div>
-        <button type="button" id="exportBtn">Export (PDF)</button>
-        <button type="button" id="saveBtn" class="btn-secondary">Save Flight</button>
+    <div class="results-card" id="resultsCard" style="display:none;">
+  <div class="results-header">
+    <div>
+      <div class="results-title">Blind Tasting Results</div>
+      <div class="muted-small">
+        Reveal the real bottle names, then compare the results.
       </div>
-
-      <div class="bottle-name-row">
-        <div class="bottle-name-field">
-          <span>Bottle A =</span>
-          <input type="text" placeholder="Name of spirit" data-bottle-name="A" />
-        </div>
-        <div class="bottle-name-field">
-          <span>Bottle B =</span>
-          <input type="text" placeholder="Name of spirit" data-bottle-name="B" />
-        </div>
-        <div class="bottle-name-field">
-          <span>Bottle C =</span>
-          <input type="text" placeholder="Name of spirit" data-bottle-name="C" />
-        </div>
-      </div>
-
-      <ul class="podium-list" id="podiumList"></ul>
-
-      <div class="scorecards" id="scorecards"></div>
-    </section>
+    </div>
+    <div class="group-winner-pill" id="groupWinnerPill">Group Winner: --</div>
   </div>
 
-  <script>
+  <div class="bottle-name-row">
+    <label class="bottle-name-field">
+      A:
+      <input type="text" data-reveal-name="A" placeholder="Bottle A name" />
+    </label>
+    <label class="bottle-name-field">
+      B:
+      <input type="text" data-reveal-name="B" placeholder="Bottle B name" />
+    </label>
+    <label class="bottle-name-field">
+      C:
+      <input type="text" data-reveal-name="C" placeholder="Bottle C name" />
+    </label>
+  </div>
+
+  <div class="group-result-card">
+    <div class="group-result-head">
+      <div class="group-result-title">Group Average</div>
+      <div class="group-result-sub">All active tasters combined</div>
+    </div>
+
+    <table class="group-average-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Bottle</th>
+          <th>Average</th>
+          <th>Tasters</th>
+        </tr>
+      </thead>
+      <tbody id="groupAverageBody">
+        <tr>
+          <td colspan="4">Complete the flight to see group averages.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="group-results-grid" id="individualResultsGrid"></div>
+
+   <div class="scorecards" id="scorecards"></div>
+</div>
+
+<script>
     const bottles = ["A", "B", "C"];
     let currentIndex = 0;
     // ----- BLIND FLIGHT HISTORY (LOCALSTORAGE) -----
@@ -1052,64 +1470,6 @@ function saveBlindHistory(history) {
   localStorage.setItem(BLIND_HISTORY_KEY, JSON.stringify(history));
 }
 
-// Build a single history entry from the current blind flight
-function getCurrentBlindFlightEntry() {
-  // Reuse your scoring logic
-  const results = bottles.map((bottle) => {
-    const { scores, overall } = computeOverallForBottle(bottle);
-
-    const notesEl = document.querySelector(
-      `textarea[data-notes="${bottle}"]`
-    );
-    const notes = notesEl ? notesEl.value.trim() : "";
-
-    const nameInput = document.querySelector(
-      `input[data-bottle-name="${bottle}"]`
-    );
-    const name = nameInput ? nameInput.value.trim() : "";
-
-    return {
-      bottle,
-      name,
-      overall,
-      scores,
-      notes
-    };
-  });
-
-  // Find winner by overall score
-  const scored = results.filter(r => r.overall != null);
-  let winnerText = "";
-  if (scored.length) {
-    scored.sort((a, b) => b.overall - a.overall);
-    const w = scored[0];
-    const namePart = w.name ? ` – ${w.name}` : "";
-    winnerText = `Winner: Bottle ${w.bottle}${namePart} (${w.overall.toFixed(1)}/10)`;
-  }
-
-  // Compact summary line for the history page
-  const summary = results
-    .map((r) => {
-      const namePart = r.name ? ` – ${r.name}` : "";
-      const scorePart =
-        r.overall == null ? "no score" : `${r.overall.toFixed(1)}/10`;
-      return `Bottle ${r.bottle}${namePart}: ${scorePart}`;
-    })
-    .join(" | ");
-
-  return {
-    id: Date.now(),
-    createdAt: new Date().toISOString(),
-    // history.html will use title for blind entries
-    title: "Blind Flight",
-    rating: winnerText,      // shows up as rating pill in log
-    nose: "",                // you can expand later if you want
-    palate: "",
-    finish: "",
-    other: summary           // shows up in Notes snippet
-    // you could also store flavors here later if you want
-  };
-}
     const pills = Array.from(document.querySelectorAll(".pill"));
     const panels = Array.from(document.querySelectorAll(".bottle-panel"));
 
@@ -1316,191 +1676,73 @@ function getCurrentBlindFlightEntry() {
 
     bottles.forEach(computeOverallForBottle);
 
-    document.getElementById("printBtn")?.addEventListener("click", () => {
-      window.print();
-    });
+   async function createBlindTastingShareImage() {
+  renderGroupResults();
 
-    document.getElementById("exportBtn")?.addEventListener("click", () => {
-      window.print();
-    });
+  const target = document.getElementById("resultsCard") || document.getElementById("blindCard");
+  if (!target) return null;
 
-    document.getElementById("clearBtn")?.addEventListener("click", () => {
-      document
-        .querySelectorAll('input[type="number"][data-part]')
-        .forEach((el) => (el.value = ""));
-      document
-        .querySelectorAll("textarea[data-notes]")
-        .forEach((el) => (el.value = ""));
-      document
-        .querySelectorAll('input[type="range"][data-flavor]')
-        .forEach((slider) => {
-          slider.value = 3;
-          const key = slider.getAttribute("data-flavor");
-          const span = document.querySelector(
-            `[data-flavor-value="${key}"]`
-          );
-          if (span) span.textContent = "3";
-        });
+  if (typeof html2canvas === "undefined") {
+    alert("Image sharing is still loading. Try again in a second.");
+    return null;
+  }
 
-      Object.values(charts).forEach((chart) => {
-        chart.data.datasets[0].data = defaultData.slice();
-        chart.update();
+  const canvas = await html2canvas(target, {
+    backgroundColor: "#050608",
+    scale: 2,
+    useCORS: true
+  });
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        resolve(null);
+        return;
+      }
+
+      const file = new File(
+        [blob],
+        `DAGS-Blind-Tasting-${new Date().toISOString().slice(0, 10)}.png`,
+        { type: "image/png" }
+      );
+
+      resolve({ blob, file });
+    }, "image/png");
+  });
+}
+
+async function shareBlindTastingImage() {
+  const imageData = await createBlindTastingShareImage();
+  if (!imageData) return;
+
+  const { blob, file } = imageData;
+
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        title: "DAGS Blind Tasting",
+        text: "DAGS Blind Tasting results",
+        files: [file]
       });
+      return;
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+    }
+  }
 
-      bottles.forEach(computeOverallForBottle);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = file.name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 
-      document.getElementById("resultsCard").style.display = "none";
-      document.getElementById("podiumList").innerHTML = "";
-      document.getElementById("scorecards").innerHTML = "";
-    });
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
 
-    document.getElementById("completeBtn")?.addEventListener("click", () => {
-      const results = bottles.map((bottle) => {
-        const { scores, overall } = computeOverallForBottle(bottle);
+document.getElementById("shareBtn")?.addEventListener("click", shareBlindTastingImage);
 
-        const notesEl = document.querySelector(
-          `textarea[data-notes="${bottle}"]`
-        );
-        const notes = notesEl ? notesEl.value.trim() : "";
-
-        const nameInput = document.querySelector(
-          `input[data-bottle-name="${bottle}"]`
-        );
-        const name = nameInput ? nameInput.value.trim() : "";
-
-        const flavorKeys = [
-          "sweetness",
-          "spice",
-          "oak",
-          "fruit",
-          "grain",
-          "heat",
-          "herbal"
-        ];
-        const flavors = {};
-        flavorKeys.forEach((k) => {
-          const slider = document.querySelector(
-            `input[data-flavor="${bottle}_${k}"]`
-          );
-          flavors[k] = slider ? Number(slider.value) : 0;
-        });
-
-        return {
-          bottle,
-          name,
-          overall,
-          scores,
-          flavors,
-          notes
-        };
-      });
-
-      const sorted = results
-        .slice()
-        .sort((a, b) => {
-          if (a.overall === null && b.overall === null) return 0;
-          if (a.overall === null) return 1;
-          if (b.overall === null) return -1;
-          return b.overall - a.overall;
-        });
-
-      const podiumList = document.getElementById("podiumList");
-      const scorecards = document.getElementById("scorecards");
-      podiumList.innerHTML = "";
-      scorecards.innerHTML = "";
-
-      sorted.forEach((res, idx) => {
-        const placeNames = ["1st", "2nd", "3rd"];
-        const place =
-          idx < placeNames.length ? placeNames[idx] : `${idx + 1}th`;
-        const ratingText =
-          res.overall === null
-            ? "no complete score"
-            : `${res.overall.toFixed(1)}/10`;
-        const namePart = res.name ? ` – ${res.name}` : "";
-        const li = document.createElement("li");
-        li.textContent = `${place}: Bottle ${res.bottle}${namePart} (${ratingText})`;
-        podiumList.appendChild(li);
-      });
-
-      const prettyFlavorName = {
-        sweetness: "Sweetness",
-        spice: "Spice / Rye",
-        oak: "Oak / Tannin",
-        fruit: "Fruit",
-        grain: "Grain",
-        heat: "Heat / Proof",
-        herbal: "Herbal"
-      };
-
-      sorted.forEach((res) => {
-        const card = document.createElement("div");
-        card.className = "scorecard";
-
-        const header = document.createElement("div");
-        header.className = "scorecard-header";
-
-        const labelWrap = document.createElement("div");
-        const label = document.createElement("div");
-        label.className = "scorecard-label";
-        label.textContent = `Bottle ${res.bottle}`;
-        labelWrap.appendChild(label);
-        if (res.name) {
-          const sub = document.createElement("div");
-          sub.className = "scorecard-sub";
-          sub.textContent = res.name;
-          labelWrap.appendChild(sub);
-        }
-
-        const ratingInfo = document.createElement("div");
-        ratingInfo.className = "metric-line";
-        ratingInfo.textContent =
-          res.overall === null
-            ? "Overall: --/10"
-            : `Overall: ${res.overall.toFixed(1)}/10`;
-
-        header.appendChild(labelWrap);
-        header.appendChild(ratingInfo);
-        card.appendChild(header);
-
-        const partLine = document.createElement("div");
-        partLine.className = "metric-line";
-        const n =
-          res.scores.nose === null ? "--" : res.scores.nose.toFixed(1);
-        const p =
-          res.scores.palate === null ? "--" : res.scores.palate.toFixed(1);
-        const f =
-          res.scores.finish === null ? "--" : res.scores.finish.toFixed(1);
-        partLine.textContent = `Nose: ${n}/10 · Palate: ${p}/10 · Finish: ${f}/10`;
-        card.appendChild(partLine);
-
-        const flavorLines = document.createElement("div");
-        Object.entries(res.flavors).forEach(([k, v]) => {
-          const line = document.createElement("div");
-          line.className = "metric-line";
-          line.textContent = `${prettyFlavorName[k]}: ${v} / 5`;
-          flavorLines.appendChild(line);
-        });
-        card.appendChild(flavorLines);
-
-        const notesDiv = document.createElement("div");
-        notesDiv.className = "notes-preview";
-        const shortNotes =
-          res.notes.length > 220
-            ? res.notes.slice(0, 220) + "…"
-            : res.notes || "No notes entered.";
-        notesDiv.innerHTML = `<strong>Notes:</strong> ${shortNotes}`;
-        card.appendChild(notesDiv);
-
-        scorecards.appendChild(card);
-      });
-
-      document.getElementById("resultsCard").style.display = "block";
-      document.getElementById("resultsCard").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
     // ----- SAVE FLIGHT BUTTON (ONLY BIND ONCE) -----
 if (!window.dagsBlindSaveBound) {
   window.dagsBlindSaveBound = true;
@@ -1518,9 +1760,623 @@ if (!window.dagsBlindSaveBound) {
     history.push(entry);
     saveBlindHistory(history);
 
-    alert("Blind flight saved to your Whiskey Log Book!");
+   alert("Blind flight saved to your Logbook!");
   });
 }
-  </script>
+/* OPTIONAL GROUP BLIND TASTING ADD-ON */
+const GROUP_BOTTLES = ["A", "B", "C"];
+
+let isGroupMode = false;
+let groupTasterCount = 1;
+let setupTasterCount = 2;
+let activeTasterIndex = 0;
+
+const groupScores = Array.from({ length: 4 }, (_, tasterIndex) => ({
+  name: `Taster ${tasterIndex + 1}`,
+  bottles: {
+    A: { nose: "", palate: "", finish: "", notes: "", flavors: {} },
+    B: { nose: "", palate: "", finish: "", notes: "", flavors: {} },
+    C: { nose: "", palate: "", finish: "", notes: "", flavors: {} }
+  }
+}));
+
+function getTasterName(index) {
+  return groupScores[index]?.name || `Taster ${index + 1}`;
+}
+
+function setTasterName(index, value) {
+  if (!groupScores[index]) return;
+  const clean = String(value || "").trim();
+  groupScores[index].name = clean || `Taster ${index + 1}`;
+}
+
+function getRevealName(letter) {
+  const input = document.querySelector(`[data-reveal-name="${letter}"]`);
+  const typed = input ? input.value.trim() : "";
+  return typed || `Bottle ${letter}`;
+}
+
+function getBottleAverageForTaster(tasterIndex, bottle) {
+  const data = groupScores[tasterIndex]?.bottles?.[bottle];
+  if (!data) return null;
+
+  const nums = [data.nose, data.palate, data.finish]
+    .map(Number)
+    .filter(n => Number.isFinite(n) && n > 0);
+
+  if (!nums.length) return null;
+  return nums.reduce((sum, n) => sum + n, 0) / nums.length;
+}
+
+function saveCurrentTasterInputs() {
+  if (!isGroupMode) return;
+
+  GROUP_BOTTLES.forEach(letter => {
+    const bottleData = groupScores[activeTasterIndex].bottles[letter];
+
+    ["nose", "palate", "finish"].forEach(part => {
+      const input = document.querySelector(`input[data-bottle="${letter}"][data-part="${part}"]`);
+      if (input) bottleData[part] = input.value;
+    });
+
+    const notes = document.querySelector(`textarea[data-notes="${letter}"]`);
+    if (notes) bottleData.notes = notes.value;
+
+    document.querySelectorAll(`[data-flavor^="${letter}_"]`).forEach(slider => {
+      bottleData.flavors[slider.dataset.flavor] = slider.value;
+    });
+  });
+}
+
+function loadTasterInputs() {
+  if (!isGroupMode) return;
+
+  GROUP_BOTTLES.forEach(letter => {
+    const bottleData = groupScores[activeTasterIndex].bottles[letter];
+
+    ["nose", "palate", "finish"].forEach(part => {
+      const input = document.querySelector(`input[data-bottle="${letter}"][data-part="${part}"]`);
+      if (input) input.value = bottleData[part] || "";
+    });
+
+    const notes = document.querySelector(`textarea[data-notes="${letter}"]`);
+    if (notes) notes.value = bottleData.notes || "";
+
+    document.querySelectorAll(`[data-flavor^="${letter}_"]`).forEach(slider => {
+      const saved = bottleData.flavors[slider.dataset.flavor];
+      slider.value = saved !== undefined ? saved : 3;
+
+      const valueEl = document.querySelector(`[data-flavor-value="${slider.dataset.flavor}"]`);
+      if (valueEl) valueEl.textContent = slider.value;
+    });
+  });
+
+  refreshOverallDisplaysForActiveTaster();
+  refreshChartsFromSliders();
+  updateActiveTasterUI();
+}
+
+function refreshChartsFromSliders() {
+  GROUP_BOTTLES.forEach(letter => {
+    const chart = charts?.[letter];
+    if (!chart) return;
+
+    const values = ["sweetness", "spice", "oak", "fruit", "grain", "heat", "herbal"].map(key => {
+      const slider = document.querySelector(`input[data-flavor="${letter}_${key}"]`);
+      return slider ? Number(slider.value) : 3;
+    });
+
+    chart.data.datasets[0].data = values;
+    chart.update();
+  });
+}
+
+function refreshOverallDisplaysForActiveTaster() {
+  if (!isGroupMode) {
+    GROUP_BOTTLES.forEach(computeOverallForBottle);
+    return;
+  }
+
+  GROUP_BOTTLES.forEach(letter => {
+    const avg = getBottleAverageForTaster(activeTasterIndex, letter);
+    const display = document.querySelector(`[data-overall="${letter}"]`);
+    if (display) {
+      display.textContent = avg === null ? "Overall: --/10" : `Overall: ${avg.toFixed(1)}/10`;
+    }
+  });
+}
+
+function renderTasterPills() {
+  const row = document.getElementById("tasterPillRow");
+  if (!row) return;
+
+  row.innerHTML = Array.from({ length: groupTasterCount }, (_, index) => `
+    <button type="button" class="taster-pill ${index === activeTasterIndex ? "active" : ""}" data-taster-index="${index}">
+      ${getTasterName(index)}
+    </button>
+  `).join("");
+
+  row.querySelectorAll(".taster-pill").forEach(btn => {
+    btn.addEventListener("click", () => switchTaster(Number(btn.dataset.tasterIndex)));
+  });
+}
+
+function getTasterProgressLabel() {
+  return `Taster ${activeTasterIndex + 1}/${groupTasterCount}`;
+}
+
+function updateActiveTasterUI() {
+  renderTasterPills();
+
+  const progressLabel = getTasterProgressLabel();
+  const tasterName = getTasterName(activeTasterIndex);
+
+  const note = document.getElementById("activeTasterNote");
+  if (note) {
+    note.textContent = `${progressLabel} — ${tasterName} is scoring Bottle A/B/C.`;
+  }
+
+  const activeName = document.getElementById("activeTasterName");
+  if (activeName) {
+    activeName.textContent = tasterName;
+  }
+}
+
+function switchTaster(index) {
+  if (!isGroupMode) return;
+
+  const nextIndex = Number(index);
+  if (!Number.isFinite(nextIndex) || nextIndex < 0 || nextIndex >= groupTasterCount) return;
+
+  saveCurrentTasterInputs();
+  activeTasterIndex = nextIndex;
+  loadTasterInputs();
+}
+
+function nextTaster(direction) {
+  if (!isGroupMode) return;
+  const nextIndex = (activeTasterIndex + direction + groupTasterCount) % groupTasterCount;
+  switchTaster(nextIndex);
+}
+
+function openGroupSetup() {
+  document.getElementById("groupSetupCard")?.classList.add("active");
+  document.getElementById("groupActiveCard")?.classList.remove("active");
+  renderSetupTasterInputs();
+}
+
+function closeGroupSetup() {
+  document.getElementById("groupSetupCard")?.classList.remove("active");
+
+  if (!isGroupMode) {
+    
+  } else {
+    document.getElementById("groupActiveCard")?.classList.add("active");
+  }
+}
+
+function syncSetupTasterNamesFromInputs() {
+  document.querySelectorAll("[data-setup-taster-name]").forEach(input => {
+    const index = Number(input.dataset.setupTasterName);
+    if (!groupScores[index]) return;
+
+    const typed = input.value.trim();
+    groupScores[index].setupName = typed;
+  });
+}
+
+function renderSetupTasterInputs() {
+  const list = document.getElementById("groupTasterList");
+  if (!list) return;
+
+  list.innerHTML = Array.from({ length: setupTasterCount }, (_, index) => {
+    const savedName = groupScores[index]?.setupName || "";
+    const canDelete = setupTasterCount > 1;
+
+    return `
+      <div class="group-taster-input-row" data-setup-taster-row="${index}">
+        <label>Taster ${index + 1}</label>
+
+        <div class="group-taster-input-wrap">
+          <input
+            type="text"
+            data-setup-taster-name="${index}"
+            value="${savedName}"
+            placeholder="Taster ${index + 1}"
+          />
+
+          ${
+            canDelete
+              ? `<button type="button" class="remove-taster-btn" data-remove-setup-taster="${index}" aria-label="Remove Taster ${index + 1}">×</button>`
+              : ``
+          }
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  document.querySelectorAll("[data-setup-taster-name]").forEach(input => {
+    input.addEventListener("input", syncSetupTasterNamesFromInputs);
+  });
+
+  document.querySelectorAll("[data-remove-setup-taster]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const removeIndex = Number(btn.dataset.removeSetupTaster);
+      removeSetupTaster(removeIndex);
+    });
+  });
+
+  const addBtn = document.getElementById("addSetupTasterBtn");
+  if (addBtn) {
+    addBtn.style.display = setupTasterCount >= 4 ? "none" : "inline-flex";
+  }
+}
+
+function addSetupTaster() {
+  syncSetupTasterNamesFromInputs();
+  setupTasterCount = Math.min(4, setupTasterCount + 1);
+  renderSetupTasterInputs();
+}
+
+function removeSetupTaster(removeIndex) {
+  syncSetupTasterNamesFromInputs();
+
+  if (setupTasterCount <= 1) return;
+
+  for (let i = removeIndex; i < setupTasterCount - 1; i++) {
+    groupScores[i].setupName = groupScores[i + 1]?.setupName || "";
+    groupScores[i].name = groupScores[i + 1]?.name || `Taster ${i + 2}`;
+    groupScores[i].bottles = JSON.parse(JSON.stringify(groupScores[i + 1].bottles));
+  }
+
+  const lastIndex = setupTasterCount - 1;
+  groupScores[lastIndex].setupName = "";
+  groupScores[lastIndex].name = `Taster ${lastIndex + 1}`;
+  groupScores[lastIndex].bottles = {
+    A: { nose: "", palate: "", finish: "", notes: "", flavors: {} },
+    B: { nose: "", palate: "", finish: "", notes: "", flavors: {} },
+    C: { nose: "", palate: "", finish: "", notes: "", flavors: {} }
+  };
+
+  setupTasterCount -= 1;
+
+  if (activeTasterIndex >= setupTasterCount) {
+    activeTasterIndex = Math.max(0, setupTasterCount - 1);
+  }
+
+  renderSetupTasterInputs();
+}
+
+function startGroupTasting() {
+  document.querySelectorAll("[data-setup-taster-name]").forEach(input => {
+    setTasterName(Number(input.dataset.setupTasterName), input.value || input.placeholder);
+  });
+
+  isGroupMode = true;
+  groupTasterCount = setupTasterCount;
+  activeTasterIndex = 0;
+
+  document.getElementById("groupSetupCard")?.classList.remove("active");
+  document.getElementById("groupActiveCard")?.classList.add("active");
+
+  clearVisibleTastingFieldsOnly();
+  loadTasterInputs();
+}
+
+document.getElementById("startGroupTastingBtn")?.addEventListener("click", startGroupTasting);
+function editGroupSetup() {
+  setupTasterCount = groupTasterCount;
+  renderSetupTasterInputs();
+
+  document.getElementById("groupActiveCard")?.classList.remove("active");
+  document.getElementById("groupSetupCard")?.classList.add("active");
+}
+
+function exitGroupMode() {
+  saveCurrentTasterInputs();
+
+  isGroupMode = false;
+  activeTasterIndex = 0;
+  groupTasterCount = 1;
+  setupTasterCount = 2;
+
+  document.getElementById("groupActiveCard")?.classList.remove("active");
+  document.getElementById("groupSetupCard")?.classList.remove("active");
+ 
+
+  clearVisibleTastingFieldsOnly();
+  GROUP_BOTTLES.forEach(computeOverallForBottle);
+}
+
+function clearVisibleTastingFieldsOnly() {
+  document.querySelectorAll('input[type="number"][data-part]').forEach(input => {
+    input.value = "";
+  });
+
+  document.querySelectorAll("textarea[data-notes]").forEach(textarea => {
+    textarea.value = "";
+  });
+
+  document.querySelectorAll('input[type="range"][data-flavor]').forEach(slider => {
+    slider.value = 3;
+    const key = slider.getAttribute("data-flavor");
+    const valueEl = document.querySelector(`[data-flavor-value="${key}"]`);
+    if (valueEl) valueEl.textContent = "3";
+  });
+
+  Object.values(charts).forEach(chart => {
+    chart.data.datasets[0].data = defaultData.slice();
+    chart.update();
+  });
+
+  GROUP_BOTTLES.forEach(letter => {
+    const display = document.querySelector(`[data-overall="${letter}"]`);
+    if (display) display.textContent = "Overall: --/10";
+  });
+}
+
+function buildSoloRanking() {
+  return GROUP_BOTTLES.map(letter => {
+    const { overall } = computeOverallForBottle(letter);
+    return {
+      letter,
+      name: getRevealName(letter),
+      score: overall,
+      tasters: 1
+    };
+  })
+    .filter(item => item.score !== null)
+    .sort((a, b) => b.score - a.score);
+}
+
+function buildTasterRanking(tasterIndex) {
+  return GROUP_BOTTLES.map(letter => ({
+    letter,
+    name: getRevealName(letter),
+    score: getBottleAverageForTaster(tasterIndex, letter)
+  }))
+    .filter(item => item.score !== null)
+    .sort((a, b) => b.score - a.score);
+}
+
+function buildGroupRanking() {
+  if (!isGroupMode) return buildSoloRanking();
+
+  return GROUP_BOTTLES.map(letter => {
+    const scores = [];
+
+    for (let i = 0; i < groupTasterCount; i++) {
+      const avg = getBottleAverageForTaster(i, letter);
+      if (avg !== null) scores.push(avg);
+    }
+
+    const groupAvg = scores.length
+      ? scores.reduce((sum, n) => sum + n, 0) / scores.length
+      : null;
+
+    return {
+      letter,
+      name: getRevealName(letter),
+      score: groupAvg,
+      tasters: scores.length
+    };
+  })
+    .filter(item => item.score !== null)
+    .sort((a, b) => b.score - a.score);
+}
+
+function renderGroupResults() {
+  saveCurrentTasterInputs();
+
+  const resultsCard = document.getElementById("resultsCard");
+  if (resultsCard) resultsCard.style.display = "block";
+
+  const ranking = buildGroupRanking();
+  const groupWinnerPill = document.getElementById("groupWinnerPill");
+
+  if (groupWinnerPill) {
+    const label = isGroupMode ? "Group Winner" : "Winner";
+    groupWinnerPill.textContent = ranking.length
+      ? `${label}: ${ranking[0].name} (${ranking[0].score.toFixed(1)})`
+      : `${label}: --`;
+  }
+
+  const averageBody = document.getElementById("groupAverageBody");
+  if (averageBody) {
+    if (!ranking.length) {
+      averageBody.innerHTML = `<tr><td colspan="4">Add scores to see results.</td></tr>`;
+    } else {
+      averageBody.innerHTML = ranking.map((item, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td><strong>${item.name}</strong> <span class="muted-small">(${item.letter})</span></td>
+          <td>${item.score.toFixed(1)}/10</td>
+          <td>${isGroupMode ? item.tasters : "Solo"}</td>
+        </tr>
+      `).join("");
+    }
+  }
+
+  const individualGrid = document.getElementById("individualResultsGrid");
+  if (individualGrid) {
+    if (!isGroupMode) {
+      individualGrid.innerHTML = "";
+    } else {
+      individualGrid.innerHTML = "";
+
+      for (let i = 0; i < groupTasterCount; i++) {
+        const tasterRanking = buildTasterRanking(i);
+
+        const card = document.createElement("div");
+        card.className = "group-result-card";
+
+        card.innerHTML = `
+          <div class="group-result-head">
+            <div class="group-result-title">${getTasterName(i)}</div>
+            <div class="group-result-sub">Individual ranking</div>
+          </div>
+          ${
+            tasterRanking.length
+              ? `<ol class="group-rank-list">
+                  ${tasterRanking.map(item => `
+                    <li><strong>${item.name}</strong> <span class="muted-small">(${item.letter})</span> — ${item.score.toFixed(1)}/10</li>
+                  `).join("")}
+                </ol>`
+              : `<div class="muted-small">No scores entered yet.</div>`
+          }
+        `;
+
+        individualGrid.appendChild(card);
+      }
+    }
+  }
+
+  const scorecards = document.getElementById("scorecards");
+  if (scorecards) {
+    scorecards.innerHTML = GROUP_BOTTLES.map(letter => {
+      const rankingItem = ranking.find(item => item.letter === letter);
+
+      const lines = isGroupMode
+        ? Array.from({ length: groupTasterCount }, (_, i) => {
+            const avg = getBottleAverageForTaster(i, letter);
+            return `<div class="metric-line">${getTasterName(i)}: ${avg === null ? "--" : avg.toFixed(1)}/10</div>`;
+          }).join("")
+        : `<div class="metric-line">Solo Score: ${rankingItem && rankingItem.score !== null ? rankingItem.score.toFixed(1) : "--"}/10</div>`;
+
+      return `
+        <div class="scorecard">
+          <div class="scorecard-header">
+            <div>
+              <div class="scorecard-label">${letter}</div>
+              <div class="scorecard-sub">${getRevealName(letter)}</div>
+            </div>
+            <strong>${rankingItem && rankingItem.score !== null ? rankingItem.score.toFixed(1) : "--"}</strong>
+          </div>
+          ${lines}
+        </div>
+      `;
+    }).join("");
+  }
+
+  resultsCard?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function getCurrentBlindFlightEntry() {
+  saveCurrentTasterInputs();
+
+  const ranking = buildGroupRanking();
+
+  let winnerText = "";
+  if (ranking.length) {
+    const winner = ranking[0];
+    winnerText = `${isGroupMode ? "Group Winner" : "Winner"}: ${winner.name} (${winner.score.toFixed(1)}/10)`;
+  }
+
+  const summary = GROUP_BOTTLES.map((letter) => {
+    const revealName = getRevealName(letter);
+    const item = ranking.find(r => r.letter === letter);
+    const score = item && item.score !== null
+      ? `${item.score.toFixed(1)}/10`
+      : "no score";
+
+    const breakdown = isGroupMode
+      ? Array.from({ length: groupTasterCount }, (_, i) => {
+          const avg = getBottleAverageForTaster(i, letter);
+          return `${getTasterName(i)}: ${avg === null ? "--" : avg.toFixed(1)}/10`;
+        }).join(", ")
+      : "Solo tasting";
+
+    return `${revealName} (${letter}): ${score} — ${breakdown}`;
+  }).join(" | ");
+
+  return {
+    id: Date.now(),
+    createdAt: new Date().toISOString(),
+    title: isGroupMode ? "Group Blind Flight" : "Blind Flight",
+    rating: winnerText,
+    nose: "",
+    palate: "",
+    finish: "",
+    other: summary
+  };
+}
+
+/* Wire up optional group controls */
+document.getElementById("openGroupSetupBtn")?.addEventListener("click", openGroupSetup);
+document.getElementById("cancelGroupSetupBtn")?.addEventListener("click", closeGroupSetup);
+document.getElementById("addSetupTasterBtn")?.addEventListener("click", addSetupTaster);
+document.getElementById("startBtn")?.addEventListener("click", start);
+document.getElementById("editGroupSetupBtn")?.addEventListener("click", editGroupSetup);
+document.getElementById("exitGroupModeBtn")?.addEventListener("click", exitGroupMode);
+document.getElementById("prevTasterBtn")?.addEventListener("click", () => nextTaster(-1));
+document.getElementById("nextTasterBtn")?.addEventListener("click", () => nextTaster(1));
+
+document.querySelectorAll("[data-reveal-name]").forEach(input => {
+  input.addEventListener("input", () => {
+    const resultsCard = document.getElementById("resultsCard");
+    if (resultsCard && resultsCard.style.display !== "none") {
+      renderGroupResults();
+    }
+  });
+});
+
+document.querySelectorAll('input[data-part], textarea[data-notes], input[data-flavor]').forEach(el => {
+  el.addEventListener("input", () => {
+    if (isGroupMode) {
+      saveCurrentTasterInputs();
+      refreshOverallDisplaysForActiveTaster();
+    }
+  });
+});
+
+document.getElementById("completeBtn")?.addEventListener("click", renderGroupResults);
+
+document.getElementById("clearBtn")?.addEventListener("click", () => {
+  groupScores.forEach((taster, index) => {
+    taster.name = `Taster ${index + 1}`;
+
+    GROUP_BOTTLES.forEach(letter => {
+      taster.bottles[letter] = {
+        nose: "",
+        palate: "",
+        finish: "",
+        notes: "",
+        flavors: {}
+      };
+    });
+  });
+
+  isGroupMode = false;
+  activeTasterIndex = 0;
+  groupTasterCount = 1;
+  setupTasterCount = 2;
+
+  document.getElementById("groupActiveCard")?.classList.remove("active");
+  document.getElementById("groupSetupCard")?.classList.remove("active");
+
+  clearVisibleTastingFieldsOnly();
+
+  const resultsCard = document.getElementById("resultsCard");
+  if (resultsCard) resultsCard.style.display = "none";
+
+  const scorecards = document.getElementById("scorecards");
+  if (scorecards) scorecards.innerHTML = "";
+
+  const individualResultsGrid = document.getElementById("individualResultsGrid");
+  if (individualResultsGrid) individualResultsGrid.innerHTML = "";
+
+  const averageBody = document.getElementById("groupAverageBody");
+  if (averageBody) {
+    averageBody.innerHTML = `
+      <tr>
+        <td colspan="4">Complete the flight to see results.</td>
+      </tr>
+    `;
+  }
+
+  const groupWinnerPill = document.getElementById("groupWinnerPill");
+  if (groupWinnerPill) groupWinnerPill.textContent = "Winner: --";
+});
+</script>
 </body>
 </html>
