@@ -1740,7 +1740,6 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
 }
 
 /* Top bottle stat */
-
 .top-bottle-rank-list {
   display: flex;
   flex-direction: column;
@@ -1750,7 +1749,7 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
 
 .top-bottle-rank-row {
   display: grid;
-  grid-template-columns: auto minmax(70px, .55fr) minmax(170px, 2.2fr) auto;
+  grid-template-columns: auto minmax(0, 1.25fr) minmax(120px, 2fr) auto;
   align-items: center;
   gap: 10px;
   width: 100%;
@@ -1774,9 +1773,11 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
   color: var(--muted);
   font-size: 14px;
   font-weight: 900;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.05;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 
 .top-bottle-rank-bar {
@@ -1806,7 +1807,59 @@ html[data-theme="dark"] .custom-flavor-edit-card input {
   font-weight: 1000;
 }
 
+@media (max-width: 520px) {
+  .top-bottle-rank-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 9px;
+  }
 
+  .top-bottle-rank-name {
+    font-size: 15px;
+    line-height: 1.08;
+  }
+
+  .top-bottle-rank-bar {
+    grid-column: 2 / 3;
+    margin-top: -2px;
+  }
+
+  .top-bottle-rank-score {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+}
+/* Top 3 trophy icons for Top Bottle dashboard */
+.top-bottle-rank-trophy {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,.16));
+}
+
+.top-bottle-rank-trophy.gold {
+  color: #d4a017;
+}
+
+.top-bottle-rank-trophy.silver {
+  color: #a9b0b8;
+}
+
+.top-bottle-rank-trophy.bronze {
+  color: #b87333;
+}
+
+.top-bottle-rank-trophy.standard {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 1000;
+}
 /* Bottle photo */
 .photo-bubble {
   width: 58px;
@@ -6927,7 +6980,19 @@ const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
 
   return `
     <div class="top-bottle-rank-row">
-      <div class="top-bottle-rank-num">${index + 1}</div>
+    <div class="top-bottle-rank-trophy ${
+  index === 0 ? "gold" :
+  index === 1 ? "silver" :
+  index === 2 ? "bronze" :
+  "standard"
+}">
+  ${
+    index === 0 ? "🏆" :
+    index === 1 ? "🏆" :
+    index === 2 ? "🏆" :
+    index + 1
+  }
+</div>
       <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
 
       <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
