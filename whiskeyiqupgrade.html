@@ -3772,6 +3772,93 @@ html[data-theme="dark"] .num-input {
     align-items: center !important;
   }
 }
+/* =========================================================
+   MOBILE RANKING SPACE FILL
+   Bigger score/slider card + lower Back/Next buttons
+   ========================================================= */
+
+@media (max-width: 720px) {
+  #stepRank.active .rank-page {
+    min-height: calc(100dvh - 92px) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px !important;
+    overflow: visible !important;
+  }
+
+  /* Make the score + slider box taller */
+  #stepRank.active .rank-score-card {
+    height: 182px !important;
+    min-height: 182px !important;
+    max-height: 182px !important;
+    padding: 14px 10px !important;
+    margin-bottom: 12px !important;
+    border-radius: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #stepRank.active .score-row {
+    grid-template-columns: 62px minmax(0, 1fr) !important;
+    gap: 12px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  #stepRank.active .real-icon-ring {
+    width: 62px !important;
+    height: 62px !important;
+  }
+
+  #stepRank.active .real-icon-inner svg {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  #stepRank.active .score-name {
+    margin-bottom: 6px !important;
+  }
+
+  #stepRank.active .rank-help {
+    font-size: 12.5px !important;
+    line-height: 1.22 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Gives the green slider more vertical room */
+  #stepRank.active .range-wrap {
+    margin-top: 4px !important;
+  }
+
+  #stepRank.active input[type="range"] {
+    height: 52px !important;
+    padding: 20px 0 !important;
+  }
+
+  #stepRank.active input[type="range"]::-webkit-slider-thumb {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  #stepRank.active input[type="range"]::-moz-range-thumb {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  /* Push Back / Next closer to the bottom to fill blank space */
+  #stepRank.active .rank-actions {
+    margin-top: auto !important;
+    padding-top: 18px !important;
+    padding-bottom: 12px !important;
+    align-items: center !important;
+  }
+
+  #stepRank.active .rank-actions .btn {
+    min-height: 48px !important;
+    padding: 11px 22px !important;
+  }
+}
   </style>
 </head>
 
