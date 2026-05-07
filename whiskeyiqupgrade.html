@@ -7421,16 +7421,16 @@ document.addEventListener("touchend", event => {
   }
 }, { passive: true });
 /* =========================================================
-   MOBILE NON-GROUP QUESTION SWIPE
-   Swipe left/right on iPhone to move Aroma → Flavor → Finish etc.
-   Does not affect group mode or inputs/sliders/text areas.
+   MOBILE NON-GROUP QUESTION SWIPE - STRONG VERSION
+   Swipe left/right on iPhone to move between ranking questions.
    ========================================================= */
 
-let rankQuestionSwipeStartX = 0;
-let rankQuestionSwipeStartY = 0;
-let rankQuestionSwipeStartTime = 0;
+let nonGroupSwipeStartX = 0;
+let nonGroupSwipeStartY = 0;
+let nonGroupSwipeStartTime = 0;
+let nonGroupSwipeStarted = false;
 
-function isRankQuestionSwipeBlockedTarget(target) {
+function isNonGroupSwipeBlockedTarget(target) {
   return Boolean(
     target.closest("button") ||
     target.closest("input") ||
@@ -7440,60 +7440,69 @@ function isRankQuestionSwipeBlockedTarget(target) {
     target.closest(".choice") ||
     target.closest(".score-range") ||
     target.closest(".num-input") ||
-    target.closest(".rank-tab")
+    target.closest(".rank-tab") ||
+    target.closest(".custom-flavor-add") ||
+    target.closest(".custom-flavor-suggestion")
   );
 }
 
-document.addEventListener("touchstart", event => {
+document.addEventListener("touchstart", function(event) {
   if (window.innerWidth > 720) return;
+  if (!current) return;
   if (!document.getElementById("stepRank")?.classList.contains("active")) return;
   if (isGroupMode(current)) return;
 
   const rankPage = document.getElementById("rankPage");
-  if (!rankPage || !rankPage.contains(event.target)) return;
+  const rankLayout = document.querySelector("#stepRank.active .rank-layout");
 
-  if (isRankQuestionSwipeBlockedTarget(event.target)) return;
+  if (!rankPage || !rankLayout) return;
+  if (!rankLayout.contains(event.target)) return;
+  if (isNonGroupSwipeBlockedTarget(event.target)) return;
 
-  const touch = event.touches?.[0];
+  const touch = event.touches && event.touches[0];
   if (!touch) return;
 
-  rankQuestionSwipeStartX = touch.clientX;
-  rankQuestionSwipeStartY = touch.clientY;
-  rankQuestionSwipeStartTime = Date.now();
-}, { passive: true });
+  nonGroupSwipeStartX = touch.clientX;
+  nonGroupSwipeStartY = touch.clientY;
+  nonGroupSwipeStartTime = Date.now();
+  nonGroupSwipeStarted = true;
+}, true);
 
-document.addEventListener("touchend", event => {
+document.addEventListener("touchend", function(event) {
+  if (!nonGroupSwipeStarted) return;
+
+  nonGroupSwipeStarted = false;
+
   if (window.innerWidth > 720) return;
+  if (!current) return;
   if (!document.getElementById("stepRank")?.classList.contains("active")) return;
   if (isGroupMode(current)) return;
 
-  const touch = event.changedTouches?.[0];
+  const touch = event.changedTouches && event.changedTouches[0];
   if (!touch) return;
 
-  const deltaX = touch.clientX - rankQuestionSwipeStartX;
-  const deltaY = touch.clientY - rankQuestionSwipeStartY;
-  const elapsed = Date.now() - rankQuestionSwipeStartTime;
+  const deltaX = touch.clientX - nonGroupSwipeStartX;
+  const deltaY = touch.clientY - nonGroupSwipeStartY;
+  const elapsed = Date.now() - nonGroupSwipeStartTime;
 
-  const isHorizontalSwipe = Math.abs(deltaX) >= 55;
-  const isNotVerticalScroll = Math.abs(deltaY) <= 70;
-  const isNormalSwipeSpeed = elapsed <= 700;
+  const horizontalEnough = Math.abs(deltaX) >= 45;
+  const mostlyHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+  const notTooSlow = elapsed <= 900;
 
-  if (!isHorizontalSwipe || !isNotVerticalScroll || !isNormalSwipeSpeed) return;
+  if (!horizontalEnough || !mostlyHorizontal || !notTooSlow) return;
 
   if (deltaX < 0) {
-    // Swipe left = next question
     if (activeRank < categories.length - 1) {
       nextRank();
     } else {
       showShare();
     }
   } else {
-    // Swipe right = previous question
     if (activeRank > 0) {
       prevRank();
     }
   }
-}, { passive: true });
+}, true);
     loadTheme();
     loadBottles();
     renderLog();
