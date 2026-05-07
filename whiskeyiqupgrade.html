@@ -4403,7 +4403,7 @@ document.body.classList.remove("share-view");
   resetModalScroll();
 
   syncBottle();
-  if (!current.name) current.name = "Untitled Bottle";
+  if (!current.name) current.name = "Blind Taste";
 
   ensureGroupSessionShape(current);
 
@@ -5505,7 +5505,7 @@ function upsertBottle(shouldSyncInfo = true) {
     return false;
   }
 
-  if (!current.name) current.name = "Untitled Bottle";
+  if (!current.name) current.name = "Blind Taste";
 
   current.totalScore = totalScore(current);
   current.iqInsight = iqInsight(current);
@@ -5871,7 +5871,7 @@ const scoreCards = categories.map(cat => {
                 ${current.image ? `<img src="${current.image}" alt="${escapeHtml(current.name)}" />` : ""}
               </div>
 
-              <div class="share-name">${escapeHtml(current.name || "Untitled Bottle")}</div>
+              <div class="share-name">${escapeHtml(current.name || "Blind Taste")}</div>
 
               <div class="share-divider"></div>
 
@@ -6118,9 +6118,9 @@ const selectedFlavors = flavorProfile
     createdAt: current.createdAt || now,
     updatedAt: now,
 
-    whiskeyName: current.name || "Untitled Bottle",
-    whiskey: current.name || "Untitled Bottle",
-    title: current.name || "Untitled Bottle",
+    whiskeyName: current.name || "Blind Taste",
+    whiskey: current.name || "Blind Taste",
+    title: current.name || "Blind Taste",
 
     distillery: current.type || "Whiskey IQ",
     brand: current.type || "Whiskey IQ",
@@ -6270,7 +6270,7 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     let y = card.image ? 689 : 274;
 
     mctx.font = "bold 56px Georgia";
-    const nameLines = getWrappedLines(mctx, card.name || "Untitled Bottle", 720, 2);
+    const nameLines = getWrappedLines(mctx, card.name || "Blind Taste", 720, 2);
     y += nameLines.length * 60;
 
     y += 2;  // keeps divider about where it was, but lowers the bottle name
@@ -6323,7 +6323,7 @@ y = drawDetail(mctx, "IQ INSIGHT", finalInsight, y, true);
     ctx.fillStyle = "#101511";
     ctx.textAlign = "center";
     ctx.font = "bold 56px Georgia";
-    const nameLines = getWrappedLines(ctx, card.name || "Untitled Bottle", 720, 2);
+    const nameLines = getWrappedLines(ctx, card.name || "Blind Taste", 720, 2);
     drawWrappedLines(ctx, nameLines, w / 2, y, 60);
 
     y += nameLines.length * 60;
@@ -6949,7 +6949,7 @@ const score = groupData.enabled ? groupData.groupTotal : totalScore(bottle);
         <div class="log-content">
           <div class="log-top">
             <div class="log-title-wrap">
-              <div class="log-title">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+              <div class="log-title">${escapeHtml(bottle.name || "Blind Taste")}</div>
               <div class="log-meta">${escapeHtml([bottle.type, bottle.proof ? bottle.proof + " Proof" : ""].filter(Boolean).join(" • ") || "No details added")}</div>
             </div>
 
@@ -7001,7 +7001,7 @@ function dashboardShare(id) {
     function deleteBottle(id) {
       const bottle = bottles.find(b => b.id === id);
       if (!bottle) return;
-      if (!confirm(`Delete "${bottle.name || "Untitled Bottle"}"?`)) return;
+      if (!confirm(`Delete "${bottle.name || "Blind Taste"}"?`)) return;
       bottles = bottles.filter(b => b.id !== id);
       saveBottles();
       renderLog();
@@ -7057,7 +7057,7 @@ const rankedBottles = sorted.slice(0, 5).map((bottle, index) => {
   }
 </div>
 
-      <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Untitled Bottle")}</div>
+      <div class="top-bottle-rank-name">${escapeHtml(bottle.name || "Blind Taste")}</div>
 
       <div class="top-bottle-rank-bar" style="--scorePct:${score}%;">
         <div class="top-bottle-rank-fill"></div>
