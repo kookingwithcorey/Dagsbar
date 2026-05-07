@@ -6251,6 +6251,57 @@ function drawWrappedLines(ctx, lines, x, y, lineHeight) {
     ctx.fillText(line, x, y + (i * lineHeight));
   });
 }
+function drawCanvasBarrelLogo(ctx, x, y, scale = 1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  ctx.strokeStyle = "#064c35";
+  ctx.fillStyle = "#fffaf1";
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  ctx.lineWidth = 4;
+
+  ctx.beginPath();
+  ctx.moveTo(-25, 0);
+  ctx.bezierCurveTo(-30, 12, -32, 22, -33, 33);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-13, 0);
+  ctx.bezierCurveTo(-15, 13, -16, 23, -16, 33);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, 33);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(13, 0);
+  ctx.bezierCurveTo(15, 13, 16, 23, 16, 33);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(25, 0);
+  ctx.bezierCurveTo(30, 12, 32, 22, 33, 33);
+  ctx.stroke();
+
+  ctx.lineWidth = 7;
+  ctx.beginPath();
+  ctx.moveTo(-27, 12);
+  ctx.bezierCurveTo(-15, 16, 15, 16, 27, 12);
+  ctx.stroke();
+
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.ellipse(0, -5, 25, 5.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+}
  function createShareCanvas(callback) {
   const card = current;
   const scale = 2;
@@ -6301,20 +6352,24 @@ y = drawDetail(mctx, "IQ INSIGHT", finalInsight, y, true);
   drawRound(ctx, 40, 36, w - 80, h - 72, 12, "#fffaf1", "#064c35", 4);
 
   ctx.fillStyle = "#064c35";
-  ctx.textAlign = "center";
-  ctx.font = "bold 42px Georgia";
-  ctx.fillText("Whiskey", w / 2, 110);
-  ctx.font = "bold 56px Georgia";
-  ctx.fillText("IQ", w / 2, 164);
+ctx.textAlign = "center";
 
-  ctx.strokeStyle = "#b98a3f";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(210, 126);
-  ctx.lineTo(340, 126);
-  ctx.moveTo(560, 126);
-  ctx.lineTo(690, 126);
-  ctx.stroke();
+drawCanvasBarrelLogo(ctx, w / 2, 60, 1.05);
+
+ctx.font = "bold 42px Georgia";
+ctx.fillText("Whiskey", w / 2, 138);
+
+ctx.font = "bold 56px Georgia";
+ctx.fillText("IQ", w / 2, 194);
+
+ctx.strokeStyle = "#b98a3f";
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(210, 154);
+ctx.lineTo(340, 154);
+ctx.moveTo(560, 154);
+ctx.lineTo(690, 154);
+ctx.stroke();
 
   function drawRest() {
     let y = card.image ? 689 : 274;
