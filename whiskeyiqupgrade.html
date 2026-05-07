@@ -3721,6 +3721,57 @@ html[data-theme="dark"] .taster-pill {
     font-size: 12px !important;
   }
 }
+/* Make score number editable without the green input box */
+.num-input {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: 56px !important;
+  min-width: 56px !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  color: var(--text) !important;
+  font-size: 42px !important;
+  line-height: 1 !important;
+  font-weight: 1000 !important;
+  text-align: right !important;
+  outline: none !important;
+  appearance: textfield !important;
+  -webkit-appearance: none !important;
+}
+
+.num-input:focus {
+  color: var(--green-2) !important;
+  text-shadow: 0 0 18px rgba(15, 139, 107, 0.22);
+}
+
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+html[data-theme="dark"] .num-input {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+.range-wrap {
+  grid-template-columns: 1fr auto !important;
+}
+
+@media (max-width: 720px) {
+  .num-input {
+    width: 52px !important;
+    min-width: 52px !important;
+    font-size: 38px !important;
+  }
+
+  .score-name {
+    align-items: center !important;
+  }
+}
   </style>
 </head>
 
