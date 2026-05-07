@@ -7139,7 +7139,70 @@ document.addEventListener("keydown", event => {
   const modalOpen = document.getElementById("modalBackdrop")?.classList.contains("active");
   if (modalOpen) saveProgressAndClose();
 });
+/* =========================================================
+   MOBILE GROUP TASTER SWIPE
+   Swipe left/right on iPhone to switch active taster
+   ========================================================= */
 
+let groupSwipeStartX = 0;
+let groupSwipeStartY = 0;
+let groupSwipeStartTime = 0;
+
+function isGroupSwipeInteractiveTarget(target) {
+  return Boolean(
+    target.closest("button") ||
+    target.closest("input") ||
+    target.closest("textarea") ||
+    target.closest("select") ||
+    target.closest(".flavor-chip") ||
+    target.closest(".choice") ||
+    target.closest(".score-range") ||
+    target.closest(".num-input")
+  );
+}
+
+document.addEventListener("touchstart", event => {
+  if (window.innerWidth > 720) return;
+  if (!document.getElementById("stepRank")?.classList.contains("active")) return;
+  if (!isGroupMode(current)) return;
+
+  const rankPage = document.getElementById("rankPage");
+  if (!rankPage || !rankPage.contains(event.target)) return;
+
+  if (isGroupSwipeInteractiveTarget(event.target)) return;
+
+  const touch = event.touches?.[0];
+  if (!touch) return;
+
+  groupSwipeStartX = touch.clientX;
+  groupSwipeStartY = touch.clientY;
+  groupSwipeStartTime = Date.now();
+}, { passive: true });
+
+document.addEventListener("touchend", event => {
+  if (window.innerWidth > 720) return;
+  if (!document.getElementById("stepRank")?.classList.contains("active")) return;
+  if (!isGroupMode(current)) return;
+
+  const touch = event.changedTouches?.[0];
+  if (!touch) return;
+
+  const deltaX = touch.clientX - groupSwipeStartX;
+  const deltaY = touch.clientY - groupSwipeStartY;
+  const elapsed = Date.now() - groupSwipeStartTime;
+
+  const isHorizontalSwipe = Math.abs(deltaX) >= 55;
+  const isNotVerticalScroll = Math.abs(deltaY) <= 70;
+  const isNormalSwipeSpeed = elapsed <= 650;
+
+  if (!isHorizontalSwipe || !isNotVerticalScroll || !isNormalSwipeSpeed) return;
+
+  if (deltaX < 0) {
+    moveActiveTaster(1);   // swipe left = next taster
+  } else {
+    moveActiveTaster(-1);  // swipe right = previous taster
+  }
+}, { passive: true });
     loadTheme();
     loadBottles();
     renderLog();
