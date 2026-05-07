@@ -7420,6 +7420,80 @@ document.addEventListener("touchend", event => {
     moveActiveTaster(-1);  // swipe right = previous taster
   }
 }, { passive: true });
+/* =========================================================
+   MOBILE NON-GROUP QUESTION SWIPE
+   Swipe left/right on iPhone to move Aroma → Flavor → Finish etc.
+   Does not affect group mode or inputs/sliders/text areas.
+   ========================================================= */
+
+let rankQuestionSwipeStartX = 0;
+let rankQuestionSwipeStartY = 0;
+let rankQuestionSwipeStartTime = 0;
+
+function isRankQuestionSwipeBlockedTarget(target) {
+  return Boolean(
+    target.closest("button") ||
+    target.closest("input") ||
+    target.closest("textarea") ||
+    target.closest("select") ||
+    target.closest(".flavor-chip") ||
+    target.closest(".choice") ||
+    target.closest(".score-range") ||
+    target.closest(".num-input") ||
+    target.closest(".rank-tab")
+  );
+}
+
+document.addEventListener("touchstart", event => {
+  if (window.innerWidth > 720) return;
+  if (!document.getElementById("stepRank")?.classList.contains("active")) return;
+  if (isGroupMode(current)) return;
+
+  const rankPage = document.getElementById("rankPage");
+  if (!rankPage || !rankPage.contains(event.target)) return;
+
+  if (isRankQuestionSwipeBlockedTarget(event.target)) return;
+
+  const touch = event.touches?.[0];
+  if (!touch) return;
+
+  rankQuestionSwipeStartX = touch.clientX;
+  rankQuestionSwipeStartY = touch.clientY;
+  rankQuestionSwipeStartTime = Date.now();
+}, { passive: true });
+
+document.addEventListener("touchend", event => {
+  if (window.innerWidth > 720) return;
+  if (!document.getElementById("stepRank")?.classList.contains("active")) return;
+  if (isGroupMode(current)) return;
+
+  const touch = event.changedTouches?.[0];
+  if (!touch) return;
+
+  const deltaX = touch.clientX - rankQuestionSwipeStartX;
+  const deltaY = touch.clientY - rankQuestionSwipeStartY;
+  const elapsed = Date.now() - rankQuestionSwipeStartTime;
+
+  const isHorizontalSwipe = Math.abs(deltaX) >= 55;
+  const isNotVerticalScroll = Math.abs(deltaY) <= 70;
+  const isNormalSwipeSpeed = elapsed <= 700;
+
+  if (!isHorizontalSwipe || !isNotVerticalScroll || !isNormalSwipeSpeed) return;
+
+  if (deltaX < 0) {
+    // Swipe left = next question
+    if (activeRank < categories.length - 1) {
+      nextRank();
+    } else {
+      showShare();
+    }
+  } else {
+    // Swipe right = previous question
+    if (activeRank > 0) {
+      prevRank();
+    }
+  }
+}, { passive: true });
     loadTheme();
     loadBottles();
     renderLog();
