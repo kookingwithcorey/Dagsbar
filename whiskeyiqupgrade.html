@@ -7029,14 +7029,14 @@ const worst = [...bottles].sort((a, b) => bottleDisplayScore(a) - bottleDisplayS
 document.getElementById("statBest").innerHTML = `
   <div class="best-score-layout">
     <div class="best-score-number">${bottleDisplayScore(best)}</div>
-    <div class="best-score-name">${escapeHtml(best.name || "Untitled Bottle")}</div>
+    <div class="best-score-name">${escapeHtml(best.name || "Blind Taste")}</div>
   </div>
 `;
 
 document.getElementById("statWorst").innerHTML = `
   <div class="best-score-layout">
     <div class="best-score-number">${bottleDisplayScore(worst)}</div>
-    <div class="best-score-name">${escapeHtml(worst.name || "Untitled Bottle")}</div>
+    <div class="best-score-name">${escapeHtml(worst.name || "Blind Taste")}</div>
   </div>
 `;
 
