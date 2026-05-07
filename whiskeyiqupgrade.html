@@ -3646,6 +3646,81 @@ html[data-theme="dark"] .taster-pill {
     margin-top: 0 !important;
   }
 }
+/* =========================================================
+   #6 SCORE INPUT CLEANUP
+   Top score becomes editable, duplicate slider score removed
+   ========================================================= */
+
+.score-name {
+  align-items: center !important;
+}
+
+.top-score-editor {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.top-score-input {
+  width: 68px !important;
+  min-width: 68px !important;
+  height: 46px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(15,139,107,.35) !important;
+  background: rgba(15,139,107,.08) !important;
+  color: var(--text) !important;
+  text-align: center !important;
+  font-size: 34px !important;
+  font-weight: 1000 !important;
+  line-height: 1 !important;
+  padding: 0 4px !important;
+}
+
+.top-score-input:focus {
+  outline: 2px solid rgba(15,139,107,.35) !important;
+  outline-offset: 2px !important;
+  background: rgba(15,139,107,.13) !important;
+}
+
+.top-score-editor span {
+  color: var(--muted) !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.top-score-input::-webkit-outer-spin-button,
+.top-score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.top-score-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Slider now uses full row width */
+.range-wrap {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#stepRank.active .range-wrap {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+@media (max-width: 720px) {
+  .top-score-input {
+    width: 58px !important;
+    min-width: 58px !important;
+    height: 40px !important;
+    font-size: 28px !important;
+  }
+
+  .top-score-editor span {
+    font-size: 12px !important;
+  }
+}
   </style>
 </head>
 
@@ -4728,40 +4803,44 @@ function resetModalScroll() {
 
         <div class="rank-score-main">
           <div class="score-name">
-            <h3>${cat.label}</h3>
-            <strong>${value}<span> /${cat.max}</span></strong>
-          </div>
-          <div class="rank-help">${cat.help}</div>
+  <h3>${cat.label}</h3>
 
-          ${
-            cat.choices
-              ? ""
-              : `<div class="range-wrap">
-                  <input
-                    class="score-range"
-                    type="range"
-                    min="0"
-                    max="${cat.max}"
-                    step="1"
-                    value="${value}"
-                    style="--rangePct:${rangePct}%;"
-                    oninput="setScore('${cat.key}', this.value, this, false)"
-                  />
-                  <input
-                    class="num-input"
-                    type="number"
-                    inputmode="numeric"
-                    min="0"
-                    max="${cat.max}"
-                    step="1"
-                    value="${value}"
-                    onfocus="this.dataset.editing='true'"
-                    oninput="updateScorePreview('${cat.key}', this.value, this)"
-                    onblur="commitScoreInput('${cat.key}', this.value)"
-                    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
-                  />
-                </div>`
-          }
+  <div class="top-score-editor">
+    <input
+      class="top-score-input num-input"
+      type="number"
+      inputmode="numeric"
+      min="0"
+      max="${cat.max}"
+      step="1"
+      value="${value}"
+      aria-label="${cat.label} score"
+      onfocus="this.dataset.editing='true'; this.select();"
+      oninput="updateScorePreview('${cat.key}', this.value, this)"
+      onblur="commitScoreInput('${cat.key}', this.value)"
+      onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
+    />
+    <span>/${cat.max}</span>
+  </div>
+</div>
+<div class="rank-help">${cat.help}</div>
+
+${
+  cat.choices
+    ? ""
+    : `<div class="range-wrap">
+        <input
+          class="score-range"
+          type="range"
+          min="0"
+          max="${cat.max}"
+          step="1"
+          value="${value}"
+          style="--rangePct:${rangePct}%;"
+          oninput="setScore('${cat.key}', this.value, this, false)"
+        />
+      </div>`
+}
 
           ${
             cat.choices
@@ -4905,10 +4984,10 @@ function updateScorePreview(key, raw, inputEl) {
     iconInner.innerHTML = svgIcon(displayIconFor(cat, current, scores));
   }
 
-  const scoreStrong = page.querySelector(".score-name strong");
-  if (scoreStrong) {
-    scoreStrong.innerHTML = `${value}<span> /${cat.max}</span>`;
-  }
+  const topScoreInput = page.querySelector(".top-score-input");
+if (topScoreInput && topScoreInput !== inputEl && topScoreInput.dataset.editing !== "true") {
+  topScoreInput.value = value;
+}
 
   const activeTab = tabs.querySelector(".rank-tab.active strong");
   if (activeTab) {
