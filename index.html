@@ -653,7 +653,161 @@ html[data-theme="light"] .theme-toggle .sun-icon {
     height: 20px;
   }
 }
-  </style>
+/* Cleaner mobile spacing for index.html */
+@media (max-width: 830px) {
+  body {
+    line-height: 1.42;
+  }
+
+  main {
+    padding-bottom: 24px;
+  }
+
+  section {
+    padding: 34px 0;
+  }
+
+  .hero {
+    padding-top: 22px;
+    padding-bottom: 28px;
+  }
+
+  .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero-inner,
+  .two-col,
+  .menu-grid {
+    gap: 16px;
+  }
+
+  .section-header {
+    margin-bottom: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+    line-height: 1.12;
+    margin-bottom: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .card {
+    padding: 16px 14px;
+    border-radius: 18px;
+  }
+
+  .card h3 {
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+
+  .card li {
+    margin-bottom: 5px;
+    line-height: 1.42;
+  }
+
+  .hero-card {
+    padding: 16px 14px;
+    gap: 10px;
+  }
+
+  .chip-row {
+    margin-bottom: 16px;
+    gap: 7px;
+  }
+
+  .btn-row {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 9px 13px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  #about {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  #menu {
+    padding-top: 28px;
+    padding-bottom: 30px;
+  }
+
+  #gallery {
+    padding-top: 28px;
+    padding-bottom: 24px;
+  }
+
+  #gallery .section-header {
+    margin-bottom: 14px;
+  }
+
+  .gallery-scroll {
+    gap: 10px;
+    padding: 4px 0 2px;
+  }
+
+  .gallery-item img {
+    width: 176px;
+    height: 112px;
+    border-radius: 12px;
+  }
+
+  #visit {
+    padding-top: 26px;
+    padding-bottom: 34px;
+  }
+
+  .visit-card {
+    padding: 16px 14px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  footer {
+    padding: 14px 18px 22px;
+  }
+}
+
+@media (max-width: 430px) {
+  section {
+    padding: 30px 0;
+  }
+
+  .hero {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+
+  .section-header h2 {
+    font-size: 1.22rem;
+  }
+
+  .gallery-item img {
+    width: 168px;
+    height: 108px;
+  }
+
+  #gallery {
+    padding-bottom: 18px;
+  }
+
+  #visit {
+    padding-top: 22px;
+  }
+} 
+</style>
 </head>
 <body>
  <header>
