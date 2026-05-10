@@ -182,6 +182,31 @@
     nav.dataset.dagsIqNavUpdated = "true";
   }
 
+  function shouldHideFloatingLogin() {
+    if (getCurrentPage() !== "whiskeyiqupgrade.html") return false;
+    if (document.body.classList.contains("modal-open")) return true;
+    const activeModal = document.querySelector(".modal-backdrop.active, .modal.active, [aria-modal='true']");
+    if (activeModal) return true;
+    const bottleInfoTitle = Array.from(document.querySelectorAll("h1, h2, .modal-title")).some((el) => {
+      const text = (el.textContent || "").trim().toLowerCase();
+      return text === "bottle info" || text.includes("ranking") || text.includes("review");
+    });
+    return bottleInfoTitle;
+  }
+
+  function syncFloatingLoginVisibility() {
+    const control = document.getElementById("dagsAccountControl");
+    if (!control) return;
+    control.classList.toggle("dags-login-hidden", shouldHideFloatingLogin());
+  }
+
+  function watchFloatingLoginVisibility() {
+    if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
+    syncFloatingLoginVisibility();
+    const observer = new MutationObserver(syncFloatingLoginVisibility);
+    observer.observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ["class", "style", "aria-hidden"] });
+  }
+
   function injectFloatingAccountControl() {
     if (!shouldShowLoginButton()) return;
     if (document.getElementById("dagsAccountControl")) return;
@@ -197,6 +222,10 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+      }
+      .dags-account-control.dags-login-hidden,
+      body.modal-open .dags-account-control {
+        display: none !important;
       }
       .dags-account-link {
         display: inline-flex;
@@ -238,6 +267,7 @@
     wrap.className = "dags-account-control";
     wrap.appendChild(account);
     document.body.appendChild(wrap);
+    syncFloatingLoginVisibility();
   }
 
   function injectAccountLink() {
@@ -266,7 +296,8 @@
     injectAccountLink,
     injectFloatingAccountControl,
     updateAccountLabels,
-    updateWhiskeyIQNav
+    updateWhiskeyIQNav,
+    syncFloatingLoginVisibility
   };
 
   ready(async function () {
@@ -274,6 +305,7 @@
     if (shouldShowLoginButton()) {
       injectAccountLink();
       await updateAccountLabels();
+      watchFloatingLoginVisibility();
     }
     const db = getClient();
     if (db && shouldShowLoginButton()) db.auth.onAuthStateChange(updateAccountLabels);
