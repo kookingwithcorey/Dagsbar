@@ -1,6 +1,6 @@
 /* DAGS shared Supabase login/session helper
    One login for DAGS + Dramhub.
-   Include this on non-home DAGS pages with:
+   Include this on Blind Tasting, Logbook, and Whiskey IQ pages with:
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
    <script src="dags-supabase.js"></script>
 */
@@ -13,9 +13,13 @@
     else fn();
   }
 
-  function isHomePage() {
-    const page = window.location.pathname.split("/").pop().toLowerCase();
-    return page === "" || page === "index.html";
+  function getCurrentPage() {
+    return window.location.pathname.split("/").pop().toLowerCase() || "index.html";
+  }
+
+  function shouldShowLoginButton() {
+    const page = getCurrentPage();
+    return page === "blind-tasting.html" || page === "history.html" || page === "whiskeyiqupgrade.html";
   }
 
   function getClient() {
@@ -57,7 +61,7 @@
   async function requireLogin(returnUrl) {
     const user = await getUser();
     if (user) return user;
-    const next = returnUrl || window.location.pathname.split("/").pop() || "index.html";
+    const next = returnUrl || getCurrentPage();
     window.location.href = "auth.html?next=" + encodeURIComponent(next);
     return null;
   }
@@ -142,7 +146,7 @@
   }
 
   function injectFloatingAccountControl() {
-    if (isHomePage()) return;
+    if (!shouldShowLoginButton()) return;
     if (document.getElementById("dagsAccountControl")) return;
 
     const style = document.createElement("style");
@@ -225,11 +229,11 @@
   };
 
   ready(async function () {
-    if (!isHomePage()) {
+    if (shouldShowLoginButton()) {
       injectAccountLink();
       await updateAccountLabels();
     }
     const db = getClient();
-    if (db && !isHomePage()) db.auth.onAuthStateChange(updateAccountLabels);
+    if (db && shouldShowLoginButton()) db.auth.onAuthStateChange(updateAccountLabels);
   });
 })();
