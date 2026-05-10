@@ -186,12 +186,7 @@
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return false;
     if (document.body.classList.contains("modal-open")) return true;
     const activeModal = document.querySelector(".modal-backdrop.active, .modal.active, [aria-modal='true']");
-    if (activeModal) return true;
-    const bottleInfoTitle = Array.from(document.querySelectorAll("h1, h2, .modal-title")).some((el) => {
-      const text = (el.textContent || "").trim().toLowerCase();
-      return text === "bottle info" || text.includes("ranking") || text.includes("review");
-    });
-    return bottleInfoTitle;
+    return !!activeModal;
   }
 
   function syncFloatingLoginVisibility() {
