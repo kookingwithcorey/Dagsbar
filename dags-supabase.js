@@ -1,6 +1,6 @@
 /* DAGS shared Supabase login/session helper
    One login for DAGS + Dramhub.
-   Include this on Blind Tasting, Logbook, and Whiskey IQ pages with:
+   Include this on Blind Tasting, Logbook, Whiskey IQ, and Legacy Whiskey IQ pages with:
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
    <script src="dags-supabase.js"></script>
 */
@@ -19,7 +19,7 @@
 
   function shouldShowLoginButton() {
     const page = getCurrentPage();
-    return page === "blind-tasting.html" || page === "history.html" || page === "whiskeyiqupgrade.html";
+    return page === "blind-tasting.html" || page === "history.html" || page === "whiskeyiqupgrade.html" || page === "whiskeyiq.html";
   }
 
   function getClient() {
