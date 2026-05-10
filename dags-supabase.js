@@ -153,7 +153,12 @@
     document.head.appendChild(style);
     const wrap = document.createElement("div"); wrap.id = "dagsAccountControl"; wrap.className = "dags-account-control";
     if (shouldShowThemeControl()) wrap.appendChild(getOrCreateThemeButton());
-    const account = document.createElement("a"); account.href = "auth.html"; account.className = "dags-account-link"; account.textContent = "Log In"; wrap.appendChild(account);
+    const account = document.createElement("a");
+const nextPage = getCurrentPage();
+account.href = "auth.html?next=" + encodeURIComponent(nextPage);
+account.className = "dags-account-link";
+account.textContent = "Log In";
+wrap.appendChild(account);
     document.body.appendChild(wrap); syncSharedControlsVisibility(); updateThemeButton();
   }
 
