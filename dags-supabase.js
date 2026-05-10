@@ -154,7 +154,7 @@
     style.textContent = `
       .dags-account-control {
         position: fixed;
-        top: 20px;
+        top: 28px;
         right: 28px;
         z-index: 9998;
         display: flex;
@@ -182,11 +182,11 @@
       }
       .dags-account-link:hover { border-color: rgba(15,139,107,.7); background: rgba(15,139,107,.22); }
       @media (max-width: 830px) {
-        .dags-account-control { top: 14px; right: 22px; }
+        .dags-account-control { top: 24px; right: 22px; }
         .dags-account-link { min-height: 34px; padding: 8px 11px; font-size: 10px; letter-spacing: .08em; }
       }
       @media (max-width: 430px) {
-        .dags-account-control { top: 14px; right: 22px; }
+        .dags-account-control { top: 24px; right: 22px; }
       }
     `;
     document.head.appendChild(style);
