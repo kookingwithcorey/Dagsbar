@@ -196,10 +196,12 @@ if (backToDags) {
   const { data: sessionData } = await db.auth.getSession();
 
   if (!sessionData.session) {
+  if (!currentUser) {
     loggedIn.classList.add("hidden");
     loggedOut.classList.remove("hidden");
-    return;
   }
+  return;
+}
 
   currentUser = sessionData.session.user;
 
@@ -235,7 +237,24 @@ if (backToDags) {
   loggedIn.classList.remove("hidden");
 }
     async function saveProfile(){if(!currentUser){showStatus("Log in first.");return}const username=document.getElementById("profileUsername").value.trim()||null;const displayName=document.getElementById("profileDisplayName").value.trim()||null;const hideProfile=document.getElementById("hideProfile").checked;const {error}=await db.from("profiles").update({username,display_name:displayName,hide_profile:hideProfile}).eq("id",currentUser.id);if(error){showStatus(error.message);return}showStatus("Profile saved.");await loadAccount()}
-    db.auth.onAuthStateChange(()=>loadAccount());loadAccount();
+    db.auth.onAuthStateChange((event, session) => {
+  console.log("DAGS auth event:", event, session?.user?.email || "no user");
+
+  if (event === "SIGNED_OUT") {
+    currentUser = null;
+    loggedIn.classList.add("hidden");
+    loggedOut.classList.remove("hidden");
+    return;
+  }
+
+  if (session?.user) {
+    loadAccount();
+  }
+});
+
+setTimeout(() => {
+  loadAccount();
+}, 300);
   </script>
 </body>
 </html>
