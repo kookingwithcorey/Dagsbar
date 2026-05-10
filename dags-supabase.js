@@ -1,42 +1,21 @@
-/* DAGS shared Supabase login/session helper
-   One login for DAGS + Dramhub.
-   Include this on DAGS app pages with:
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-   <script src="dags-supabase.js"></script>
-*/
+/* DAGS shared Supabase login/session helper */
 (function () {
   const SUPABASE_URL = "https://yfbficwfvscipodbvsfh.supabase.co";
   const SUPABASE_KEY = "sb_publishable_hTHG1nFVWSBnvgwUozGcpg_IUrtsn2B";
   const THEME_KEY = "dags-shared-theme";
 
-  function ready(fn) {
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
-    else fn();
-  }
-
-  function getCurrentPage() {
-    return window.location.pathname.split("/").pop().toLowerCase() || "index.html";
-  }
-
-  function pageClassName() {
-    return "dags-page-" + getCurrentPage().replace(/\.html$/, "").replace(/[^a-z0-9_-]/g, "-");
-  }
+  function ready(fn) { document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", fn) : fn(); }
+  function getCurrentPage() { return window.location.pathname.split("/").pop().toLowerCase() || "index.html"; }
+  function pageClassName() { return "dags-page-" + getCurrentPage().replace(/\.html$/, "").replace(/[^a-z0-9_-]/g, "-"); }
 
   function shouldShowSharedControls() {
     const page = getCurrentPage();
-    return page === "blind-tasting.html" ||
-      page === "history.html" ||
-      page === "whiskeyiqupgrade.html" ||
-      page === "whiskeyiq.html" ||
-      page === "menu.html";
+    return ["blind-tasting.html", "history.html", "whiskeyiqupgrade.html", "whiskeyiq.html", "menu.html"].includes(page);
   }
 
   function shouldShowThemeControl() {
     const page = getCurrentPage();
-    return page === "blind-tasting.html" ||
-      page === "history.html" ||
-      page === "whiskeyiqupgrade.html" ||
-      page === "menu.html";
+    return ["blind-tasting.html", "history.html", "whiskeyiqupgrade.html", "menu.html"].includes(page);
   }
 
   function getClient() {
@@ -44,9 +23,7 @@
       console.warn("DAGS Auth: Supabase library not loaded. Add @supabase/supabase-js before dags-supabase.js.");
       return null;
     }
-    if (!window.dagsSupabaseClient) {
-      window.dagsSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    }
+    if (!window.dagsSupabaseClient) window.dagsSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     return window.dagsSupabaseClient;
   }
 
@@ -66,20 +43,14 @@
     const db = getClient();
     const user = await getUser();
     if (!db || !user) return null;
-    const { data, error } = await db
-      .from("profiles")
-      .select("id, username, display_name, role, status, hide_profile")
-      .eq("id", user.id)
-      .single();
-    if (error) return null;
-    return data;
+    const { data, error } = await db.from("profiles").select("id, username, display_name, role, status, hide_profile").eq("id", user.id).single();
+    return error ? null : data;
   }
 
   async function requireLogin(returnUrl) {
     const user = await getUser();
     if (user) return user;
-    const next = returnUrl || getCurrentPage();
-    window.location.href = "auth.html?next=" + encodeURIComponent(next);
+    window.location.href = "auth.html?next=" + encodeURIComponent(returnUrl || getCurrentPage());
     return null;
   }
 
@@ -136,11 +107,7 @@
     const db = getClient();
     const user = await requireLogin();
     if (!db || !user) return { error: "Not logged in" };
-    const { data: parent, error: parentError } = await db
-      .from("blind_tastings")
-      .insert({ user_id: user.id, title: tasting.title || "Blind Tasting", notes: tasting.notes || null, is_public: !!tasting.is_public })
-      .select()
-      .single();
+    const { data: parent, error: parentError } = await db.from("blind_tastings").insert({ user_id: user.id, title: tasting.title || "Blind Tasting", notes: tasting.notes || null, is_public: !!tasting.is_public }).select().single();
     if (parentError) return { error: parentError };
     const childRows = (bottles || []).map((bottle, index) => ({
       tasting_id: parent.id,
@@ -165,7 +132,7 @@
   function updateWhiskeyIQNav() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
     const nav = document.querySelector(".nav");
-    if (!nav || nav.dataset.dagsIqNavUpdated === "true") return;
+    if (!nav) return;
 
     Array.from(nav.querySelectorAll("a, button")).forEach((el) => {
       const text = (el.textContent || "").trim().toLowerCase();
@@ -185,13 +152,9 @@
       const a = document.createElement("a");
       a.href = link.href;
       a.textContent = link.text;
-      if (link.external) {
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-      }
+      if (link.external) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
       const legacy = nav.querySelector(".legacy-iq-btn");
-      if (legacy) nav.insertBefore(a, legacy);
-      else nav.appendChild(a);
+      legacy ? nav.insertBefore(a, legacy) : nav.appendChild(a);
     });
 
     nav.dataset.dagsIqNavUpdated = "true";
@@ -199,26 +162,39 @@
 
   function shouldHideSharedControls() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return false;
-    if (document.body.classList.contains("modal-open")) return true;
-    const activeModal = document.querySelector(".modal-backdrop.active, .modal.active, [aria-modal='true']");
-    return !!activeModal;
+    return document.body.classList.contains("modal-open") || !!document.querySelector(".modal-backdrop.active, .modal.active, [aria-modal='true']");
   }
 
   function syncSharedControlsVisibility() {
     const control = document.getElementById("dagsAccountControl");
-    if (!control) return;
-    control.classList.toggle("dags-login-hidden", shouldHideSharedControls());
+    if (control) control.classList.toggle("dags-login-hidden", shouldHideSharedControls());
   }
 
   function watchSharedControlsVisibility() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
     syncSharedControlsVisibility();
-    const observer = new MutationObserver(syncSharedControlsVisibility);
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ["class", "style", "aria-hidden"] });
+    new MutationObserver(syncSharedControlsVisibility).observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ["class", "style", "aria-hidden"] });
   }
 
   function getCurrentTheme() {
     return document.documentElement.getAttribute("data-theme") || localStorage.getItem(THEME_KEY) || "dark";
+  }
+
+  function sunIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2.5v2.2M12 19.3v2.2M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M2.5 12h2.2M19.3 12h2.2M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"></path></svg>`;
+  }
+
+  function moonIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"></path></svg>`;
+  }
+
+  function updateThemeButton() {
+    const btn = document.querySelector("#dagsThemeControl");
+    if (!btn) return;
+    const current = getCurrentTheme();
+    btn.innerHTML = current === "light" ? sunIcon() : moonIcon();
+    btn.setAttribute("aria-label", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    btn.setAttribute("title", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
   }
 
   function applyTheme(theme) {
@@ -234,41 +210,21 @@
     applyTheme(getCurrentTheme() === "dark" ? "light" : "dark");
   }
 
-  function themeIcon() {
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"></path></svg>`;
-  }
-
-  function updateThemeButton() {
-    const btn = document.querySelector("#dagsThemeControl");
-    if (!btn) return;
-    const current = getCurrentTheme();
-    btn.setAttribute("aria-label", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    btn.setAttribute("title", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
-  }
-
   function getOrCreateThemeButton() {
     let btn = document.getElementById("themeToggle") || document.querySelector(".theme-toggle") || document.getElementById("dagsThemeControl");
-
-    if (btn) {
+    if (!btn) {
+      btn = document.createElement("button");
       btn.id = "dagsThemeControl";
-      btn.classList.add("dags-theme-control");
+      btn.className = "dags-theme-control";
       btn.type = "button";
-      if (!btn.innerHTML.trim()) btn.innerHTML = themeIcon();
-      if (!btn.dataset.dagsThemeBound) {
-        btn.addEventListener("click", toggleTheme);
-        btn.dataset.dagsThemeBound = "true";
-      }
-      updateThemeButton();
-      return btn;
     }
-
-    btn = document.createElement("button");
     btn.id = "dagsThemeControl";
-    btn.className = "dags-theme-control";
+    btn.classList.add("dags-theme-control");
     btn.type = "button";
-    btn.innerHTML = themeIcon();
-    btn.addEventListener("click", toggleTheme);
-    btn.dataset.dagsThemeBound = "true";
+    if (!btn.dataset.dagsThemeBound) {
+      btn.addEventListener("click", toggleTheme);
+      btn.dataset.dagsThemeBound = "true";
+    }
     updateThemeButton();
     return btn;
   }
@@ -293,15 +249,25 @@
         gap: 8px;
       }
       .dags-account-control.dags-login-hidden,
-      body.modal-open .dags-account-control {
-        display: none !important;
-      }
+      body.modal-open .dags-account-control { display: none !important; }
       .dags-page-whiskeyiqupgrade .nav .icon-btn:not(#dagsThemeControl),
       .dags-page-whiskeyiqupgrade .nav button[aria-label*="theme" i]:not(#dagsThemeControl),
       .dags-page-whiskeyiqupgrade .nav button[title*="theme" i]:not(#dagsThemeControl),
       .dags-page-whiskeyiqupgrade .nav button[aria-label*="mode" i]:not(#dagsThemeControl),
-      .dags-page-whiskeyiqupgrade .nav button[title*="mode" i]:not(#dagsThemeControl) {
-        display: none !important;
+      .dags-page-whiskeyiqupgrade .nav button[title*="mode" i]:not(#dagsThemeControl) { display: none !important; }
+      .dags-page-whiskeyiqupgrade .nav {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+        width: 100% !important;
+        align-items: center !important;
+      }
+      .dags-page-whiskeyiqupgrade .nav a,
+      .dags-page-whiskeyiqupgrade .nav button {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        white-space: nowrap !important;
       }
       .dags-account-link,
       .dags-theme-control {
@@ -366,6 +332,12 @@
         .dags-account-link { min-height: 34px !important; padding: 8px 11px !important; font-size: 10px !important; letter-spacing: .08em !important; }
         .dags-theme-control { width: 34px !important; height: 34px !important; min-height: 34px !important; flex-basis: 34px !important; }
         .dags-theme-control svg { width: 18px !important; height: 18px !important; }
+        .dags-page-whiskeyiqupgrade .nav { gap: 8px !important; }
+        .dags-page-whiskeyiqupgrade .nav a,
+        .dags-page-whiskeyiqupgrade .nav button { min-width: 0 !important; padding-left: 8px !important; padding-right: 8px !important; font-size: clamp(11px, 2.5vw, 14px) !important; }
+      }
+      @media (max-width: 430px) {
+        .dags-page-whiskeyiqupgrade .nav { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
       }
     `;
     document.head.appendChild(style);
@@ -374,10 +346,7 @@
     wrap.id = "dagsAccountControl";
     wrap.className = "dags-account-control";
 
-    if (shouldShowThemeControl()) {
-      const theme = getOrCreateThemeButton();
-      wrap.appendChild(theme);
-    }
+    if (shouldShowThemeControl()) wrap.appendChild(getOrCreateThemeButton());
 
     const account = document.createElement("a");
     account.href = "auth.html";
@@ -389,36 +358,21 @@
     syncSharedControlsVisibility();
   }
 
-  function injectAccountLink() {
-    injectFloatingAccountControl();
-  }
+  function injectAccountLink() { injectFloatingAccountControl(); }
 
   async function updateAccountLabels() {
     const profile = await getProfile();
-    const labels = document.querySelectorAll(".dags-account-link");
-    labels.forEach((label) => {
+    document.querySelectorAll(".dags-account-link").forEach((label) => {
       label.textContent = profile ? "Account" : "Log In";
       label.title = profile ? `Logged in${profile.display_name ? " as " + profile.display_name : ""}` : "Log in to DAGS";
     });
   }
 
   window.DAGSAuth = {
-    getClient,
-    getSession,
-    getUser,
-    getProfile,
-    requireLogin,
-    signOut,
-    saveWhiskeyIQLog,
-    saveWhiskeyLog,
-    saveBlindTasting,
-    injectAccountLink,
-    injectFloatingAccountControl,
-    updateAccountLabels,
-    updateWhiskeyIQNav,
-    syncSharedControlsVisibility,
-    applyTheme,
-    toggleTheme
+    getClient, getSession, getUser, getProfile, requireLogin, signOut,
+    saveWhiskeyIQLog, saveWhiskeyLog, saveBlindTasting,
+    injectAccountLink, injectFloatingAccountControl, updateAccountLabels,
+    updateWhiskeyIQNav, syncSharedControlsVisibility, applyTheme, toggleTheme
   };
 
   ready(async function () {
@@ -427,6 +381,7 @@
       if (shouldShowThemeControl()) {
         const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme");
         if (savedTheme) applyTheme(savedTheme);
+        else updateThemeButton();
       }
       injectAccountLink();
       await updateAccountLabels();
