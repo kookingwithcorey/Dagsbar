@@ -177,7 +177,7 @@
       .dags-theme-hero-slot {
         position: absolute;
         right: 28px;
-        top: 88px;
+        top: 42px;
         z-index: 4;
         width: 44px;
         height: 44px;
@@ -195,12 +195,12 @@
       @media (max-width: 830px) {
         .dags-account-control { top: 18px; right: 18px; }
         .dags-account-link { min-height: 34px; padding: 8px 11px; font-size: 10px; letter-spacing: .08em; }
-        .dags-theme-hero-slot { right: 38px; top: 86px; width: 40px; height: 40px; }
+        .dags-theme-hero-slot { right: 38px; top: 40px; width: 40px; height: 40px; }
         .dags-theme-hero-slot .theme-toggle { width: 40px !important; height: 40px !important; }
       }
       @media (max-width: 430px) {
         .dags-account-control { top: 18px; right: 18px; }
-        .dags-theme-hero-slot { right: 40px; top: 84px; }
+        .dags-theme-hero-slot { right: 40px; top: 38px; }
       }
     `;
     document.head.appendChild(style);
