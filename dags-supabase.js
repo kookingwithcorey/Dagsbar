@@ -9,11 +9,8 @@
   const SUPABASE_KEY = "sb_publishable_hTHG1nFVWSBnvgwUozGcpg_IUrtsn2B";
 
   function ready(fn) {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", fn);
-    } else {
-      fn();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
   }
 
   function getClient() {
@@ -71,7 +68,6 @@
     const db = getClient();
     const user = await requireLogin();
     if (!db || !user) return { error: "Not logged in" };
-
     const row = {
       user_id: user.id,
       bottle_id: score.bottle_id || null,
@@ -88,7 +84,6 @@
       notes: score.notes || null,
       is_public: !!score.is_public
     };
-
     return await db.from("whiskey_iq_logs").insert(row).select().single();
   }
 
@@ -96,7 +91,6 @@
     const db = getClient();
     const user = await requireLogin();
     if (!db || !user) return { error: "Not logged in" };
-
     const row = {
       user_id: user.id,
       bottle_id: entry.bottle_id || null,
@@ -109,7 +103,6 @@
       is_public: !!entry.is_public,
       publish_review: !!entry.publish_review
     };
-
     return await db.from("whiskey_logs").insert(row).select().single();
   }
 
@@ -117,20 +110,12 @@
     const db = getClient();
     const user = await requireLogin();
     if (!db || !user) return { error: "Not logged in" };
-
     const { data: parent, error: parentError } = await db
       .from("blind_tastings")
-      .insert({
-        user_id: user.id,
-        title: tasting.title || "Blind Tasting",
-        notes: tasting.notes || null,
-        is_public: !!tasting.is_public
-      })
+      .insert({ user_id: user.id, title: tasting.title || "Blind Tasting", notes: tasting.notes || null, is_public: !!tasting.is_public })
       .select()
       .single();
-
     if (parentError) return { error: parentError };
-
     const childRows = (bottles || []).map((bottle, index) => ({
       tasting_id: parent.id,
       user_id: user.id,
@@ -144,12 +129,10 @@
       ranking: bottle.ranking || null,
       notes: bottle.notes || null
     }));
-
     if (childRows.length) {
       const { error: childError } = await db.from("blind_tasting_bottles").insert(childRows);
       if (childError) return { data: parent, error: childError };
     }
-
     return { data: parent, error: null };
   }
 
@@ -160,20 +143,16 @@
     style.setAttribute("data-dags-account-control", "true");
     style.textContent = `
       .dags-account-control {
-        position: fixed;
-        top: 14px;
-        right: 14px;
-        z-index: 9998;
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        z-index: 20;
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 8px;
+        align-items: center;
+        justify-content: flex-end;
         pointer-events: none;
       }
-      .dags-account-control a,
-      .dags-account-control button {
-        pointer-events: auto;
-      }
+      .dags-account-control a { pointer-events: auto; }
       .dags-account-link {
         display: inline-flex;
         align-items: center;
@@ -193,74 +172,62 @@
         box-shadow: 0 10px 30px rgba(0,0,0,.32);
         white-space: nowrap;
       }
-      .dags-account-link:hover {
-        border-color: rgba(15,139,107,.7);
-        background: rgba(15,139,107,.22);
+      .dags-account-link:hover { border-color: rgba(15,139,107,.7); background: rgba(15,139,107,.22); }
+
+      .dags-theme-hero-slot {
+        position: absolute;
+        right: 28px;
+        top: 88px;
+        z-index: 4;
+        width: 44px;
+        height: 44px;
       }
-      .dags-account-theme-slot {
-        display: flex;
-        justify-content: flex-end;
-        min-height: 38px;
-      }
-      .dags-account-control .theme-toggle {
+      .dags-theme-hero-slot .theme-toggle {
         position: static !important;
         top: auto !important;
         right: auto !important;
-        width: 40px !important;
-        height: 40px !important;
+        width: 44px !important;
+        height: 44px !important;
         margin: 0 !important;
-        pointer-events: auto;
       }
-      body.dags-floating-account-active .header-inner {
-        padding-right: 122px;
-      }
-      body.dags-floating-account-active > header .theme-toggle:not(.dags-account-control .theme-toggle) {
-        display: none;
-      }
+      .hero, .hero-inner { position: relative; }
+
       @media (max-width: 830px) {
-        .dags-account-control {
-          top: 10px;
-          right: 10px;
-          gap: 7px;
-        }
-        .dags-account-link {
-          min-height: 34px;
-          padding: 8px 11px;
-          font-size: 10px;
-          letter-spacing: .08em;
-        }
-        .dags-account-control .theme-toggle {
-          width: 36px !important;
-          height: 36px !important;
-        }
-        body.dags-floating-account-active .header-inner {
-          padding-right: 112px;
-        }
+        .dags-account-control { top: 18px; right: 18px; }
+        .dags-account-link { min-height: 34px; padding: 8px 11px; font-size: 10px; letter-spacing: .08em; }
+        .dags-theme-hero-slot { right: 38px; top: 86px; width: 40px; height: 40px; }
+        .dags-theme-hero-slot .theme-toggle { width: 40px !important; height: 40px !important; }
+      }
+      @media (max-width: 430px) {
+        .dags-account-control { top: 18px; right: 18px; }
+        .dags-theme-hero-slot { right: 40px; top: 84px; }
       }
     `;
     document.head.appendChild(style);
-
-    const wrap = document.createElement("div");
-    wrap.id = "dagsAccountControl";
-    wrap.className = "dags-account-control";
 
     const account = document.createElement("a");
     account.href = "auth.html";
     account.className = "dags-account-link";
     account.textContent = "Log In";
 
-    const themeSlot = document.createElement("div");
-    themeSlot.className = "dags-account-theme-slot";
+    const wrap = document.createElement("div");
+    wrap.id = "dagsAccountControl";
+    wrap.className = "dags-account-control";
+    wrap.appendChild(account);
+
+    const headerBox = document.querySelector(".header-inner") || document.querySelector("header") || document.body;
+    if (getComputedStyle(headerBox).position === "static") headerBox.style.position = "relative";
+    headerBox.appendChild(wrap);
 
     const existingThemeToggle = document.getElementById("themeToggle") || document.querySelector(".theme-toggle");
-    if (existingThemeToggle) {
+    const hero = document.querySelector(".hero-inner") || document.querySelector(".hero");
+    if (existingThemeToggle && hero && !document.getElementById("dagsThemeHeroSlot")) {
+      const themeSlot = document.createElement("div");
+      themeSlot.id = "dagsThemeHeroSlot";
+      themeSlot.className = "dags-theme-hero-slot";
       themeSlot.appendChild(existingThemeToggle);
+      hero.appendChild(themeSlot);
     }
-
-    wrap.appendChild(account);
-    if (existingThemeToggle) wrap.appendChild(themeSlot);
-    document.body.appendChild(wrap);
-    document.body.classList.add("dags-floating-account-active");
   }
 
   function injectAccountLink() {
