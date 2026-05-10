@@ -1,6 +1,6 @@
 /* DAGS shared Supabase login/session helper
    One login for DAGS + Dramhub.
-   Include this on any DAGS page with:
+   Include this on non-home DAGS pages with:
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
    <script src="dags-supabase.js"></script>
 */
@@ -11,6 +11,11 @@
   function ready(fn) {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
     else fn();
+  }
+
+  function isHomePage() {
+    const page = window.location.pathname.split("/").pop().toLowerCase();
+    return page === "" || page === "index.html";
   }
 
   function getClient() {
@@ -137,22 +142,21 @@
   }
 
   function injectFloatingAccountControl() {
+    if (isHomePage()) return;
     if (document.getElementById("dagsAccountControl")) return;
 
     const style = document.createElement("style");
     style.setAttribute("data-dags-account-control", "true");
     style.textContent = `
       .dags-account-control {
-        position: absolute;
-        top: 18px;
-        right: 18px;
-        z-index: 20;
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        z-index: 9998;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        pointer-events: none;
       }
-      .dags-account-control a { pointer-events: auto; }
       .dags-account-link {
         display: inline-flex;
         align-items: center;
@@ -173,34 +177,9 @@
         white-space: nowrap;
       }
       .dags-account-link:hover { border-color: rgba(15,139,107,.7); background: rgba(15,139,107,.22); }
-
-      .dags-theme-hero-slot {
-        position: absolute;
-        right: 28px;
-        top: 42px;
-        z-index: 4;
-        width: 44px;
-        height: 44px;
-      }
-      .dags-theme-hero-slot .theme-toggle {
-        position: static !important;
-        top: auto !important;
-        right: auto !important;
-        width: 44px !important;
-        height: 44px !important;
-        margin: 0 !important;
-      }
-      .hero, .hero-inner { position: relative; }
-
       @media (max-width: 830px) {
-        .dags-account-control { top: 18px; right: 18px; }
+        .dags-account-control { top: 10px; right: 10px; }
         .dags-account-link { min-height: 34px; padding: 8px 11px; font-size: 10px; letter-spacing: .08em; }
-        .dags-theme-hero-slot { right: 38px; top: 40px; width: 40px; height: 40px; }
-        .dags-theme-hero-slot .theme-toggle { width: 40px !important; height: 40px !important; }
-      }
-      @media (max-width: 430px) {
-        .dags-account-control { top: 18px; right: 18px; }
-        .dags-theme-hero-slot { right: 40px; top: 38px; }
       }
     `;
     document.head.appendChild(style);
@@ -214,20 +193,7 @@
     wrap.id = "dagsAccountControl";
     wrap.className = "dags-account-control";
     wrap.appendChild(account);
-
-    const headerBox = document.querySelector(".header-inner") || document.querySelector("header") || document.body;
-    if (getComputedStyle(headerBox).position === "static") headerBox.style.position = "relative";
-    headerBox.appendChild(wrap);
-
-    const existingThemeToggle = document.getElementById("themeToggle") || document.querySelector(".theme-toggle");
-    const hero = document.querySelector(".hero-inner") || document.querySelector(".hero");
-    if (existingThemeToggle && hero && !document.getElementById("dagsThemeHeroSlot")) {
-      const themeSlot = document.createElement("div");
-      themeSlot.id = "dagsThemeHeroSlot";
-      themeSlot.className = "dags-theme-hero-slot";
-      themeSlot.appendChild(existingThemeToggle);
-      hero.appendChild(themeSlot);
-    }
+    document.body.appendChild(wrap);
   }
 
   function injectAccountLink() {
@@ -259,9 +225,11 @@
   };
 
   ready(async function () {
-    injectAccountLink();
-    await updateAccountLabels();
+    if (!isHomePage()) {
+      injectAccountLink();
+      await updateAccountLabels();
+    }
     const db = getClient();
-    if (db) db.auth.onAuthStateChange(updateAccountLabels);
+    if (db && !isHomePage()) db.auth.onAuthStateChange(updateAccountLabels);
   });
 })();
