@@ -164,9 +164,24 @@ wrap.appendChild(account);
 
   function injectAccountLink() { injectFloatingAccountControl(); }
   async function updateAccountLabels() {
-    const profile = await getProfile();
-    document.querySelectorAll(".dags-account-link").forEach((label) => { label.textContent = profile ? "Account" : "Log In"; label.title = profile ? `Logged in${profile.display_name ? " as " + profile.display_name : ""}` : "Log in to DAGS"; });
+  const user = await getUser();
+  let profile = null;
+
+  if (user) {
+    profile = await getProfile();
   }
+
+  document.querySelectorAll(".dags-account-link").forEach((label) => {
+    label.textContent = user ? "Account" : "Log In";
+    label.href = user
+      ? "auth.html?next=" + encodeURIComponent(getCurrentPage())
+      : "auth.html?next=" + encodeURIComponent(getCurrentPage());
+
+    label.title = user
+      ? `Logged in${profile?.display_name ? " as " + profile.display_name : ""}`
+      : "Log in to DAGS";
+  });
+}
 
   window.DAGSAuth = { getClient, getSession, getUser, getProfile, requireLogin, signOut, saveWhiskeyIQLog, saveWhiskeyLog, saveBlindTasting, injectAccountLink, injectFloatingAccountControl, updateAccountLabels, updateWhiskeyIQNav, syncSharedControlsVisibility, applyTheme, toggleTheme };
 
