@@ -236,7 +236,7 @@ if (backToDags) {
   loggedOut.classList.add("hidden");
   loggedIn.classList.remove("hidden");
 }
-    async function saveProfile() {
+async function saveProfile() {
   if (!currentUser) {
     showStatus("Log in first.");
     return;
@@ -248,29 +248,58 @@ if (backToDags) {
 
   showStatus("Saving profile...");
 
-  const { error } = await db
+  const profileUpdate = {
+    username,
+    display_name: displayName,
+    hide_profile: hideProfile
+  };
+
+  const { data, error } = await db
     .from("profiles")
-    .upsert({
-      id: currentUser.id,
-      username,
-      display_name: displayName,
-      hide_profile: hideProfile,
-      role: "user",
-      status: "active"
-    }, {
-      onConflict: "id"
-    });
+    .update(profileUpdate)
+    .eq("id", currentUser.id)
+    .select("id, username, display_name, role, status, hide_profile")
+    .maybeSingle();
 
   if (error) {
-    console.warn("Profile save failed:", error.message);
-    showStatus("Profile could not save. Check Supabase profile permissions.");
+    console.warn("Profile save failed:", error);
+    showStatus(`Profile save failed: ${error.message}`);
     return;
+  }
+
+  if (!data) {
+    console.warn("Profile update returned no row. Trying insert...");
+
+    const { data: inserted, error: insertError } = await db
+      .from("profiles")
+      .insert({
+        id: currentUser.id,
+        username,
+        display_name: displayName,
+        hide_profile: hideProfile,
+        role: "user",
+        status: "active"
+      })
+      .select("id, username, display_name, role, status, hide_profile")
+      .maybeSingle();
+
+    if (insertError) {
+      console.warn("Profile insert failed:", insertError);
+      showStatus(`Profile insert failed: ${insertError.message}`);
+      return;
+    }
+
+    if (!inserted) {
+      showStatus("Profile save failed: no profile row was returned.");
+      return;
+    }
   }
 
   showStatus("Profile saved.");
   await loadAccount();
 }
-    let accountLoadedOnce = false;
+
+let accountLoadedOnce = false;
 
 db.auth.onAuthStateChange((event, session) => {
   console.log("DAGS auth event:", event, session?.user?.email || "no user");
