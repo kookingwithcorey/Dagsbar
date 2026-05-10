@@ -62,7 +62,14 @@
   <script>
     const SUPABASE_URL = "https://yfbficwfvscipodbvsfh.supabase.co";
     const SUPABASE_KEY = "sb_publishable_hTHG1nFVWSBnvgwUozGcpg_IUrtsn2B";
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: window.localStorage
+  }
+});
     const statusBox = document.getElementById("status");
     const loggedOut = document.getElementById("loggedOut");
     const loggedIn = document.getElementById("loggedIn");
@@ -141,7 +148,7 @@ if (backToDags) {
   showStatus("Account created. Check your email if confirmation is required.");
   await loadAccount();
 }
-    async function signIn(){
+  async function signIn(){
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
 
@@ -159,15 +166,30 @@ if (backToDags) {
     return;
   }
 
-  await ensureProfile(data.user);
+  // Give Supabase a moment to persist the session before redirecting.
+  let session = null;
 
-  const nextPage = authNextPage;
+  for (let i = 0; i < 10; i++) {
+    const { data: sessionData } = await db.auth.getSession();
+    session = sessionData.session;
+
+    if (session?.user) break;
+
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+
+  if (!session?.user) {
+    showStatus("Login worked, but the session did not save yet. Please tap Log In again.");
+    return;
+  }
+
+  await ensureProfile(session.user);
 
   showStatus("Logged in. Taking you back...");
 
   setTimeout(() => {
-    window.location.href = nextPage;
-  }, 350);
+    window.location.href = authNextPage;
+  }, 600);
 }
     async function signOut(){await db.auth.signOut();currentUser=null;loggedIn.classList.add("hidden");loggedOut.classList.remove("hidden");showStatus("Logged out.")}
     async function loadAccount() {
