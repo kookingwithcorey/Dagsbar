@@ -1,12 +1,13 @@
 /* DAGS shared Supabase login/session helper
    One login for DAGS + Dramhub.
-   Include this on Blind Tasting, Logbook, Whiskey IQ, and Legacy Whiskey IQ pages with:
+   Include this on DAGS app pages with:
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
    <script src="dags-supabase.js"></script>
 */
 (function () {
   const SUPABASE_URL = "https://yfbficwfvscipodbvsfh.supabase.co";
   const SUPABASE_KEY = "sb_publishable_hTHG1nFVWSBnvgwUozGcpg_IUrtsn2B";
+  const THEME_KEY = "dags-shared-theme";
 
   function ready(fn) {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
@@ -17,9 +18,13 @@
     return window.location.pathname.split("/").pop().toLowerCase() || "index.html";
   }
 
-  function shouldShowLoginButton() {
+  function shouldShowSharedControls() {
     const page = getCurrentPage();
-    return page === "blind-tasting.html" || page === "history.html" || page === "whiskeyiqupgrade.html" || page === "whiskeyiq.html";
+    return page === "blind-tasting.html" ||
+      page === "history.html" ||
+      page === "whiskeyiqupgrade.html" ||
+      page === "whiskeyiq.html" ||
+      page === "menu.html";
   }
 
   function getClient() {
@@ -153,9 +158,7 @@
     Array.from(nav.querySelectorAll("a, button")).forEach((el) => {
       const text = (el.textContent || "").trim().toLowerCase();
       const href = (el.getAttribute("href") || "").toLowerCase();
-      if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard")) {
-        el.remove();
-      }
+      if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard")) el.remove();
     });
 
     const links = [
@@ -182,28 +185,84 @@
     nav.dataset.dagsIqNavUpdated = "true";
   }
 
-  function shouldHideFloatingLogin() {
+  function shouldHideSharedControls() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return false;
     if (document.body.classList.contains("modal-open")) return true;
     const activeModal = document.querySelector(".modal-backdrop.active, .modal.active, [aria-modal='true']");
     return !!activeModal;
   }
 
-  function syncFloatingLoginVisibility() {
+  function syncSharedControlsVisibility() {
     const control = document.getElementById("dagsAccountControl");
     if (!control) return;
-    control.classList.toggle("dags-login-hidden", shouldHideFloatingLogin());
+    control.classList.toggle("dags-login-hidden", shouldHideSharedControls());
   }
 
-  function watchFloatingLoginVisibility() {
+  function watchSharedControlsVisibility() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
-    syncFloatingLoginVisibility();
-    const observer = new MutationObserver(syncFloatingLoginVisibility);
+    syncSharedControlsVisibility();
+    const observer = new MutationObserver(syncSharedControlsVisibility);
     observer.observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ["class", "style", "aria-hidden"] });
   }
 
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute("data-theme") || localStorage.getItem(THEME_KEY) || "dark";
+  }
+
+  function applyTheme(theme) {
+    const next = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem(THEME_KEY, next);
+    localStorage.setItem("dags-home-theme", next);
+    localStorage.setItem("dags-theme", next);
+    updateThemeButton();
+  }
+
+  function toggleTheme() {
+    applyTheme(getCurrentTheme() === "dark" ? "light" : "dark");
+  }
+
+  function themeIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"></path></svg>`;
+  }
+
+  function updateThemeButton() {
+    const btn = document.querySelector("#dagsThemeControl");
+    if (!btn) return;
+    const current = getCurrentTheme();
+    btn.setAttribute("aria-label", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    btn.setAttribute("title", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+
+  function getOrCreateThemeButton() {
+    let btn = document.getElementById("themeToggle") || document.querySelector(".theme-toggle") || document.getElementById("dagsThemeControl");
+
+    if (btn) {
+      btn.id = "dagsThemeControl";
+      btn.classList.add("dags-theme-control");
+      btn.type = "button";
+      if (!btn.innerHTML.trim()) btn.innerHTML = themeIcon();
+      if (!btn.dataset.dagsThemeBound) {
+        btn.addEventListener("click", toggleTheme);
+        btn.dataset.dagsThemeBound = "true";
+      }
+      updateThemeButton();
+      return btn;
+    }
+
+    btn = document.createElement("button");
+    btn.id = "dagsThemeControl";
+    btn.className = "dags-theme-control";
+    btn.type = "button";
+    btn.innerHTML = themeIcon();
+    btn.addEventListener("click", toggleTheme);
+    btn.dataset.dagsThemeBound = "true";
+    updateThemeButton();
+    return btn;
+  }
+
   function injectFloatingAccountControl() {
-    if (!shouldShowLoginButton()) return;
+    if (!shouldShowSharedControls()) return;
     if (document.getElementById("dagsAccountControl")) return;
 
     const style = document.createElement("style");
@@ -217,40 +276,69 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        gap: 8px;
       }
       .dags-account-control.dags-login-hidden,
       body.modal-open .dags-account-control {
         display: none !important;
       }
+      .dags-theme-control,
       .dags-account-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 38px;
-        padding: 9px 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,.16);
-        background: rgba(5, 8, 8, .72);
-        color: #f7f7f7 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 38px !important;
+        border-radius: 999px !important;
+        border: 1px solid rgba(15,139,107,.65) !important;
+        background: linear-gradient(135deg, #0f8b6b, #064c35) !important;
+        color: #fff !important;
         text-decoration: none !important;
-        font-size: 12px;
-        font-weight: 900;
-        letter-spacing: .1em;
-        text-transform: uppercase;
         backdrop-filter: blur(14px);
-        box-shadow: 0 10px 30px rgba(0,0,0,.32);
+        box-shadow: 0 10px 30px rgba(6,76,53,.28) !important;
         white-space: nowrap;
+        position: static !important;
+        top: auto !important;
+        right: auto !important;
+        margin: 0 !important;
       }
-      .dags-account-link:hover { border-color: rgba(15,139,107,.7); background: rgba(15,139,107,.22); }
+      .dags-account-link {
+        padding: 9px 14px !important;
+        font-size: 12px !important;
+        font-weight: 900 !important;
+        letter-spacing: .1em !important;
+        text-transform: uppercase !important;
+      }
+      .dags-theme-control {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        flex: 0 0 38px !important;
+      }
+      .dags-theme-control svg {
+        width: 20px !important;
+        height: 20px !important;
+        stroke: currentColor !important;
+        fill: none !important;
+        stroke-width: 2.35 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+      .dags-account-link:hover,
+      .dags-theme-control:hover {
+        transform: translateY(-1px);
+        border-color: rgba(15,139,107,.95) !important;
+        background: linear-gradient(135deg, #18b98f, #064c35) !important;
+      }
       @media (max-width: 830px) {
-        .dags-account-control { top: 24px; right: 22px; }
-        .dags-account-link { min-height: 34px; padding: 8px 11px; font-size: 10px; letter-spacing: .08em; }
-      }
-      @media (max-width: 430px) {
-        .dags-account-control { top: 24px; right: 22px; }
+        .dags-account-control { top: 24px; right: 22px; gap: 7px; }
+        .dags-account-link { min-height: 34px !important; padding: 8px 11px !important; font-size: 10px !important; letter-spacing: .08em !important; }
+        .dags-theme-control { width: 34px !important; height: 34px !important; min-height: 34px !important; flex-basis: 34px !important; }
+        .dags-theme-control svg { width: 18px !important; height: 18px !important; }
       }
     `;
     document.head.appendChild(style);
+
+    const theme = getOrCreateThemeButton();
 
     const account = document.createElement("a");
     account.href = "auth.html";
@@ -260,9 +348,10 @@
     const wrap = document.createElement("div");
     wrap.id = "dagsAccountControl";
     wrap.className = "dags-account-control";
+    wrap.appendChild(theme);
     wrap.appendChild(account);
     document.body.appendChild(wrap);
-    syncFloatingLoginVisibility();
+    syncSharedControlsVisibility();
   }
 
   function injectAccountLink() {
@@ -292,17 +381,21 @@
     injectFloatingAccountControl,
     updateAccountLabels,
     updateWhiskeyIQNav,
-    syncFloatingLoginVisibility
+    syncSharedControlsVisibility,
+    applyTheme,
+    toggleTheme
   };
 
   ready(async function () {
     updateWhiskeyIQNav();
-    if (shouldShowLoginButton()) {
+    if (shouldShowSharedControls()) {
+      const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme");
+      if (savedTheme) applyTheme(savedTheme);
       injectAccountLink();
       await updateAccountLabels();
-      watchFloatingLoginVisibility();
+      watchSharedControlsVisibility();
     }
     const db = getClient();
-    if (db && shouldShowLoginButton()) db.auth.onAuthStateChange(updateAccountLabels);
+    if (db && shouldShowSharedControls()) db.auth.onAuthStateChange(updateAccountLabels);
   });
 })();
