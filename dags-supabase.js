@@ -145,6 +145,43 @@
     return { data: parent, error: null };
   }
 
+  function updateWhiskeyIQNav() {
+    if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
+    const nav = document.querySelector(".nav");
+    if (!nav || nav.dataset.dagsIqNavUpdated === "true") return;
+
+    Array.from(nav.querySelectorAll("a, button")).forEach((el) => {
+      const text = (el.textContent || "").trim().toLowerCase();
+      const href = (el.getAttribute("href") || "").toLowerCase();
+      if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard")) {
+        el.remove();
+      }
+    });
+
+    const links = [
+      { text: "Blind Tasting", href: "blind-tasting.html" },
+      { text: "Logbook", href: "history.html" },
+      { text: "Dramhub", href: "https://dramhub.lovable.app", external: true }
+    ];
+
+    links.forEach((link) => {
+      const exists = Array.from(nav.querySelectorAll("a")).some((a) => (a.textContent || "").trim().toLowerCase() === link.text.toLowerCase());
+      if (exists) return;
+      const a = document.createElement("a");
+      a.href = link.href;
+      a.textContent = link.text;
+      if (link.external) {
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      }
+      const legacy = nav.querySelector(".legacy-iq-btn");
+      if (legacy) nav.insertBefore(a, legacy);
+      else nav.appendChild(a);
+    });
+
+    nav.dataset.dagsIqNavUpdated = "true";
+  }
+
   function injectFloatingAccountControl() {
     if (!shouldShowLoginButton()) return;
     if (document.getElementById("dagsAccountControl")) return;
@@ -228,10 +265,12 @@
     saveBlindTasting,
     injectAccountLink,
     injectFloatingAccountControl,
-    updateAccountLabels
+    updateAccountLabels,
+    updateWhiskeyIQNav
   };
 
   ready(async function () {
+    updateWhiskeyIQNav();
     if (shouldShowLoginButton()) {
       injectAccountLink();
       await updateAccountLabels();
