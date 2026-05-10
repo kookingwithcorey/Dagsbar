@@ -236,7 +236,40 @@ if (backToDags) {
   loggedOut.classList.add("hidden");
   loggedIn.classList.remove("hidden");
 }
-    async function saveProfile(){if(!currentUser){showStatus("Log in first.");return}const username=document.getElementById("profileUsername").value.trim()||null;const displayName=document.getElementById("profileDisplayName").value.trim()||null;const hideProfile=document.getElementById("hideProfile").checked;const {error}=await db.from("profiles").update({username,display_name:displayName,hide_profile:hideProfile}).eq("id",currentUser.id);if(error){showStatus(error.message);return}showStatus("Profile saved.");await loadAccount()}
+    async function saveProfile() {
+  if (!currentUser) {
+    showStatus("Log in first.");
+    return;
+  }
+
+  const username = document.getElementById("profileUsername").value.trim() || null;
+  const displayName = document.getElementById("profileDisplayName").value.trim() || null;
+  const hideProfile = document.getElementById("hideProfile").checked;
+
+  showStatus("Saving profile...");
+
+  const { error } = await db
+    .from("profiles")
+    .upsert({
+      id: currentUser.id,
+      username,
+      display_name: displayName,
+      hide_profile: hideProfile,
+      role: "user",
+      status: "active"
+    }, {
+      onConflict: "id"
+    });
+
+  if (error) {
+    console.warn("Profile save failed:", error.message);
+    showStatus("Profile could not save. Check Supabase profile permissions.");
+    return;
+  }
+
+  showStatus("Profile saved.");
+  await loadAccount();
+}
     let accountLoadedOnce = false;
 
 db.auth.onAuthStateChange((event, session) => {
