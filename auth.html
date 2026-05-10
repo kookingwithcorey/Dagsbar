@@ -14,7 +14,7 @@
   <div class="wrap">
     <header>
       <div class="brand"><div class="brand-title">DAGS</div><div class="brand-sub">Account Access</div></div>
-      <a class="back-link" href="index.html">← Back to DAGS</a>
+      <a class="back-link" id="backToDags" href="index.html">← Back to DAGS</a>
     </header>
     <section id="loggedOut" class="grid">
       <div class="card">
@@ -67,8 +67,80 @@
     const loggedOut = document.getElementById("loggedOut");
     const loggedIn = document.getElementById("loggedIn");
     let currentUser = null;
+    const params = new URLSearchParams(window.location.search);
+const authNextPage = params.get("next") || sessionStorage.getItem("dagsAuthNext") || "index.html";
+
+const backToDags = document.getElementById("backToDags");
+if (backToDags) {
+  backToDags.href = authNextPage;
+}
     function showStatus(message){statusBox.textContent=message;statusBox.classList.add("show");setTimeout(()=>statusBox.classList.remove("show"),5000)}
-    async function signUp(){const displayName=document.getElementById("signupName").value.trim();const email=document.getElementById("signupEmail").value.trim();const password=document.getElementById("signupPassword").value;if(!email||!password){showStatus("Add an email and password first.");return}const {error}=await db.auth.signUp({email,password,options:{data:{display_name:displayName}}});if(error){showStatus(error.message);return}showStatus("Account created. Check your email if confirmation is required.");await loadAccount()}
+    async function ensureProfile(user) {
+  if (!user) return;
+
+  const fallbackName =
+    user.user_metadata?.display_name ||
+    user.email?.split("@")[0] ||
+    "DAGS User";
+
+  const { data: existingProfile } = await db
+    .from("profiles")
+    .select("id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (existingProfile) return;
+
+  const { error } = await db
+    .from("profiles")
+    .insert({
+      id: user.id,
+      display_name: fallbackName,
+      username: null,
+      role: "user",
+      status: "active",
+      hide_profile: false
+    });
+
+  if (error) {
+    console.warn("Profile could not be created:", error.message);
+    showStatus("Logged in, but profile setup needs Supabase permission.");
+  }
+}
+    async function signUp(){
+  const displayName = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  if (!email || !password) {
+    showStatus("Add an email and password first.");
+    return;
+  }
+
+  showStatus("Creating account...");
+
+  const { data, error } = await db.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        display_name: displayName
+      }
+    }
+  });
+
+  if (error) {
+    showStatus(error.message);
+    return;
+  }
+
+  if (data.user) {
+    await ensureProfile(data.user);
+  }
+
+  showStatus("Account created. Check your email if confirmation is required.");
+  await loadAccount();
+}
     async function signIn(){
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
@@ -80,15 +152,16 @@
 
   showStatus("Logging in...");
 
-  const { error } = await db.auth.signInWithPassword({ email, password });
+  const { data, error } = await db.auth.signInWithPassword({ email, password });
 
   if (error) {
     showStatus(error.message);
     return;
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const nextPage = params.get("next") || sessionStorage.getItem("dagsAuthNext") || "index.html";
+  await ensureProfile(data.user);
+
+  const nextPage = authNextPage;
 
   showStatus("Logged in. Taking you back...");
 
@@ -97,7 +170,48 @@
   }, 350);
 }
     async function signOut(){await db.auth.signOut();currentUser=null;loggedIn.classList.add("hidden");loggedOut.classList.remove("hidden");showStatus("Logged out.")}
-    async function loadAccount(){const {data:sessionData}=await db.auth.getSession();if(!sessionData.session){loggedIn.classList.add("hidden");loggedOut.classList.remove("hidden");return}currentUser=sessionData.session.user;const {data:profile,error}=await db.from("profiles").select("id, username, display_name, role, status, hide_profile").eq("id",currentUser.id).single();if(error){showStatus("Logged in, but profile could not load yet.")}document.getElementById("profileEmail").value=currentUser.email||"";document.getElementById("profileUsername").value=profile?.username||"";document.getElementById("profileDisplayName").value=profile?.display_name||"";document.getElementById("hideProfile").checked=!!profile?.hide_profile;document.getElementById("accountBadges").innerHTML=`<span class="pill">Status: ${profile?.status||"active"}</span><span class="pill ${profile?.role==="admin"?"admin":""}">Role: ${profile?.role||"user"}</span><span class="pill">Profile: ${profile?.hide_profile?"Hidden":"Visible"}</span>`;loggedOut.classList.add("hidden");loggedIn.classList.remove("hidden")}
+    async function loadAccount() {
+  const { data: sessionData } = await db.auth.getSession();
+
+  if (!sessionData.session) {
+    loggedIn.classList.add("hidden");
+    loggedOut.classList.remove("hidden");
+    return;
+  }
+
+  currentUser = sessionData.session.user;
+
+  await ensureProfile(currentUser);
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("id, username, display_name, role, status, hide_profile")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+    showStatus("Logged in, but profile could not load yet.");
+  }
+
+  document.getElementById("profileEmail").value = currentUser.email || "";
+  document.getElementById("profileUsername").value = profile?.username || "";
+  document.getElementById("profileDisplayName").value =
+    profile?.display_name ||
+    currentUser.user_metadata?.display_name ||
+    currentUser.email?.split("@")[0] ||
+    "";
+
+  document.getElementById("hideProfile").checked = !!profile?.hide_profile;
+
+  document.getElementById("accountBadges").innerHTML = `
+    <span class="pill">Status: ${profile?.status || "active"}</span>
+    <span class="pill ${profile?.role === "admin" ? "admin" : ""}">Role: ${profile?.role || "user"}</span>
+    <span class="pill">Profile: ${profile?.hide_profile ? "Hidden" : "Visible"}</span>
+  `;
+
+  loggedOut.classList.add("hidden");
+  loggedIn.classList.remove("hidden");
+}
     async function saveProfile(){if(!currentUser){showStatus("Log in first.");return}const username=document.getElementById("profileUsername").value.trim()||null;const displayName=document.getElementById("profileDisplayName").value.trim()||null;const hideProfile=document.getElementById("hideProfile").checked;const {error}=await db.from("profiles").update({username,display_name:displayName,hide_profile:hideProfile}).eq("id",currentUser.id);if(error){showStatus(error.message);return}showStatus("Profile saved.");await loadAccount()}
     db.auth.onAuthStateChange(()=>loadAccount());loadAccount();
   </script>
