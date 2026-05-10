@@ -18,10 +18,24 @@
   async function getSession() { const db = getClient(); if (!db) return null; const { data } = await db.auth.getSession(); return data.session || null; }
   async function getUser() { const session = await getSession(); return session ? session.user : null; }
   async function getProfile() {
-    const db = getClient(); const user = await getUser(); if (!db || !user) return null;
-    const { data, error } = await db.from("profiles").select("id, username, display_name, role, status, hide_profile").eq("id", user.id).single();
-    return error ? null : data;
+  const db = getClient();
+  const user = await getUser();
+
+  if (!db || !user) return null;
+
+  const { data, error } = await db
+    .from("profiles")
+    .select("id, username, display_name, role, status, hide_profile")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("DAGS Auth: profile lookup failed:", error.message);
+    return null;
   }
+
+  return data || null;
+}
   async function requireLogin(returnUrl) { const user = await getUser(); if (user) return user; window.location.href = "auth.html?next=" + encodeURIComponent(returnUrl || getCurrentPage()); return null; }
   async function signOut() { const db = getClient(); if (!db) return; await db.auth.signOut(); window.location.href = "auth.html"; }
 
@@ -163,20 +177,14 @@ wrap.appendChild(account);
   }
 
   function injectAccountLink() { injectFloatingAccountControl(); }
-  async function updateAccountLabels() {
+async function updateAccountLabels() {
   const user = await getUser();
-  let profile = null;
-
-  if (user) {
-    profile = await getProfile();
-  }
+  const profile = user ? await getProfile() : null;
+  const accountHref = "auth.html?next=" + encodeURIComponent(getCurrentPage());
 
   document.querySelectorAll(".dags-account-link").forEach((label) => {
     label.textContent = user ? "Account" : "Log In";
-    label.href = user
-      ? "auth.html?next=" + encodeURIComponent(getCurrentPage())
-      : "auth.html?next=" + encodeURIComponent(getCurrentPage());
-
+    label.href = accountHref;
     label.title = user
       ? `Logged in${profile?.display_name ? " as " + profile.display_name : ""}`
       : "Log in to DAGS";
