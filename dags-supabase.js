@@ -153,16 +153,118 @@
     return { data: parent, error: null };
   }
 
+  function injectFloatingAccountControl() {
+    if (document.getElementById("dagsAccountControl")) return;
+
+    const style = document.createElement("style");
+    style.setAttribute("data-dags-account-control", "true");
+    style.textContent = `
+      .dags-account-control {
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        z-index: 9998;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .dags-account-control a,
+      .dags-account-control button {
+        pointer-events: auto;
+      }
+      .dags-account-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.16);
+        background: rgba(5, 8, 8, .72);
+        color: #f7f7f7 !important;
+        text-decoration: none !important;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        backdrop-filter: blur(14px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.32);
+        white-space: nowrap;
+      }
+      .dags-account-link:hover {
+        border-color: rgba(15,139,107,.7);
+        background: rgba(15,139,107,.22);
+      }
+      .dags-account-theme-slot {
+        display: flex;
+        justify-content: flex-end;
+        min-height: 38px;
+      }
+      .dags-account-control .theme-toggle {
+        position: static !important;
+        top: auto !important;
+        right: auto !important;
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 !important;
+        pointer-events: auto;
+      }
+      body.dags-floating-account-active .header-inner {
+        padding-right: 122px;
+      }
+      body.dags-floating-account-active > header .theme-toggle:not(.dags-account-control .theme-toggle) {
+        display: none;
+      }
+      @media (max-width: 830px) {
+        .dags-account-control {
+          top: 10px;
+          right: 10px;
+          gap: 7px;
+        }
+        .dags-account-link {
+          min-height: 34px;
+          padding: 8px 11px;
+          font-size: 10px;
+          letter-spacing: .08em;
+        }
+        .dags-account-control .theme-toggle {
+          width: 36px !important;
+          height: 36px !important;
+        }
+        body.dags-floating-account-active .header-inner {
+          padding-right: 112px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const wrap = document.createElement("div");
+    wrap.id = "dagsAccountControl";
+    wrap.className = "dags-account-control";
+
+    const account = document.createElement("a");
+    account.href = "auth.html";
+    account.className = "dags-account-link";
+    account.textContent = "Log In";
+
+    const themeSlot = document.createElement("div");
+    themeSlot.className = "dags-account-theme-slot";
+
+    const existingThemeToggle = document.getElementById("themeToggle") || document.querySelector(".theme-toggle");
+    if (existingThemeToggle) {
+      themeSlot.appendChild(existingThemeToggle);
+    }
+
+    wrap.appendChild(account);
+    if (existingThemeToggle) wrap.appendChild(themeSlot);
+    document.body.appendChild(wrap);
+    document.body.classList.add("dags-floating-account-active");
+  }
+
   function injectAccountLink() {
-    const navs = document.querySelectorAll("nav");
-    navs.forEach((nav) => {
-      if (nav.querySelector('a[href="auth.html"]')) return;
-      const a = document.createElement("a");
-      a.href = "auth.html";
-      a.className = "dags-account-link";
-      a.textContent = "Account";
-      nav.appendChild(a);
-    });
+    injectFloatingAccountControl();
   }
 
   async function updateAccountLabels() {
@@ -185,6 +287,7 @@
     saveWhiskeyLog,
     saveBlindTasting,
     injectAccountLink,
+    injectFloatingAccountControl,
     updateAccountLabels
   };
 
