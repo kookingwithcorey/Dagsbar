@@ -18,12 +18,24 @@
     return window.location.pathname.split("/").pop().toLowerCase() || "index.html";
   }
 
+  function pageClassName() {
+    return "dags-page-" + getCurrentPage().replace(/\.html$/, "").replace(/[^a-z0-9_-]/g, "-");
+  }
+
   function shouldShowSharedControls() {
     const page = getCurrentPage();
     return page === "blind-tasting.html" ||
       page === "history.html" ||
       page === "whiskeyiqupgrade.html" ||
       page === "whiskeyiq.html" ||
+      page === "menu.html";
+  }
+
+  function shouldShowThemeControl() {
+    const page = getCurrentPage();
+    return page === "blind-tasting.html" ||
+      page === "history.html" ||
+      page === "whiskeyiqupgrade.html" ||
       page === "menu.html";
   }
 
@@ -265,6 +277,8 @@
     if (!shouldShowSharedControls()) return;
     if (document.getElementById("dagsAccountControl")) return;
 
+    document.documentElement.classList.add("dags-shared-controls-active", pageClassName());
+
     const style = document.createElement("style");
     style.setAttribute("data-dags-account-control", "true");
     style.textContent = `
@@ -282,19 +296,23 @@
       body.modal-open .dags-account-control {
         display: none !important;
       }
-      .dags-theme-control,
-      .dags-account-link {
+      .dags-page-whiskeyiqupgrade .nav .icon-btn:not(#dagsThemeControl),
+      .dags-page-whiskeyiqupgrade .nav button[aria-label*="theme" i]:not(#dagsThemeControl),
+      .dags-page-whiskeyiqupgrade .nav button[title*="theme" i]:not(#dagsThemeControl),
+      .dags-page-whiskeyiqupgrade .nav button[aria-label*="mode" i]:not(#dagsThemeControl),
+      .dags-page-whiskeyiqupgrade .nav button[title*="mode" i]:not(#dagsThemeControl) {
+        display: none !important;
+      }
+      .dags-account-link,
+      .dags-theme-control {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         min-height: 38px !important;
         border-radius: 999px !important;
-        border: 1px solid rgba(15,139,107,.65) !important;
-        background: linear-gradient(135deg, #0f8b6b, #064c35) !important;
         color: #fff !important;
         text-decoration: none !important;
         backdrop-filter: blur(14px);
-        box-shadow: 0 10px 30px rgba(6,76,53,.28) !important;
         white-space: nowrap;
         position: static !important;
         top: auto !important;
@@ -303,6 +321,9 @@
       }
       .dags-account-link {
         padding: 9px 14px !important;
+        border: 1px solid rgba(15,139,107,.75) !important;
+        background: linear-gradient(135deg, #0f8b6b, #064c35) !important;
+        box-shadow: 0 10px 30px rgba(6,76,53,.28) !important;
         font-size: 12px !important;
         font-weight: 900 !important;
         letter-spacing: .1em !important;
@@ -313,6 +334,13 @@
         height: 38px !important;
         padding: 0 !important;
         flex: 0 0 38px !important;
+        border: 1px solid var(--line, rgba(255,255,255,.16)) !important;
+        background: rgba(255,255,255,.08) !important;
+        box-shadow: none !important;
+      }
+      html[data-theme="light"] .dags-theme-control {
+        color: var(--text, #111510) !important;
+        background: rgba(255,255,255,.34) !important;
       }
       .dags-theme-control svg {
         width: 20px !important;
@@ -323,11 +351,15 @@
         stroke-linecap: round !important;
         stroke-linejoin: round !important;
       }
-      .dags-account-link:hover,
-      .dags-theme-control:hover {
+      .dags-account-link:hover {
         transform: translateY(-1px);
         border-color: rgba(15,139,107,.95) !important;
         background: linear-gradient(135deg, #18b98f, #064c35) !important;
+      }
+      .dags-theme-control:hover {
+        transform: translateY(-1px);
+        border-color: rgba(15,139,107,.55) !important;
+        background: rgba(255,255,255,.12) !important;
       }
       @media (max-width: 830px) {
         .dags-account-control { top: 24px; right: 22px; gap: 7px; }
@@ -338,18 +370,21 @@
     `;
     document.head.appendChild(style);
 
-    const theme = getOrCreateThemeButton();
+    const wrap = document.createElement("div");
+    wrap.id = "dagsAccountControl";
+    wrap.className = "dags-account-control";
+
+    if (shouldShowThemeControl()) {
+      const theme = getOrCreateThemeButton();
+      wrap.appendChild(theme);
+    }
 
     const account = document.createElement("a");
     account.href = "auth.html";
     account.className = "dags-account-link";
     account.textContent = "Log In";
-
-    const wrap = document.createElement("div");
-    wrap.id = "dagsAccountControl";
-    wrap.className = "dags-account-control";
-    wrap.appendChild(theme);
     wrap.appendChild(account);
+
     document.body.appendChild(wrap);
     syncSharedControlsVisibility();
   }
@@ -389,8 +424,10 @@
   ready(async function () {
     updateWhiskeyIQNav();
     if (shouldShowSharedControls()) {
-      const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme");
-      if (savedTheme) applyTheme(savedTheme);
+      if (shouldShowThemeControl()) {
+        const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme");
+        if (savedTheme) applyTheme(savedTheme);
+      }
       injectAccountLink();
       await updateAccountLabels();
       watchSharedControlsVisibility();
