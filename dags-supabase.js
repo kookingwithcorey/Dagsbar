@@ -12,7 +12,16 @@
 
   function getClient() {
     if (!window.supabase || !window.supabase.createClient) { console.warn("DAGS Auth: Supabase library not loaded."); return null; }
-    if (!window.dagsSupabaseClient) window.dagsSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    if (!window.dagsSupabaseClient) {
+  window.dagsSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storage: window.localStorage
+    }
+  });
+}
     return window.dagsSupabaseClient;
   }
   async function getSession() { const db = getClient(); if (!db) return null; const { data } = await db.auth.getSession(); return data.session || null; }
@@ -37,7 +46,12 @@
   return data || null;
 }
   async function requireLogin(returnUrl) { const user = await getUser(); if (user) return user; window.location.href = "auth.html?next=" + encodeURIComponent(returnUrl || getCurrentPage()); return null; }
-  async function signOut() { const db = getClient(); if (!db) return; await db.auth.signOut(); window.location.href = "auth.html"; }
+  async function signOut() {
+  const db = getClient();
+  if (!db) return;
+  await db.auth.signOut();
+  window.location.href = "auth.html?next=" + encodeURIComponent(getCurrentPage());
+}
 
   async function saveWhiskeyIQLog(score) {
     const db = getClient(); const user = await requireLogin(); if (!db || !user) return { error: "Not logged in" };
