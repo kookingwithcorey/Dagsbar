@@ -230,10 +230,6 @@ document.getElementById("profileDisplayName").value =
   meta.display_name ||
   currentUser.email?.split("@")[0] ||
   "";
-    profile?.display_name ||
-    currentUser.user_metadata?.display_name ||
-    currentUser.email?.split("@")[0] ||
-    "";
 
   document.getElementById("hideProfile").checked = !!profile?.hide_profile;
 
@@ -297,7 +293,7 @@ async function saveProfile() {
   showStatus("Profile saved.");
   await loadAccount();
 }
-
+let accountLoadedOnce = false;
 db.auth.onAuthStateChange((event, session) => {
   console.log("DAGS auth event:", event, session?.user?.email || "no user");
 
