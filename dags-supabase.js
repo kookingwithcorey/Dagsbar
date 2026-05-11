@@ -175,6 +175,61 @@
       .dags-page-whiskeyiqupgrade .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;width:100%!important;align-items:center!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{width:100%!important;justify-content:center!important;text-align:center!important;white-space:nowrap!important;min-width:0!important}
       .dags-account-link,.dags-theme-control{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:38px!important;border-radius:999px!important;color:#fff!important;text-decoration:none!important;backdrop-filter:blur(14px);white-space:nowrap;position:static!important;top:auto!important;right:auto!important;margin:0!important}.dags-account-link{padding:9px 14px!important;border:1px solid rgba(15,139,107,.75)!important;background:linear-gradient(135deg,#0f8b6b,#064c35)!important;box-shadow:0 10px 30px rgba(6,76,53,.28)!important;font-size:12px!important;font-weight:900!important;letter-spacing:.1em!important;text-transform:uppercase!important}
       .dags-theme-control{width:38px!important;height:38px!important;padding:0!important;flex:0 0 38px!important;border:1px solid var(--line,rgba(255,255,255,.16))!important;background:rgba(255,255,255,.08)!important;box-shadow:none!important}html[data-theme="light"] .dags-theme-control{color:var(--text,#111510)!important;background:rgba(255,255,255,.34)!important}.dags-theme-control svg{width:20px!important;height:20px!important;stroke:currentColor!important;fill:none!important;stroke-width:2.35!important;stroke-linecap:round!important;stroke-linejoin:round!important}.dags-account-link:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.95)!important;background:linear-gradient(135deg,#18b98f,#064c35)!important}.dags-theme-control:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.55)!important;background:rgba(255,255,255,.12)!important}
+     @media (min-width: 831px) {
+  .dags-page-whiskeyiqupgrade .topbar {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    grid-template-areas:
+      "brand nav account" !important;
+    align-items: center !important;
+    gap: 16px !important;
+    max-width: 1120px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .brand {
+    grid-area: brand !important;
+    min-width: 190px !important;
+    align-items: center !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .nav {
+    grid-area: nav !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .nav a,
+  .dags-page-whiskeyiqupgrade .nav button {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .dags-account-control {
+    grid-area: account !important;
+    position: static !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 150px !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .dags-theme-control {
+    order: 1 !important;
+  }
+
+  .dags-page-whiskeyiqupgrade .dags-account-link {
+    order: 2 !important;
+  }
+}
       @media(max-width:830px){.dags-account-control{top:24px;right:22px;gap:7px}.dags-account-link{min-height:34px!important;padding:8px 11px!important;font-size:10px!important;letter-spacing:.08em!important}.dags-theme-control{width:34px!important;height:34px!important;min-height:34px!important;flex-basis:34px!important}.dags-theme-control svg{width:18px!important;height:18px!important}.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:6px!important;padding-right:6px!important;font-size:clamp(10px,2.45vw,13px)!important}}
       @media(max-width:430px){.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:4px!important;padding-right:4px!important;font-size:clamp(9px,2.25vw,12px)!important}.dags-page-whiskeyiqupgrade .brand-title{font-size:clamp(20px,6vw,28px)!important}.dags-page-whiskeyiqupgrade .brand-subtitle{font-size:clamp(10px,2.7vw,13px)!important}}
     `;
@@ -187,7 +242,19 @@ account.href = "auth.html?next=" + encodeURIComponent(nextPage);
 account.className = "dags-account-link";
 account.textContent = "Log In";
 wrap.appendChild(account);
-    document.body.appendChild(wrap); syncSharedControlsVisibility(); updateThemeButton();
+
+    const topbar = document.querySelector(".topbar");
+    const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
+    const isDesktop = window.matchMedia("(min-width: 831px)").matches;
+
+    if (isWhiskeyIQ && isDesktop && topbar) {
+      topbar.appendChild(wrap);
+    } else {
+      document.body.appendChild(wrap);
+    }
+
+    syncSharedControlsVisibility();
+    updateThemeButton();
   }
 
   function injectAccountLink() { injectFloatingAccountControl(); }
