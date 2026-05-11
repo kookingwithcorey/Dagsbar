@@ -162,7 +162,22 @@
     if (!btn.dataset.dagsThemeBound) { btn.addEventListener("click", toggleTheme); btn.dataset.dagsThemeBound = "true"; }
     return btn;
   }
+function placeAccountControl() {
+  const control = document.getElementById("dagsAccountControl");
+  if (!control) return;
 
+  const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
+  const isDesktop = window.matchMedia("(min-width: 831px)").matches;
+  const topbar = document.querySelector(".topbar");
+
+  if (isWhiskeyIQ && isDesktop && topbar && control.parentElement !== topbar) {
+    topbar.appendChild(control);
+  }
+
+  if ((!isWhiskeyIQ || !isDesktop) && control.parentElement !== document.body) {
+    document.body.appendChild(control);
+  }
+}
   function injectFloatingAccountControl() {
     if (!shouldShowSharedControls()) return;
     if (document.getElementById("dagsAccountControl")) return;
@@ -242,21 +257,15 @@ account.href = "auth.html?next=" + encodeURIComponent(nextPage);
 account.className = "dags-account-link";
 account.textContent = "Log In";
 wrap.appendChild(account);
+    document.body.appendChild(wrap);
 
-    const topbar = document.querySelector(".topbar");
-    const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
-    const isDesktop = window.matchMedia("(min-width: 831px)").matches;
-
-    if (isWhiskeyIQ && isDesktop && topbar) {
-      topbar.appendChild(wrap);
-    } else {
-      document.body.appendChild(wrap);
-    }
-
+    placeAccountControl();
     syncSharedControlsVisibility();
     updateThemeButton();
-  }
 
+    setTimeout(placeAccountControl, 100);
+    setTimeout(placeAccountControl, 500);
+  }
   function injectAccountLink() { injectFloatingAccountControl(); }
 async function updateAccountLabels() {
   const user = await getUser();
@@ -278,7 +287,11 @@ async function updateAccountLabels() {
     updateWhiskeyIQNav();
     if (shouldShowSharedControls()) {
       if (shouldShowThemeControl()) { const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme"); if (savedTheme) applyTheme(savedTheme); }
-      injectAccountLink(); await updateAccountLabels(); watchSharedControlsVisibility();
+     injectAccountLink();
+placeAccountControl();
+await updateAccountLabels();
+watchSharedControlsVisibility();
+setTimeout(placeAccountControl, 300);
     }
     const db = getClient(); if (db && shouldShowSharedControls()) db.auth.onAuthStateChange(updateAccountLabels);
   });
