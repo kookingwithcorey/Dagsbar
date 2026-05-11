@@ -192,20 +192,22 @@ function placeAccountControl() {
       .dags-theme-control{width:38px!important;height:38px!important;padding:0!important;flex:0 0 38px!important;border:1px solid var(--line,rgba(255,255,255,.16))!important;background:rgba(255,255,255,.08)!important;box-shadow:none!important}html[data-theme="light"] .dags-theme-control{color:var(--text,#111510)!important;background:rgba(255,255,255,.34)!important}.dags-theme-control svg{width:20px!important;height:20px!important;stroke:currentColor!important;fill:none!important;stroke-width:2.35!important;stroke-linecap:round!important;stroke-linejoin:round!important}.dags-account-link:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.95)!important;background:linear-gradient(135deg,#18b98f,#064c35)!important}.dags-theme-control:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.55)!important;background:rgba(255,255,255,.12)!important}
      @media (min-width: 831px) {
   .dags-page-whiskeyiqupgrade .topbar {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto !important;
-    grid-template-areas:
-      "brand account"
-      "nav account" !important;
-    align-items: center !important;
-    gap: 10px 18px !important;
-    max-width: 1180px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding: 14px 18px !important;
-    border-radius: 30px !important;
-  }
-
+  position: relative !important;
+  top: auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-areas:
+    "brand account"
+    "nav account" !important;
+  align-items: center !important;
+  gap: 10px 18px !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 14px 18px !important;
+  border-radius: 30px !important;
+}
   .dags-page-whiskeyiqupgrade .brand {
     grid-area: brand !important;
     align-items: center !important;
