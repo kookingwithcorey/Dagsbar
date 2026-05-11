@@ -3859,6 +3859,80 @@ html[data-theme="dark"] .num-input {
     padding: 11px 22px !important;
   }
 }
+   @media (min-width: 831px) {
+  .stat-card:has(.top-bottle-row),
+  .stat-card:has(.top-bottle-name),
+  .stat-card:has(.score-bar) {
+    overflow: hidden;
+  }
+
+  .top-bottle-row,
+  .top-bottle-summary,
+  .top-bottle-content {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    grid-template-areas:
+      "icon name"
+      "bar bar" !important;
+    align-items: center !important;
+    gap: 8px 10px !important;
+    width: 100% !important;
+  }
+
+  .top-bottle-row .trophy,
+  .top-bottle-row .top-bottle-icon,
+  .top-bottle-summary .trophy,
+  .top-bottle-summary .top-bottle-icon,
+  .top-bottle-content .trophy,
+  .top-bottle-content .top-bottle-icon {
+    grid-area: icon !important;
+    min-width: 22px !important;
+  }
+
+  .top-bottle-name,
+  .top-bottle-title,
+  .top-bottle-bottle,
+  .top-bottle-row strong,
+  .top-bottle-summary strong,
+  .top-bottle-content strong {
+    grid-area: name !important;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.15 !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+  }
+
+  .top-bottle-score-row,
+  .top-bottle-bar-row,
+  .top-bottle-meter,
+  .score-bar-wrap {
+    grid-area: bar !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .score-bar,
+  .top-bottle-bar,
+  .score-line {
+    width: 100% !important;
+    min-width: 90px !important;
+  }
+
+  .score-pill,
+  .top-bottle-score {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+} 
   </style>
 </head>
 
