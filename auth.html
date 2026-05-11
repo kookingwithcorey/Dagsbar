@@ -218,8 +218,18 @@ if (backToDags) {
   }
 
   document.getElementById("profileEmail").value = currentUser.email || "";
-  document.getElementById("profileUsername").value = profile?.username || "";
-  document.getElementById("profileDisplayName").value =
+  const meta = currentUser.user_metadata || {};
+
+document.getElementById("profileUsername").value =
+  profile?.username ||
+  meta.username ||
+  "";
+
+document.getElementById("profileDisplayName").value =
+  profile?.display_name ||
+  meta.display_name ||
+  currentUser.email?.split("@")[0] ||
+  "";
     profile?.display_name ||
     currentUser.user_metadata?.display_name ||
     currentUser.email?.split("@")[0] ||
@@ -248,58 +258,45 @@ async function saveProfile() {
 
   showStatus("Saving profile...");
 
-  const profileUpdate = {
-    username,
-    display_name: displayName,
-    hide_profile: hideProfile
-  };
+  const { data: authData, error: authError } = await db.auth.updateUser({
+    data: {
+      username,
+      display_name: displayName,
+      hide_profile: hideProfile
+    }
+  });
 
-  const { data, error } = await db
-    .from("profiles")
-    .update(profileUpdate)
-    .eq("id", currentUser.id)
-    .select("id, username, display_name, role, status, hide_profile")
-    .maybeSingle();
-
-  if (error) {
-    console.warn("Profile save failed:", error);
-    showStatus(`Profile save failed: ${error.message}`);
+  if (authError) {
+    console.warn("Auth profile save failed:", authError);
+    showStatus(`Profile save failed: ${authError.message}`);
     return;
   }
 
-  if (!data) {
-    console.warn("Profile update returned no row. Trying insert...");
+  currentUser = authData.user;
 
-    const { data: inserted, error: insertError } = await db
-      .from("profiles")
-      .insert({
-        id: currentUser.id,
-        username,
-        display_name: displayName,
-        hide_profile: hideProfile,
-        role: "user",
-        status: "active"
-      })
-      .select("id, username, display_name, role, status, hide_profile")
-      .maybeSingle();
+  const { error: profileError } = await db
+    .from("profiles")
+    .upsert({
+      id: currentUser.id,
+      username,
+      display_name: displayName,
+      hide_profile: hideProfile,
+      role: "user",
+      status: "active"
+    }, {
+      onConflict: "id"
+    });
 
-    if (insertError) {
-      console.warn("Profile insert failed:", insertError);
-      showStatus(`Profile insert failed: ${insertError.message}`);
-      return;
-    }
-
-    if (!inserted) {
-      showStatus("Profile save failed: no profile row was returned.");
-      return;
-    }
+  if (profileError) {
+    console.warn("Profile table sync failed:", profileError.message);
+    showStatus("Profile saved.");
+    await loadAccount();
+    return;
   }
 
   showStatus("Profile saved.");
   await loadAccount();
 }
-
-let accountLoadedOnce = false;
 
 db.auth.onAuthStateChange((event, session) => {
   console.log("DAGS auth event:", event, session?.user?.email || "no user");
