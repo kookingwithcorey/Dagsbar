@@ -193,20 +193,24 @@ function placeAccountControl() {
      @media (min-width: 831px) {
   .dags-page-whiskeyiqupgrade .topbar {
     display: grid !important;
-    grid-template-columns: auto 1fr auto !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
     grid-template-areas:
-      "brand nav account" !important;
+      "brand account"
+      "nav account" !important;
     align-items: center !important;
-    gap: 16px !important;
-    max-width: 1120px !important;
+    gap: 10px 18px !important;
+    max-width: 1180px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    padding: 14px 18px !important;
+    border-radius: 30px !important;
   }
 
   .dags-page-whiskeyiqupgrade .brand {
     grid-area: brand !important;
-    min-width: 190px !important;
     align-items: center !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
   }
 
   .dags-page-whiskeyiqupgrade .nav {
@@ -214,7 +218,7 @@ function placeAccountControl() {
     display: grid !important;
     grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
     gap: 8px !important;
-    width: 100% !important;
+    width: min(900px, 100%) !important;
     align-items: center !important;
   }
 
@@ -234,7 +238,10 @@ function placeAccountControl() {
     justify-content: flex-end !important;
     align-items: center !important;
     gap: 8px !important;
+    align-self: start !important;
     min-width: 150px !important;
+    width: auto !important;
+    margin-top: 0 !important;
   }
 
   .dags-page-whiskeyiqupgrade .dags-theme-control {
@@ -243,6 +250,7 @@ function placeAccountControl() {
 
   .dags-page-whiskeyiqupgrade .dags-account-link {
     order: 2 !important;
+    width: auto !important;
   }
 }
       @media(max-width:830px){.dags-account-control{top:24px;right:22px;gap:7px}.dags-account-link{min-height:34px!important;padding:8px 11px!important;font-size:10px!important;letter-spacing:.08em!important}.dags-theme-control{width:34px!important;height:34px!important;min-height:34px!important;flex-basis:34px!important}.dags-theme-control svg{width:18px!important;height:18px!important}.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:6px!important;padding-right:6px!important;font-size:clamp(10px,2.45vw,13px)!important}}
@@ -257,7 +265,16 @@ account.href = "auth.html?next=" + encodeURIComponent(nextPage);
 account.className = "dags-account-link";
 account.textContent = "Log In";
 wrap.appendChild(account);
-    document.body.appendChild(wrap);
+
+    const topbar = document.querySelector(".topbar");
+    const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
+    const isDesktop = window.matchMedia("(min-width: 831px)").matches;
+
+    if (isWhiskeyIQ && isDesktop && topbar) {
+      topbar.appendChild(wrap);
+    } else {
+      document.body.appendChild(wrap);
+    }
 
     placeAccountControl();
     syncSharedControlsVisibility();
