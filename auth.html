@@ -83,36 +83,7 @@ if (backToDags) {
 }
     function showStatus(message){statusBox.textContent=message;statusBox.classList.add("show");setTimeout(()=>statusBox.classList.remove("show"),5000)}
     async function ensureProfile(user) {
-  if (!user) return;
-
-  const fallbackName =
-    user.user_metadata?.display_name ||
-    user.email?.split("@")[0] ||
-    "DAGS User";
-
-  const { data: existingProfile } = await db
-    .from("profiles")
-    .select("id")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (existingProfile) return;
-
-  const { error } = await db
-    .from("profiles")
-    .insert({
-      id: user.id,
-      display_name: fallbackName,
-      username: null,
-      role: "user",
-      status: "active",
-      hide_profile: false
-    });
-
-  if (error) {
-    console.warn("Profile could not be created:", error.message);
-    showStatus("Logged in, but profile setup needs Supabase permission.");
-  }
+  return;
 }
     async function signUp(){
   const displayName = document.getElementById("signupName").value.trim();
@@ -192,51 +163,39 @@ if (backToDags) {
   }, 600);
 }
     async function signOut(){await db.auth.signOut();currentUser=null;loggedIn.classList.add("hidden");loggedOut.classList.remove("hidden");showStatus("Logged out.")}
-    async function loadAccount() {
+   async function loadAccount() {
   const { data: sessionData } = await db.auth.getSession();
 
   if (!sessionData.session) {
-  if (!currentUser && !accountLoadedOnce) {
-    loggedIn.classList.add("hidden");
-    loggedOut.classList.remove("hidden");
+    if (!currentUser && !accountLoadedOnce) {
+      loggedIn.classList.add("hidden");
+      loggedOut.classList.remove("hidden");
+    }
+    return;
   }
-  return;
-}
 
   currentUser = sessionData.session.user;
 
-  await ensureProfile(currentUser);
-
-  const { data: profile, error } = await db
-    .from("profiles")
-    .select("id, username, display_name, role, status, hide_profile")
-    .eq("id", currentUser.id)
-    .maybeSingle();
-
-  if (error) {
-    showStatus("Logged in, but profile could not load yet.");
-  }
-
-  document.getElementById("profileEmail").value = currentUser.email || "";
   const meta = currentUser.user_metadata || {};
 
-document.getElementById("profileUsername").value =
-  profile?.username ||
-  meta.username ||
-  "";
+  document.getElementById("profileEmail").value = currentUser.email || "";
 
-document.getElementById("profileDisplayName").value =
-  profile?.display_name ||
-  meta.display_name ||
-  currentUser.email?.split("@")[0] ||
-  "";
+  document.getElementById("profileUsername").value =
+    meta.username ||
+    "";
 
-  document.getElementById("hideProfile").checked = !!profile?.hide_profile;
+  document.getElementById("profileDisplayName").value =
+    meta.display_name ||
+    currentUser.email?.split("@")[0] ||
+    "";
+
+  document.getElementById("hideProfile").checked =
+    !!meta.hide_profile;
 
   document.getElementById("accountBadges").innerHTML = `
-    <span class="pill">Status: ${profile?.status || "active"}</span>
-    <span class="pill ${profile?.role === "admin" ? "admin" : ""}">Role: ${profile?.role || "user"}</span>
-    <span class="pill">Profile: ${profile?.hide_profile ? "Hidden" : "Visible"}</span>
+    <span class="pill">Status: active</span>
+    <span class="pill">Role: user</span>
+    <span class="pill">Profile: ${meta.hide_profile ? "Hidden" : "Visible"}</span>
   `;
 
   loggedOut.classList.add("hidden");
@@ -269,26 +228,6 @@ async function saveProfile() {
   }
 
   currentUser = authData.user;
-
-  const { error: profileError } = await db
-    .from("profiles")
-    .upsert({
-      id: currentUser.id,
-      username,
-      display_name: displayName,
-      hide_profile: hideProfile,
-      role: "user",
-      status: "active"
-    }, {
-      onConflict: "id"
-    });
-
-  if (profileError) {
-    console.warn("Profile table sync failed:", profileError.message);
-    showStatus("Profile saved.");
-    await loadAccount();
-    return;
-  }
 
   showStatus("Profile saved.");
   await loadAccount();
