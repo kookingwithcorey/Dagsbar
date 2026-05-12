@@ -1189,5 +1189,20 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dags-supabase.js"></script>
+  <script>
+  window.addEventListener("load", () => {
+    const headerRight = document.querySelector(".header-right");
+    const accountControl = document.querySelector(".dags-account-control");
+    const themeControl = document.querySelector(".dags-theme-control");
+
+    if (headerRight && accountControl && !headerRight.contains(accountControl)) {
+      headerRight.appendChild(accountControl);
+    }
+
+    if (headerRight && themeControl && !headerRight.contains(themeControl)) {
+      headerRight.insertBefore(themeControl, headerRight.firstChild);
+    }
+  });
+</script>
 </body>
 </html>
