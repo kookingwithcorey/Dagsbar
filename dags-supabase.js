@@ -7,8 +7,12 @@
   function ready(fn) { document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", fn) : fn(); }
   function getCurrentPage() { return window.location.pathname.split("/").pop().toLowerCase() || "index.html"; }
   function pageClassName() { return "dags-page-" + getCurrentPage().replace(/\.html$/, "").replace(/[^a-z0-9_-]/g, "-"); }
-  function shouldShowSharedControls() { return ["blind-tasting.html", "history.html", "whiskeyiqupgrade.html", "whiskeyiq.html", "menu.html"].includes(getCurrentPage()); }
-  function shouldShowThemeControl() { return ["blind-tasting.html", "history.html", "whiskeyiqupgrade.html", "menu.html"].includes(getCurrentPage()); }
+  function shouldShowSharedControls() {
+  return ["tasting.html", "history.html", "whiskeyiqupgrade.html", "whiskeyiq.html", "menu.html"].includes(getCurrentPage());
+}
+ function shouldShowThemeControl() {
+  return ["tasting.html", "history.html", "whiskeyiqupgrade.html", "menu.html"].includes(getCurrentPage());
+}
 
   function getClient() {
     if (!window.supabase || !window.supabase.createClient) { console.warn("DAGS Auth: Supabase library not loaded."); return null; }
@@ -168,7 +172,7 @@ function placeAccountControl() {
 
   const page = getCurrentPage();
   const isWhiskeyIQ = page === "whiskeyiqupgrade.html";
-  const isHeaderPage = page === "history.html" || page === "blind-tasting.html";
+ const isHeaderPage = page === "history.html" || page === "tasting.html";
   const isDesktop = window.matchMedia("(min-width: 831px)").matches;
 
   const topbar = document.querySelector(".topbar");
@@ -282,7 +286,7 @@ wrap.appendChild(account);
 const headerRight = document.querySelector(".header-right");
 const page = getCurrentPage();
 const isWhiskeyIQ = page === "whiskeyiqupgrade.html";
-const isHeaderPage = page === "history.html" || page === "blind-tasting.html";
+const isHeaderPage = page === "history.html" || page === "tasting.html";
 const isDesktop = window.matchMedia("(min-width: 831px)").matches;
 
 if (isHeaderPage && headerRight) {
