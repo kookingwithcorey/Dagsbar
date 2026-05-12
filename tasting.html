@@ -39,15 +39,6 @@
       padding: 24px 16px 40px;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
     .brand {
       display: flex;
       flex-direction: column;
@@ -93,28 +84,6 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-    }
-
-    nav a {
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: all 0.18s ease;
-    }
-
-    nav a:hover {
-      border-color: var(--border);
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    nav a.active {
-      border-color: var(--accent-soft);
-      background: rgba(15, 139, 107, 0.12);
-      color: var(--text);
     }
 
     .card {
@@ -556,25 +525,177 @@
         page-break-inside: avoid !important;
       }
     }
+    .app-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+}
+
+.app-header .brand {
+  min-width: 230px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.header-nav a {
+  min-width: 112px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  font-size: 0.8rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.header-nav a:hover {
+  border-color: rgba(15, 139, 107, 0.45);
+  background: rgba(15, 139, 107, 0.12);
+  transform: translateY(-1px);
+}
+
+.header-nav a.active {
+  border-color: rgba(15, 139, 107, 0.8);
+  background: #064c35;
+  color: #ffffff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 132px;
+}
+
+.header-right .dags-account-control {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  z-index: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.header-right .dags-theme-control {
+  width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  flex: 0 0 38px !important;
+  border-radius: 999px !important;
+}
+
+.header-right .dags-account-link {
+  height: 38px !important;
+  min-height: 38px !important;
+  min-width: 88px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+@media (max-width: 1100px) {
+  .app-header {
+    grid-template-columns: 1fr auto;
+    border-radius: 28px;
+  }
+
+  .app-header .brand {
+    min-width: 0;
+  }
+
+  .header-nav {
+    grid-column: 1 / -1;
+    order: 3;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .header-nav a {
+    min-width: auto;
+    flex: 1 1 130px;
+  }
+
+  .header-right {
+    justify-content: flex-end;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-header {
+    gap: 12px;
+    padding: 10px;
+  }
+
+  .brand-title {
+    font-size: 1.15rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+  }
+
+  .header-right .dags-account-link {
+    min-width: 76px !important;
+    padding: 0 12px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .header-right .dags-theme-control {
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
+  }
+}
   </style>
 </head>
 <body>
   <div class="page">
-    <header>
-      <a href="index.html" class="brand-link" aria-label="Return to Home">
-        <div class="brand">
-          <div class="brand-title">DAGS</div>
-          <div class="brand-subtitle">Bourbon &amp; Whiskey Lounge</div>
-        </div>
-      </a>
-      <nav>
-        <a href="menu.html">Whiskey List</a>
-        <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
-        <a href="blind-tasting.html">Blind Tasting</a>
-        <a href="history.html">Whiskey Log</a>
-        <a href="https://dramhub.lovable.app" target="_blank" rel="noopener">Dramhub</a>
-      </nav>
-    </header>
+    <header class="app-header">
+  <a href="index.html" class="brand brand-link">
+    <div class="brand-title">DAGS</div>
+    <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
+  </a>
+
+  <nav class="header-nav">
+    <a href="menu.html">The List</a>
+    <a href="blind-tasting.html" class="active">Blind Tasting</a>
+    <a href="history.html">Whiskey Log</a>
+    <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
+    <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
+  </nav>
+
+  <div class="header-right"></div>
+</header>
 
     <main class="card">
       <div class="card-header">
@@ -1066,5 +1187,7 @@
 
     buildSummary();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="dags-supabase.js"></script>
 </body>
 </html>
