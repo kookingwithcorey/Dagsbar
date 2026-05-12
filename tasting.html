@@ -687,14 +687,17 @@
   </a>
 
   <nav class="header-nav">
-    <a href="menu.html">The List</a>
-    <a href="blind-tasting.html" class="active">Blind Tasting</a>
-    <a href="history.html">Whiskey Log</a>
+    <a href="menu.html">Bottle List</a>
     <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
+    <a href="blind-tasting.html">Blind Tasting</a>
+    <a href="history.html">Logbook</a>
     <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
   </nav>
 
-  <div class="header-right"></div>
+  <div class="header-right">
+    <button type="button" class="dags-theme-control" id="dagsThemeToggle" aria-label="Toggle theme">☾</button>
+    <a href="login.html" class="dags-account-link" id="dagsAccountLink">Log In</a>
+  </div>
 </header>
 
     <main class="card">
@@ -1189,20 +1192,6 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dags-supabase.js"></script>
-  <script>
-  window.addEventListener("load", () => {
-    const headerRight = document.querySelector(".header-right");
-    const accountControl = document.querySelector(".dags-account-control");
-    const themeControl = document.querySelector(".dags-theme-control");
-
-    if (headerRight && accountControl && !headerRight.contains(accountControl)) {
-      headerRight.appendChild(accountControl);
-    }
-
-    if (headerRight && themeControl && !headerRight.contains(themeControl)) {
-      headerRight.insertBefore(themeControl, headerRight.firstChild);
-    }
-  });
-</script>
+ 
 </body>
 </html>
