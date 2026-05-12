@@ -132,14 +132,6 @@ html[data-theme="light"] .brand-link:active {
       padding: 24px 16px 40px;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
 
     .brand {
       display: flex;
@@ -159,34 +151,6 @@ html[data-theme="light"] .brand-link:active {
       text-transform: uppercase;
       color: var(--muted);
       letter-spacing: 0.28em;
-    }
-
-    nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: all 0.18s ease;
-    }
-
-    nav a:hover {
-      border-color: var(--border);
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    nav a.active {
-      border-color: var(--accent-soft);
-      background: rgba(15, 139, 107, 0.12);
-      color: var(--text);
     }
 
     .card {
@@ -805,67 +769,192 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
   stroke: rgba(6, 76, 53, 0.45);
   
 }
-.header-actions {
+
+.app-header {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.theme-toggle {
-  width: auto;
-  min-width: 96px;
-  height: 36px;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: nowrap;
+  margin-bottom: 24px;
+  padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="light"] .app-header {
+  background: rgba(255, 250, 241, 0.86);
+  border-color: rgba(6, 76, 53, 0.14);
+  box-shadow: 0 12px 36px rgba(43, 28, 10, 0.10);
+}
+
+.app-header .brand {
+  flex: 0 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header-nav a {
+  min-width: 118px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.header-nav a:hover {
+  border-color: rgba(15, 139, 107, 0.45);
+  background: rgba(15, 139, 107, 0.12);
+  transform: translateY(-1px);
+}
+
+.header-nav a.active {
+  border-color: rgba(15, 139, 107, 0.8);
+  background: #064c35;
+  color: #ffffff;
+}
+
+.theme-toggle {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 0 12px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
   line-height: 1;
-  transition: all 0.2s ease;
+  flex: 0 0 38px;
+  box-shadow: none;
+  transition: all 0.18s ease;
 }
 
 .theme-toggle:hover {
   border-color: rgba(15, 139, 107, 0.45);
-  background: rgba(15, 139, 107, 0.14);
+  background: rgba(15, 139, 107, 0.12);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+.login-pill {
+  height: 38px;
+  min-width: 88px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+
+.login-pill:hover {
   transform: translateY(-1px);
 }
 
-html[data-theme="light"] .theme-toggle {
-  background: rgba(255, 255, 255, 0.55);
-  color: #064c35;
-}    
+html[data-theme="light"] .header-nav a {
+  background: rgba(255, 255, 255, 0.48);
+  color: #111510;
+  border-color: rgba(6, 76, 53, 0.16);
+}
 
+html[data-theme="light"] .header-nav a.active {
+  background: #064c35;
+  color: #ffffff;
+  border-color: #064c35;
+}
+
+html[data-theme="light"] .theme-toggle {
+  background: rgba(255, 255, 255, 0.72);
+  color: #064c35;
+  border-color: rgba(6, 76, 53, 0.16);
+}
+
+@media (max-width: 900px) {
+  .app-header {
+    border-radius: 24px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-actions,
+  .header-nav {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .header-nav a {
+    min-width: auto;
+    flex: 1 1 130px;
+  }
+}
   </style>
 </head>
 <body>
   <div class="page">
- <header>
+ <header class="app-header">
   <a href="index.html" class="brand brand-link">
-  <div class="brand-title">DAGS</div>
-  <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
-</a>
-<div class="header-actions">
-  <nav>
-    <a href="menu.html">The List</a>
-    <a href="blind-tasting.html">Blind Tasting</a>
-    <a href="history.html" class="active">Whiskey Log</a>
-    <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
-    <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
-  </nav>
+    <div class="brand-title">DAGS</div>
+    <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
+  </a>
 
-  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
-    Light / Dark
-  </button>
-</div>
+  <div class="header-actions">
+    <nav class="header-nav">
+      <a href="menu.html">The List</a>
+      <a href="blind-tasting.html">Blind Tasting</a>
+      <a href="history.html" class="active">Whiskey Log</a>
+      <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
+      <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+      ☾
+    </button>
+
+    <a href="login.html" class="login-pill">Log In</a>
+  </div>
 </header>
 
     <main class="card">
@@ -1006,13 +1095,19 @@ html[data-theme="light"] .theme-toggle {
 (function () {
   const STORAGE_KEY = "dags_history_theme";
 
-  function setTheme(theme) {
-    const nextTheme = theme === "light" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    try {
-      localStorage.setItem(STORAGE_KEY, nextTheme);
-    } catch (e) {}
+ function setTheme(theme) {
+  const nextTheme = theme === "light" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", nextTheme);
+
+  const btn = document.getElementById("themeToggle");
+  if (btn) {
+    btn.textContent = nextTheme === "light" ? "☀" : "☾";
   }
+
+  try {
+    localStorage.setItem(STORAGE_KEY, nextTheme);
+  } catch (e) {}
+}
 
   const savedTheme = localStorage.getItem(STORAGE_KEY);
   setTheme(savedTheme || "dark");
