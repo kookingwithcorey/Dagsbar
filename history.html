@@ -1025,22 +1025,31 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
     </main>
   </div>
 
-  <script>
-    const themeToggle = document.getElementById("themeToggle");
-const savedTheme = localStorage.getItem("dags_theme") || "dark";
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const themeToggle = document.getElementById("themeToggle");
 
-document.documentElement.setAttribute("data-theme", savedTheme);
+  function applyHistoryTheme(theme) {
+    const safeTheme = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", safeTheme);
+    localStorage.setItem("dags_history_theme", safeTheme);
+  }
 
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-    const nextTheme = currentTheme === "light" ? "dark" : "light";
+  applyHistoryTheme(localStorage.getItem("dags_history_theme") || "dark");
 
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    localStorage.setItem("dags_theme", nextTheme);
-  });
-}
-    /* --- Shared flavor chart config for history detail --- */
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      const currentTheme =
+        document.documentElement.getAttribute("data-theme") === "light"
+          ? "light"
+          : "dark";
+
+      applyHistoryTheme(currentTheme === "light" ? "dark" : "light");
+    });
+  }
+});
+
+/* --- Shared flavor chart config for history detail --- */
     const historySliderConfig = [
       "smoky",
       "spicy",
