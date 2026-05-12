@@ -166,16 +166,28 @@ function placeAccountControl() {
   const control = document.getElementById("dagsAccountControl");
   if (!control) return;
 
-  const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
+  const page = getCurrentPage();
+  const isWhiskeyIQ = page === "whiskeyiqupgrade.html";
+  const isHeaderPage = page === "history.html" || page === "blind-tasting.html";
   const isDesktop = window.matchMedia("(min-width: 831px)").matches;
+
   const topbar = document.querySelector(".topbar");
+  const headerRight = document.querySelector(".header-right");
+
+  if (isHeaderPage && headerRight && control.parentElement !== headerRight) {
+    headerRight.appendChild(control);
+    return;
+  }
 
   if (isWhiskeyIQ && isDesktop && topbar && control.parentElement !== topbar) {
     topbar.appendChild(control);
+    return;
   }
 
-  if ((!isWhiskeyIQ || !isDesktop) && control.parentElement !== document.body) {
-    document.body.appendChild(control);
+  if ((!isWhiskeyIQ && !isHeaderPage) || (isWhiskeyIQ && !isDesktop)) {
+    if (control.parentElement !== document.body) {
+      document.body.appendChild(control);
+    }
   }
 }
   function injectFloatingAccountControl() {
@@ -266,15 +278,20 @@ account.className = "dags-account-link";
 account.textContent = "Log In";
 wrap.appendChild(account);
 
-    const topbar = document.querySelector(".topbar");
-    const isWhiskeyIQ = getCurrentPage() === "whiskeyiqupgrade.html";
-    const isDesktop = window.matchMedia("(min-width: 831px)").matches;
+  const topbar = document.querySelector(".topbar");
+const headerRight = document.querySelector(".header-right");
+const page = getCurrentPage();
+const isWhiskeyIQ = page === "whiskeyiqupgrade.html";
+const isHeaderPage = page === "history.html" || page === "blind-tasting.html";
+const isDesktop = window.matchMedia("(min-width: 831px)").matches;
 
-    if (isWhiskeyIQ && isDesktop && topbar) {
-      topbar.appendChild(wrap);
-    } else {
-      document.body.appendChild(wrap);
-    }
+if (isHeaderPage && headerRight) {
+  headerRight.appendChild(wrap);
+} else if (isWhiskeyIQ && isDesktop && topbar) {
+  topbar.appendChild(wrap);
+} else {
+  document.body.appendChild(wrap);
+}
 
     placeAccountControl();
     syncSharedControlsVisibility();
