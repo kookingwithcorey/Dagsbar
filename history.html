@@ -854,6 +854,23 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-guide {
 html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
   stroke: rgba(6, 76, 53, 0.45);
 }
+    .theme-icon {
+  font-size: 20px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.theme-icon-light {
+  display: none;
+}
+
+html[data-theme="light"] .theme-icon-dark {
+  display: none;
+}
+
+html[data-theme="light"] .theme-icon-light {
+  display: inline;
+}
   </style>
 </head>
 <body>
@@ -872,7 +889,10 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
     <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
   </nav>
 
-  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+ <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+  <span class="theme-icon theme-icon-dark">☾</span>
+  <span class="theme-icon theme-icon-light">☀</span>
+</button>
     <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5Z"></path>
     </svg>
@@ -1026,28 +1046,34 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
   </div>
 
  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const themeToggle = document.getElementById("themeToggle");
+(function () {
+  const STORAGE_KEY = "dags_history_theme";
 
-  function applyHistoryTheme(theme) {
-    const safeTheme = theme === "light" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", safeTheme);
-    localStorage.setItem("dags_history_theme", safeTheme);
+  function setTheme(theme) {
+    const nextTheme = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    try {
+      localStorage.setItem(STORAGE_KEY, nextTheme);
+    } catch (e) {}
   }
 
-  applyHistoryTheme(localStorage.getItem("dags_history_theme") || "dark");
+  const savedTheme = localStorage.getItem(STORAGE_KEY);
+  setTheme(savedTheme || "dark");
 
-  if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-      const currentTheme =
-        document.documentElement.getAttribute("data-theme") === "light"
-          ? "light"
-          : "dark";
+  window.addEventListener("load", function () {
+    const btn = document.getElementById("themeToggle");
 
-      applyHistoryTheme(currentTheme === "light" ? "dark" : "light");
-    });
-  }
-});
+    if (!btn) {
+      console.log("Theme toggle button not found");
+      return;
+    }
+
+    btn.onclick = function () {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      setTheme(currentTheme === "light" ? "dark" : "light");
+    };
+  });
+})();
 
 /* --- Shared flavor chart config for history detail --- */
     const historySliderConfig = [
