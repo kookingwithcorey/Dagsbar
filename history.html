@@ -769,14 +769,12 @@ html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
   stroke: rgba(6, 76, 53, 0.45);
   
 }
-
-.app-header {
+    .app-header {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 18px;
-  flex-wrap: nowrap;
   margin-bottom: 24px;
   padding: 10px 14px;
   border-radius: 999px;
@@ -792,29 +790,19 @@ html[data-theme="light"] .app-header {
 }
 
 .app-header .brand {
-  flex: 0 0 auto;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  flex: 1 1 auto;
-  min-width: 0;
+  min-width: 230px;
 }
 
 .header-nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 10px;
-  flex: 1 1 auto;
   min-width: 0;
 }
 
 .header-nav a {
-  min-width: 118px;
+  min-width: 112px;
   height: 38px;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -823,8 +811,8 @@ html[data-theme="light"] .app-header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
-  font-size: 0.82rem;
+  padding: 0 14px;
+  font-size: 0.8rem;
   font-weight: 750;
   text-decoration: none;
   white-space: nowrap;
@@ -843,33 +831,43 @@ html[data-theme="light"] .app-header {
   color: #ffffff;
 }
 
-.theme-toggle {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
-  display: inline-flex;
+.header-right {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  font-size: 1.05rem;
-  font-weight: 800;
-  line-height: 1;
-  flex: 0 0 38px;
-  box-shadow: none;
-  transition: all 0.18s ease;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 132px;
 }
 
-.theme-toggle:hover {
-  border-color: rgba(15, 139, 107, 0.45);
-  background: rgba(15, 139, 107, 0.12);
-  transform: translateY(-1px);
-  box-shadow: none;
+.header-right .dags-account-control {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  z-index: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
 
+.header-right .dags-theme-control {
+  width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  flex: 0 0 38px !important;
+  border-radius: 999px !important;
+}
+
+.header-right .dags-account-link {
+  height: 38px !important;
+  min-height: 38px !important;
+  min-width: 88px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 html[data-theme="light"] .header-nav a {
@@ -884,29 +882,60 @@ html[data-theme="light"] .header-nav a.active {
   border-color: #064c35;
 }
 
-html[data-theme="light"] .theme-toggle {
-  background: rgba(255, 255, 255, 0.72);
-  color: #064c35;
-  border-color: rgba(6, 76, 53, 0.16);
-}
-
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .app-header {
-    border-radius: 24px;
-    align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr auto;
+    border-radius: 28px;
   }
 
-  .header-actions,
+  .app-header .brand {
+    min-width: 0;
+  }
+
   .header-nav {
-    width: 100%;
+    grid-column: 1 / -1;
+    order: 3;
     justify-content: flex-start;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   .header-nav a {
     min-width: auto;
     flex: 1 1 130px;
+  }
+
+  .header-right {
+    justify-content: flex-end;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-header {
+    gap: 12px;
+    padding: 10px;
+  }
+
+  .brand-title {
+    font-size: 1.15rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+  }
+
+  .header-right .dags-account-link {
+    min-width: 76px !important;
+    padding: 0 12px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .header-right .dags-theme-control {
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
   }
 }
   </style>
@@ -919,19 +948,15 @@ html[data-theme="light"] .theme-toggle {
     <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
   </a>
 
-  <div class="header-actions">
-    <nav class="header-nav">
-      <a href="menu.html">The List</a>
-      <a href="blind-tasting.html">Blind Tasting</a>
-      <a href="history.html" class="active">Whiskey Log</a>
-      <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
-      <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
-    </nav>
+  <nav class="header-nav">
+    <a href="menu.html">The List</a>
+    <a href="blind-tasting.html">Blind Tasting</a>
+    <a href="history.html" class="active">Whiskey Log</a>
+    <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
+    <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
+  </nav>
 
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
-  ☾
-</button>
-  </div>
+  <div class="header-right"></div>
 </header>
 
     <main class="card">
@@ -1069,40 +1094,6 @@ html[data-theme="light"] .theme-toggle {
   </div>
 
  <script>
-(function () {
-  const STORAGE_KEY = "dags_history_theme";
-
- function setTheme(theme) {
-  const nextTheme = theme === "light" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", nextTheme);
-
-  const btn = document.getElementById("themeToggle");
-  if (btn) {
-    btn.textContent = nextTheme === "light" ? "☀" : "☾";
-  }
-
-  try {
-    localStorage.setItem(STORAGE_KEY, nextTheme);
-  } catch (e) {}
-}
-
-  const savedTheme = localStorage.getItem(STORAGE_KEY);
-  setTheme(savedTheme || "dark");
-
-  window.addEventListener("load", function () {
-    const btn = document.getElementById("themeToggle");
-
-    if (!btn) {
-      console.log("Theme toggle button not found");
-      return;
-    }
-
-    btn.onclick = function () {
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      setTheme(currentTheme === "light" ? "dark" : "light");
-    };
-  });
-})();
 
 /* --- Shared flavor chart config for history detail --- */
     const historySliderConfig = [
