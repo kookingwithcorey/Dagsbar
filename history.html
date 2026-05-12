@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <title>DAGS | Whiskey Log</title>
@@ -19,6 +19,95 @@
       --blind-pill-border: rgba(167, 139, 250, 0.9);
       --blind-pill-text: #c4b5fd;
     }
+    html[data-theme="light"] {
+  --bg: #f2eadf;
+  --bg-alt: #fffaf1;
+  --accent: #0f8b6b;
+  --accent-soft: rgba(15, 139, 107, 0.18);
+  --text: #111510;
+  --muted: #6f746d;
+  --border: rgba(6, 76, 53, 0.16);
+  --blind-pill-bg: rgba(15, 139, 107, 0.10);
+  --blind-pill-border: rgba(15, 139, 107, 0.35);
+  --blind-pill-text: #064c35;
+}
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(circle at top left, rgba(15, 139, 107, 0.16), transparent 34%),
+    radial-gradient(circle at top right, rgba(185, 138, 63, 0.14), transparent 30%),
+    var(--bg);
+  color: var(--text);
+}
+
+html[data-theme="light"] .card {
+  background: linear-gradient(145deg, #fffaf1, #f7ecdc);
+  border-color: var(--border);
+  box-shadow: 0 18px 52px rgba(43, 28, 10, 0.14);
+}
+
+html[data-theme="light"] .card::before {
+  color: rgba(6, 76, 53, 0.05);
+}
+
+html[data-theme="light"] nav a:hover {
+  background: rgba(15, 139, 107, 0.10);
+}
+
+html[data-theme="light"] nav a.active {
+  border-color: rgba(15, 139, 107, 0.35);
+  background: rgba(15, 139, 107, 0.14);
+  color: #064c35;
+}
+
+html[data-theme="light"] .history-item {
+  background: rgba(255, 250, 241, 0.78);
+  border-color: rgba(6, 76, 53, 0.14);
+}
+
+html[data-theme="light"] .history-item:hover {
+  background: rgba(15, 139, 107, 0.08);
+  border-color: rgba(15, 139, 107, 0.35);
+}
+
+html[data-theme="light"] .detail-panel {
+  background: rgba(255, 250, 241, 0.92);
+  border-color: rgba(6, 76, 53, 0.18);
+}
+
+html[data-theme="light"] .search-input,
+html[data-theme="light"] select.filter-select,
+html[data-theme="light"] .detail-row input,
+html[data-theme="light"] .detail-row textarea {
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .search-input:focus,
+html[data-theme="light"] .detail-row input:focus,
+html[data-theme="light"] .detail-row textarea:focus {
+  background: #fffaf1;
+  border-color: rgba(15, 139, 107, 0.45);
+}
+
+html[data-theme="light"] select.filter-select option {
+  background: #fffaf1;
+  color: var(--text);
+}
+
+html[data-theme="light"] .btn-secondary {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+html[data-theme="light"] .brand-link,
+html[data-theme="light"] .brand-link:link,
+html[data-theme="light"] .brand-link:visited,
+html[data-theme="light"] .brand-link:hover,
+html[data-theme="light"] .brand-link:active {
+  color: var(--text) !important;
+}
 
     * {
       box-sizing: border-box;
@@ -677,6 +766,94 @@
   transform: translateY(-1px);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
 }
+    .theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: rgba(15, 139, 107, 0.45);
+  background: rgba(15, 139, 107, 0.14);
+  transform: translateY(-1px);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+html[data-theme="light"] .theme-toggle {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+html[data-theme="light"] .theme-toggle .moon-icon {
+  display: none;
+}
+
+html[data-theme="light"] .theme-toggle .sun-icon {
+  display: block;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+    html[data-theme="light"] .pill {
+  border-color: rgba(6, 76, 53, 0.18);
+  color: #6f746d;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+html[data-theme="light"] .pill-rating {
+  border-color: rgba(185, 138, 63, 0.45);
+  color: #7a5420;
+  background: rgba(185, 138, 63, 0.10);
+}
+
+html[data-theme="light"] .pill-type-tasting {
+  border-color: rgba(15, 139, 107, 0.35);
+  color: #064c35;
+  background: rgba(15, 139, 107, 0.10);
+}
+
+html[data-theme="light"] .pill-type-blind {
+  border-color: rgba(15, 139, 107, 0.35);
+  color: #064c35;
+  background: rgba(15, 139, 107, 0.10);
+}
+
+html[data-theme="light"] #historyFlavorChartWrapper .section-title,
+html[data-theme="light"] #historyFlavorChartWrapper .flavor-chart-labels {
+  color: #6f746d;
+}
+
+html[data-theme="light"] #historyFlavorChartWrapper .profile-guide {
+  stroke: rgba(6, 76, 53, 0.18);
+}
+
+html[data-theme="light"] #historyFlavorChartWrapper .profile-tick {
+  stroke: rgba(6, 76, 53, 0.45);
+}
   </style>
 </head>
 <body>
@@ -686,13 +863,32 @@
   <div class="brand-title">DAGS</div>
   <div class="brand-subtitle">Bourbon & Whiskey Lounge</div>
 </a>
+ <div class="header-actions">
   <nav>
-  <a href="menu.html">The List</a>
-  <a href="blind-tasting.html">Blind Tasting</a>
-  <a href="history.html" class="active">Whiskey Log</a>
-  <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
-  <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
-</nav>
+    <a href="menu.html">The List</a>
+    <a href="blind-tasting.html">Blind Tasting</a>
+    <a href="history.html" class="active">Whiskey Log</a>
+    <a href="whiskeyiqupgrade.html">Whiskey IQ</a>
+    <a href="https://dramhub.dagsbar.com" target="_blank" rel="noopener">Dramhub</a>
+  </nav>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+    <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5Z"></path>
+    </svg>
+    <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M20 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+  </button>
+</div>
 </header>
 
     <main class="card">
@@ -830,6 +1026,20 @@
   </div>
 
   <script>
+    const themeToggle = document.getElementById("themeToggle");
+const savedTheme = localStorage.getItem("dags_theme") || "dark";
+
+document.documentElement.setAttribute("data-theme", savedTheme);
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const nextTheme = currentTheme === "light" ? "dark" : "light";
+
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    localStorage.setItem("dags_theme", nextTheme);
+  });
+}
     /* --- Shared flavor chart config for history detail --- */
     const historySliderConfig = [
       "smoky",
