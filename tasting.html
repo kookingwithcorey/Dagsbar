@@ -525,7 +525,49 @@
         page-break-inside: avoid !important;
       }
     }
+/* TASTING PAGE: no account/theme controls */
+body .dags-account-control,
+body .dags-theme-control,
+body .dags-account-link,
+body #dagsThemeToggle,
+body #dagsAccountLink {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 
+/* TASTING PAGE: keep action buttons in one row */
+.button-row {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.button-row button,
+.button-row .btn-secondary {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 42px !important;
+  justify-content: center !important;
+  padding: 0 8px !important;
+  font-size: 0.82rem !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 420px) {
+  .button-row {
+    gap: 6px !important;
+  }
+
+  .button-row button,
+  .button-row .btn-secondary {
+    height: 40px !important;
+    padding: 0 5px !important;
+    font-size: 0.76rem !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -536,14 +578,14 @@
         <div>
           <div class="card-title">Whiskey Tasting Sheet</div>
           <div class="card-subtitle">
-            Fill this out live at the bar, then use your browser’s print button (or the one below) for a clean one-page print.
+            Fill this out live at the bar, then save it back to your Whiskey Log.
           </div>
         </div>
         <div class="button-row">
   <button type="button" id="shareBtn">Share</button>
-  <button type="button" id="clearBtn" class="btn-secondary">Clear Log</button>
+  <button type="button" id="clearBtn" class="btn-secondary">Clear</button>
   <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
-  <button type="button" id="saveBtn" class="btn-secondary">Save Log</button>
+  <button type="button" id="saveBtn" class="btn-secondary">Save</button>
 </div>
       </div>
 
