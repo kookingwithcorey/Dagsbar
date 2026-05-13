@@ -336,11 +336,72 @@ html[data-theme="light"] .brand-link:active {
       row-gap: 4px;
     }
 
-    @media (max-width: 720px) {
-      .history-item-main {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
+  @media (max-width: 720px) {
+  .history-item {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    padding: 10px 11px;
+    border-radius: 18px;
+  }
+
+  .history-item-main {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 2px;
+  }
+
+  .history-main-line {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .history-whiskey {
+    font-size: 0.95rem;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .history-meta,
+  .history-notes,
+  .history-flavors {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .history-pill-row {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    font-size: 0.62rem;
+    padding: 1px 6px;
+  }
+
+  .history-right {
+    text-align: right;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 72px;
+  }
+
+  .history-date {
+    white-space: nowrap;
+    font-size: 0.72rem;
+  }
+
+  .select-wrapper {
+    align-items: center;
+    padding-top: 0;
+  }
+}
 
     .history-main-line {
       font-weight: 500;
