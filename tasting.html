@@ -540,10 +540,11 @@
           </div>
         </div>
         <div class="button-row">
-          <button type="button" id="printBtn">Print Sheet</button>
-          <button type="button" id="clearBtn" class="btn-secondary">Clear All</button>
-         <button type="button" id="saveBtn" class="btn-secondary">Save Log</button>
-        </div>
+  <button type="button" id="shareBtn">Share</button>
+  <button type="button" id="clearBtn" class="btn-secondary">Clear Log</button>
+  <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+  <button type="button" id="saveBtn" class="btn-secondary">Save Log</button>
+</div>
       </div>
 
       <form id="tastingForm" autocomplete="off">
@@ -1015,6 +1016,41 @@
           valueSpan.textContent = "0";
         }
       });
+      const shareBtn = document.getElementById("shareBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+if (shareBtn) {
+  shareBtn.addEventListener("click", async () => {
+    const whiskeyName = document.getElementById("whiskeyName")?.value?.trim() || "Whiskey Tasting Sheet";
+
+    const shareData = {
+      title: `DAGS | ${whiskeyName}`,
+      text: `DAGS tasting sheet for ${whiskeyName}`,
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User canceled the iOS share sheet. No alert needed.
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Share link copied.");
+      } catch (err) {
+        alert("Sharing is not supported on this browser.");
+      }
+    }
+  });
+}
+
+if (cancelBtn) {
+  cancelBtn.addEventListener("click", () => {
+    window.location.href = "history.html";
+  });
+}
 
       buildSummary();
     });
