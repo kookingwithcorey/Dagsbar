@@ -999,6 +999,102 @@ html[data-theme="light"] .header-nav a.active {
     flex-basis: 36px !important;
   }
 }
+/* LOGBOOK MOBILE TOOLBAR FIX */
+@media (max-width: 720px) {
+  .page {
+    padding: 16px 10px 32px;
+  }
+
+  .card {
+    border-radius: 22px;
+    padding: 18px 18px 22px;
+  }
+
+  .card-header {
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  .card-title {
+    font-size: 1.55rem;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .controls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    justify-content: stretch;
+  }
+
+  .add-log-btn {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    font-size: 2rem;
+    justify-self: start;
+  }
+
+  .search-input {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    font-size: 0.95rem;
+    padding: 0 16px;
+  }
+
+  select.filter-select {
+    grid-column: 1 / 2;
+    width: 100%;
+    height: 44px;
+    min-width: 0;
+    font-size: 0.82rem;
+    padding: 0 10px;
+  }
+
+  #deleteSelectedBtn,
+  .btn-danger {
+    grid-column: 2 / 3;
+    width: 100%;
+    height: 44px;
+    justify-content: center;
+    font-size: 0.82rem;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  #exportCsvBtn,
+  .controls .btn-secondary {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 44px;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 0 14px;
+    white-space: nowrap;
+  }
+
+  .history-section-title {
+    margin-top: 22px;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+  }
+
+  .history-empty {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+}
   </style>
 </head>
 <body>
