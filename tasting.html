@@ -546,7 +546,8 @@ body #dagsAccountLink {
 }
 
 .button-row button,
-.button-row .btn-secondary {
+.button-row .btn-secondary,
+.button-row .btn-danger {
   width: 100% !important;
   min-width: 0 !important;
   height: 42px !important;
@@ -556,27 +557,40 @@ body #dagsAccountLink {
   white-space: nowrap !important;
 }
 
+/* Share stays green */
+#shareBtn {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+}
+
+/* Delete stays red */
+#deleteBtn,
+.button-row .btn-danger {
+  background: #b4232a !important;
+  border-color: rgba(255, 99, 99, 0.8) !important;
+  color: #ffffff !important;
+}
+
+#deleteBtn:hover,
+.button-row .btn-danger:hover {
+  background: #d12f37 !important;
+  border-color: rgba(255, 130, 130, 0.95) !important;
+  color: #ffffff !important;
+}
+
 @media (max-width: 420px) {
   .button-row {
     gap: 6px !important;
   }
 
   .button-row button,
-  .button-row .btn-secondary {
+  .button-row .btn-secondary,
+  .button-row .btn-danger {
     height: 40px !important;
     padding: 0 5px !important;
     font-size: 0.76rem !important;
   }
-  .btn-danger {
-  background: #b4232a !important;
-  border-color: rgba(255, 99, 99, 0.75) !important;
-  color: #ffffff !important;
-}
-
-.btn-danger:hover {
-  background: #d12f37 !important;
-  border-color: rgba(255, 130, 130, 0.9) !important;
-}
 }
   </style>
 </head>
@@ -591,9 +605,9 @@ body #dagsAccountLink {
             Fill this out live at the bar, then save it back to your Whiskey Log.
           </div>
         </div>
-        <div class="button-row">
+       <div class="button-row">
   <button type="button" id="shareBtn">Share</button>
-  <button type="button" id="cancelBtn" class="btn-danger">Delete</button>
+  <button type="button" id="deleteBtn" class="btn-danger">Delete</button>
   <button type="button" id="clearBtn" class="btn-secondary">Clear</button>
   <button type="button" id="saveBtn" class="btn-secondary">Save</button>
 </div>
@@ -1034,80 +1048,67 @@ body #dagsAccountLink {
     return;
   }
 
-  const TASTING_HISTORY_KEY = "dags_tastings_v1";
-  const existing = JSON.parse(localStorage.getItem(TASTING_HISTORY_KEY) || "[]");
-
+  const existing = loadTastingHistory();
   existing.unshift(entry);
-  localStorage.setItem(TASTING_HISTORY_KEY, JSON.stringify(existing));
+  saveTastingHistory(existing);
 
-  const shouldReturnToLog =
-    new URLSearchParams(window.location.search).get("returnToLog") === "1";
-
-  if (shouldReturnToLog) {
-    window.location.href = "history.html";
-    return;
-  }
-
-  alert("Tasting saved to Whiskey Log.");
+  window.location.href = "history.html";
 });
 
-    document.getElementById("printBtn")?.addEventListener("click", () => {
-      window.print();
-    });
+document.getElementById("clearBtn")?.addEventListener("click", () => {
+  const form = document.getElementById("tastingForm");
+  if (!form) return;
 
-    document.getElementById("clearBtn")?.addEventListener("click", () => {
-      const form = document.getElementById("tastingForm");
-      if (!form) return;
-      form.reset();
+  form.reset();
 
-      sliderConfig.forEach((id) => {
-        const slider = document.getElementById(id);
-        const valueSpan = document.getElementById(id + "Value");
-        if (slider && valueSpan) {
-          slider.value = 0;
-          valueSpan.textContent = "0";
-        }
-      });
-      const shareBtn = document.getElementById("shareBtn");
-const cancelBtn = document.getElementById("cancelBtn");
+  sliderConfig.forEach((id) => {
+    const slider = document.getElementById(id);
+    const valueSpan = document.getElementById(id + "Value");
 
-if (shareBtn) {
-  shareBtn.addEventListener("click", async () => {
-    const whiskeyName = document.getElementById("whiskeyName")?.value?.trim() || "Whiskey Tasting Sheet";
-
-    const shareData = {
-      title: `DAGS | ${whiskeyName}`,
-      text: `DAGS tasting sheet for ${whiskeyName}`,
-      url: window.location.href
-    };
-
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        // User canceled the iOS share sheet. No alert needed.
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        alert("Share link copied.");
-      } catch (err) {
-        alert("Sharing is not supported on this browser.");
-      }
+    if (slider && valueSpan) {
+      slider.value = 0;
+      valueSpan.textContent = "0";
     }
   });
-}
 
-if (cancelBtn) {
-  cancelBtn.addEventListener("click", () => {
-    window.location.href = "history.html";
-  });
-}
+  buildSummary();
+});
 
-      buildSummary();
-    });
+document.getElementById("shareBtn")?.addEventListener("click", async () => {
+  const whiskeyName =
+    document.getElementById("whiskeyName")?.value?.trim() ||
+    "Whiskey Tasting Sheet";
 
+  const shareData = {
+    title: `DAGS | ${whiskeyName}`,
+    text: `DAGS tasting sheet for ${whiskeyName}`,
+    url: window.location.href
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      // User closed the iOS share sheet.
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Share link copied.");
+    } catch (err) {
+      alert("Sharing is not supported on this browser.");
+    }
+  }
+});
+
+document.getElementById("deleteBtn")?.addEventListener("click", () => {
+  const confirmDelete = confirm("Delete this tasting and return to the Logbook?");
+  if (!confirmDelete) return;
+
+  window.location.href = "history.html";
+});
     buildSummary();
+   
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dags-supabase.js"></script>
