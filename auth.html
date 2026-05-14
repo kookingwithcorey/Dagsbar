@@ -2,40 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>DAGS | Account</title>
+  <title>DAGS | Log In</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="dags-supabase.js"></script>
   <style>
     :root{--bg:#0f1410;--card:#171f1a;--text:#f7f4ea;--muted:#a9b5ad;--green:#0f8b6b;--green-dark:#064c35;--gold:#c19a5b;--line:rgba(255,255,255,.12);--danger:#e76f6f;--shadow:0 20px 60px rgba(0,0,0,.35)}
-    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top,rgba(15,139,107,.22),transparent 32rem),linear-gradient(180deg,#111711,#070907);color:var(--text);min-height:100vh}.wrap{width:min(960px,calc(100% - 28px));margin:0 auto;padding:24px 0 48px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0 24px}.brand{display:flex;flex-direction:column;gap:4px}.brand-title{font-family:Georgia,"Times New Roman",serif;letter-spacing:.18em;font-size:28px;text-transform:uppercase}.brand-sub{color:var(--green);font-weight:800;letter-spacing:.22em;text-transform:uppercase;font-size:12px}.back-link{color:var(--text);border:1px solid var(--line);text-decoration:none;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.04);font-size:14px}.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px;overflow:hidden}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}h1,h2,h3{margin:0 0 10px;font-family:Georgia,"Times New Roman",serif}p{color:var(--muted);line-height:1.5;margin:0 0 16px}label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px;font-weight:700}input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--text);border-radius:14px;padding:13px 14px;font-size:16px;outline:none}input:focus{border-color:rgba(15,139,107,.8);box-shadow:0 0 0 3px rgba(15,139,107,.18)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}button{border:0;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--green),var(--green-dark));min-height:44px}button.danger{background:rgba(231,111,111,.16);border:1px solid rgba(231,111,111,.35);color:#ffd1d1}.status{margin-top:14px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);display:none}.status.show{display:block}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:13px;margin:3px 4px 3px 0}.admin{color:#ffe1a8;border-color:rgba(193,154,91,.45);background:rgba(193,154,91,.13)}.hidden{display:none!important}.switch-row{display:flex;align-items:center;gap:10px;margin-top:14px;color:var(--muted)}.switch-row input{width:auto;transform:scale(1.25)}.mini{font-size:13px;color:var(--muted);margin-top:10px}.feature-list{margin-top:12px;display:grid;gap:10px}.feature{padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.18)}.feature strong{display:block;margin-bottom:4px}@media(max-width:760px){.grid{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.brand-title{font-size:24px}.card{padding:18px;border-radius:20px}.btn-row button{width:100%}.back-link{width:100%;text-align:center}}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top,rgba(15,139,107,.22),transparent 32rem),linear-gradient(180deg,#111711,#070907);color:var(--text);min-height:100vh}
+    .wrap{width:min(760px,calc(100% - 28px));margin:0 auto;padding:24px 0 48px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0 24px}
+    .brand{display:flex;flex-direction:column;gap:4px}
+    .brand-title{font-family:Georgia,"Times New Roman",serif;letter-spacing:.18em;font-size:28px;text-transform:uppercase}
+    .brand-sub{color:var(--green);font-weight:800;letter-spacing:.22em;text-transform:uppercase;font-size:12px}
+    .back-link{color:var(--text);border:1px solid var(--line);text-decoration:none;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.04);font-size:14px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px;overflow:hidden}
+    .login-card{max-width:520px;margin:0 auto}
+    h1,h2,h3{margin:0 0 10px;font-family:Georgia,"Times New Roman",serif}
+    p{color:var(--muted);line-height:1.5;margin:0 0 16px}
+    label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px;font-weight:700}
+    input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--text);border-radius:14px;padding:13px 14px;font-size:16px;outline:none}
+    input:focus{border-color:rgba(15,139,107,.8);box-shadow:0 0 0 3px rgba(15,139,107,.18)}
+    .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    button{border:0;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--green),var(--green-dark));min-height:44px}
+    button.danger{background:rgba(231,111,111,.16);border:1px solid rgba(231,111,111,.35);color:#ffd1d1}
+    .status{margin-top:14px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);display:none}.status.show{display:block}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:13px;margin:3px 4px 3px 0}
+    .hidden{display:none!important}
+    .switch-row{display:flex;align-items:center;gap:10px;margin-top:14px;color:var(--muted)}.switch-row input{width:auto;transform:scale(1.25)}
+    .lock-note{border:1px solid rgba(193,154,91,.35);background:rgba(193,154,91,.11);border-radius:18px;padding:12px 14px;color:#ffe1a8;font-size:13px;line-height:1.45;margin-top:16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .feature-list{margin-top:12px;display:grid;gap:10px}.feature{padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.18)}.feature strong{display:block;margin-bottom:4px}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.brand-title{font-size:24px}.card{padding:18px;border-radius:20px}.btn-row button{width:100%}.back-link{width:100%;text-align:center}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand"><div class="brand-title">DAGS</div><div class="brand-sub">Account Access</div></div>
+      <div class="brand"><div class="brand-title">DAGS</div><div class="brand-sub">Private Testing Access</div></div>
       <a class="back-link" id="backToDags" href="index.html">← Back to DAGS</a>
     </header>
-    <section id="loggedOut" class="grid">
-      <div class="card">
-        <h1>Create account</h1>
-        <p>Create your DAGS account to save Whiskey IQ scores, Whiskey Log entries, blind tastings, favorites, and Dramhub activity.</p>
-        <label for="signupName">Display name</label><input id="signupName" type="text" placeholder="Corey DAgostino" />
-        <label for="signupEmail">Email</label><input id="signupEmail" type="email" placeholder="you@email.com" />
-        <label for="signupPassword">Password</label><input id="signupPassword" type="password" placeholder="Minimum 6 characters" />
-        <div class="btn-row"><button onclick="signUp()">Create Account</button></div>
-        <div class="mini">You may need to confirm your email depending on your Supabase settings.</div>
-      </div>
-      <div class="card">
-        <h1>Log in</h1><p>Already have an account? Log in to access your saved DAGS data.</p>
-        <label for="loginEmail">Email</label><input id="loginEmail" type="email" placeholder="you@email.com" />
-        <label for="loginPassword">Password</label><input id="loginPassword" type="password" placeholder="Password" />
-        <div class="btn-row"><button onclick="signIn()">Log In</button></div>
-      </div>
+
+    <section id="loggedOut" class="card login-card">
+      <h1>Log in</h1>
+      <p>Access is limited during this testing phase. Use the username/email and password that were manually created for you.</p>
+      <label for="loginEmail">Username / Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" placeholder="you@email.com" />
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password" />
+      <div class="btn-row"><button onclick="signIn()">Log In</button></div>
+      <div class="lock-note">Sign-ups are closed. New testers must be added manually before they can log in.</div>
     </section>
+
     <section id="loggedIn" class="card hidden">
       <h1>My DAGS Account</h1>
-      <p>You are logged in. This account will be used for DAGS and can later connect to Dramhub through the same Supabase project.</p>
+      <p>You are logged in. This account is used for DAGS testing access.</p>
       <div id="accountBadges"></div>
       <div class="grid" style="margin-top:18px;">
         <div>
@@ -47,225 +68,168 @@
           <div class="btn-row"><button onclick="saveProfile()">Save Profile</button><button class="danger" onclick="signOut()">Log Out</button></div>
         </div>
         <div>
-          <h2>Coming next</h2><p>These are the DAGS features we’ll connect after this login page is live.</p>
+          <h2>Testing access</h2>
+          <p>Only approved users should be able to save and view account-based DAGS data during this stage.</p>
           <div class="feature-list">
-            <div class="feature"><strong>Whiskey IQ logs</strong>Save scores and choose “Make my Whiskey IQ score public.”</div>
-            <div class="feature"><strong>Blind tasting</strong>Save flights and choose “Share this blind tasting.”</div>
-            <div class="feature"><strong>Whiskey Log</strong>Save reviews and choose “Publish my review.”</div>
-            <div class="feature"><strong>Dramhub</strong>Connect to the same Supabase user login.</div>
+            <div class="feature"><strong>Whiskey IQ</strong>Log in before saving private scores.</div>
+            <div class="feature"><strong>Blind Tasting</strong>Log in before saving flights.</div>
+            <div class="feature"><strong>Whiskey Log</strong>Log in before saving reviews.</div>
           </div>
         </div>
       </div>
     </section>
     <div id="status" class="status"></div>
   </div>
+
   <script>
-    const SUPABASE_URL = "https://yfbficwfvscipodbvsfh.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_hTHG1nFVWSBnvgwUozGcpg_IUrtsn2B";
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: window.localStorage
-  }
-});
+    const db = window.DAGSAuth.getClient();
     const statusBox = document.getElementById("status");
     const loggedOut = document.getElementById("loggedOut");
     const loggedIn = document.getElementById("loggedIn");
     let currentUser = null;
+    let accountLoadedOnce = false;
+
     const params = new URLSearchParams(window.location.search);
-const authNextPage = params.get("next") || sessionStorage.getItem("dagsAuthNext") || "index.html";
+    const authNextPage = params.get("next") || sessionStorage.getItem("dagsAuthNext") || "index.html";
+    const backToDags = document.getElementById("backToDags");
+    if (backToDags) backToDags.href = authNextPage;
 
-const backToDags = document.getElementById("backToDags");
-if (backToDags) {
-  backToDags.href = authNextPage;
-}
-    function showStatus(message){statusBox.textContent=message;statusBox.classList.add("show");setTimeout(()=>statusBox.classList.remove("show"),5000)}
-    async function ensureProfile(user) {
-  return;
-}
-    async function signUp(){
-  const displayName = document.getElementById("signupName").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value;
-
-  if (!email || !password) {
-    showStatus("Add an email and password first.");
-    return;
-  }
-
-  showStatus("Creating account...");
-
-  const { data, error } = await db.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        display_name: displayName
-      }
+    function showStatus(message){
+      statusBox.textContent = message;
+      statusBox.classList.add("show");
+      setTimeout(() => statusBox.classList.remove("show"), 5000);
     }
-  });
 
-  if (error) {
-    showStatus(error.message);
-    return;
-  }
+    async function ensureProfile(user) { return; }
 
-  if (data.user) {
-    await ensureProfile(data.user);
-  }
+    async function signIn(){
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
 
-  showStatus("Account created. Check your email if confirmation is required.");
-  await loadAccount();
-}
-  async function signIn(){
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
+      if (!email || !password) {
+        showStatus("Add your username/email and password first.");
+        return;
+      }
 
-  if (!email || !password) {
-    showStatus("Add your email and password first.");
-    return;
-  }
+      showStatus("Logging in...");
+      const { error } = await db.auth.signInWithPassword({ email, password });
 
-  showStatus("Logging in...");
+      if (error) {
+        showStatus(error.message);
+        return;
+      }
 
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
+      let session = null;
+      for (let i = 0; i < 10; i++) {
+        const { data: sessionData } = await db.auth.getSession();
+        session = sessionData.session;
+        if (session?.user) break;
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
 
-  if (error) {
-    showStatus(error.message);
-    return;
-  }
+      if (!session?.user) {
+        showStatus("Login worked, but the session did not save yet. Please tap Log In again.");
+        return;
+      }
 
-  // Give Supabase a moment to persist the session before redirecting.
-  let session = null;
+      await ensureProfile(session.user);
+      showStatus("Logged in. Taking you back...");
+      setTimeout(() => { window.location.href = authNextPage; }, 600);
+    }
 
-  for (let i = 0; i < 10; i++) {
-    const { data: sessionData } = await db.auth.getSession();
-    session = sessionData.session;
-
-    if (session?.user) break;
-
-    await new Promise((resolve) => setTimeout(resolve, 150));
-  }
-
-  if (!session?.user) {
-    showStatus("Login worked, but the session did not save yet. Please tap Log In again.");
-    return;
-  }
-
-  await ensureProfile(session.user);
-
-  showStatus("Logged in. Taking you back...");
-
-  setTimeout(() => {
-    window.location.href = authNextPage;
-  }, 600);
-}
-    async function signOut(){await db.auth.signOut();currentUser=null;loggedIn.classList.add("hidden");loggedOut.classList.remove("hidden");showStatus("Logged out.")}
-   async function loadAccount() {
-  const { data: sessionData } = await db.auth.getSession();
-
-  if (!sessionData.session) {
-    if (!currentUser && !accountLoadedOnce) {
+    async function signOut(){
+      await db.auth.signOut();
+      currentUser = null;
       loggedIn.classList.add("hidden");
       loggedOut.classList.remove("hidden");
+      showStatus("Logged out.");
     }
-    return;
-  }
 
-  currentUser = sessionData.session.user;
+    async function loadAccount() {
+      const { data: sessionData } = await db.auth.getSession();
 
-  const meta = currentUser.user_metadata || {};
+      if (!sessionData.session) {
+        if (!currentUser && !accountLoadedOnce) {
+          loggedIn.classList.add("hidden");
+          loggedOut.classList.remove("hidden");
+        }
+        return;
+      }
 
-  document.getElementById("profileEmail").value = currentUser.email || "";
+      currentUser = sessionData.session.user;
+      const meta = currentUser.user_metadata || {};
 
-  document.getElementById("profileUsername").value =
-    meta.username ||
-    "";
+      document.getElementById("profileEmail").value = currentUser.email || "";
+      document.getElementById("profileUsername").value = meta.username || "";
+      document.getElementById("profileDisplayName").value = meta.display_name || currentUser.email?.split("@")[0] || "";
+      document.getElementById("hideProfile").checked = !!meta.hide_profile;
+      document.getElementById("accountBadges").innerHTML = `
+        <span class="pill">Status: active</span>
+        <span class="pill">Role: tester</span>
+        <span class="pill">Profile: ${meta.hide_profile ? "Hidden" : "Visible"}</span>
+      `;
 
-  document.getElementById("profileDisplayName").value =
-    meta.display_name ||
-    currentUser.email?.split("@")[0] ||
-    "";
-
-  document.getElementById("hideProfile").checked =
-    !!meta.hide_profile;
-
-  document.getElementById("accountBadges").innerHTML = `
-    <span class="pill">Status: active</span>
-    <span class="pill">Role: user</span>
-    <span class="pill">Profile: ${meta.hide_profile ? "Hidden" : "Visible"}</span>
-  `;
-
-  loggedOut.classList.add("hidden");
-  loggedIn.classList.remove("hidden");
-}
-async function saveProfile() {
-  if (!currentUser) {
-    showStatus("Log in first.");
-    return;
-  }
-
-  const username = document.getElementById("profileUsername").value.trim() || null;
-  const displayName = document.getElementById("profileDisplayName").value.trim() || null;
-  const hideProfile = document.getElementById("hideProfile").checked;
-
-  showStatus("Saving profile...");
-
-  const { data: authData, error: authError } = await db.auth.updateUser({
-    data: {
-      username,
-      display_name: displayName,
-      hide_profile: hideProfile
+      loggedOut.classList.add("hidden");
+      loggedIn.classList.remove("hidden");
     }
-  });
 
-  if (authError) {
-    console.warn("Auth profile save failed:", authError);
-    showStatus(`Profile save failed: ${authError.message}`);
-    return;
-  }
+    async function saveProfile() {
+      if (!currentUser) {
+        showStatus("Log in first.");
+        return;
+      }
 
-  currentUser = authData.user;
+      const username = document.getElementById("profileUsername").value.trim() || null;
+      const displayName = document.getElementById("profileDisplayName").value.trim() || null;
+      const hideProfile = document.getElementById("hideProfile").checked;
 
-  showStatus("Profile saved.");
-  await loadAccount();
-}
-let accountLoadedOnce = false;
-db.auth.onAuthStateChange((event, session) => {
-  console.log("DAGS auth event:", event, session?.user?.email || "no user");
+      showStatus("Saving profile...");
+      const { data: authData, error: authError } = await db.auth.updateUser({
+        data: { username, display_name: displayName, hide_profile: hideProfile }
+      });
 
-  if (event === "SIGNED_OUT") {
-    accountLoadedOnce = false;
-    currentUser = null;
-    loggedIn.classList.add("hidden");
-    loggedOut.classList.remove("hidden");
-    return;
-  }
+      if (authError) {
+        console.warn("Auth profile save failed:", authError);
+        showStatus(`Profile save failed: ${authError.message}`);
+        return;
+      }
 
-  if (session?.user) {
-    currentUser = session.user;
-    accountLoadedOnce = true;
-    loadAccount();
-  }
-});
+      currentUser = authData.user;
+      showStatus("Profile saved.");
+      await loadAccount();
+    }
 
-setTimeout(async () => {
-  const { data } = await db.auth.getSession();
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        accountLoadedOnce = false;
+        currentUser = null;
+        loggedIn.classList.add("hidden");
+        loggedOut.classList.remove("hidden");
+        return;
+      }
 
-  if (data.session?.user) {
-    currentUser = data.session.user;
-    accountLoadedOnce = true;
-    await loadAccount();
-    return;
-  }
+      if (session?.user) {
+        currentUser = session.user;
+        accountLoadedOnce = true;
+        loadAccount();
+      }
+    });
 
-  if (!accountLoadedOnce) {
-    loggedIn.classList.add("hidden");
-    loggedOut.classList.remove("hidden");
-  }
-}, 800);
+    setTimeout(async () => {
+      const { data } = await db.auth.getSession();
+
+      if (data.session?.user) {
+        currentUser = data.session.user;
+        accountLoadedOnce = true;
+        await loadAccount();
+        return;
+      }
+
+      if (!accountLoadedOnce) {
+        loggedIn.classList.add("hidden");
+        loggedOut.classList.remove("hidden");
+      }
+    }, 800);
   </script>
 </body>
 </html>
