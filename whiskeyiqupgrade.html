@@ -641,18 +641,18 @@
     }
 
     .modal-head {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(242,234,223,.92);
-      backdrop-filter: blur(18px);
-    }
+  position: relative !important;
+  top: auto !important;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(242,234,223,.92);
+  backdrop-filter: blur(18px);
+}
 
     html[data-theme="dark"] .modal-head {
       background: rgba(6,8,7,.92);
@@ -3933,6 +3933,99 @@ html[data-theme="dark"] .num-input {
     white-space: nowrap !important;
   }
 } 
+    /* =========================================================
+   RANKING HEADER BACK BUTTON FIX
+   Moves back button to top modal header before bottle name
+   ========================================================= */
+
+.modal-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.modal-top-back {
+  display: none;
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.34);
+  color: var(--green);
+  place-items: center;
+  padding: 0;
+}
+
+html[data-theme="dark"] .modal-top-back {
+  background: rgba(255,255,255,.07);
+}
+
+.modal-top-back.active {
+  display: grid;
+}
+
+.modal-top-back svg {
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Hide the old back arrow inside the ranking page */
+body.rank-view #rankPage .rank-header > .icon-btn:first-child {
+  display: none !important;
+}
+
+body.rank-view #rankPage .rank-header-spacer {
+  display: none !important;
+}
+
+body.rank-view #rankPage .rank-header {
+  justify-content: center !important;
+  margin-bottom: 10px !important;
+}
+
+@media (max-width: 720px) {
+  .modal-head {
+    align-items: center !important;
+  }
+
+  .modal-title-wrap {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-top-back {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .modal-title {
+    font-size: 28px !important;
+  }
+}
+.modal {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.modal-head {
+  position: relative !important;
+  top: auto !important;
+  width: 100% !important;
+  flex: 0 0 auto !important;
+}
+
+.modal-body {
+  width: 100% !important;
+  flex: 1 1 auto !important;
+}
   </style>
 </head>
 
@@ -4046,21 +4139,37 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
 </div>
     </section>
   </div>
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal">
 
-  <div id="modalBackdrop" class="modal-backdrop">
-    <div class="modal">
-      <div class="modal-head">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <button
+          id="modalTopBackBtn"
+          class="modal-top-back"
+          type="button"
+          onclick="showInfo()"
+          aria-label="Back to bottle info"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+
         <div>
           <div class="modal-title" id="modalTitle">Bottle Info</div>
           <div class="modal-sub" id="modalSub">Name, proof, and type only.</div>
         </div>
-
-       <div class="head-actions">
-  <button class="btn btn-primary" onclick="saveProgressAndClose()">Save</button>
-</div>
       </div>
 
-      <div class="modal-body">
+      <div class="head-actions">
+        <button class="btn btn-primary" onclick="saveProgressAndClose()">Save</button>
+      </div>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="infoPage" class="step active">
         <section id="stepInfo" class="step active">
           <div class="info-popup">
             <h2>Bottle Info</h2>
@@ -4680,6 +4789,7 @@ document.body.classList.remove("share-view");
   document.getElementById("stepShare").classList.remove("active");
   document.getElementById("modalTitle").textContent = "Bottle Info";
   document.getElementById("modalSub").textContent = "Name, proof, type, and photo.";
+   document.getElementById("modalTopBackBtn")?.classList.remove("active");
 
   resetModalScroll();
 }
@@ -4703,6 +4813,7 @@ document.body.classList.remove("share-view");
   }
 
   document.getElementById("stepInfo").classList.remove("active");
+    document.getElementById("modalTopBackBtn")?.classList.add("active");
   document.getElementById("stepRank").classList.add("active");
   document.getElementById("stepShare").classList.remove("active");
   document.getElementById("modalTitle").textContent = current.name || "Whiskey IQ";
@@ -4728,6 +4839,7 @@ document.body.classList.remove("share-view");
   }
 
   document.getElementById("stepInfo").classList.remove("active");
+    document.getElementById("modalTopBackBtn")?.classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
   document.getElementById("stepShare").classList.add("active");
   document.getElementById("modalTitle").textContent = "Review Results";
