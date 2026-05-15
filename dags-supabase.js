@@ -116,7 +116,7 @@
       if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard")) el.remove();
     });
     [
-      { text: "Blind Tasting", href: "blind-tasting.html" },
+      { text: "Blind Tasting", href: "tasting.html" },
       { text: "Logbook", href: "history.html" },
       { text: "Dramhub", href: "https://dramhub.lovable.app", external: true }
     ].forEach((link) => {
