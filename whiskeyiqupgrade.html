@@ -4509,6 +4509,156 @@ html[data-theme="dark"] .blind-reveal-field input {
   font-size: 28px;
   font-weight: 900;
 }
+/* =========================================================
+   BLIND IQ WINNER CELEBRATION
+   iPhone-style balloons, ribbons, and confetti
+   ========================================================= */
+
+.winner-celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+}
+
+.winner-celebration.active {
+  display: block;
+}
+
+.celebration-balloon {
+  position: absolute;
+  bottom: -150px;
+  width: 58px;
+  height: 72px;
+  animation: balloonFloat 4.8s ease-in forwards;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.22));
+}
+
+.celebration-balloon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px 999px 900px 900px;
+ background:
+  radial-gradient(circle at 34% 24%, rgba(255,255,255,.62), transparent 18%),
+  linear-gradient(145deg, var(--balloonColor), var(--balloonDark));
+  border: 2px solid rgba(255,255,255,.42);
+  box-shadow: inset -12px -14px 22px rgba(0,0,0,.18);
+}
+
+.celebration-balloon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -48px;
+  width: 1.5px;
+  height: 52px;
+  background: rgba(255,255,255,.76);
+  transform: translateX(-50%);
+}
+
+.celebration-balloon img {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.38);
+}
+
+.celebration-confetti {
+  position: absolute;
+  top: -20px;
+  width: 9px;
+  height: 15px;
+  border-radius: 3px;
+  background: var(--gold);
+  animation: confettiFall 3.2s linear forwards;
+}
+
+.celebration-ribbon {
+  position: absolute;
+  top: -30px;
+  width: 7px;
+  height: 54px;
+  border-radius: 999px;
+  background: var(--green);
+  animation: ribbonFall 3.6s ease-in forwards;
+}
+
+.celebration-ribbon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: rotate(28deg);
+  background: rgba(255,255,255,.28);
+}
+
+@keyframes balloonFloat {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  55% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-115vh) translateX(var(--drift)) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ribbonFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(520deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winner-celebration {
+    display: none !important;
+  }
+}
   </style>
 </head>
 
@@ -4627,17 +4777,17 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
 
     <div class="modal-head">
       <div class="modal-title-wrap">
-        <button
-          id="modalTopBackBtn"
-          class="modal-top-back"
-          type="button"
-         onclick="showInfo()"
-          aria-label="Back to bottle info"
-        >
-          <svg viewBox="0 0 24 24">
-            <path d="M15 18l-6-6 6-6"></path>
-          </svg>
-        </button>
+      <button
+  id="modalTopBackBtn"
+  class="modal-top-back"
+  type="button"
+  onclick="handleModalBack()"
+  aria-label="Back"
+>
+  <svg viewBox="0 0 24 24">
+    <path d="M15 18l-6-6 6-6"></path>
+  </svg>
+</button>
 
         <div>
           <div class="modal-title" id="modalTitle">Bottle Info</div>
@@ -5273,6 +5423,85 @@ function blindBottleDisplayScore(blindBottle) {
 
   return blindBottleTotal(blindBottle);
 }
+function launchWinnerCelebration() {
+  const celebration = document.getElementById("winnerCelebration");
+  if (!celebration) return;
+
+  celebration.innerHTML = "";
+  celebration.classList.add("active");
+
+  const colors = [
+    "var(--green)",
+    "var(--green-2)",
+    "var(--gold)",
+    "#fffaf1",
+    "#0f8b6b",
+    "#b98a3f"
+  ];
+
+const balloonColors = [
+  ["#064c35", "#032f20"], // DAGS green
+  ["#0f8b6b", "#064c35"], // bright green
+  ["#b98a3f", "#7a531f"], // gold
+  ["#3b82f6", "#1e3a8a"], // blue
+  ["#a855f7", "#5b21b6"], // purple
+  ["#ef4444", "#991b1b"], // red
+];
+
+// Balloons
+for (let i = 0; i < 18; i++) {
+  const balloon = document.createElement("span");
+  balloon.className = "celebration-balloon";
+  balloon.innerHTML = `<img src="dags-new-logo.png" alt="" aria-hidden="true" />`;
+
+  const left = Math.random() * 100;
+  const delay = Math.random() * 1.1;
+  const duration = 4.2 + Math.random() * 1.8;
+  const drift = `${Math.random() * 160 - 80}px`;
+  const spin = `${Math.random() * 28 - 14}deg`;
+  const balloonColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+
+  balloon.style.left = `${left}%`;
+  balloon.style.animationDelay = `${delay}s`;
+  balloon.style.animationDuration = `${duration}s`;
+  balloon.style.setProperty("--drift", drift);
+  balloon.style.setProperty("--spin", spin);
+  balloon.style.setProperty("--balloonColor", balloonColor[0]);
+  balloon.style.setProperty("--balloonDark", balloonColor[1]);
+
+  celebration.appendChild(balloon);
+}
+  // Confetti
+  for (let i = 0; i < 80; i++) {
+    const confetti = document.createElement("span");
+    confetti.className = "celebration-confetti";
+
+    confetti.style.left = `${Math.random() * 100}%`;
+    confetti.style.animationDelay = `${Math.random() * 1.6}s`;
+    confetti.style.animationDuration = `${2.2 + Math.random() * 1.7}s`;
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    celebration.appendChild(confetti);
+  }
+
+  // Ribbons
+  for (let i = 0; i < 28; i++) {
+    const ribbon = document.createElement("span");
+    ribbon.className = "celebration-ribbon";
+
+    ribbon.style.left = `${Math.random() * 100}%`;
+    ribbon.style.animationDelay = `${Math.random() * 1.4}s`;
+    ribbon.style.animationDuration = `${2.8 + Math.random() * 1.6}s`;
+    ribbon.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    celebration.appendChild(ribbon);
+  }
+
+  setTimeout(() => {
+    celebration.classList.remove("active");
+    celebration.innerHTML = "";
+  }, 5600);
+}    
 
 function getBlindRankings() {
   if (!isBlindMode(current)) return [];
@@ -5770,7 +5999,23 @@ function renderBlindGroupPanel() {
 }
 
 function handleModalBack() {
-  if (document.getElementById("stepBlindReveal")?.classList.contains("active")) {
+  const isModeStep = document.getElementById("stepMode")?.classList.contains("active");
+  const isBlindSetupStep = document.getElementById("stepBlindSetup")?.classList.contains("active");
+  const isInfoStep = document.getElementById("stepInfo")?.classList.contains("active");
+  const isRankStep = document.getElementById("stepRank")?.classList.contains("active");
+  const isRevealStep = document.getElementById("stepBlindReveal")?.classList.contains("active");
+  const isShareStep = document.getElementById("stepShare")?.classList.contains("active");
+
+  if (isShareStep) {
+    if (isBlindMode(current)) {
+      showBlindWinnerReveal();
+    } else {
+      showRank();
+    }
+    return;
+  }
+
+  if (isRevealStep) {
     const title = document.getElementById("modalTitle")?.textContent || "";
 
     if (title.includes("Winner Reveal")) {
@@ -5782,12 +6027,7 @@ function handleModalBack() {
     return;
   }
 
-  if (document.getElementById("stepBlindSetup")?.classList.contains("active")) {
-    showModeSelect();
-    return;
-  }
-
-  if (document.getElementById("stepRank")?.classList.contains("active")) {
+  if (isRankStep) {
     if (isBlindMode(current)) {
       renderBlindSetup();
     } else {
@@ -5796,21 +6036,22 @@ function handleModalBack() {
     return;
   }
 
-  if (document.getElementById("stepShare")?.classList.contains("active")) {
-    if (isBlindMode(current)) {
-      showBlindWinnerReveal();
-    } else {
-      showRank();
-    }
-    return;
-  }
-
-  if (document.getElementById("stepInfo")?.classList.contains("active")) {
+  if (isBlindSetupStep) {
     showModeSelect();
     return;
   }
 
-  showModeSelect();
+  if (isInfoStep) {
+    showModeSelect();
+    return;
+  }
+
+  if (isModeStep) {
+    closeBottle();
+    return;
+  }
+
+  closeBottle();
 }
     function closeBottle() {
       document.getElementById("modalBackdrop").classList.remove("active");
@@ -6060,6 +6301,7 @@ function updateBlindRevealField(label, field, value) {
 
   renderBlindWinnerReveal();
   resetModalScroll();
+  launchWinnerCelebration();
 }
 
 function renderBlindWinnerReveal() {
@@ -9031,5 +9273,6 @@ document.addEventListener("touchend", function(event) {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dags-supabase.js?v=9"></script>
+  <div id="winnerCelebration" class="winner-celebration" aria-hidden="true"></div>
 </body>
 </html>
