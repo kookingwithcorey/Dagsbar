@@ -4026,6 +4026,489 @@ body.rank-view #rankPage .rank-header {
   width: 100% !important;
   flex: 1 1 auto !important;
 }
+   /* =========================================================
+   BLIND IQ SETUP + BOTTLE SWITCHER
+   Does not touch header/nav/topbar
+   ========================================================= */
+
+.iq-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.iq-mode-card {
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--panel);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.iq-mode-card h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.iq-mode-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.42;
+  margin-bottom: 16px;
+}
+
+.iq-mode-btn {
+  width: 100%;
+  border: 1px solid rgba(15,139,107,.75);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--green), #043422);
+  color: #fff;
+  padding: 13px 16px;
+  font-weight: 1000;
+}
+
+.blind-setup-card {
+  max-width: 620px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--panel);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.blind-setup-card h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.blind-setup-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.42;
+  margin-bottom: 14px;
+}
+
+.blind-bottle-count {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0 16px;
+}
+
+.blind-count-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.34);
+  color: var(--muted);
+  padding: 11px 12px;
+  font-weight: 1000;
+}
+
+html[data-theme="dark"] .blind-count-btn {
+  background: rgba(255,255,255,.06);
+}
+
+.blind-count-btn.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.blind-mode-note {
+  border: 1px dashed rgba(15,139,107,.55);
+  border-radius: 18px;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.blind-bottle-switcher {
+  display: grid;
+  grid-template-columns: 43px minmax(0, 1fr) 43px;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.blind-bottle-arrow {
+  width: 43px;
+  height: 43px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.36);
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  font-size: 31px;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+html[data-theme="dark"] .blind-bottle-arrow {
+  background: rgba(255,255,255,.07);
+}
+
+.blind-bottle-current {
+  min-width: 0;
+  min-height: 43px;
+  border-radius: 999px;
+  border: 1px solid rgba(15,139,107,.55);
+  background: var(--green);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  text-align: center;
+  box-shadow: 0 10px 22px rgba(15,139,107,.14);
+}
+
+.blind-bottle-name {
+  max-width: 100%;
+  font-size: 16px;
+  font-weight: 1000;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blind-bottle-count-label {
+  margin-top: 3px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: .72;
+}
+
+.blind-rankings {
+  margin-top: 18px;
+  border-top: 7px solid rgba(6,76,53,.14);
+  padding-top: 16px;
+}
+
+.blind-rankings-title {
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #064c35;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  margin-bottom: 12px;
+}
+
+.blind-ranking-row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 54px;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(6,76,53,.14);
+  border-radius: 16px;
+  background: rgba(255,255,255,.42);
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.blind-ranking-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #064c35;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.blind-ranking-name {
+  min-width: 0;
+  color: #101511;
+  font-size: 15px;
+  font-weight: 1000;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blind-ranking-note {
+  margin-top: 3px;
+  color: rgba(16,21,17,.65);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.blind-ranking-score {
+  min-height: 32px;
+  border-radius: 999px;
+  background: rgba(15,139,107,.12);
+  color: #064c35;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+@media (max-width: 720px) {
+  .iq-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .iq-mode-card,
+  .blind-setup-card {
+    border-radius: 22px;
+    padding: 16px;
+  }
+
+  .iq-mode-card h2,
+  .blind-setup-card h2 {
+    font-size: 32px;
+  }
+
+  #stepRank.active .blind-bottle-switcher {
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    gap: 8px;
+    margin: 0 0 10px !important;
+  }
+
+  .blind-bottle-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  .blind-bottle-current {
+    min-height: 42px;
+  }
+
+  .blind-bottle-name {
+    font-size: 15px;
+  }
+
+  .blind-ranking-row {
+    grid-template-columns: 32px minmax(0, 1fr) 48px;
+    gap: 8px;
+  }
+} 
+    /* Hide duplicate Bottle A/B/C/D title above arrow selector in Blind IQ only */
+body.blind-view #rankPage .rank-header {
+  display: none !important;
+}
+
+body.blind-view #rankPage .blind-bottle-switcher {
+  margin-top: 0 !important;
+}
+   /* =========================================================
+   BLIND IQ REVEAL STEP
+   Fill bottle names after blind scoring, before score card
+   ========================================================= */
+
+.blind-reveal-card {
+  max-width: 720px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--panel);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.blind-reveal-card h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 38px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.blind-reveal-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.42;
+  margin-bottom: 16px;
+}
+
+.blind-reveal-list {
+  display: grid;
+  gap: 12px;
+}
+
+.blind-reveal-bottle {
+  border: 1px solid rgba(6,76,53,.16);
+  border-radius: 22px;
+  background: rgba(255,255,255,.38);
+  padding: 14px;
+}
+
+html[data-theme="dark"] .blind-reveal-bottle {
+  background: rgba(255,255,255,.06);
+}
+
+.blind-reveal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.blind-reveal-label {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.blind-reveal-position {
+  display: inline-grid;
+  place-items: center;
+  min-width: 76px;
+  min-height: 34px;
+  border-radius: 999px;
+  background: rgba(15,139,107,.12);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.blind-reveal-position.winner {
+  background: var(--green);
+  color: #fff;
+}
+
+.blind-reveal-score {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+  margin-top: 4px;
+}
+
+.blind-reveal-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 9px;
+}
+
+.blind-reveal-field label {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-bottom: 6px;
+}
+
+.blind-reveal-field input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.45);
+  color: var(--text);
+  padding: 11px 13px;
+  outline: none;
+  font-weight: 900;
+}
+
+html[data-theme="dark"] .blind-reveal-field input {
+  background: rgba(255,255,255,.06);
+}
+
+.blind-reveal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .blind-reveal-card {
+    border-radius: 22px;
+    padding: 16px;
+  }
+
+  .blind-reveal-card h2 {
+    font-size: 32px;
+  }
+
+  .blind-reveal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blind-reveal-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .blind-reveal-position {
+    min-width: 0;
+    padding: 8px 12px;
+  }
+} 
+    .blind-winner-card {
+  border: 3px solid rgba(6,76,53,.72);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top, rgba(15,139,107,.14), transparent 46%),
+    #fffaf1;
+  color: #101511;
+  text-align: center;
+  padding: 28px 18px;
+  margin-top: 12px;
+}
+
+.blind-winner-kicker {
+  color: #9d742b;
+  font-size: 13px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  margin-bottom: 10px;
+}
+
+.blind-winner-bottle {
+  color: #064c35;
+  font-size: 16px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  margin-bottom: 8px;
+}
+
+.blind-winner-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 8vw, 68px);
+  line-height: .92;
+  letter-spacing: -.05em;
+  margin-bottom: 10px;
+}
+
+.blind-winner-meta {
+  color: rgba(16,21,17,.68);
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.blind-winner-score {
+  color: #064c35;
+  font-size: 82px;
+  font-weight: 1000;
+  line-height: .85;
+}
+
+.blind-winner-score span {
+  color: #101511;
+  font-size: 28px;
+  font-weight: 900;
+}
   </style>
 </head>
 
@@ -4148,7 +4631,7 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
           id="modalTopBackBtn"
           class="modal-top-back"
           type="button"
-          onclick="showInfo()"
+         onclick="showInfo()"
           aria-label="Back to bottle info"
         >
           <svg viewBox="0 0 24 24">
@@ -4167,10 +4650,28 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
       </div>
     </div>
 
-    <div class="modal-body">
+   <div class="modal-body">
 
-      <div id="infoPage" class="step active">
-        <section id="stepInfo" class="step active">
+      <section id="stepMode" class="step active">
+        <div class="iq-mode-grid">
+          <div class="iq-mode-card">
+            <h2>Whiskey IQ</h2>
+            <p>Rate one bottle. Add bottle info first, then score aroma, flavor, finish, drink again, recommend, and value.</p>
+            <button class="iq-mode-btn" type="button" onclick="chooseWhiskeyIQ()">Start Whiskey IQ</button>
+          </div>
+
+          <div class="iq-mode-card">
+            <h2>Blind IQ</h2>
+            <p>Score 2–4 bottles blind as Bottle A, B, C, and D. Add bottle names and details later after scoring.</p>
+            <button class="iq-mode-btn" type="button" onclick="chooseBlindIQ()">Start Blind IQ</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="stepBlindSetup" class="step"></section>
+
+      <div id="infoPage" class="step">
+        <section id="stepInfo" class="step">
           <div class="info-popup">
             <h2>Bottle Info</h2>
             <p>Enter the bottle details first. Ranking comes next.</p>
@@ -4219,16 +4720,20 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
           </div>
         </section>
 
-        <section id="stepRank" class="step">
-          <div class="rank-layout">
-            <aside class="rank-tabs" id="rankTabs"></aside>
-            <main class="rank-page" id="rankPage"></main>
-          </div>
-        </section>
+       <section id="stepRank" class="step">
+  <div class="rank-layout">
+    <aside class="rank-tabs" id="rankTabs"></aside>
+    <main class="rank-page" id="rankPage"></main>
+  </div>
+</section>
 
-        <section id="stepShare" class="step">
-          <div id="shareOutput"></div>
-        </section>
+<section id="stepBlindReveal" class="step">
+  <div id="blindRevealOutput"></div>
+</section>
+
+<section id="stepShare" class="step">
+  <div id="shareOutput"></div>
+</section>
       </div>
     </div>
   </div>
@@ -4297,9 +4802,10 @@ then create a shareable Whiskey IQ card with your final IQ Insight.
   "Crème Brûlée"
 ];
     let bottles = [];
-    let current = null;
-    let activeRank = 0;
-    let viewMode = localStorage.getItem(VIEW_KEY) || "grid";
+let current = null;
+let activeRank = 0;
+let viewMode = localStorage.getItem(VIEW_KEY) || "grid";
+const blindBottleLabels = ["A", "B", "C", "D"];
 
 function iconPath(type) {
   const paths = {
@@ -4457,13 +4963,30 @@ recommend: `
   return scores;
 }
 
+function blankBlindBottle(label = "A") {
+  return {
+    label,
+    revealedName: "",
+    type: "",
+    proof: "",
+    price: "",
+    scores: blankScores(),
+    notes: "",
+    flavors: []
+  };
+}
+
 function blankTaster(name = "") {
   return {
     id: uid(),
     name,
     scores: blankScores(),
     notes: "",
-    flavors: []
+    flavors: [],
+    blindBottles: blindBottleLabels.reduce((obj, label) => {
+      obj[label] = blankBlindBottle(label);
+      return obj;
+    }, {})
   };
 }
 
@@ -4479,6 +5002,16 @@ function blankBottle() {
     flavors: [],
     customFlavors: [],
     scores: blankScores(),
+    iqMode: "whiskey",
+    blindSession: {
+      enabled: false,
+      bottleCount: 2,
+      activeBottleIndex: 0,
+      bottles: [
+        blankBlindBottle("A"),
+        blankBlindBottle("B")
+      ]
+    },
     groupSession: {
       enabled: false,
       activeTasterId: "",
@@ -4502,13 +5035,35 @@ function ensureGroupSessionShape(bottle) {
     bottle.groupSession.tasters = [];
   }
 
-  bottle.groupSession.tasters = bottle.groupSession.tasters.map((taster, index) => ({
-    id: taster.id || uid(),
-    name: String(taster.name || "").trim(),
-    scores: { ...blankScores(), ...(taster.scores || {}) },
-    notes: taster.notes || "",
-    flavors: Array.isArray(taster.flavors) ? taster.flavors : []
-  }));
+  bottle.groupSession.tasters = bottle.groupSession.tasters.map((taster) => {
+    const savedBlindBottles = taster.blindBottles || {};
+
+    const normalizedBlindBottles = blindBottleLabels.reduce((obj, label) => {
+      const saved = savedBlindBottles[label] || {};
+
+      obj[label] = {
+        label,
+        revealedName: saved.revealedName || "",
+        type: saved.type || "",
+        proof: saved.proof || "",
+        price: saved.price || "",
+        scores: { ...blankScores(), ...(saved.scores || {}) },
+        notes: saved.notes || "",
+        flavors: Array.isArray(saved.flavors) ? saved.flavors : []
+      };
+
+      return obj;
+    }, {});
+
+    return {
+      id: taster.id || uid(),
+      name: String(taster.name || "").trim(),
+      scores: { ...blankScores(), ...(taster.scores || {}) },
+      notes: taster.notes || "",
+      flavors: Array.isArray(taster.flavors) ? taster.flavors : [],
+      blindBottles: normalizedBlindBottles
+    };
+  });
 
   if (
     bottle.groupSession.enabled &&
@@ -4523,6 +5078,211 @@ function ensureGroupSessionShape(bottle) {
   }
 
   return bottle;
+}
+    function ensureBlindSessionShape(bottle) {
+  if (!bottle.blindSession) {
+    bottle.blindSession = {
+      enabled: false,
+      bottleCount: 2,
+      activeBottleIndex: 0,
+      bottles: []
+    };
+  }
+
+  bottle.blindSession.bottleCount = Math.max(
+    2,
+    Math.min(4, Number(bottle.blindSession.bottleCount || 2))
+  );
+
+  if (typeof bottle.blindSession.activeBottleIndex !== "number") {
+    bottle.blindSession.activeBottleIndex = 0;
+  }
+
+  if (bottle.blindSession.activeBottleIndex >= bottle.blindSession.bottleCount) {
+    bottle.blindSession.activeBottleIndex = 0;
+  }
+
+  const existing = Array.isArray(bottle.blindSession.bottles)
+    ? bottle.blindSession.bottles
+    : [];
+
+  bottle.blindSession.bottles = blindBottleLabels
+    .slice(0, bottle.blindSession.bottleCount)
+    .map((label, index) => {
+      const saved = existing.find(item => item.label === label) || existing[index] || {};
+
+      return {
+        label,
+        revealedName: saved.revealedName || saved.name || "",
+        type: saved.type || "",
+        proof: saved.proof || "",
+        price: saved.price || "",
+        scores: { ...blankScores(), ...(saved.scores || {}) },
+        notes: saved.notes || "",
+        flavors: Array.isArray(saved.flavors) ? saved.flavors : []
+      };
+    });
+
+  ensureGroupSessionShape(bottle);
+
+  bottle.groupSession.tasters.forEach(taster => {
+    if (!taster.blindBottles) taster.blindBottles = {};
+
+    blindBottleLabels.slice(0, bottle.blindSession.bottleCount).forEach(label => {
+      const saved = taster.blindBottles[label] || {};
+
+      taster.blindBottles[label] = {
+        label,
+        revealedName: saved.revealedName || "",
+        type: saved.type || "",
+        proof: saved.proof || "",
+        price: saved.price || "",
+        scores: { ...blankScores(), ...(saved.scores || {}) },
+        notes: saved.notes || "",
+        flavors: Array.isArray(saved.flavors) ? saved.flavors : []
+      };
+    });
+  });
+
+  return bottle;
+}
+
+function isBlindMode(bottle = current) {
+  return Boolean(bottle?.blindSession?.enabled || bottle?.iqMode === "blind");
+}
+
+function getBlindBottles(bottle = current) {
+  ensureBlindSessionShape(bottle);
+  return bottle?.blindSession?.bottles || [];
+}
+
+function getActiveBlindBottle(bottle = current) {
+  if (!isBlindMode(bottle)) return null;
+
+  ensureBlindSessionShape(bottle);
+
+  const bottles = getBlindBottles(bottle);
+  const index = Math.max(0, Math.min(bottles.length - 1, Number(bottle.blindSession.activeBottleIndex || 0)));
+
+  bottle.blindSession.activeBottleIndex = index;
+
+  return bottles[index] || bottles[0] || null;
+}
+
+function getActiveBlindBottleLabel(bottle = current) {
+  return getActiveBlindBottle(bottle)?.label || "A";
+}
+    function activeBlindModalTitle() {
+  if (!isBlindMode(current)) return current?.name || "Whiskey IQ";
+
+  const label = getActiveBlindBottleLabel(current);
+  return `Blind Taste - Bottle ${label}`;
+}
+
+function getActiveTasterBlindBottle() {
+  if (!isBlindMode(current) || !isGroupMode(current)) return null;
+
+  /*
+    Important:
+    Normalize FIRST, then grab the active taster.
+    Otherwise we update a stale taster object and the click gets wiped on render.
+  */
+  ensureBlindSessionShape(current);
+
+  const activeTaster = getActiveTaster();
+  if (!activeTaster) return null;
+
+  const bottles = current.blindSession?.bottles || [];
+  const index = Math.max(
+    0,
+    Math.min(bottles.length - 1, Number(current.blindSession?.activeBottleIndex || 0))
+  );
+
+  const label = bottles[index]?.label || "A";
+
+  if (!activeTaster.blindBottles) {
+    activeTaster.blindBottles = {};
+  }
+
+  if (!activeTaster.blindBottles[label]) {
+    activeTaster.blindBottles[label] = blankBlindBottle(label);
+  }
+
+  activeTaster.blindBottles[label] = {
+    label,
+    revealedName: activeTaster.blindBottles[label].revealedName || "",
+    type: activeTaster.blindBottles[label].type || "",
+    proof: activeTaster.blindBottles[label].proof || "",
+    price: activeTaster.blindBottles[label].price || "",
+    scores: {
+      ...blankScores(),
+      ...(activeTaster.blindBottles[label].scores || {})
+    },
+    notes: activeTaster.blindBottles[label].notes || "",
+    flavors: Array.isArray(activeTaster.blindBottles[label].flavors)
+      ? activeTaster.blindBottles[label].flavors
+      : []
+  };
+
+  return activeTaster.blindBottles[label];
+}
+
+function moveActiveBlindBottle(direction) {
+  if (!isBlindMode(current)) return;
+
+  ensureBlindSessionShape(current);
+
+  const count = current.blindSession.bottleCount || 2;
+  let index = Number(current.blindSession.activeBottleIndex || 0);
+
+  index = (index + direction + count) % count;
+
+  current.blindSession.activeBottleIndex = index;
+  current.updatedAt = new Date().toISOString();
+
+  const modalTitle = document.getElementById("modalTitle");
+  if (modalTitle) {
+    modalTitle.textContent = activeBlindModalTitle();
+  }
+
+  renderRank();
+}
+
+function blindBottleTotal(blindBottle) {
+  return categories.reduce((sum, cat) => sum + Number(blindBottle?.scores?.[cat.key] || 0), 0);
+}
+
+function blindBottleGroupAverage(label) {
+  const tasters = getGroupTasters(current).filter(taster => taster?.blindBottles?.[label]);
+
+  if (!tasters.length) return 0;
+
+  const avg = tasters.reduce((sum, taster) => {
+    return sum + blindBottleTotal(taster.blindBottles[label]);
+  }, 0) / tasters.length;
+
+  return Math.round(avg);
+}
+
+function blindBottleDisplayScore(blindBottle) {
+  if (!isBlindMode(current)) return 0;
+
+  if (isGroupMode(current)) {
+    return blindBottleGroupAverage(blindBottle.label);
+  }
+
+  return blindBottleTotal(blindBottle);
+}
+
+function getBlindRankings() {
+  if (!isBlindMode(current)) return [];
+
+  return [...getBlindBottles(current)]
+    .map(bottle => ({
+      ...bottle,
+      total: blindBottleDisplayScore(bottle)
+    }))
+    .sort((a, b) => b.total - a.total);
 }
 
 function isGroupMode(bottle = current) {
@@ -4551,17 +5311,47 @@ function getActiveTaster() {
 }
 
 function activeScoreSet() {
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+    if (activeBlindTasterBottle) return activeBlindTasterBottle.scores;
+
+    const activeBlindBottle = getActiveBlindBottle(current);
+    return activeBlindBottle ? activeBlindBottle.scores : blankScores();
+  }
+
   const activeTaster = getActiveTaster();
   return activeTaster ? activeTaster.scores : current.scores;
 }
 
 function activeFlavorList() {
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+    if (activeBlindTasterBottle) return activeBlindTasterBottle.flavors;
+
+    const activeBlindBottle = getActiveBlindBottle(current);
+    return activeBlindBottle ? activeBlindBottle.flavors : [];
+  }
+
   const activeTaster = getActiveTaster();
   return activeTaster ? activeTaster.flavors : current.flavors;
 }
 
 function setActiveFlavorList(flavors) {
   const clean = [...new Set((flavors || []).filter(Boolean))];
+
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+    if (activeBlindTasterBottle) {
+      activeBlindTasterBottle.flavors = clean;
+    } else {
+      const activeBlindBottle = getActiveBlindBottle(current);
+      if (activeBlindBottle) activeBlindBottle.flavors = clean;
+    }
+
+    current.updatedAt = new Date().toISOString();
+    return;
+  }
+
   const activeTaster = getActiveTaster();
 
   if (activeTaster) {
@@ -4575,11 +5365,32 @@ function setActiveFlavorList(flavors) {
 }
 
 function activeNotes() {
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+    if (activeBlindTasterBottle) return activeBlindTasterBottle.notes;
+
+    const activeBlindBottle = getActiveBlindBottle(current);
+    return activeBlindBottle ? activeBlindBottle.notes : "";
+  }
+
   const activeTaster = getActiveTaster();
   return activeTaster ? activeTaster.notes : current.notes;
 }
 
 function setActiveNotes(value) {
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+    if (activeBlindTasterBottle) {
+      activeBlindTasterBottle.notes = value;
+    } else {
+      const activeBlindBottle = getActiveBlindBottle(current);
+      if (activeBlindBottle) activeBlindBottle.notes = value;
+    }
+
+    current.updatedAt = new Date().toISOString();
+    return;
+  }
+
   const activeTaster = getActiveTaster();
 
   if (activeTaster) {
@@ -4607,6 +5418,11 @@ function groupCategoryAverage(bottle, key) {
 }
 
 function scoreSetForBottle(bottle) {
+  if (isBlindMode(bottle)) {
+    const activeBlindBottle = getActiveBlindBottle(bottle);
+    return activeBlindBottle?.scores || blankScores();
+  }
+
   if (!isGroupMode(bottle)) {
     return bottle?.scores || blankScores();
   }
@@ -4617,6 +5433,33 @@ function scoreSetForBottle(bottle) {
   });
 
   return averaged;
+}
+
+function totalScore(bottle) {
+  if (!bottle) return 0;
+
+  if (isBlindMode(bottle)) {
+    const rankings = getBlindRankings();
+    return rankings[0]?.total || 0;
+  }
+
+  if (isGroupMode(bottle)) {
+    const tasters = getGroupTasters(bottle).filter(taster => taster?.scores);
+
+    if (!tasters.length) return 0;
+
+    const averageTotal = tasters.reduce((sum, taster) => {
+      return sum + personScore(taster);
+    }, 0) / tasters.length;
+
+    return Math.round(averageTotal);
+  }
+
+  const scores = bottle?.scores || blankScores();
+
+  return categories.reduce((sum, cat) => {
+    return sum + Number(scores?.[cat.key] || 0);
+  }, 0);
 }
 
 function groupFlavorSummary(bottle = current) {
@@ -4654,28 +5497,6 @@ return note ? `${fallbackName}: ${note}` : "";
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
     }
-
- function totalScore(bottle) {
-  if (!bottle) return 0;
-
-  if (isGroupMode(bottle)) {
-    const tasters = getGroupTasters(bottle).filter(taster => taster?.scores);
-
-    if (!tasters.length) return 0;
-
-    const averageTotal = tasters.reduce((sum, taster) => {
-      return sum + personScore(taster);
-    }, 0) / tasters.length;
-
-    return Math.round(averageTotal);
-  }
-
-  const scores = bottle?.scores || blankScores();
-
-  return categories.reduce((sum, cat) => {
-    return sum + Number(scores?.[cat.key] || 0);
-  }, 0);
-}
 
 function pctFor(cat, bottle = current, scoreSet = null) {
   const scores = scoreSet || scoreSetForBottle(bottle);
@@ -4741,9 +5562,10 @@ function normalizeBottleShape(bottle) {
       .filter(Boolean)
   )];
 
-  ensureGroupSessionShape(merged);
+ensureGroupSessionShape(merged);
+ensureBlindSessionShape(merged);
 
-  return merged;
+return merged;
 }
 
 function openBottle(id = null) {
@@ -4764,69 +5586,320 @@ function openBottle(id = null) {
   document.getElementById("modalBackdrop").classList.add("active");
   document.body.classList.add("modal-open");
 
+  if (id) {
+    showInfo();
+  } else {
+    showModeSelect();
+  }
+}
+    function showModeSelect() {
+  document.body.classList.remove("rank-view");
+  document.body.classList.remove("share-view");
+
+  document.getElementById("stepMode")?.classList.add("active");
+  document.getElementById("stepBlindSetup")?.classList.remove("active");
+  document.getElementById("infoPage")?.classList.remove("active");
+  document.getElementById("stepInfo")?.classList.remove("active");
+  document.getElementById("stepRank")?.classList.remove("active");
+  document.getElementById("stepShare")?.classList.remove("active");
+
+  document.getElementById("modalTitle").textContent = "Choose Session";
+  document.getElementById("modalSub").textContent = "Pick Whiskey IQ or Blind IQ.";
+  document.getElementById("modalTopBackBtn")?.classList.remove("active");
+
+  resetModalScroll();
+}
+
+function chooseWhiskeyIQ() {
+  if (!current) return;
+
+  current.iqMode = "whiskey";
+  current.blindSession.enabled = false;
+  current.groupSession.enabled = false;
+
   showInfo();
 }
 
+function chooseBlindIQ() {
+  if (!current) return;
+
+  current.iqMode = "blind";
+  current.name = "Blind Taste";
+  current.blindSession.enabled = true;
+  current.blindSession.bottleCount = current.blindSession.bottleCount || 2;
+  current.blindSession.activeBottleIndex = 0;
+  current.groupSession.enabled = false;
+
+  ensureBlindSessionShape(current);
+  renderBlindSetup();
+}
+
+function setBlindBottleCount(count) {
+  if (!current) return;
+
+  current.blindSession.enabled = true;
+  current.blindSession.bottleCount = Math.max(2, Math.min(4, Number(count) || 2));
+
+  ensureBlindSessionShape(current);
+
+  current.updatedAt = new Date().toISOString();
+
+  renderBlindSetup();
+}
+
+function renderBlindSetup() {
+  const step = document.getElementById("stepBlindSetup");
+  if (!step || !current) return;
+
+  ensureBlindSessionShape(current);
+  ensureGroupSessionShape(current);
+
+  const count = current.blindSession.bottleCount || 2;
+
+  document.getElementById("stepMode")?.classList.remove("active");
+  document.getElementById("stepBlindSetup")?.classList.add("active");
+  document.getElementById("infoPage")?.classList.remove("active");
+  document.getElementById("stepInfo")?.classList.remove("active");
+  document.getElementById("stepRank")?.classList.remove("active");
+  document.getElementById("stepShare")?.classList.remove("active");
+
+  document.getElementById("modalTitle").textContent = "Blind IQ";
+  document.getElementById("modalSub").textContent = "Choose bottles, then score blind.";
+  document.getElementById("modalTopBackBtn")?.classList.add("active");
+
+  step.innerHTML = `
+    <div class="blind-setup-card">
+      <h2>Blind IQ Setup</h2>
+      <p>
+        Choose how many blind bottles you want to score. Bottle names, proof, type, and price will be added later after scoring.
+      </p>
+
+      <div class="field">
+        <label>Number of Bottles</label>
+        <div class="blind-bottle-count">
+          ${[2, 3, 4].map(num => `
+            <button
+              class="blind-count-btn ${count === num ? "active" : ""}"
+              type="button"
+              onclick="setBlindBottleCount(${num})"
+            >${num}</button>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="blind-mode-note">
+        Blind IQ uses the same Whiskey IQ score card. The only difference is that you move between Bottle A, Bottle B, Bottle C, and Bottle D before revealing what each bottle was.
+      </div>
+
+      <div id="blindGroupMount"></div>
+
+      <div class="rank-actions">
+        <button class="btn" type="button" onclick="showModeSelect()">Back</button>
+        <button class="btn btn-primary" type="button" onclick="showRank()">Next: Blind Ranking</button>
+      </div>
+    </div>
+  `;
+
+  renderBlindGroupPanel();
+  resetModalScroll();
+}
+
+function renderBlindGroupPanel() {
+  const mount = document.getElementById("blindGroupMount");
+  if (!mount || !current) return;
+
+  ensureGroupSessionShape(current);
+  ensureBlindSessionShape(current);
+
+  const enabled = Boolean(current.groupSession.enabled);
+  const tasters = getGroupTasters(current);
+
+  mount.innerHTML = `
+    <div class="group-session-card">
+      <div class="group-session-head">
+        <div>
+          <div class="group-session-title">Group Session</div>
+          <div class="group-session-copy">
+            Add 2–4 people. Each person scores each blind bottle, then Whiskey IQ averages the final ranking.
+          </div>
+        </div>
+
+        <button
+          class="group-toggle-btn ${enabled ? "active" : ""}"
+          type="button"
+          onclick="toggleGroupSession()"
+        >
+          ${enabled ? "Group On" : "Start Group"}
+        </button>
+      </div>
+
+      ${
+        enabled
+          ? `<div class="group-taster-list">
+              ${tasters.map((taster, index) => `
+                <div class="group-taster-row">
+                  <input
+                    type="text"
+                    value="${escapeHtml(taster.name)}"
+                    placeholder="Taster ${index + 1}"
+                    oninput="updateGroupTasterName('${taster.id}', this.value)"
+                  />
+                  <button
+                    class="group-remove-btn"
+                    type="button"
+                    onclick="removeGroupTaster('${taster.id}')"
+                    ${tasters.length <= 2 ? "disabled" : ""}
+                    aria-label="Remove taster"
+                  >×</button>
+                </div>
+              `).join("")}
+
+              <button
+                class="group-add-btn"
+                type="button"
+                onclick="addGroupTaster()"
+                ${tasters.length >= 4 ? "disabled" : ""}
+              >
+                + Add Taster
+              </button>
+            </div>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function handleModalBack() {
+  if (document.getElementById("stepBlindReveal")?.classList.contains("active")) {
+    const title = document.getElementById("modalTitle")?.textContent || "";
+
+    if (title.includes("Winner Reveal")) {
+      showBlindReveal();
+      return;
+    }
+
+    showRank();
+    return;
+  }
+
+  if (document.getElementById("stepBlindSetup")?.classList.contains("active")) {
+    showModeSelect();
+    return;
+  }
+
+  if (document.getElementById("stepRank")?.classList.contains("active")) {
+    if (isBlindMode(current)) {
+      renderBlindSetup();
+    } else {
+      showInfo();
+    }
+    return;
+  }
+
+  if (document.getElementById("stepShare")?.classList.contains("active")) {
+    if (isBlindMode(current)) {
+      showBlindWinnerReveal();
+    } else {
+      showRank();
+    }
+    return;
+  }
+
+  if (document.getElementById("stepInfo")?.classList.contains("active")) {
+    showModeSelect();
+    return;
+  }
+
+  showModeSelect();
+}
     function closeBottle() {
       document.getElementById("modalBackdrop").classList.remove("active");
       document.body.classList.remove("modal-open");
-      document.body.classList.remove("rank-view");
+    document.body.classList.remove("rank-view");
 document.body.classList.remove("share-view");
+document.body.classList.remove("blind-view");
       current = null;
     }
 
  function showInfo() {
-  document.body.classList.remove("rank-view");
-  document.body.classList.remove("share-view");
+document.body.classList.remove("rank-view");
+document.body.classList.remove("share-view");
+document.body.classList.remove("blind-view");
 
   if (current) {
     current = normalizeBottleShape(current);
     fillInfo();
   }
 
+  document.getElementById("stepMode")?.classList.remove("active");
+  document.getElementById("stepBlindSetup")?.classList.remove("active");
+  document.getElementById("infoPage")?.classList.add("active");
   document.getElementById("stepInfo").classList.add("active");
   document.getElementById("stepRank").classList.remove("active");
-  document.getElementById("stepShare").classList.remove("active");
+document.getElementById("stepBlindReveal")?.classList.remove("active");
+document.getElementById("stepShare").classList.remove("active");
   document.getElementById("modalTitle").textContent = "Bottle Info";
   document.getElementById("modalSub").textContent = "Name, proof, type, and photo.";
-   document.getElementById("modalTopBackBtn")?.classList.remove("active");
+  document.getElementById("modalTopBackBtn")?.classList.remove("active");
 
   resetModalScroll();
 }
+ function showRank() {
+ document.getElementById("stepRank").classList.add("active");
+document.getElementById("stepBlindReveal")?.classList.remove("active");
+document.getElementById("stepShare").classList.remove("active");
 
-  function showRank() {
-  document.body.classList.add("rank-view");
-  document.body.classList.remove("share-view");
+if (isBlindMode(current)) {
+  document.body.classList.add("blind-view");
+} else {
+  document.body.classList.remove("blind-view");
+}
   resetModalScroll();
 
-  syncBottle();
-  if (!current.name) current.name = "Blind Taste";
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+    current.name = "Blind Taste";
+  } else {
+    syncBottle();
+    if (!current.name) current.name = "Blind Taste";
+  }
 
   ensureGroupSessionShape(current);
 
   if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
     current.groupSession.tasters = [
-  blankTaster(""),
-  blankTaster("")
-];
+      blankTaster(""),
+      blankTaster("")
+    ];
     current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
   }
 
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+  }
+
+  document.getElementById("stepMode")?.classList.remove("active");
+  document.getElementById("stepBlindSetup")?.classList.remove("active");
+  document.getElementById("infoPage")?.classList.add("active");
   document.getElementById("stepInfo").classList.remove("active");
-    document.getElementById("modalTopBackBtn")?.classList.add("active");
+  document.getElementById("modalTopBackBtn")?.classList.add("active");
   document.getElementById("stepRank").classList.add("active");
   document.getElementById("stepShare").classList.remove("active");
-  document.getElementById("modalTitle").textContent = current.name || "Whiskey IQ";
-  document.getElementById("modalSub").textContent = isGroupMode(current)
-    ? "Toggle each taster, then score their pour."
-    : "Use the left tabs to move through each ranking.";
+
+  document.getElementById("modalTitle").textContent = isBlindMode(current)
+  ? activeBlindModalTitle()
+  : current.name || "Whiskey IQ";
+
+  document.getElementById("modalSub").textContent = isBlindMode(current)
+    ? (isGroupMode(current) ? "Toggle each bottle and taster, then score each pour." : "Toggle each bottle, then score each pour.")
+    : (isGroupMode(current) ? "Toggle each taster, then score their pour." : "Use the left tabs to move through each ranking.");
 
   renderRank();
 }
-
   function showShare() {
-  document.body.classList.add("share-view");
-  document.body.classList.remove("rank-view");
+ document.body.classList.add("share-view");
+document.body.classList.remove("rank-view");
+document.body.classList.remove("blind-view");
 
   if (current) {
     current = normalizeBottleShape(current);
@@ -4841,14 +5914,204 @@ document.body.classList.remove("share-view");
   document.getElementById("stepInfo").classList.remove("active");
     document.getElementById("modalTopBackBtn")?.classList.remove("active");
   document.getElementById("stepRank").classList.remove("active");
-  document.getElementById("stepShare").classList.add("active");
+document.getElementById("stepBlindReveal")?.classList.remove("active");
+document.getElementById("stepShare").classList.add("active");
   document.getElementById("modalTitle").textContent = "Review Results";
   document.getElementById("modalSub").textContent = "Save or share your Whiskey IQ card.";
 
   renderShare();
   resetModalScroll();
 }
+function showBlindReveal() {
+  if (!current || !isBlindMode(current)) {
+    showShare();
+    return;
+  }
 
+  document.body.classList.remove("rank-view");
+  document.body.classList.remove("blind-view");
+  document.body.classList.remove("share-view");
+
+  ensureBlindSessionShape(current);
+
+  document.getElementById("stepMode")?.classList.remove("active");
+  document.getElementById("stepBlindSetup")?.classList.remove("active");
+  document.getElementById("infoPage")?.classList.add("active");
+  document.getElementById("stepInfo")?.classList.remove("active");
+  document.getElementById("stepRank")?.classList.remove("active");
+  document.getElementById("stepBlindReveal")?.classList.add("active");
+  document.getElementById("stepShare")?.classList.remove("active");
+
+  document.getElementById("modalTitle").textContent = "Reveal Bottle Info";
+  document.getElementById("modalSub").textContent = "Fill in what Bottle A, B, C, and D were before revealing the winner.";
+  document.getElementById("modalTopBackBtn")?.classList.add("active");
+
+  renderBlindReveal();
+  resetModalScroll();
+}
+
+function renderBlindReveal() {
+  const mount = document.getElementById("blindRevealOutput");
+  if (!mount || !current) return;
+
+  ensureBlindSessionShape(current);
+
+  const bottles = getBlindBottles(current);
+
+  mount.innerHTML = `
+    <div class="blind-reveal-card">
+      <h2>Reveal Bottle Info</h2>
+      <p>
+        Add the real bottle details now. Keep them lined up by Bottle A, Bottle B, Bottle C, and Bottle D.
+        The winner will reveal on the next screen.
+      </p>
+
+      <div class="blind-reveal-list">
+        ${bottles.map((bottle) => {
+          const label = bottle.label;
+
+          return `
+            <div class="blind-reveal-bottle">
+              <div class="blind-reveal-head">
+                <div>
+                  <div class="blind-reveal-label">Bottle ${escapeHtml(label)}</div>
+                  <div class="blind-reveal-score">Blind score saved</div>
+                </div>
+              </div>
+
+              <div class="blind-reveal-grid">
+                <div class="blind-reveal-field">
+                  <label>Bottle Name</label>
+                  <input
+                    type="text"
+                    value="${escapeHtml(bottle.revealedName || "")}"
+                    placeholder="Example: Eagle Rare"
+                    oninput="updateBlindRevealField('${label}', 'revealedName', this.value)"
+                  />
+                </div>
+
+                <div class="blind-reveal-field">
+                  <label>Type</label>
+                  <input
+                    type="text"
+                    value="${escapeHtml(bottle.type || "")}"
+                    placeholder="Bourbon"
+                    oninput="updateBlindRevealField('${label}', 'type', this.value)"
+                  />
+                </div>
+
+                <div class="blind-reveal-field">
+                  <label>Proof</label>
+                  <input
+                    type="text"
+                    value="${escapeHtml(bottle.proof || "")}"
+                    placeholder="100"
+                    oninput="updateBlindRevealField('${label}', 'proof', this.value)"
+                  />
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="blind-reveal-actions">
+        <button class="btn" type="button" onclick="showRank()">Back to Scores</button>
+        <button class="btn btn-primary" type="button" onclick="showBlindWinnerReveal()">Reveal Winner</button>
+      </div>
+    </div>
+  `;
+}
+
+function updateBlindRevealField(label, field, value) {
+  if (!current || !isBlindMode(current)) return;
+
+  ensureBlindSessionShape(current);
+
+  const bottle = getBlindBottles(current).find(item => item.label === label);
+  if (!bottle) return;
+
+  bottle[field] = String(value || "").trim();
+  current.updatedAt = new Date().toISOString();
+}
+    function showBlindWinnerReveal() {
+  if (!current || !isBlindMode(current)) {
+    showShare();
+    return;
+  }
+
+  document.body.classList.remove("rank-view");
+  document.body.classList.remove("blind-view");
+  document.body.classList.remove("share-view");
+
+  ensureBlindSessionShape(current);
+
+  document.getElementById("stepMode")?.classList.remove("active");
+  document.getElementById("stepBlindSetup")?.classList.remove("active");
+  document.getElementById("infoPage")?.classList.add("active");
+  document.getElementById("stepInfo")?.classList.remove("active");
+  document.getElementById("stepRank")?.classList.remove("active");
+  document.getElementById("stepBlindReveal")?.classList.add("active");
+  document.getElementById("stepShare")?.classList.remove("active");
+
+  document.getElementById("modalTitle").textContent = "Winner Reveal";
+  document.getElementById("modalSub").textContent = "Your top blind bottle is ready.";
+  document.getElementById("modalTopBackBtn")?.classList.add("active");
+
+  renderBlindWinnerReveal();
+  resetModalScroll();
+}
+
+function renderBlindWinnerReveal() {
+  const mount = document.getElementById("blindRevealOutput");
+  if (!mount || !current) return;
+
+  ensureBlindSessionShape(current);
+
+  const rankings = getBlindRankings();
+  const winner = rankings[0];
+
+  if (!winner) {
+    mount.innerHTML = `
+      <div class="blind-reveal-card">
+        <h2>No Winner Yet</h2>
+        <p>Go back and complete your blind scores first.</p>
+        <div class="blind-reveal-actions">
+          <button class="btn" type="button" onclick="showRank()">Back to Scores</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const winnerName = winner.revealedName || `Bottle ${winner.label}`;
+  const winnerMeta = [
+    winner.type,
+    winner.proof ? `${winner.proof} proof` : ""
+  ].filter(Boolean).join(" • ");
+
+  mount.innerHTML = `
+    <div class="blind-reveal-card">
+      <h2>Winner Reveal</h2>
+      <p>
+        The top blind score belongs to:
+      </p>
+
+      <div class="blind-winner-card">
+        <div class="blind-winner-kicker">Winner</div>
+        <div class="blind-winner-bottle">Bottle ${escapeHtml(winner.label)}</div>
+        <div class="blind-winner-name">${escapeHtml(winnerName)}</div>
+        ${winnerMeta ? `<div class="blind-winner-meta">${escapeHtml(winnerMeta)}</div>` : ""}
+        <div class="blind-winner-score">${Number(winner.total || 0)}<span>/100</span></div>
+      </div>
+
+      <div class="blind-reveal-actions">
+        <button class="btn" type="button" onclick="showBlindReveal()">Back to Bottle Info</button>
+        <button class="btn btn-primary" type="button" onclick="showShare()">View Score Card</button>
+      </div>
+    </div>
+  `;
+}
   function fillInfo() {
   document.getElementById("bottleName").value = current.name || "";
   document.getElementById("bottleProof").value = current.proof || "";
@@ -4947,16 +6210,21 @@ function toggleGroupSession() {
 
   if (current.groupSession.enabled && current.groupSession.tasters.length < 2) {
     current.groupSession.tasters = [
-  blankTaster(""),
-  blankTaster("")
-];
+      blankTaster(""),
+      blankTaster("")
+    ];
 
     current.groupSession.activeTasterId = current.groupSession.tasters[0].id;
   }
 
   current.updatedAt = new Date().toISOString();
 
-  renderGroupSessionPanel();
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+    renderBlindSetup();
+  } else {
+    renderGroupSessionPanel();
+  }
 }
 
 function addGroupTaster() {
@@ -4974,7 +6242,12 @@ function addGroupTaster() {
 
   current.updatedAt = new Date().toISOString();
 
-  renderGroupSessionPanel();
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+    renderBlindSetup();
+  } else {
+    renderGroupSessionPanel();
+  }
 }
 
 function removeGroupTaster(id) {
@@ -4992,9 +6265,13 @@ function removeGroupTaster(id) {
 
   current.updatedAt = new Date().toISOString();
 
-  renderGroupSessionPanel();
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+    renderBlindSetup();
+  } else {
+    renderGroupSessionPanel();
+  }
 }
-
 function updateGroupTasterName(id, value) {
   if (!current) return;
 
@@ -5035,16 +6312,22 @@ function resetModalScroll() {
   if (modal) modal.scrollTop = 0;
 }    
 
-    function renderRank() {
+   function renderRank() {
   const tabs = document.getElementById("rankTabs");
   const page = document.getElementById("rankPage");
 
+  if (isBlindMode(current)) {
+    ensureBlindSessionShape(current);
+  }
+
   const workingScores = activeScoreSet();
 
-    const activeTaster = getActiveTaster();
-  const activePersonScore = activeTaster
-    ? personScore(activeTaster)
-    : categories.reduce((sum, cat) => sum + Number(workingScores[cat.key] || 0), 0);
+  const activeTaster = getActiveTaster();
+  const activePersonScore = isBlindMode(current)
+    ? categories.reduce((sum, cat) => sum + Number(workingScores[cat.key] || 0), 0)
+    : activeTaster
+      ? personScore(activeTaster)
+      : categories.reduce((sum, cat) => sum + Number(workingScores[cat.key] || 0), 0);
 
   tabs.innerHTML = categories.map((cat, index) => `
     <button class="rank-tab ${index === activeRank ? "active" : ""}" onclick="setRank(${index})">
@@ -5066,10 +6349,41 @@ function resetModalScroll() {
   const activeFlavors = activeFlavorList();
   const currentNotes = activeNotes();
 
-   const groupTasters = getGroupTasters(current);
+  const groupTasters = getGroupTasters(current);
   const activeTasterIndex = groupTasters.findIndex(taster => taster.id === current.groupSession.activeTasterId);
   const safeActiveIndex = activeTasterIndex >= 0 ? activeTasterIndex : 0;
   const activeTasterName = groupTasters[safeActiveIndex]?.name || `Taster ${safeActiveIndex + 1}`;
+
+  const activeBlindBottle = isBlindMode(current) ? getActiveBlindBottle(current) : null;
+  const blindBottleIndex = isBlindMode(current) ? Number(current.blindSession.activeBottleIndex || 0) : 0;
+  const blindBottleCount = isBlindMode(current) ? Number(current.blindSession.bottleCount || 2) : 0;
+
+  const blindBottleSwitcher = isBlindMode(current)
+    ? `
+      <div class="blind-bottle-switcher">
+        <button
+          class="blind-bottle-arrow"
+          type="button"
+          onclick="moveActiveBlindBottle(-1)"
+          aria-label="Previous bottle"
+        >‹</button>
+
+        <div class="blind-bottle-current">
+          <div>
+            <div class="blind-bottle-name">Bottle ${escapeHtml(activeBlindBottle?.label || "A")}</div>
+            <div class="blind-bottle-count-label">Bottle ${blindBottleIndex + 1} of ${blindBottleCount}</div>
+          </div>
+        </div>
+
+        <button
+          class="blind-bottle-arrow"
+          type="button"
+          onclick="moveActiveBlindBottle(1)"
+          aria-label="Next bottle"
+        >›</button>
+      </div>
+    `
+    : "";
 
   const tasterPicker = isGroupMode(current)
     ? `
@@ -5110,12 +6424,14 @@ function resetModalScroll() {
 
   page.innerHTML = `
     <div class="rank-header">
-      <button class="icon-btn" onclick="showInfo()" aria-label="Back">
+      <button class="icon-btn" onclick="${isBlindMode(current) ? "renderBlindSetup()" : "showInfo()"}" aria-label="Back">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
       </button>
-      <div class="rank-title">${escapeHtml(current.name || "Whiskey IQ")}</div>
+      <div class="rank-title">${isBlindMode(current) ? "Bottle " + escapeHtml(activeBlindBottle?.label || "A") : escapeHtml(current.name || "Whiskey IQ")}</div>
       <span class="rank-header-spacer"></span>
     </div>
+
+    ${blindBottleSwitcher}
 
     ${tasterPicker}
 
@@ -5127,44 +6443,45 @@ function resetModalScroll() {
 
         <div class="rank-score-main">
           <div class="score-name">
-  <h3>${cat.label}</h3>
+            <h3>${cat.label}</h3>
 
-  <div class="top-score-editor">
-    <input
-      class="top-score-input num-input"
-      type="number"
-      inputmode="numeric"
-      min="0"
-      max="${cat.max}"
-      step="1"
-      value="${value}"
-      aria-label="${cat.label} score"
-      onfocus="this.dataset.editing='true'; this.select();"
-      oninput="updateScorePreview('${cat.key}', this.value, this)"
-      onblur="commitScoreInput('${cat.key}', this.value)"
-      onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
-    />
-    <span>/${cat.max}</span>
-  </div>
-</div>
-<div class="rank-help">${cat.help}</div>
+            <div class="top-score-editor">
+              <input
+                class="top-score-input num-input"
+                type="number"
+                inputmode="numeric"
+                min="0"
+                max="${cat.max}"
+                step="1"
+                value="${value}"
+                aria-label="${cat.label} score"
+                onfocus="this.dataset.editing='true'; this.select();"
+                oninput="updateScorePreview('${cat.key}', this.value, this)"
+                onblur="commitScoreInput('${cat.key}', this.value)"
+                onkeydown="if(event.key === 'Enter'){ event.preventDefault(); commitScoreInput('${cat.key}', this.value); this.blur(); }"
+              />
+              <span>/${cat.max}</span>
+            </div>
+          </div>
 
-${
-  cat.choices
-    ? ""
-    : `<div class="range-wrap">
-        <input
-          class="score-range"
-          type="range"
-          min="0"
-          max="${cat.max}"
-          step="1"
-          value="${value}"
-          style="--rangePct:${rangePct}%;"
-          oninput="setScore('${cat.key}', this.value, this, false)"
-        />
-      </div>`
-}
+          <div class="rank-help">${cat.help}</div>
+
+          ${
+            cat.choices
+              ? ""
+              : `<div class="range-wrap">
+                  <input
+                    class="score-range"
+                    type="range"
+                    min="0"
+                    max="${cat.max}"
+                    step="1"
+                    value="${value}"
+                    style="--rangePct:${rangePct}%;"
+                    oninput="setScore('${cat.key}', this.value, this, false)"
+                  />
+                </div>`
+          }
 
           ${
             cat.choices
@@ -5180,7 +6497,7 @@ ${
     </div>
 
     <div class="field">
-      <label>Flavor Notes${isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
+      <label>Flavor Notes${isBlindMode(current) ? ` — Bottle ${escapeHtml(activeBlindBottle?.label || "A")}` : isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
 
       <div class="flavor-row">
         ${flavorBank.map(flavor => `
@@ -5191,18 +6508,18 @@ ${
           >${flavor}</button>
         `).join("")}
 
-${(current.customFlavors || []).map(flavor => `
-  <button
-   class="flavor-chip custom-flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
-onclick="handleCustomFlavorTap(decodeURIComponent('${encodeURIComponent(flavor)}'))"
-    onpointerdown="startCustomFlavorHold(event, decodeURIComponent('${encodeURIComponent(flavor)}'))"
-    onpointerup="cancelCustomFlavorHold()"
-    onpointerleave="cancelCustomFlavorHold()"
-    onpointercancel="cancelCustomFlavorHold()"
-    type="button"
-    title="Tap to check/uncheck. Press and hold to edit or delete."
-  >${escapeHtml(flavor)}</button>
-`).join("")}
+        ${(current.customFlavors || []).map(flavor => `
+          <button
+            class="flavor-chip custom-flavor-chip ${activeFlavors.includes(flavor) ? "active" : ""}"
+            onclick="handleCustomFlavorTap(decodeURIComponent('${encodeURIComponent(flavor)}'))"
+            onpointerdown="startCustomFlavorHold(event, decodeURIComponent('${encodeURIComponent(flavor)}'))"
+            onpointerup="cancelCustomFlavorHold()"
+            onpointerleave="cancelCustomFlavorHold()"
+            onpointercancel="cancelCustomFlavorHold()"
+            type="button"
+            title="Tap to check/uncheck. Press and hold to edit or delete."
+          >${escapeHtml(flavor)}</button>
+        `).join("")}
 
         <button
           class="flavor-chip custom-flavor-toggle"
@@ -5211,22 +6528,22 @@ onclick="handleCustomFlavorTap(decodeURIComponent('${encodeURIComponent(flavor)}
         >+ Flavor</button>
       </div>
 
-<div id="customFlavorAdd" class="custom-flavor-add">
-  <input
-    id="customFlavorInput"
-    type="text"
-    placeholder="Add custom flavor..."
-    oninput="handleCustomFlavorTyping()"
-    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
-  />
-  <button type="button" onclick="addCustomFlavor()">Add</button>
-</div>
+      <div id="customFlavorAdd" class="custom-flavor-add">
+        <input
+          id="customFlavorInput"
+          type="text"
+          placeholder="Add custom flavor..."
+          oninput="handleCustomFlavorTyping()"
+          onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomFlavor(); }"
+        />
+        <button type="button" onclick="addCustomFlavor()">Add</button>
+      </div>
 
-<div id="customFlavorSuggestion" class="custom-flavor-suggestion" aria-live="polite"></div>
+      <div id="customFlavorSuggestion" class="custom-flavor-suggestion" aria-live="polite"></div>
     </div>
 
     <div class="field">
-      <label>Tasting Notes${isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
+      <label>Tasting Notes${isBlindMode(current) ? ` — Bottle ${escapeHtml(activeBlindBottle?.label || "A")}` : isGroupMode(current) ? ` — ${escapeHtml(getActiveTaster()?.name || "")}` : ""}</label>
       <textarea
         id="rankNotes"
         placeholder="Add tasting notes here..."
@@ -5238,8 +6555,8 @@ onclick="handleCustomFlavorTap(decodeURIComponent('${encodeURIComponent(flavor)}
       <button class="btn" onclick="prevRank()">Back</button>
       ${
         activeRank === categories.length - 1
-          ? `<button class="btn btn-primary" onclick="showShare()">Complete</button>`
-          : `<button class="btn btn-primary" onclick="nextRank()">Next</button>`
+  ? `<button class="btn btn-primary" onclick="${isBlindMode(current) ? "showBlindReveal()" : "showShare()"}">Complete</button>`
+  : `<button class="btn btn-primary" onclick="nextRank()">Next</button>`
       }
     </div>
   `;
@@ -5319,14 +6636,11 @@ if (topScoreInput && topScoreInput !== inputEl && topScoreInput.dataset.editing 
   }
 
     const resultsTab = tabs.querySelector(".results-tab strong");
-  if (resultsTab) {
-    const activeTaster = getActiveTaster();
-
-    resultsTab.textContent = activeTaster
-      ? personScore(activeTaster)
-      : categories.reduce((sum, item) => sum + Number(activeScoreSet()?.[item.key] || 0), 0);
-  }
-
+if (resultsTab) {
+  resultsTab.textContent = categories.reduce((sum, item) => {
+    return sum + Number(activeScoreSet()?.[item.key] || 0);
+  }, 0);
+}
   page.querySelectorAll(".choice").forEach(choice => {
     const choiceText = choice.textContent.trim();
 
@@ -5370,6 +6684,27 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
   function syncFlavorProfile() {
   if (!current) return;
 
+  if (isBlindMode(current)) {
+    const activeBlindTasterBottle = getActiveTasterBlindBottle();
+
+    if (activeBlindTasterBottle) {
+      activeBlindTasterBottle.flavors = [
+        ...new Set((activeBlindTasterBottle.flavors || []).filter(Boolean))
+      ];
+    } else {
+      const activeBlindBottle = getActiveBlindBottle(current);
+
+      if (activeBlindBottle) {
+        activeBlindBottle.flavors = [
+          ...new Set((activeBlindBottle.flavors || []).filter(Boolean))
+        ];
+      }
+    }
+
+    current.updatedAt = new Date().toISOString();
+    return;
+  }
+
   const activeTaster = getActiveTaster();
 
   if (activeTaster) {
@@ -5381,7 +6716,6 @@ function setScore(key, raw, inputEl = null, shouldRender = true) {
 
   current.updatedAt = new Date().toISOString();
 }
-
 function toggleFlavor(flavor) {
   if (!current) return;
 
