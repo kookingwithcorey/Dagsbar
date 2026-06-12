@@ -108,15 +108,29 @@
     return { data: parent, error: null };
   }
 
+  function removeLegacyBlindTastingLinks() {
+    if (getCurrentPage() === "blind-tasting.html") {
+      window.location.replace("whiskeyiqupgrade.html");
+      return;
+    }
+
+    Array.from(document.querySelectorAll("a[href]")).forEach((a) => {
+      const href = (a.getAttribute("href") || "").trim().toLowerCase();
+      const text = (a.textContent || "").trim().toLowerCase();
+      if (href === "blind-tasting.html" || href.endsWith("/blind-tasting.html") || text === "blind tasting") {
+        a.remove();
+      }
+    });
+  }
+
   function updateWhiskeyIQNav() {
     if (getCurrentPage() !== "whiskeyiqupgrade.html") return;
     const nav = document.querySelector(".nav"); if (!nav) return;
     Array.from(nav.querySelectorAll("a, button")).forEach((el) => {
       const text = (el.textContent || "").trim().toLowerCase(); const href = (el.getAttribute("href") || "").toLowerCase();
-      if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard")) el.remove();
+      if (text === "view dashboard" || text === "dashboard" || href.includes("dashboard") || text === "blind tasting" || href.includes("blind-tasting.html")) el.remove();
     });
     [
-      { text: "Blind Tasting", href: "tasting.html" },
       { text: "Logbook", href: "history.html" },
       { text: "Dramhub", href: "https://dramhub.lovable.app", external: true }
     ].forEach((link) => {
@@ -203,7 +217,7 @@ function placeAccountControl() {
     style.textContent = `
       .dags-account-control{position:absolute;top:28px;right:28px;z-index:9998;display:flex;align-items:center;justify-content:flex-end;gap:8px}.dags-account-control.dags-login-hidden,body.modal-open .dags-account-control{display:none!important}
       .dags-page-whiskeyiqupgrade .nav .icon-btn:not(#dagsThemeControl),.dags-page-whiskeyiqupgrade .nav button[aria-label*="theme" i]:not(#dagsThemeControl),.dags-page-whiskeyiqupgrade .nav button[title*="theme" i]:not(#dagsThemeControl),.dags-page-whiskeyiqupgrade .nav button[aria-label*="mode" i]:not(#dagsThemeControl),.dags-page-whiskeyiqupgrade .nav button[title*="mode" i]:not(#dagsThemeControl){display:none!important}
-      .dags-page-whiskeyiqupgrade .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;width:100%!important;align-items:center!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{width:100%!important;justify-content:center!important;text-align:center!important;white-space:nowrap!important;min-width:0!important}
+      .dags-page-whiskeyiqupgrade .nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important;align-items:center!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{width:100%!important;justify-content:center!important;text-align:center!important;white-space:nowrap!important;min-width:0!important}
       .dags-account-link,.dags-theme-control{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:38px!important;border-radius:999px!important;color:#fff!important;text-decoration:none!important;backdrop-filter:blur(14px);white-space:nowrap;position:static!important;top:auto!important;right:auto!important;margin:0!important}.dags-account-link{padding:9px 14px!important;border:1px solid rgba(15,139,107,.75)!important;background:linear-gradient(135deg,#0f8b6b,#064c35)!important;box-shadow:0 10px 30px rgba(6,76,53,.28)!important;font-size:12px!important;font-weight:900!important;letter-spacing:.1em!important;text-transform:uppercase!important}
       .dags-theme-control{width:38px!important;height:38px!important;padding:0!important;flex:0 0 38px!important;border:1px solid var(--line,rgba(255,255,255,.16))!important;background:rgba(255,255,255,.08)!important;box-shadow:none!important}html[data-theme="light"] .dags-theme-control{color:var(--text,#111510)!important;background:rgba(255,255,255,.34)!important}.dags-theme-control svg{width:20px!important;height:20px!important;stroke:currentColor!important;fill:none!important;stroke-width:2.35!important;stroke-linecap:round!important;stroke-linejoin:round!important}.dags-account-link:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.95)!important;background:linear-gradient(135deg,#18b98f,#064c35)!important}.dags-theme-control:hover{transform:translateY(-1px);border-color:rgba(15,139,107,.55)!important;background:rgba(255,255,255,.12)!important}
     @media (min-width: 831px) {
@@ -233,7 +247,7 @@ function placeAccountControl() {
   .dags-page-whiskeyiqupgrade .nav {
     grid-area: nav !important;
     display: grid !important;
-    grid-template-columns: repeat(4, minmax(120px, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(120px, 1fr)) !important;
     gap: 8px !important;
     width: 100% !important;
     align-items: center !important;
@@ -269,8 +283,8 @@ function placeAccountControl() {
     width: auto !important;
   }
 }
-      @media(max-width:830px){.dags-account-control{top:24px;right:22px;gap:7px}.dags-account-link{min-height:34px!important;padding:8px 11px!important;font-size:10px!important;letter-spacing:.08em!important}.dags-theme-control{width:34px!important;height:34px!important;min-height:34px!important;flex-basis:34px!important}.dags-theme-control svg{width:18px!important;height:18px!important}.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:6px!important;padding-right:6px!important;font-size:clamp(10px,2.45vw,13px)!important}}
-      @media(max-width:430px){.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:4px!important;padding-right:4px!important;font-size:clamp(9px,2.25vw,12px)!important}.dags-page-whiskeyiqupgrade .brand-title{font-size:clamp(20px,6vw,28px)!important}.dags-page-whiskeyiqupgrade .brand-subtitle{font-size:clamp(10px,2.7vw,13px)!important}}
+      @media(max-width:830px){.dags-account-control{top:24px;right:22px;gap:7px}.dags-account-link{min-height:34px!important;padding:8px 11px!important;font-size:10px!important;letter-spacing:.08em!important}.dags-theme-control{width:34px!important;height:34px!important;min-height:34px!important;flex-basis:34px!important}.dags-theme-control svg{width:18px!important;height:18px!important}.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:6px!important;padding-right:6px!important;font-size:clamp(10px,2.45vw,13px)!important}}
+      @media(max-width:430px){.dags-page-whiskeyiqupgrade .nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}.dags-page-whiskeyiqupgrade .nav a,.dags-page-whiskeyiqupgrade .nav button{padding-left:4px!important;padding-right:4px!important;font-size:clamp(9px,2.25vw,12px)!important}.dags-page-whiskeyiqupgrade .brand-title{font-size:clamp(20px,6vw,28px)!important}.dags-page-whiskeyiqupgrade .brand-subtitle{font-size:clamp(10px,2.7vw,13px)!important}}
     `;
     document.head.appendChild(style);
     const wrap = document.createElement("div"); wrap.id = "dagsAccountControl"; wrap.className = "dags-account-control";
@@ -319,9 +333,10 @@ async function updateAccountLabels() {
   });
 }
 
-  window.DAGSAuth = { getClient, getSession, getUser, getProfile, requireLogin, signOut, saveWhiskeyIQLog, saveWhiskeyLog, saveBlindTasting, injectAccountLink, injectFloatingAccountControl, updateAccountLabels, updateWhiskeyIQNav, syncSharedControlsVisibility, applyTheme, toggleTheme };
+  window.DAGSAuth = { getClient, getSession, getUser, getProfile, requireLogin, signOut, saveWhiskeyIQLog, saveWhiskeyLog, saveBlindTasting, injectAccountLink, injectFloatingAccountControl, updateAccountLabels, updateWhiskeyIQNav, removeLegacyBlindTastingLinks, syncSharedControlsVisibility, applyTheme, toggleTheme };
 
   ready(async function () {
+    removeLegacyBlindTastingLinks();
     updateWhiskeyIQNav();
     if (shouldShowSharedControls()) {
       if (shouldShowThemeControl()) { const savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem("dags-theme") || localStorage.getItem("dags-home-theme"); if (savedTheme) applyTheme(savedTheme); }
