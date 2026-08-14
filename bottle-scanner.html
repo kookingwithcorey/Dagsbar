@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0f0c" />
+<title>DAGS Bottle Scanner</title>
+<style>
+:root{--bg:#0a0f0c;--panel:#111814;--panel2:#162019;--text:#f7fbf8;--muted:#9aaa9f;--line:#29362e;--green:#35f58a;--warn:#ffd166;--blue:#8dd8ff;--danger:#ff7777;--r:18px}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}body{min-height:100vh}.wrap{max-width:980px;margin:auto;padding:16px 14px 130px}.header{display:flex;align-items:center;gap:11px;margin:3px 0 16px}.logo{width:44px;height:44px;border:2px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font-weight:900;font-size:20px}.title{font-size:20px;font-weight:850}.sub{color:var(--muted);font-size:12px;margin-top:2px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px}.stat b{font-size:22px;display:block}.stat span{color:var(--muted);font-size:11px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn,.fileBtn{border-radius:15px;padding:14px 15px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-weight:800;font-size:15px;text-align:center;cursor:pointer}.primary{background:var(--green);border-color:var(--green);color:#05140b}.fileBtn{position:relative;overflow:hidden;display:block}.fileBtn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}.helper{text-align:center;color:var(--muted);font-size:12px;line-height:1.45;margin:10px 0 14px}.toolbar{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.toolbar .btn{font-size:12px;padding:9px 11px}.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:18px 0 9px}.sectionHead h2{margin:0;font-size:16px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 9px;font-size:11px;color:var(--muted)}.list{display:grid;gap:10px}.empty{border:1px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--muted)}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px}.card.selected{outline:2px solid var(--green);outline-offset:1px}.cardtop{display:flex;align-items:flex-start;gap:10px}.check{width:22px;height:22px;margin:2px 0 0;accent-color:var(--green)}.thumb{width:64px;height:82px;border-radius:12px;border:1px solid var(--line);object-fit:cover;background:#0c120e;flex:none}.grow{flex:1;min-width:0}.name{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:3px}.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.badge{font-size:11px;padding:5px 8px;border:1px solid var(--line);border-radius:999px}.needs{color:var(--warn)}.approved{color:var(--blue)}.ready{color:var(--green)}.cardActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.cardActions .btn,.cardActions .fileBtn{padding:10px;font-size:13px}.bottom{position:sticky;bottom:0;padding-top:25px;background:linear-gradient(to bottom,transparent 0,var(--bg) 28%,var(--bg) 100%);z-index:5}.bottomgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.74);display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.sheet{background:var(--bg);width:100%;max-height:94vh;overflow:auto;border-radius:24px 24px 0 0;border-top:1px solid var(--line);padding:14px 14px 30px}.sheetHead{position:sticky;top:0;background:var(--bg);z-index:2;display:flex;justify-content:space-between;align-items:center;padding-bottom:10px}.sheetHead h2{font-size:18px;margin:0}.photos{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}.photos img{width:82px;height:104px;border:1px solid var(--line);border-radius:12px;object-fit:cover;flex:none}.group{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:11px;margin:10px 0}.group h3{margin:0 0 10px;color:var(--green);font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field{display:flex;flex-direction:column;gap:4px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--muted);text-transform:capitalize}.field input,.field select,.field textarea{background:#0c120e;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px;font:inherit;width:100%}.field textarea{min-height:78px;resize:vertical}.toast{display:none;position:fixed;z-index:50;bottom:92px;left:50%;transform:translateX(-50%);background:#1b261f;border:1px solid var(--line);border-radius:13px;padding:10px 14px;max-width:90%;font-size:13px;text-align:center}.danger{color:var(--danger)}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.actions,.bottomgrid,.grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header"><div class="logo">D</div><div><div class="title">DAGS Bottle Scanner</div><div class="sub">Upload → Edit → Approve → Export</div></div></div>
+
+  <div class="stats">
+    <div class="stat"><b id="countAll">0</b><span>Bottles</span></div>
+    <div class="stat"><b id="countSel">0</b><span>Selected</span></div>
+    <div class="stat"><b id="countApproved">0</b><span>Approved</span></div>
+    <div class="stat"><b id="countIncomplete">0</b><span>Incomplete</span></div>
+  </div>
+
+  <div class="actions">
+    <label class="fileBtn primary">＋ Take Photo<input id="takePhoto" type="file" accept="image/*" capture="environment"></label>
+    <label class="fileBtn">Upload Bottle(s)<input id="uploadPhotos" type="file" accept="image/*" multiple></label>
+  </div>
+  <div class="helper">Take Photo creates one bottle. Upload Bottle(s) creates one bottle card for each selected image. Use <b>Add Photo</b> on a bottle card for extra label views of the same bottle.</div>
+
+  <div class="toolbar">
+    <button class="btn" id="selectAll">Select All</button>
+    <button class="btn" id="selectIncomplete">Select Incomplete</button>
+    <button class="btn" id="clearSelection">Clear Selection</button>
+    <button class="btn danger" id="clearBatch">Clear Batch</button>
+  </div>
+
+  <div class="sectionHead"><h2>Bottle Batch</h2><div id="selPill" class="pill">0 selected</div></div>
+  <div id="list" class="list"></div>
+
+  <div class="bottom">
+    <div class="bottomgrid">
+      <button class="btn primary" id="approveSelected">Approve Selected</button>
+      <button class="btn" id="exportExcel">Export Excel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="editorModal">
+  <div class="sheet">
+    <div class="sheetHead"><h2>Edit Bottle</h2><button class="btn" id="closeEditor">Close</button></div>
+    <div id="editPhotos" class="photos"></div>
+    <div id="formGroups"></div>
+    <button class="btn primary" style="width:100%;margin-top:8px" id="saveEdit">Save Bottle</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const FIELDS=['id','name','bottle_count','distillery','type','category','subcategory','proof','abv','rarity','price','menu_notes','nose','palate','finish','overall_notes','is_bar_menu','is_active','sort_order','needs_review','slug','brand','country','state_region','age_statement','age_years_numeric','release_year','batch_number','barrel_number','store_pick','store_pick_name','release_style','collection_name','menu_price','msrp','purchase_price','top_flavor_notes','flavor_tags_manual','flavor_tags_derived','is_featured','internal_notes','image_url','identity_fingerprint','created_at','updated_at'];
+const GROUPS=[['Bottle Identity',['name','brand','distillery','type','category','subcategory','country','state_region']],['Bottle Details',['proof','abv','age_statement','age_years_numeric','release_year','batch_number','barrel_number','store_pick','store_pick_name','release_style','collection_name']],['Pricing',['price','menu_price','msrp','purchase_price']],['DAGS Settings',['bottle_count','rarity','is_bar_menu','is_active','is_featured','needs_review','sort_order']],['Tasting',['menu_notes','nose','palate','finish','overall_notes','top_flavor_notes','flavor_tags_manual','flavor_tags_derived']],['Repository / Research',['internal_notes','image_url','identity_fingerprint','slug','id','created_at','updated_at']]];
+const REQUIRED=['name','distillery','type','proof'];
+const BOOLS=['store_pick','is_bar_menu','is_active','is_featured','needs_review'];
+const LONG=['menu_notes','nose','palate','finish','overall_notes','internal_notes'];
+const $=s=>document.querySelector(s);
+let bottles=[]; let editIndex=null;
+
+function uid(){return (crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2))}
+function now(){return new Date().toISOString()}
+function blankBottle(){const d={};FIELDS.forEach(f=>d[f]='');d.id=uid();d.bottle_count='1';d.is_active='true';d.is_bar_menu='false';d.is_featured='false';d.needs_review='true';d.created_at=now();d.updated_at=now();return {selected:false,approved:false,data:d,photos:[]}}
+function miss(b){return REQUIRED.filter(f=>!String(b.data[f]||'').trim())}
+function filled(b){return FIELDS.filter(f=>String(b.data[f]??'').trim()!=='').length}
+function status(b){if(b.approved)return miss(b).length?'Approved — Incomplete':'Approved';return miss(b).length?'Needs Review':'Ready'}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>t.style.display='none',2300)}
+
+// IndexedDB stores images safely; localStorage stores lightweight metadata only.
+const DB='dags-bottle-scanner-v1', STORE='photos';
+function dbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function putPhoto(key,blob){const db=await dbOpen();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(blob,key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+async function getPhoto(key){const db=await dbOpen();return new Promise((res,rej)=>{const r=db.transaction(STORE).objectStore(STORE).get(key);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function deletePhoto(key){const db=await dbOpen();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+async function clearPhotos(){const db=await dbOpen();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).clear();tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+function saveMeta(){try{localStorage.setItem('dags-scanner-meta',JSON.stringify(bottles))}catch(e){console.warn(e)}}
+function loadMeta(){try{const x=JSON.parse(localStorage.getItem('dags-scanner-meta')||'[]');if(Array.isArray(x))bottles=x}catch(e){bottles=[]}}
+
+async function compress(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url});
+    let w=img.naturalWidth,h=img.naturalHeight;const max=1600,scale=Math.min(1,max/Math.max(w,h));w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+    return await new Promise(res=>c.toBlob(res,'image/jpeg',.82));
+  } finally {URL.revokeObjectURL(url)}
+}
+async function addNewFile(file){
+  const b=blankBottle();bottles.push(b);saveMeta();render(); // card appears before image work
+  try{const blob=await compress(file);const key=b.data.id+'-'+uid();await putPhoto(key,blob);b.photos.push(key);saveMeta();await render();}
+  catch(e){console.error(e);toast('Bottle added, but photo processing failed. Use Add Photo to retry.')}
+}
+async function addExtra(index,file){if(!file||!bottles[index])return;try{const blob=await compress(file),key=bottles[index].data.id+'-'+uid();await putPhoto(key,blob);bottles[index].photos.push(key);saveMeta();await render();toast('Photo added')}catch(e){console.error(e);toast('Could not add photo')}}
+
+async function photoUrl(key){try{const blob=await getPhoto(key);return blob?URL.createObjectURL(blob):''}catch{return ''}}
+async function render(){
+  const list=$('#list');list.innerHTML='';
+  if(!bottles.length)list.innerHTML='<div class="empty">Take a photo or upload bottle photos to start.</div>';
+  for(let i=0;i<bottles.length;i++){
+    const b=bottles[i],s=status(b),p=b.photos[0]?await photoUrl(b.photos[0]):'';
+    const c=document.createElement('div');c.className='card'+(b.selected?' selected':'');
+    c.innerHTML=`<div class="cardtop"><input class="check" data-check="${i}" type="checkbox" ${b.selected?'checked':''}>${p?`<img class="thumb" src="${p}">`:'<div class="thumb"></div>'}<div class="grow"><div class="name">${esc(b.data.name||`Bottle ${i+1}`)}</div><div class="meta">${b.photos.length} photo${b.photos.length===1?'':'s'} · ${filled(b)}/45 fields</div><div class="badges"><span class="badge ${s.includes('Approved')?'approved':s==='Ready'?'ready':'needs'}">${esc(s)}</span>${miss(b).length?`<span class="badge needs">${miss(b).length} key fields missing</span>`:''}</div></div></div><div class="cardActions"><label class="fileBtn">+ Add Photo<input data-add="${i}" type="file" accept="image/*" capture="environment"></label><button class="btn" data-edit="${i}">Edit</button></div>`;
+    list.appendChild(c);
+  }
+  document.querySelectorAll('[data-check]').forEach(x=>x.onchange=e=>{bottles[+e.target.dataset.check].selected=e.target.checked;saveMeta();render()});
+  document.querySelectorAll('[data-edit]').forEach(x=>x.onclick=()=>openEditor(+x.dataset.edit));
+  document.querySelectorAll('[data-add]').forEach(x=>x.onchange=e=>{addExtra(+e.target.dataset.add,e.target.files[0]);e.target.value=''})
+  const sel=bottles.filter(b=>b.selected).length;
+  $('#countAll').textContent=bottles.length;$('#countSel').textContent=sel;$('#countApproved').textContent=bottles.filter(b=>b.approved).length;$('#countIncomplete').textContent=bottles.filter(b=>miss(b).length).length;$('#selPill').textContent=sel+' selected';
+}
+
+$('#takePhoto').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(f){toast('Adding bottle…');await addNewFile(f);toast('Bottle added')}};
+$('#uploadPhotos').onchange=async e=>{const files=[...e.target.files];e.target.value='';if(!files.length)return;toast(`Adding ${files.length} bottle${files.length===1?'':'s'}…`);for(const f of files)await addNewFile(f);toast(`${files.length} bottle${files.length===1?'':'s'} added`)};
+$('#selectAll').onclick=()=>{bottles.forEach(b=>b.selected=true);saveMeta();render()};
+$('#selectIncomplete').onclick=()=>{bottles.forEach(b=>b.selected=miss(b).length>0);saveMeta();render()};
+$('#clearSelection').onclick=()=>{bottles.forEach(b=>b.selected=false);saveMeta();render()};
+$('#clearBatch').onclick=async()=>{if(!confirm('Clear every bottle and photo from this scanner?'))return;bottles=[];saveMeta();await clearPhotos();render();toast('Batch cleared')};
+
+function control(field,val){const d=document.createElement('div');d.className='field'+(LONG.includes(field)?' full':'');const l=document.createElement('label');l.textContent=field.replaceAll('_',' ');d.appendChild(l);let el;if(BOOLS.includes(field)){el=document.createElement('select');el.innerHTML='<option value=""></option><option value="true">true</option><option value="false">false</option>'}else if(LONG.includes(field)){el=document.createElement('textarea')}else{el=document.createElement('input');el.type='text'}el.dataset.field=field;el.value=val??'';d.appendChild(el);return d}
+async function openEditor(i){editIndex=i;const b=bottles[i];$('#editPhotos').innerHTML='';for(const k of b.photos){const u=await photoUrl(k);if(u){const im=document.createElement('img');im.src=u;$('#editPhotos').appendChild(im)}}const root=$('#formGroups');root.innerHTML='';for(const [name,fields] of GROUPS){const g=document.createElement('div');g.className='group';g.innerHTML=`<h3>${name}</h3>`;const gr=document.createElement('div');gr.className='grid';fields.forEach(f=>gr.appendChild(control(f,b.data[f])));g.appendChild(gr);root.appendChild(g)}$('#editorModal').classList.add('open')}
+$('#closeEditor').onclick=()=>{$('#editorModal').classList.remove('open');editIndex=null};
+$('#saveEdit').onclick=()=>{if(editIndex===null)return;const b=bottles[editIndex];document.querySelectorAll('#formGroups [data-field]').forEach(el=>b.data[el.dataset.field]=el.value);b.data.updated_at=now();saveMeta();render();$('#editorModal').classList.remove('open');editIndex=null;toast('Bottle saved')};
+
+$('#approveSelected').onclick=()=>{const sel=bottles.filter(b=>b.selected);if(!sel.length){toast('Select bottles first');return}const incomplete=sel.filter(b=>miss(b).length).length;if(incomplete&&!confirm(`${incomplete} selected bottle${incomplete===1?' is':'s are'} incomplete. Approve anyway?`))return;sel.forEach(b=>{b.approved=true;b.data.needs_review=miss(b).length?'true':(b.data.needs_review||'false');b.selected=false});saveMeta();render();toast(`${sel.length} approved`)};
+
+function approvedRows(){return bottles.filter(b=>b.approved).map(b=>{const o={};FIELDS.forEach(f=>o[f]=b.data[f]??'');return o})}
+function outName(ext){const d=new Date(),s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;return `DAGS-Bottle-Import-${s}.${ext}`}
+$('#exportExcel').onclick=()=>{const rows=approvedRows();if(!rows.length){toast('Approve at least one bottle first');return}if(typeof XLSX==='undefined'){toast('Excel library did not load. Check internet connection.');return}const ws=XLSX.utils.json_to_sheet(rows,{header:FIELDS});const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Bottles');XLSX.writeFile(wb,outName('xlsx'));toast(`Exported ${rows.length} bottle${rows.length===1?'':'s'}`)};
+loadMeta();render();
+</script>
+</body>
+</html>
